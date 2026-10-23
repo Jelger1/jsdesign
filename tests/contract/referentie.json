@@ -1,0 +1,745 @@
+{
+	"toelichting": "Eenmalig gemaakt met tools/contract-referentie.mjs uit de build van de live webshop. Niet met de hand aanpassen; tools/contract.mjs toetst hiertegen.",
+	"bron": {
+		"site": "https://jelgers3d.nl",
+		"map": "JelgerS3D.nl/dist en JelgerS3D.nl/data/products.json",
+		"commit": "b4e62f1",
+		"gemaakt": "2026-10-23"
+	},
+	"html": [
+		"3d-printservice.html",
+		"404.html",
+		"afrekenen.html",
+		"bedankt.html",
+		"beelden-en-modellen.html",
+		"gereageerd.html",
+		"index.html",
+		"lampen.html",
+		"limburgse-cadeaus.html",
+		"nieuwsbrief.html",
+		"privacy.html",
+		"producten/blonde-non.html",
+		"producten/bold-vase.html",
+		"producten/custom-lightbox.html",
+		"producten/dr-joep.html",
+		"producten/helio-lamp.html",
+		"producten/kami-vase.html",
+		"producten/kirchroa-sleutelhanger.html",
+		"producten/koempel-eend.html",
+		"producten/mijnschacht-nulland.html",
+		"producten/mijnwerkerslamp.html",
+		"producten/orbits-lamp.html",
+		"producten/poefel-sleutelhanger.html",
+		"producten/raadhuis-kerkrade.html",
+		"producten/schachtgebouw-oranje-nassau-1.html",
+		"producten/straatnaam-sleutelhanger.html",
+		"producten/vlaai-sleutelhanger.html",
+		"producten/wavase.html",
+		"sleutelhangers.html",
+		"vazen.html",
+		"voorwaarden.html",
+		"webshop.html"
+	],
+	"mail": [
+		"3d-mijnlamp-c-400.jpg",
+		"blonde-non-3d-c-400.jpg",
+		"bold-vase2-c-400.jpg",
+		"dr-joep-zwart-c-400.jpg",
+		"helio-lamp-knop-c-400.jpg",
+		"js3d-lightbox-c-400.jpg",
+		"kami-vase-3kleuren2-c-400.jpg",
+		"kirchroa-sleutelhanger-c-400.jpg",
+		"koempel-eend-c-400.jpg",
+		"logo.png",
+		"oranje-nassau-1-3d-01-voorkant-c-400.jpg",
+		"orbits-lamp-wood-white-c-400.jpg",
+		"poefel-sleutelhanger-c-400.jpg",
+		"raadhuis-kerkrade-3d-01-voorgevel-c-400.jpg",
+		"schacht-nulland1-c-400.jpg",
+		"straatnaam-sleutelhanger-ontwerp-c-400.jpg",
+		"vlaai-sleutelhanger-c-400.jpg",
+		"wavase-keuken-c-400.jpg"
+	],
+	"fonts": {
+		"vereist": [
+			"dm-sans-latin.woff2",
+			"instrument-serif-italic-latin.woff2",
+			"jetbrains-mono-latin.woff2",
+			"saira-latin.woff2"
+		],
+		"nietVereist": {
+			"stevie-sans-bold.woff2": "Stevie Sans: geen licentiebewijs, dus geen webfont (B8)",
+			"stevie-sans-medium.woff2": "Stevie Sans: geen licentiebewijs, dus geen webfont (B8)",
+			"syne-latin.woff2": "ongebruikt; blijft alleen op de redirectlaag voor oude mails (§6.5)",
+			"space-grotesk-latin.woff2": "ongebruikt; blijft alleen op de redirectlaag voor oude mails (§6.5)",
+			"arimo-bold.typeface.json": "geen mailbestand maar het lettertype van de 3D-configurator"
+		}
+	},
+	"img": [
+		"3d-mijnlamp-1500.webp",
+		"3d-mijnlamp-400.webp",
+		"3d-mijnlamp-800.webp",
+		"3d-mijnlamp-c-1200.webp",
+		"3d-mijnlamp-c-400.webp",
+		"3d-mijnlamp-c-800.webp",
+		"3d-mijnlamp2-1500.webp",
+		"3d-mijnlamp2-400.webp",
+		"3d-mijnlamp2-800.webp",
+		"3d-mijnlamp2-c-1200.webp",
+		"3d-mijnlamp2-c-400.webp",
+		"3d-mijnlamp2-c-800.webp",
+		"blonde-non-3d-1024.webp",
+		"blonde-non-3d-400.webp",
+		"blonde-non-3d-800.webp",
+		"blonde-non-3d-c-400.webp",
+		"blonde-non-3d-c-800.webp",
+		"blonde-non-3d-c-958.webp",
+		"bold-vase1-1000.webp",
+		"bold-vase1-400.webp",
+		"bold-vase1-800.webp",
+		"bold-vase1-c-400.webp",
+		"bold-vase1-c-800.webp",
+		"bold-vase1-c-920.webp",
+		"bold-vase2-1000.webp",
+		"bold-vase2-400.webp",
+		"bold-vase2-800.webp",
+		"bold-vase2-c-400.webp",
+		"bold-vase2-c-800.webp",
+		"bold-vase2-c-980.webp",
+		"dr-joep-grey-400.webp",
+		"dr-joep-grey-800.webp",
+		"dr-joep-grey-c-400.webp",
+		"dr-joep-grey-c-800.webp",
+		"dr-joep-zwart-1600.webp",
+		"dr-joep-zwart-400.webp",
+		"dr-joep-zwart-800.webp",
+		"dr-joep-zwart-c-1200.webp",
+		"dr-joep-zwart-c-400.webp",
+		"dr-joep-zwart-c-800.webp",
+		"helio-lamp-knop-1600.webp",
+		"helio-lamp-knop-400.webp",
+		"helio-lamp-knop-800.webp",
+		"helio-lamp-knop-c-1200.webp",
+		"helio-lamp-knop-c-400.webp",
+		"helio-lamp-knop-c-800.webp",
+		"helio-lamp-oranje-1600.webp",
+		"helio-lamp-oranje-2-1000.webp",
+		"helio-lamp-oranje-2-400.webp",
+		"helio-lamp-oranje-2-800.webp",
+		"helio-lamp-oranje-2-c-400.webp",
+		"helio-lamp-oranje-2-c-565.webp",
+		"helio-lamp-oranje-400.webp",
+		"helio-lamp-oranje-800.webp",
+		"helio-lamp-oranje-c-1129.webp",
+		"helio-lamp-oranje-c-400.webp",
+		"helio-lamp-oranje-c-800.webp",
+		"helio-lamp-roze-1000.webp",
+		"helio-lamp-roze-2-1000.webp",
+		"helio-lamp-roze-2-400.webp",
+		"helio-lamp-roze-2-800.webp",
+		"helio-lamp-roze-2-c-400.webp",
+		"helio-lamp-roze-2-c-658.webp",
+		"helio-lamp-roze-400.webp",
+		"helio-lamp-roze-800.webp",
+		"helio-lamp-roze-c-400.webp",
+		"helio-lamp-roze-c-600.webp",
+		"jelger-pic-1600.webp",
+		"jelger-pic-400.webp",
+		"jelger-pic-800.webp",
+		"js3d-lightbox-1024.webp",
+		"js3d-lightbox-400.webp",
+		"js3d-lightbox-800.webp",
+		"js3d-lightbox-c-400.webp",
+		"js3d-lightbox-c-800.webp",
+		"js3d-lightbox-c-991.webp",
+		"kami-vase-1kleur1-1600.webp",
+		"kami-vase-1kleur1-400.webp",
+		"kami-vase-1kleur1-800.webp",
+		"kami-vase-1kleur1-c-1200.webp",
+		"kami-vase-1kleur1-c-400.webp",
+		"kami-vase-1kleur1-c-800.webp",
+		"kami-vase-3kleuren1-1000.webp",
+		"kami-vase-3kleuren1-400.webp",
+		"kami-vase-3kleuren1-800.webp",
+		"kami-vase-3kleuren1-c-400.webp",
+		"kami-vase-3kleuren1-c-696.webp",
+		"kami-vase-3kleuren2-1000.webp",
+		"kami-vase-3kleuren2-400.webp",
+		"kami-vase-3kleuren2-800.webp",
+		"kami-vase-3kleuren2-c-400.webp",
+		"kami-vase-3kleuren2-c-800.webp",
+		"kami-vase-3kleuren2-c-960.webp",
+		"kirchroa-sleutelhanger-400.webp",
+		"kirchroa-sleutelhanger-800.webp",
+		"kirchroa-sleutelhanger-977.webp",
+		"kirchroa-sleutelhanger-c-400.webp",
+		"kirchroa-sleutelhanger-c-800.webp",
+		"kirchroa-sleutelhanger-c-977.webp",
+		"koempel-eend-1600.webp",
+		"koempel-eend-400.webp",
+		"koempel-eend-800.webp",
+		"koempel-eend-c-1200.webp",
+		"koempel-eend-c-400.webp",
+		"koempel-eend-c-800.webp",
+		"manifest.json",
+		"mijnwerkerslamp-video-1600.webp",
+		"mijnwerkerslamp-video-400.webp",
+		"mijnwerkerslamp-video-800.webp",
+		"oranje-nassau-1-3d-01-voorkant-1600.webp",
+		"oranje-nassau-1-3d-01-voorkant-400.webp",
+		"oranje-nassau-1-3d-01-voorkant-800.webp",
+		"oranje-nassau-1-3d-01-voorkant-c-1200.webp",
+		"oranje-nassau-1-3d-01-voorkant-c-400.webp",
+		"oranje-nassau-1-3d-01-voorkant-c-800.webp",
+		"oranje-nassau-1-3d-02-letters-on-1600.webp",
+		"oranje-nassau-1-3d-02-letters-on-400.webp",
+		"oranje-nassau-1-3d-02-letters-on-800.webp",
+		"oranje-nassau-1-3d-02-letters-on-c-1200.webp",
+		"oranje-nassau-1-3d-02-letters-on-c-400.webp",
+		"oranje-nassau-1-3d-02-letters-on-c-800.webp",
+		"oranje-nassau-1-3d-03-poort-1600.webp",
+		"oranje-nassau-1-3d-03-poort-400.webp",
+		"oranje-nassau-1-3d-03-poort-800.webp",
+		"oranje-nassau-1-3d-03-poort-c-1200.webp",
+		"oranje-nassau-1-3d-03-poort-c-400.webp",
+		"oranje-nassau-1-3d-03-poort-c-800.webp",
+		"oranje-nassau-1-3d-04-schoor-1600.webp",
+		"oranje-nassau-1-3d-04-schoor-400.webp",
+		"oranje-nassau-1-3d-04-schoor-800.webp",
+		"oranje-nassau-1-3d-04-schoor-c-1200.webp",
+		"oranje-nassau-1-3d-04-schoor-c-400.webp",
+		"oranje-nassau-1-3d-04-schoor-c-800.webp",
+		"oranje-nassau-1-3d-05-westkant-1600.webp",
+		"oranje-nassau-1-3d-05-westkant-400.webp",
+		"oranje-nassau-1-3d-05-westkant-800.webp",
+		"oranje-nassau-1-3d-05-westkant-c-1200.webp",
+		"oranje-nassau-1-3d-05-westkant-c-400.webp",
+		"oranje-nassau-1-3d-05-westkant-c-800.webp",
+		"oranje-nassau-1-3d-06-donker-1600.webp",
+		"oranje-nassau-1-3d-06-donker-400.webp",
+		"oranje-nassau-1-3d-06-donker-800.webp",
+		"oranje-nassau-1-3d-06-donker-c-1200.webp",
+		"oranje-nassau-1-3d-06-donker-c-400.webp",
+		"oranje-nassau-1-3d-06-donker-c-800.webp",
+		"orbits-lamp-wood-white-1024.webp",
+		"orbits-lamp-wood-white-400.webp",
+		"orbits-lamp-wood-white-800.webp",
+		"orbits-lamp-wood-white-c-400.webp",
+		"orbits-lamp-wood-white-c-774.webp",
+		"poefel-sleutelhanger-1044.webp",
+		"poefel-sleutelhanger-400.webp",
+		"poefel-sleutelhanger-800.webp",
+		"poefel-sleutelhanger-c-400.webp",
+		"poefel-sleutelhanger-c-800.webp",
+		"poefel-sleutelhanger-c-977.webp",
+		"portfolio-codemonster-1440.webp",
+		"portfolio-codemonster-400.webp",
+		"portfolio-codemonster-800.webp",
+		"portfolio-heerlen-1440.webp",
+		"portfolio-heerlen-400.webp",
+		"portfolio-heerlen-800.webp",
+		"portfolio-rolduc-1440.webp",
+		"portfolio-rolduc-400.webp",
+		"portfolio-rolduc-800.webp",
+		"portfolio-sanctus-poster-1600.webp",
+		"portfolio-sanctus-poster-400.webp",
+		"portfolio-sanctus-poster-800.webp",
+		"printer-h2c-1600.webp",
+		"printer-h2c-400.webp",
+		"printer-h2c-800.webp",
+		"raadhuis-kerkrade-3d-01-voorgevel-1600.webp",
+		"raadhuis-kerkrade-3d-01-voorgevel-400.webp",
+		"raadhuis-kerkrade-3d-01-voorgevel-800.webp",
+		"raadhuis-kerkrade-3d-01-voorgevel-c-1200.webp",
+		"raadhuis-kerkrade-3d-01-voorgevel-c-400.webp",
+		"raadhuis-kerkrade-3d-01-voorgevel-c-800.webp",
+		"raadhuis-kerkrade-3d-02-trapgevel-torentje-1600.webp",
+		"raadhuis-kerkrade-3d-02-trapgevel-torentje-400.webp",
+		"raadhuis-kerkrade-3d-02-trapgevel-torentje-800.webp",
+		"raadhuis-kerkrade-3d-02-trapgevel-torentje-c-1200.webp",
+		"raadhuis-kerkrade-3d-02-trapgevel-torentje-c-400.webp",
+		"raadhuis-kerkrade-3d-02-trapgevel-torentje-c-800.webp",
+		"raadhuis-kerkrade-3d-03-bordestrap-gevel-1600.webp",
+		"raadhuis-kerkrade-3d-03-bordestrap-gevel-400.webp",
+		"raadhuis-kerkrade-3d-03-bordestrap-gevel-800.webp",
+		"raadhuis-kerkrade-3d-03-bordestrap-gevel-c-1200.webp",
+		"raadhuis-kerkrade-3d-03-bordestrap-gevel-c-400.webp",
+		"raadhuis-kerkrade-3d-03-bordestrap-gevel-c-800.webp",
+		"raadhuis-kerkrade-3d-04-achterkant-aanbouw-1600.webp",
+		"raadhuis-kerkrade-3d-04-achterkant-aanbouw-400.webp",
+		"raadhuis-kerkrade-3d-04-achterkant-aanbouw-800.webp",
+		"raadhuis-kerkrade-3d-04-achterkant-aanbouw-c-1200.webp",
+		"raadhuis-kerkrade-3d-04-achterkant-aanbouw-c-400.webp",
+		"raadhuis-kerkrade-3d-04-achterkant-aanbouw-c-800.webp",
+		"raadhuis-kerkrade-3d-05-vogelvlucht-1600.webp",
+		"raadhuis-kerkrade-3d-05-vogelvlucht-400.webp",
+		"raadhuis-kerkrade-3d-05-vogelvlucht-800.webp",
+		"raadhuis-kerkrade-3d-05-vogelvlucht-c-1200.webp",
+		"raadhuis-kerkrade-3d-05-vogelvlucht-c-400.webp",
+		"raadhuis-kerkrade-3d-05-vogelvlucht-c-800.webp",
+		"raadhuis-kerkrade-3d-06-donker-1600.webp",
+		"raadhuis-kerkrade-3d-06-donker-400.webp",
+		"raadhuis-kerkrade-3d-06-donker-800.webp",
+		"raadhuis-kerkrade-3d-06-donker-c-1200.webp",
+		"raadhuis-kerkrade-3d-06-donker-c-400.webp",
+		"raadhuis-kerkrade-3d-06-donker-c-800.webp",
+		"schacht-nulland-3d-01-voorkant-1600.webp",
+		"schacht-nulland-3d-01-voorkant-400.webp",
+		"schacht-nulland-3d-01-voorkant-800.webp",
+		"schacht-nulland-3d-01-voorkant-c-1200.webp",
+		"schacht-nulland-3d-01-voorkant-c-400.webp",
+		"schacht-nulland-3d-01-voorkant-c-800.webp",
+		"schacht-nulland-3d-02-uitbouw-1600.webp",
+		"schacht-nulland-3d-02-uitbouw-400.webp",
+		"schacht-nulland-3d-02-uitbouw-800.webp",
+		"schacht-nulland-3d-02-uitbouw-c-1200.webp",
+		"schacht-nulland-3d-02-uitbouw-c-400.webp",
+		"schacht-nulland-3d-02-uitbouw-c-800.webp",
+		"schacht-nulland-3d-03-steunberen-schachtwielen-1600.webp",
+		"schacht-nulland-3d-03-steunberen-schachtwielen-400.webp",
+		"schacht-nulland-3d-03-steunberen-schachtwielen-800.webp",
+		"schacht-nulland-3d-03-steunberen-schachtwielen-c-1200.webp",
+		"schacht-nulland-3d-03-steunberen-schachtwielen-c-400.webp",
+		"schacht-nulland-3d-03-steunberen-schachtwielen-c-800.webp",
+		"schacht-nulland-3d-04-ventilator-1600.webp",
+		"schacht-nulland-3d-04-ventilator-400.webp",
+		"schacht-nulland-3d-04-ventilator-800.webp",
+		"schacht-nulland-3d-04-ventilator-c-1200.webp",
+		"schacht-nulland-3d-04-ventilator-c-400.webp",
+		"schacht-nulland-3d-04-ventilator-c-800.webp",
+		"schacht-nulland1-1600.webp",
+		"schacht-nulland1-400.webp",
+		"schacht-nulland1-800.webp",
+		"schacht-nulland1-c-1200.webp",
+		"schacht-nulland1-c-400.webp",
+		"schacht-nulland1-c-800.webp",
+		"straatnaam-sleutelhanger-ontwerp-1600.webp",
+		"straatnaam-sleutelhanger-ontwerp-400.webp",
+		"straatnaam-sleutelhanger-ontwerp-800.webp",
+		"straatnaam-sleutelhanger-ontwerp-c-1200.webp",
+		"straatnaam-sleutelhanger-ontwerp-c-400.webp",
+		"straatnaam-sleutelhanger-ontwerp-c-800.webp",
+		"vlaai-sleutelhanger-400.webp",
+		"vlaai-sleutelhanger-800.webp",
+		"vlaai-sleutelhanger-936.webp",
+		"vlaai-sleutelhanger-c-400.webp",
+		"vlaai-sleutelhanger-c-800.webp",
+		"vlaai-sleutelhanger-c-906.webp",
+		"wavase-keuken-1600.webp",
+		"wavase-keuken-400.webp",
+		"wavase-keuken-800.webp",
+		"wavase-keuken-c-1200.webp",
+		"wavase-keuken-c-400.webp",
+		"wavase-keuken-c-800.webp",
+		"wavase-tafel-1000.webp",
+		"wavase-tafel-2-1600.webp",
+		"wavase-tafel-2-400.webp",
+		"wavase-tafel-2-800.webp",
+		"wavase-tafel-2-c-1200.webp",
+		"wavase-tafel-2-c-400.webp",
+		"wavase-tafel-2-c-800.webp",
+		"wavase-tafel-400.webp",
+		"wavase-tafel-800.webp",
+		"wavase-tafel-c-400.webp",
+		"wavase-tafel-c-636.webp"
+	],
+	"og": [
+		"3d-mijnlamp.jpg",
+		"blonde-non-3d.jpg",
+		"bold-vase2.jpg",
+		"dr-joep-zwart.jpg",
+		"helio-lamp-knop.jpg",
+		"js3d-lightbox.jpg",
+		"kami-vase-3kleuren2.jpg",
+		"kirchroa-sleutelhanger.jpg",
+		"koempel-eend.jpg",
+		"oranje-nassau-1-3d-01-voorkant.jpg",
+		"orbits-lamp-wood-white.jpg",
+		"poefel-sleutelhanger.jpg",
+		"raadhuis-kerkrade-3d-01-voorgevel.jpg",
+		"schacht-nulland1.jpg",
+		"straatnaam-sleutelhanger-ontwerp.jpg",
+		"vlaai-sleutelhanger.jpg",
+		"wavase-keuken.jpg"
+	],
+	"ogWezen": {
+		"3d-mijnlamp2.jpg": "wees: geen pagina gebruikt hem en live geeft hij 404"
+	},
+	"winkelJson": {
+		"sleutels": [
+			"catalogus",
+			"uploads",
+			"winkel"
+		],
+		"winkel": [
+			"adres",
+			"btw",
+			"eigenaar",
+			"instagram",
+			"kvk",
+			"levertijd",
+			"mail",
+			"naam",
+			"ophaalplaats",
+			"slogan",
+			"url"
+		],
+		"uploads": [
+			"keepMonths",
+			"maxMB",
+			"offerte",
+			"offerte.max",
+			"offerte.types",
+			"printservice",
+			"printservice.max",
+			"printservice.types"
+		],
+		"productvelden": [
+			"image",
+			"mailImage",
+			"name",
+			"personalize",
+			"related",
+			"sale",
+			"url",
+			"variants",
+			"wish"
+		],
+		"catalogus": {
+			"blonde-non": {
+				"sale": "external",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"bold-vase": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"custom-lightbox": {
+				"sale": "request",
+				"personalize": false,
+				"wish": false,
+				"varianten": []
+			},
+			"dr-joep": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "15cm",
+						"label": "15 cm"
+					},
+					{
+						"id": "25cm",
+						"label": "25 cm"
+					}
+				]
+			},
+			"helio-lamp": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "excl-led",
+						"label": "Excl. LED-lamp"
+					},
+					{
+						"id": "incl-led",
+						"label": "Incl. LED-lamp (E14)"
+					}
+				]
+			},
+			"kami-vase": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"kirchroa-sleutelhanger": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"koempel-eend": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"mijnschacht-nulland": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "15cm",
+						"label": "15 cm breed"
+					},
+					{
+						"id": "25cm",
+						"label": "25 cm breed"
+					}
+				]
+			},
+			"mijnwerkerslamp": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": true,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"orbits-lamp": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"poefel-sleutelhanger": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"raadhuis-kerkrade": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": true,
+				"varianten": [
+					{
+						"id": "10cm",
+						"label": "10 cm hoog"
+					},
+					{
+						"id": "15cm",
+						"label": "15 cm hoog"
+					}
+				]
+			},
+			"schachtgebouw-oranje-nassau-1": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": true,
+				"varianten": [
+					{
+						"id": "15cm",
+						"label": "15 cm hoog"
+					},
+					{
+						"id": "25cm",
+						"label": "25 cm hoog"
+					}
+				]
+			},
+			"straatnaam-sleutelhanger": {
+				"sale": "cart",
+				"personalize": true,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"vlaai-sleutelhanger": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			},
+			"wavase": {
+				"sale": "cart",
+				"personalize": false,
+				"wish": false,
+				"varianten": [
+					{
+						"id": "standaard",
+						"label": ""
+					}
+				]
+			}
+		}
+	},
+	"prijzen": {
+		"blonde-non": {
+			"varianten": {
+				"standaard": 19.95
+			},
+			"intro": null
+		},
+		"bold-vase": {
+			"varianten": {
+				"standaard": 34.95
+			},
+			"intro": null
+		},
+		"custom-lightbox": {
+			"varianten": {},
+			"intro": null
+		},
+		"dr-joep": {
+			"varianten": {
+				"15cm": 12.95,
+				"25cm": 24.95
+			},
+			"intro": null
+		},
+		"helio-lamp": {
+			"varianten": {
+				"excl-led": 34.95,
+				"incl-led": 39.95
+			},
+			"intro": null
+		},
+		"kami-vase": {
+			"varianten": {
+				"standaard": 34.95
+			},
+			"intro": null
+		},
+		"kirchroa-sleutelhanger": {
+			"varianten": {
+				"standaard": 3.95
+			},
+			"intro": null
+		},
+		"koempel-eend": {
+			"varianten": {
+				"standaard": 6.95
+			},
+			"intro": null
+		},
+		"mijnschacht-nulland": {
+			"varianten": {
+				"15cm": 24.95,
+				"25cm": 34.95
+			},
+			"intro": null
+		},
+		"mijnwerkerslamp": {
+			"varianten": {
+				"standaard": 64.95
+			},
+			"intro": {
+				"price": 49.95,
+				"until": "2026-12-31"
+			}
+		},
+		"orbits-lamp": {
+			"varianten": {
+				"standaard": 24.95
+			},
+			"intro": null
+		},
+		"poefel-sleutelhanger": {
+			"varianten": {
+				"standaard": 4.95
+			},
+			"intro": null
+		},
+		"raadhuis-kerkrade": {
+			"varianten": {
+				"10cm": 24.95,
+				"15cm": 34.95
+			},
+			"intro": null
+		},
+		"schachtgebouw-oranje-nassau-1": {
+			"varianten": {
+				"15cm": 24.95,
+				"25cm": 34.95
+			},
+			"intro": null
+		},
+		"straatnaam-sleutelhanger": {
+			"varianten": {
+				"standaard": 3.95
+			},
+			"intro": null
+		},
+		"vlaai-sleutelhanger": {
+			"varianten": {
+				"standaard": 3.95
+			},
+			"intro": null
+		},
+		"wavase": {
+			"varianten": {
+				"standaard": 34.95
+			},
+			"intro": null
+		}
+	},
+	"feed": [
+		"bold-vase",
+		"dr-joep-15cm",
+		"dr-joep-25cm",
+		"helio-lamp-excl-led",
+		"helio-lamp-incl-led",
+		"kami-vase",
+		"kirchroa-sleutelhanger",
+		"koempel-eend",
+		"mijnschacht-nulland-15cm",
+		"mijnschacht-nulland-25cm",
+		"mijnwerkerslamp",
+		"orbits-lamp",
+		"poefel-sleutelhanger",
+		"raadhuis-kerkrade-10cm",
+		"raadhuis-kerkrade-15cm",
+		"schachtgebouw-oranje-nassau-1-15cm",
+		"schachtgebouw-oranje-nassau-1-25cm",
+		"straatnaam-sleutelhanger",
+		"vlaai-sleutelhanger",
+		"wavase"
+	]
+}

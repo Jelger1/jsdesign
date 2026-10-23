@@ -1,0 +1,84 @@
+# Bouwt de site (npm run build), controleert de build en publiceert de map dist/ op GitHub Pages.
+#
+# Wanneer:
+# - bij elke push op main;
+# - elke nacht om 03:15 UTC: introductieprijzen en deadlines hangen van de datum af en veranderen pas op de site
+#   bij een nieuwe build;
+# - handmatig: Actions > "Site bouwen en publiceren" > Run workflow.
+#
+# Preview of productie bepalen twee repo-variabelen (Settings > Secrets and variables > Actions > Variables):
+# - SITE_MODE: niet gezet = "preview": overal noindex, geen analytics en geen sitemap in robots.txt;
+# - BASE_PATH: niet gezet = "/jsdesign/": de preview op https://jelger1.github.io/jsdesign/.
+# Naar productie (livegang, MERGEPLAN §10.3 stap 2): stel eerst bij Settings > Pages het custom domain jsdesign.nl in
+# (een CNAME-bestand telt bij Actions niet), zet dan SITE_MODE op "productie" en BASE_PATH op "/" en start deze
+# workflow met Run workflow.
+# Terug naar de preview (terugvalmatrix §10.3, na stap 2–3), in deze volgorde: haal eerst bij Settings > Pages het
+# custom domain jsdesign.nl weg (of zet de DNS terug), verwijder daarna SITE_MODE en BASE_PATH en start de workflow
+# opnieuw. Andersom bouwt hij met BASE_PATH /jsdesign/ terwijl de site nog op de hoofdmap van jsdesign.nl draait; dan
+# wijzen onder meer de paden in 404.html naar jsdesign.nl/jsdesign/... en breken ze.
+#
+# In productiemodus moet npm run check hier zonder uitzondering slagen. De bekende uitzondering voor de oude homepage
+# (OUDE_HOME_UITZONDERING, zie ci.yml) staat hier bewust niet aan: zolang de home nog naar jelgersieler.nl linkt, faalt
+# een productiebuild hier. Ga dus pas naar productie als fase 3 de home heeft vervangen.
+# npm run contract houdt elke publicatie tegen zodra dist/ afwijkt van de oude webshop, ook bij een bewuste wijziging
+# (een nieuw product, een andere prijs, een nieuwe sleutel in winkel.json) en ook de nachtelijke build. Leg zo'n
+# afwijking in dezelfde commit vast in AFWIJKINGEN in tools/contract.mjs (zie de README).
+#
+# Let op: in een openbare repo zet GitHub geplande workflows uit na 60 dagen zonder activiteit in de repo. Dan stopt
+# de nachtelijke build zonder melding, en blijft bijvoorbeeld een verlopen introductieprijs op de site staan.
+# Zet hem dan weer aan bij Actions > "Site bouwen en publiceren" (Enable workflow); elke push telt als activiteit.
+name: Site bouwen en publiceren
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '15 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Eén publicatie tegelijk. Een lopende publicatie maakt hij af; een nieuwere wacht daarop.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SITE_MODE: ${{ vars.SITE_MODE || 'preview' }}
+      BASE_PATH: ${{ vars.BASE_PATH || '/jsdesign/' }}
+    steps:
+      # De volledige git-historie, voor echte lastmod-datums in de sitemap (MERGEPLAN §6.4)
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # Links, SEO-tags en indexering, in de modus van deze build
+      - run: npm run check
+      - run: npm test
+      # Alles wat de oude webshop leverde (pagina's, mailbestanden, beelden, winkel.json, feed) bestaat nog
+      - run: npm run contract
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
