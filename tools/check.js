@@ -82,6 +82,16 @@ function all(regex, text) {
 	return found;
 }
 
+// De waarde van een attribuut in alle tags van één soort waarvan een ander attribuut een vaste waarde heeft, in welke
+// volgorde de attributen ook staan. Bijvoorbeeld tagValues(html, 'link', 'rel', 'canonical', 'href').
+function tagValues(html, tag, key, value, wanted) {
+	return (html.match(new RegExp('<' + tag + '\\b[^>]*>', 'gi')) || []).map(function (found) {
+		const attrs = {};
+		found.replace(/\s([\w:-]+)="([^"]*)"/g, function (m, name, v) { attrs[name.toLowerCase()] = decode(v); return m; });
+		return attrs;
+	}).filter(function (attrs) { return attrs[key] === value; }).map(function (attrs) { return attrs[wanted]; });
+}
+
 // Het bestand in dist/ waar een adres naar wijst: relatief (vanaf het bestand "from"), vanaf de hoofdmap (/... met
 // BASE_PATH ervoor) of volledig op site.url. Een map wordt index.html. Geeft null voor andere sites, mailto: en
 // dergelijke, en false voor een adres vanaf de hoofdmap dat buiten BASE_PATH valt.
@@ -195,7 +205,7 @@ files.filter(function (f) { return f.endsWith('.html'); }).forEach(function (fil
 	}
 
 	// Precies één JSON-LD-graaf per pagina, met daarin de organisatie (src/templates/seo.js)
-	const ld = /<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g;
+	const ld = /<script\b[^>]*\stype="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g;
 	let ldCount = 0;
 	while ((m = ld.exec(html))) {
 		ldCount++;
@@ -210,14 +220,14 @@ files.filter(function (f) { return f.endsWith('.html'); }).forEach(function (fil
 
 	const h1 = (html.match(/<h1[\s>]/g) || []).length;
 	if (h1 !== 1) problems.push(rel + ': ' + h1 + ' h1-koppen gevonden (moet precies 1 zijn)');
+	const title = decode((html.match(/<title>([^<]*)<\/title>/) || [])[1] || '');
+	const description = tagValues(html, 'meta', 'name', 'description', 'content')[0] || '';
 	if (!/<title>[^<]{10,}<\/title>/.test(html)) problems.push(rel + ': title ontbreekt of is te kort');
-	if (!/<meta name="description" content="[^"]{50,}"/.test(html)) problems.push(rel + ': meta description ontbreekt of is te kort');
+	if (description.length < 50) problems.push(rel + ': meta description ontbreekt of is te kort');
 	const noAlt = (html.match(/<img(?![^>]*\salt=)[^>]*>/g) || []).length;
 	if (noAlt) problems.push(rel + ': ' + noAlt + ' afbeelding(en) zonder alt-attribuut');
 
 	// Title en description binnen wat Google toont. Fout bij nieuwe paginatypes, waarschuwing bij de rest.
-	const title = decode((html.match(/<title>([^<]*)<\/title>/) || [])[1] || '');
-	const description = decode((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '');
 	const type = (html.match(/<body[^>]*\sdata-page="([^"]*)"/) || [])[1] || '';
 	const tooLong = NIEUWE_TYPES.indexOf(type) > -1 ? problems : warnings;
 	if (title.length > 60) tooLong.push(rel + ': title is ' + title.length + ' tekens (maximaal 60): "' + title + '"');
@@ -225,19 +235,19 @@ files.filter(function (f) { return f.endsWith('.html'); }).forEach(function (fil
 
 	// Canonical, og:url en og:image: volledige adressen op site.url. Of het canonical-bestand bestaat, controleert
 	// de lus over de links hierboven al (het is een href).
-	const canonicals = all(/<link rel="canonical" href="([^"]*)"/g, html).map(decode);
+	const canonicals = tagValues(html, 'link', 'rel', 'canonical', 'href');
 	if (canonicals.length !== 1) problems.push(rel + ': ' + canonicals.length + ' canonical-links gevonden (moet precies 1 zijn)');
 	else if (canonicals[0].indexOf(SITE_URL + '/') !== 0) problems.push(rel + ': canonical "' + canonicals[0] + '" staat niet op ' + SITE_URL);
-	const ogUrls = all(/<meta property="og:url" content="([^"]*)"/g, html).map(decode);
+	const ogUrls = tagValues(html, 'meta', 'property', 'og:url', 'content');
 	if (ogUrls.length !== 1 || ogUrls[0] !== canonicals[0]) problems.push(rel + ': og:url moet precies één keer voorkomen en gelijk zijn aan de canonical');
-	const ogImages = all(/<meta property="og:image" content="([^"]*)"/g, html).map(decode);
+	const ogImages = tagValues(html, 'meta', 'property', 'og:image', 'content');
 	if (ogImages.length !== 1) problems.push(rel + ': ' + ogImages.length + ' og:image-tags gevonden (moet precies 1 zijn)');
 	else if (/undefined/.test(ogImages[0]) || !/\.jpe?g$/i.test(ogImages[0].split(/[?#]/)[0])) problems.push(rel + ': og:image "' + ogImages[0] + '" is geen JPG');
 	else if (ogImages[0].indexOf(SITE_URL + '/') !== 0) problems.push(rel + ': og:image "' + ogImages[0] + '" staat niet op ' + SITE_URL);
 	else if (!fs.existsSync(toFile(ogImages[0], file))) problems.push(rel + ': og:image "' + ogImages[0] + '" bestaat niet in dist/');
 
 	// Indexering: in de preview nooit; in productie in overeenstemming met de sitemap
-	const robots = (html.match(/<meta name="robots" content="([^"]*)"/) || [])[1];
+	const robots = tagValues(html, 'meta', 'name', 'robots', 'content')[0];
 	const noindex = /\bnoindex\b/i.test(robots || '');
 	if (MODE === 'preview') {
 		if (!noindex) problems.push(rel + ': ' + (robots === undefined ? 'geen <meta name="robots">' : 'robots "' + robots + '" zonder noindex') + ' (in de preview is elke pagina noindex)');
