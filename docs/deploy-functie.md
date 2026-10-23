@@ -261,3 +261,17 @@ De lijst staat in `herkomstLijst` en `toegestaneHerkomst` (`logica.js`), met tes
 5. **Acceptatie fase 2** (plan §11): een nieuwsbriefaanmelding vanaf de preview komt aan, volgens het testprotocol.
 
 `ALLOWED_ORIGINS` blijft ongezet (zie [CORS](#cors-welke-websites-de-functie-mogen-aanroepen)).
+
+**Uitgevoerd op 23 oktober 2026:** tag `formulier-2026-10-23`, versie 17.
+- **Vóór de deploy stond er v16, niet v15.** De GitHub-integratie had `b4e62f1` van `Jelger1/JelgerS3d` op 22 oktober
+  om 16:13 automatisch gedeployd, 40 seconden na de push. Die functiecode is gelijk aan `formulier-basis`, dus
+  terugdraaien naar die tag blijft correct.
+- **De integratie is dus nog actief:** een push naar `Jelger1/JelgerS3d` zet binnen een minuut de oude functie terug,
+  zonder jsdesign.nl en de preview in de CORS-lijst. Push daar niet meer, of maak eerst de koppeling los (stap 1 van
+  [Eenmalig](#eenmalig-vóór-de-eerste-deploy)). Losmaken kon niet via de API; dat blijft een klik in het dashboard.
+- **Resultaat:** controles a t/m d groen (de cronrun van 22:05 gaf `200 {"ok":true,…}`, de logs tonen alleen het
+  opstarten). De acceptatie is ook gedaan: een nieuwsbriefaanmelding vanaf de preview kwam binnen, de bevestigingsmail is
+  afgeleverd, en de testrij is daarna verwijderd.
+- **Logs lezen via de API:** het oude endpoint `analytics/endpoints/logs.all` is weg. Het nieuwe is
+  `analytics/endpoints/logs` (ClickHouse): één tabel `logs`, de bron in de kolom `source` (bijvoorbeeld
+  `function_logs`), de velden in `log_attributes`, en alleen SELECT zonder `*`.

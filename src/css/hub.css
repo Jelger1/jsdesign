@@ -27,7 +27,16 @@
 .hub-teken{overflow:visible}
 .hub-kubus{fill:rgba(243,255,253,0.025);stroke:rgba(243,255,253,0.22);stroke-width:1;vector-effect:non-scaling-stroke}
 .hub-binnen line{stroke:rgba(243,255,253,0.16);stroke-width:1;stroke-dasharray:3 5;vector-effect:non-scaling-stroke}
-.hub-poort{fill:var(--pillar)}
+.hub-poort{fill:var(--pillar);transform-box:fill-box;transform-origin:center;transition:transform var(--duration) var(--ease-out)}
+.hub-binnen line{transition:stroke var(--duration) var(--ease), stroke-opacity var(--duration) var(--ease)}
+/* De actieve tak: de as in de kubus wordt een doorgetrokken lijn in de pijlerkleur en de poort groeit, zodat het hele
+   pad van het midden tot de twijgen oplicht (hub.js zet data-actief bij aanwijzen en bij focus) */
+.hub[data-actief="branding"] .hub-binnen line[data-binnen="branding"],
+.hub[data-actief="digitaal"] .hub-binnen line[data-binnen="digitaal"],
+.hub[data-actief="tastbaar"] .hub-binnen line[data-binnen="tastbaar"]{stroke:var(--pillar);stroke-dasharray:none;stroke-opacity:0.9}
+.hub[data-actief="branding"] .hub-poort[data-poort="branding"],
+.hub[data-actief="digitaal"] .hub-poort[data-poort="digitaal"],
+.hub[data-actief="tastbaar"] .hub-poort[data-poort="tastbaar"]{transform:scale(1.45)}
 /* De delen liggen een stukje uit elkaar (opengewerkt); --rx/--ry is de richting van hun tak */
 .hub-deel{--uit:7px;transform:translate(calc(var(--rx) * var(--uit)), calc(var(--ry) * var(--uit)));transition:transform var(--duration-slow) var(--ease-out), filter var(--duration) var(--ease)}
 .hub-deel:focus{outline:none}
@@ -144,7 +153,7 @@
 	.hub-lijnen{display:block;position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 	.hub-lijnen path{fill:none;stroke:var(--pillar);stroke-width:1.25;stroke-opacity:0.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke-opacity var(--duration) var(--ease)}
 	.hub-lijnen path.is-actief{stroke-opacity:1}
-	.hub-lijnen circle{fill:var(--pillar)}
+	.hub-lijnen circle{fill:var(--pillar);filter:drop-shadow(0 0 4px var(--pillar))}
 	/* Tekenen bij het laden: hub.js zet pathLength="1" en daarna .is-getekend */
 	.hub-lijnen.is-klaar path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 0.9s var(--ease-out), stroke-opacity var(--duration) var(--ease)}
 	.hub-lijnen.is-getekend path{stroke-dashoffset:0}

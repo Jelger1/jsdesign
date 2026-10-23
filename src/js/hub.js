@@ -75,6 +75,7 @@ export function initHub() {
 			if (hub.dataset.actief === id) lijn.classList.add('is-actief');
 			svg.appendChild(lijn);
 		});
+		if (hub.dataset.actief) puls(hub.dataset.actief);
 		if (!getekend) {
 			getekend = true;
 			svg.classList.add('is-klaar');
@@ -83,11 +84,33 @@ export function initHub() {
 		}
 	}
 
+	// Een lichtpuls die van de kubus naar de tak loopt, zolang de tak actief is
+	function puls(id) {
+		svg.querySelectorAll('circle').forEach(function (bol) { bol.remove(); });
+		const lijn = id && svg.querySelector('path[data-tak="' + id + '"]');
+		if (!lijn || MINDER_BEWEGING.matches) return;
+		const bol = document.createElementNS(NS, 'circle');
+		bol.setAttribute('r', '2.5');
+		bol.setAttribute('data-pillar', id);
+		const beweging = document.createElementNS(NS, 'animateMotion');
+		beweging.setAttribute('dur', '1.4s');
+		beweging.setAttribute('repeatCount', 'indefinite');
+		beweging.setAttribute('path', lijn.getAttribute('d'));
+		beweging.setAttribute('keyPoints', '0;1');
+		beweging.setAttribute('keyTimes', '0;1');
+		beweging.setAttribute('calcMode', 'spline');
+		beweging.setAttribute('keySplines', '0.4 0 0.2 1');
+		bol.appendChild(beweging);
+		svg.appendChild(bol);
+		if (beweging.beginElement) beweging.beginElement();
+	}
+
 	// Actieve tak: voor de lijnen hierboven en voor het teken in 3D (de CSS doet de rest met :has)
 	function zetActief(id) {
 		if (id) hub.dataset.actief = id;
 		else delete hub.dataset.actief;
 		svg.querySelectorAll('path').forEach(function (lijn) { lijn.classList.toggle('is-actief', lijn.dataset.tak === id); });
+		puls(id);
 		if (drieD) drieD.zetActief(id || null);
 	}
 	takken.forEach(function (tak) {

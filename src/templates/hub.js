@@ -28,9 +28,10 @@ const getal = function (n) { return Math.round(n * 10) / 10; };
 // de delen zijn wel een extra klikvlak voor de muis.
 function teken(pillars) {
 	const zeshoek = [90, 150, 210, 270, 330, 30].map(function (g) { const p = hoek(g, STRAAL); return getal(p.x) + ',' + getal(p.y); }).join(' ');
-	const binnen = [30, 150, 270].map(function (g) {
-		const p = hoek(g, STRAAL);
-		return '<line x1="' + MIDDEN.x + '" y1="' + MIDDEN.y + '" x2="' + getal(p.x) + '" y2="' + getal(p.y) + '"/>';
+	// De binnenranden van de kubus, van het midden naar de hoeken waar de takken vertrekken
+	const binnen = VOLGORDE.map(function (id) {
+		const p = hoek(RICHTING[id], STRAAL);
+		return '<line data-pillar="' + id + '" data-binnen="' + id + '" x1="' + MIDDEN.x + '" y1="' + MIDDEN.y + '" x2="' + getal(p.x) + '" y2="' + getal(p.y) + '"/>';
 	}).join('');
 	const delen = VOLGORDE.slice().sort(function (a, b) { return a === 'branding' ? 1 : b === 'branding' ? -1 : 0; }).map(function (id) {
 		const pillar = pillars.find(function (p) { return p.id === id; });
