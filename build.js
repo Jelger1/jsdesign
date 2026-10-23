@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const { processImages } = require('./tools/images');
+const { processImages, slugify } = require('./tools/images');
 const layout = require('./src/templates/layout');
 const homePage = require('./src/templates/home');
 const shopPage = require('./src/templates/shop');
@@ -13,6 +13,7 @@ const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
 const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage } = require('./src/templates/pages');
 const { pillarPage, placeholderPages } = require('./src/templates/pillar');
+const { hubImages } = require('./src/templates/hub');
 const discovery = require('./src/templates/discovery');
 const h = require('./src/templates/helpers');
 
@@ -31,7 +32,7 @@ if (!BASE.startsWith('/')) {
 }
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
+const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'hub.css', 'pages.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
 
 // Lettertypen die elke pagina vooraf laadt: de koppen (Saira) en de lopende tekst (DM Sans). De rest staat in fonts.css.
 const PRELOAD_FONTS = ['saira-latin.woff2', 'dm-sans-latin.woff2'];
@@ -243,6 +244,26 @@ async function buildMailImages(products, images) {
 	fs.readdirSync(dir).forEach(function (f) { if (!keep.has(f)) fs.rmSync(path.join(dir, f)); });
 }
 
+// Kleine vierkante miniaturen voor de hub op de home (96 en 192 px). De kleinste gewone variant is 400 px breed, en de
+// hub toont er zo'n tien tegelijk. Geeft per bronbestand de varianten terug: [{ file, w }].
+async function buildThumbs(files) {
+	const sharp = require('sharp');
+	const dir = path.join(DIST, 'assets/img');
+	fs.mkdirSync(dir, { recursive: true });
+	const thumbs = {};
+	for (const file of files) {
+		const src = path.join(ROOT, 'assets', file);
+		if (!fs.existsSync(src)) throw new Error('Miniatuur voor de hub: bestand niet gevonden in assets/: ' + file);
+		thumbs[file] = [96, 192].map(function (w) { return { file: slugify(file) + '-t' + w + '.webp', w: w }; });
+		for (const v of thumbs[file]) {
+			const out = path.join(dir, v.file);
+			if (fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(src).mtimeMs) continue;
+			await sharp(src).resize(v.w, v.w, { fit: 'cover', position: sharp.strategy.attention }).webp({ quality: 74, effort: 5 }).toFile(out);
+		}
+	}
+	return thumbs;
+}
+
 // Het JS-teken voor browsers en Google: de SVG's uit assets/brand, plus PNG's waar SVG niet werkt (app-icoon op de
 // iPhone, favicon in de zoekresultaten, logo in de gestructureerde gegevens). Bron is de tegel: teken op Midnight Slate.
 async function buildBrandImages() {
@@ -306,6 +327,7 @@ async function build() {
 	const shop = readJson('data/shop.json');
 	const site = Object.assign({}, shop, brand);
 	const pillars = readJson('data/pillars.json');
+	const projects = readJson('data/projects.json');
 	const products = readJson('data/products.json');
 	const reviews = readJson('data/reviews.json');
 
@@ -334,7 +356,9 @@ async function build() {
 	const used = products.flatMap(function (p) { return p.images.map(function (image) { return image.file; }); })
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
-		.concat(site.portfolio.projects.map(function (p) { return p.file; }));
+		.concat(site.portfolio.projects.map(function (p) { return p.file; }))
+		.concat(projects.map(function (p) { return p.image; }))
+		.concat(hubImages(pillars, projects));
 	const imageResult = await processImages({
 		srcDir: path.join(ROOT, 'assets'),
 		outDir: path.join(DIST, 'assets/img'),
@@ -361,6 +385,9 @@ async function build() {
 	// De site laadt ze pas wanneer ze nodig zijn, zodat gewone pagina's er niet zwaarder van worden.
 	const bundles = fs.readdirSync(path.join(ROOT, 'src/3d')).filter(function (f) { return f.endsWith('.js'); });
 	bundles.forEach(function (f) { hash.update(read('src/3d/' + f)); });
+	// Gedeelde stukken van de 3D-modules (src/3d/lib/) worden geen eigen bundel, maar tellen wel mee voor het versienummer
+	const lib = path.join(ROOT, 'src/3d/lib');
+	if (fs.existsSync(lib)) fs.readdirSync(lib).filter(function (f) { return f.endsWith('.js'); }).forEach(function (f) { hash.update(read('src/3d/lib/' + f)); });
 	hash.update(JSON.parse(read('node_modules/three/package.json')).version);
 	const version = hash.digest('hex').slice(0, 8);
 
@@ -398,12 +425,14 @@ async function build() {
 	});
 
 	await buildMailImages(products, images);
+	const thumbs = await buildThumbs(hubImages(pillars, projects));
 
 	// 5. Pagina's
 	const byId = {};
 	products.forEach(function (p) { byId[p.id] = p; });
 	const ctx = {
-		site: site, brand: brand, shop: shop, pillars: pillars, products: products, reviews: reviews, images: images, byId: byId,
+		site: site, brand: brand, shop: shop, pillars: pillars, projects: projects, products: products, reviews: reviews, images: images, byId: byId,
+		thumbs: thumbs,
 		version: version, year: new Date().getFullYear(), mode: MODE, base: BASE,
 		fonts: PRELOAD_FONTS,
 		partials: {

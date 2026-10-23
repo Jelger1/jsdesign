@@ -6,12 +6,37 @@
 		"color": "raspberry",
 		"h1": "Design & branding",
 		"summary": "Logo's en huisstijlen.",
-		"services": ["Merkidentiteit en logo", "Huisstijl", "Visual design: verpakking, merch en social", "UI/UX-design"],
+		"services": [
+			"Merkidentiteit en logo",
+			"Huisstijl",
+			"Visual design: verpakking, merch en social",
+			"UI/UX-design"
+		],
 		"seo": {
 			"title": "Logo en huisstijl laten maken · branding",
 			"description": "Logo, huisstijl en visuele identiteit laten maken bij JS Design in Kerkrade: van merkidentiteit en UI/UX-design tot verpakking, merch en social."
 		},
-		"links": []
+		"links": [],
+		"hub": {
+			"kort": "Logo’s, huisstijlen en visual design",
+			"takken": [
+				{
+					"label": "Logo & merk",
+					"href": "design-branding.html#diensten"
+				},
+				{
+					"label": "Huisstijl",
+					"href": "design-branding.html#diensten"
+				},
+				{
+					"label": "UI/UX-design",
+					"href": "design-branding.html#diensten"
+				},
+				{
+					"project": "sanctus"
+				}
+			]
+		}
 	},
 	{
 		"id": "digitaal",
@@ -20,12 +45,37 @@
 		"color": "aqua",
 		"h1": "Websites & interactieve verhalen",
 		"summary": "Slimme websites op maat, én interactieve stories die een verhaal online laten leven.",
-		"services": ["Websites op maat", "Webshops op maat", "Front-end development", "Interactieve verhalen (scrollytelling)"],
+		"services": [
+			"Websites op maat",
+			"Webshops op maat",
+			"Front-end development",
+			"Interactieve verhalen (scrollytelling)"
+		],
 		"seo": {
 			"title": "Website op maat & interactieve verhalen",
 			"description": "Een website op maat met precies de functies die je nodig hebt, of een interactief verhaal online. JS Design ontwerpt en bouwt het, in Kerkrade."
 		},
-		"links": []
+		"links": [],
+		"hub": {
+			"kort": "Websites en interactieve verhalen",
+			"takken": [
+				{
+					"label": "Websites op maat",
+					"href": "websites-interactie.html#diensten"
+				},
+				{
+					"project": "rolduc"
+				},
+				{
+					"project": "wmc",
+					"label": "Klankstad"
+				},
+				{
+					"project": "heerlen",
+					"label": "Mijntijd Heerlen"
+				}
+			]
+		}
 	},
 	{
 		"id": "tastbaar",
@@ -34,15 +84,62 @@
 		"color": "sage",
 		"h1": "3D-printen & prototyping",
 		"summary": "3D-ontwerpen, prototypes en maatwerk.",
-		"services": ["3D-ontwerp", "3D-printen", "Prototypes en kleine series", "Maatwerk voor bedrijven en musea"],
+		"services": [
+			"3D-ontwerp",
+			"3D-printen",
+			"Prototypes en kleine series",
+			"Maatwerk voor bedrijven en musea"
+		],
 		"seo": {
 			"title": "3D-printen & prototyping in Limburg",
 			"description": "3D-ontwerp, 3D-printen en prototypes uit Kerkrade, Limburg. Maatwerk voor particulieren, bedrijven en musea, en een eigen webshop met Limburgse ontwerpen."
 		},
 		"links": [
-			{ "label": "Naar de webshop", "path": "webshop.html" },
-			{ "label": "Eigen 3D-bestand laten printen", "path": "3d-printservice.html" },
-			{ "label": "Maatwerk: de Custom Lightbox", "path": "producten/custom-lightbox.html" }
-		]
+			{
+				"label": "Naar de webshop",
+				"path": "webshop.html"
+			},
+			{
+				"label": "Eigen 3D-bestand laten printen",
+				"path": "3d-printservice.html"
+			},
+			{
+				"label": "Maatwerk: de Custom Lightbox",
+				"path": "producten/custom-lightbox.html"
+			}
+		],
+		"hub": {
+			"kort": "3D-ontwerp, 3D-printen en maatwerk",
+			"takken": [
+				{
+					"label": "Webshop",
+					"note": "Eigen ontwerpen",
+					"href": "webshop.html",
+					"image": "Kami-Vase-3kleuren1.jpg"
+				},
+				{
+					"label": "3D-printservice",
+					"note": "Jouw bestand geprint",
+					"href": "3d-printservice.html",
+					"image": "Printer-H2C.jpg"
+				},
+				{
+					"label": "Custom Lightbox",
+					"note": "Je logo in licht",
+					"href": "producten/custom-lightbox.html",
+					"image": "JS3D-LightBox.jpeg"
+				},
+				{
+					"label": "Limburgse cadeaus",
+					"note": "Mijnstreek in 3D",
+					"href": "limburgse-cadeaus.html",
+					"image": "Koempel-Eend.jpg"
+				},
+				{
+					"label": "Prototypes",
+					"href": "3d-printen.html#diensten"
+				}
+			]
+		}
 	}
 ]

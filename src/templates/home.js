@@ -1,114 +1,52 @@
-// De homepage: vult src/pages/index.html met data (USP's, categorieën, rails, FAQ, afbeeldingen).
+// De homepage: de hub (src/templates/hub.js) en daaronder uitgelicht werk, de webshop, de maker, de FAQ en contact.
+// De inhoud van de oude webshophome (categorieën, rails, stappen, op maat, winkel-FAQ, reviews) staat nu op de
+// Tastbaar-pagina (3d-printen.html).
 const h = require('./helpers');
 const c = require('./components');
+const { hub } = require('./hub');
 
-const USP_ICONS = [
-	'<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
-	'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>',
-	'<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>',
-	'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>'
-];
+// Volgorde van het uitgelichte werk: het eerste project krijgt de grote tegel
+const UITGELICHT = ['rolduc', 'sanctus', 'wmc', 'heerlen'];
 
 function homePage(ctx, template) {
 	const site = ctx.site;
 
-	function rail(collection) {
-		const items = ctx.products.filter(function (p) { return p.collection === collection; });
-		return c.productRail(items, ctx, { root: '' });
-	}
-
-	const usps = site.homeUsps.map(function (usp, i) {
-		return '<li><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + USP_ICONS[i % USP_ICONS.length] + '</svg>'
-			+ '<div><strong>' + h.esc(usp.title) + '</strong><span>' + h.esc(usp.text) + '</span></div></li>';
-	}).join('\n\t\t');
-
-	const categories = site.homeCategories.map(function (cat) {
-		return '<li><a class="category-tile" href="' + h.esc(cat.href) + '">'
-			+ h.img(ctx.images, cat.image, { alt: '', sizes: '(max-width: 600px) 45vw, (max-width: 900px) 45vw, 290px', crop: true })
-			+ '<span class="category-tile-text"><strong>' + h.esc(cat.label) + '</strong><span>' + h.esc(cat.text) + '</span></span>'
+	const werk = UITGELICHT.map(function (id, i) {
+		const p = ctx.projects.find(function (x) { return x.id === id; });
+		if (!p) throw new Error('Home: onbekend project ' + id);
+		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="portfolio/index.html#' + h.esc(p.id) + '">'
+			+ '<span class="werk-beeld">' + h.img(ctx.images, p.image, {
+				alt: p.alt,
+				sizes: i === 0 ? '(max-width: 900px) 92vw, 760px' : '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 380px'
+			}) + '</span>'
+			+ '<span class="werk-tekst"><span class="werk-tags">' + h.esc(p.tags) + '</span>'
+			+ '<strong class="werk-titel">' + h.esc(p.title) + '</strong></span>'
+			+ '<span class="werk-open" aria-hidden="true">→</span>'
 			+ '</a></li>';
 	}).join('\n\t\t');
 
-	// "Meer dan 3D": projecten uit het portfolio (jelgersieler.nl) als bento-raster, afgesloten met een tegel naar het portfolio
-	const portfolio = site.portfolio;
-	const portfolioProjects = portfolio.projects.map(function (p) {
-		return '<li class="work-card work-card-' + h.esc(p.kind) + '"><a href="' + h.esc(portfolio.url + '#' + p.anchor) + '" target="_blank" rel="noopener">'
-			+ '<span class="work-media">'
-			+ (p.kind === 'web' ? '<span class="work-browser" aria-hidden="true"><i></i><i></i><i></i></span>' : '')
-			+ h.img(ctx.images, p.file, { alt: p.alt, sizes: '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 380px', attrs: p.focus ? 'style="object-position:' + h.esc(p.focus) + '"' : '' })
-			+ '</span>'
-			+ '<span class="work-text"><span class="work-tags">' + h.esc(p.tags) + '</span>'
-			+ '<strong>' + h.esc(p.title) + '</strong><span class="work-desc">' + h.esc(p.text) + '</span></span>'
-			+ '<span class="work-open" aria-hidden="true">↗</span>'
-			+ '</a></li>';
-	}).concat('<li class="work-card work-cta"><a href="' + h.esc(portfolio.url) + '" target="_blank" rel="noopener">'
-		+ '<span class="work-cta-label">Nog meer werk</span>'
-		+ '<strong>' + h.esc(portfolio.label) + ' <span aria-hidden="true">↗</span></strong>'
-		+ '<span>Alle projecten, mijn werkwijze en wat ik voor jouw website of merk kan doen.</span>'
-		+ '</a></li>').join('\n\t\t\t');
-
-	const faq = site.faq.map(function (item) {
-		return '<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + h.esc(item.a) + '</p></details>';
+	// De vraag over JelgerS3D krijgt het oude en het nieuwe logo naast elkaar
+	const faq = site.homeFaq.map(function (item) {
+		const logos = item.logo
+			? '<span class="faq-logos" aria-hidden="true"><img src="assets/js-3D-LOGO.svg" width="56" height="56" alt="" loading="lazy">'
+				+ '<span class="faq-logos-pijl">→</span><img src="assets/brand/js-icon-tegel.svg" width="56" height="56" alt="" loading="lazy"></span>'
+			: '';
+		return '<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + logos + h.esc(item.a) + '</p></details>';
 	}).join('\n\t\t');
 
-	// "Maak je eigen sleutelhanger": verschijnt zodra er een product met "personalize" in products.json staat
-	const custom = ctx.products.find(function (p) { return p.personalize; });
-	const keychainTeaser = custom
-		? '<section class="section container" aria-labelledby="keychain-heading">\n'
-			+ '\t<div class="keychain-teaser" data-keychain>\n'
-			+ '\t\t<div class="keychain-teaser-text">\n'
-			+ '\t\t\t<p class="kicker">Nieuw: ontwerp zelf</p>\n'
-			+ '\t\t\t<h2 id="keychain-heading">Maak je eigen sleutelhanger en laat hem <span class="highlight">printen</span></h2>\n'
-			+ '\t\t\t<p>Jouw straat als echt straatnaambord aan je sleutelbos. Typ hieronder een naam en zie direct hoe hij wordt.</p>\n'
-			+ '\t\t\t<div class="keychain-field">\n'
-			+ '\t\t\t\t<label for="kc-teaser">' + h.esc(custom.personalize.label) + '</label>\n'
-			+ '\t\t\t\t<input type="text" id="kc-teaser" class="keychain-input" data-keychain-input placeholder="' + h.esc(custom.personalize.placeholder) + '" autocomplete="off" autocapitalize="words" spellcheck="false">\n'
-			+ '\t\t\t</div>\n'
-			+ '\t\t\t<p class="cta-row"><a class="btn primary" href="' + h.productUrl(custom) + '" data-keychain-link="' + h.productUrl(custom) + '">Ontwerp de jouwe</a>'
-			+ ' <span class="keychain-teaser-price">Speciaal voor jou geprint · <strong>' + h.priceLabel(custom) + '</strong></span></p>\n'
-			+ '\t\t</div>\n'
-			+ '\t\t<div class="keychain-stage">\n'
-			+ '\t\t\t<span class="keychain-stage-label">Live voorbeeld</span>\n'
-			+ '\t\t\t<canvas data-keychain-canvas role="img" aria-label="Voorbeeld van de sleutelhanger" width="1200" height="600"></canvas>\n'
-			+ '\t\t</div>\n'
-			+ '\t</div>\n'
-			+ '</section>'
-		: '';
+	const design = ctx.products.filter(function (p) { return p.collection === 'design'; });
 
-	const values = {
-		keychainTeaser: keychainTeaser,
-		heroImage: h.img(ctx.images, site.homeImages.hero.file, {
-			alt: site.homeImages.hero.alt,
-			sizes: '(max-width: 900px) 320px, 460px', eager: true
-		}),
+	const main = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
+		hub: hub(ctx),
+		werk: werk,
+		'rail:design': c.productRail(design, ctx, { root: '' }),
 		aboutImage: h.img(ctx.images, site.homeImages.about.file, {
 			alt: site.homeImages.about.alt,
-			sizes: '(max-width: 900px) 280px, 380px'
+			sizes: '(max-width: 900px) 280px, 360px'
 		}),
-		customImage: h.img(ctx.images, 'JS3D-LightBox.jpeg', {
-			alt: 'Voorbeeld van maatwerk: het JelgerS3D-logo als verlichte lightbox',
-			sizes: '(max-width: 900px) 320px, 420px', crop: true
-		}),
-		usps: usps,
-		categories: categories,
-		portfolioProjects: portfolioProjects,
-		portfolioUrl: h.esc(portfolio.url),
-		portfolioLabel: h.esc(portfolio.label),
 		faq: faq,
-		'rail:design': rail('design'),
-		'rail:limburg': rail('limburg'),
-		privacyCheckbox: h.privacyCheckbox(site, '', 'cf-privacy', false),
-		nieuwsbriefCheckbox: h.nieuwsbriefCheckbox('cf-nieuwsbrief'),
-		printFormats: h.esc((site.printService.formats || '').replace(' en ', ' of ')),
-		pickupLocation: h.esc(site.pickupLocation),
-		reviews: c.reviewsSection(ctx.reviews, 'Wat klanten zeggen')
-	};
-	Object.keys(site.collections).forEach(function (key) {
-		values['collection:' + key + ':label'] = h.esc(site.collections[key].label);
-		values['collection:' + key + ':intro'] = h.esc(site.collections[key].intro);
+		mail: h.mailLink(site.email, '')
 	});
-
-	const main = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), values);
 
 	return {
 		path: 'index.html',
@@ -117,15 +55,11 @@ function homePage(ctx, template) {
 		title: site.name + ' · branding, websites & 3D uit Kerkrade',
 		description: site.description + ' Voorheen JelgerS3D.',
 		ogImage: ctx.images[site.defaultOgImage].og,
-		preload: {
-			srcset: ctx.images[site.homeImages.hero.file].variants.map(function (v) { return 'assets/img/' + v.file + ' ' + v.w + 'w'; }).join(', '),
-			sizes: '(max-width: 900px) 320px, 460px'
-		},
 		// Organisatie, persoon en website staan op elke pagina in de graaf (src/templates/seo.js)
 		jsonLd: [{
 			'@context': 'https://schema.org',
 			'@type': 'FAQPage',
-			mainEntity: site.faq.map(function (item) {
+			mainEntity: site.homeFaq.map(function (item) {
 				return { '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } };
 			})
 		}],

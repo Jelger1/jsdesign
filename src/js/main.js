@@ -15,6 +15,7 @@ import { initMail } from './mail.js';
 import { initBevestig } from './bevestig.js';
 import { initNieuwsbrief } from './nieuwsbrief.js';
 import { initTransition } from './transition.js';
+import { initHub } from './hub.js';
 
 const page = document.body.dataset.page;
 
@@ -36,4 +37,5 @@ initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagin
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();
 if (page === 'confirm') initBevestig(); // links uit mails: nieuwsbrief bevestigen, "Ik heb gereageerd"
+if (page === 'home') initHub(); // de hub bovenaan de home: lijnen, actieve tak en het teken in 3D
 initTransition(); // als laatste: andere klik-afhandelingen gaan voor

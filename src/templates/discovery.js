@@ -48,6 +48,10 @@ function llms(ctx, full) {
 	ctx.pillars.forEach(function (p) {
 		lines.push('- ' + link(site, p.path, p.h1) + ': ' + p.summary + ' Diensten: ' + p.services.map(inZin).join(', ') + '.');
 	});
+	lines.push('', '## Werk', '');
+	(ctx.projects || []).forEach(function (p) {
+		lines.push('- ' + link(site, 'portfolio/#' + p.id, p.title) + ': ' + p.text + (p.url ? ' Live: ' + p.url : ''));
+	});
 	lines.push('', '## Webshop', '', '- ' + link(site, 'webshop.html', 'Webshop') + ': eigen 3D-geprinte ontwerpen, gemaakt in Limburg.');
 	(site.categoryPages || []).forEach(function (cat) {
 		lines.push('- ' + link(site, cat.slug + '.html', cat.label) + (cat.seoDescription ? ': ' + cat.seoDescription : ''));
@@ -59,7 +63,7 @@ function llms(ctx, full) {
 			lines.push('- ' + link(site, h.productUrl(p), p.name) + (prijs(p) ? ' (' + prijs(p) + ')' : '') + ': ' + (p.seo && p.seo.description ? p.seo.description : (p.tagline || '')));
 		});
 		lines.push('', '## Veelgestelde vragen', '');
-		(site.faq || []).forEach(function (item) { lines.push('### ' + item.q, '', item.a, ''); });
+		(site.homeFaq || []).concat(site.faq || []).forEach(function (item) { lines.push('### ' + item.q, '', item.a, ''); });
 	}
 	lines.push('', '## Over en contact', '',
 		'- ' + link(site, 'over.html', 'Over JS Design'),
@@ -96,7 +100,11 @@ function kennis(ctx) {
 			}),
 			printservice: Object.assign({ url: site.url + '/3d-printservice.html' }, site.printService)
 		},
-		faq: site.faq
+		projecten: (ctx.projects || []).map(function (p) {
+			return { titel: p.title, pijler: p.pillar, soort: p.tags, omschrijving: p.text, url: site.url + '/portfolio/#' + p.id, live: p.url || null, teamproject: Boolean(p.team) };
+		}),
+		// Eerst de vragen over JS Design zelf (home), dan die over de webshop
+		faq: (site.homeFaq || []).map(function (item) { return { q: item.q, a: item.a }; }).concat(site.faq || [])
 	};
 }
 

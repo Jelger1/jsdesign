@@ -40,5 +40,28 @@
 	},
 	"forms": {
 		"privacyCheckbox": true
-	}
+	},
+	"homeFaq": [
+		{
+			"q": "Wat doet JS Design?",
+			"a": "JS Design is de ontwerpstudio van Jelger Sieler in Kerkrade. Ik doe drie dingen: branding (logo’s en huisstijlen), websites en interactieve verhalen, en 3D-printen, van eigen ontwerpen in de webshop tot prototypes en maatwerk."
+		},
+		{
+			"q": "Is JelgerS3D gestopt?",
+			"a": "Nee, JelgerS3D heet nu JS Design. Misschien ken je me van de 3D-prints: producten die je kunt vastpakken. Achter de schermen deed ik al meer, zoals logo’s, huisstijlen en websites. Dat staat nu samen onder één naam. De webshop en de printservice blijven gewoon bestaan.",
+			"logo": true
+		},
+		{
+			"q": "Werk je ook voor bedrijven?",
+			"a": "Ja. Ik werk voor particulieren, ondernemers en musea: van een logo of een website tot prototypes en kleine series in 3D."
+		},
+		{
+			"q": "Waar zit je?",
+			"a": "In Kerkrade, in Zuid-Limburg. Ik werk voor klanten in heel Nederland. 3D-prints laat je verzenden of haal je op in Kerkrade."
+		},
+		{
+			"q": "Hoe begin ik?",
+			"a": "Stuur me een bericht via het contactformulier of per mail, en vertel kort wat je zoekt. Je krijgt antwoord van mij persoonlijk."
+		}
+	]
 }
