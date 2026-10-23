@@ -4,7 +4,12 @@
    Let op: een token met var() krijgt zijn waarde op de plek waar het staat. Wie een basistoken herdefinieert (zoals de
    gekleurde vlakken onderaan), zet de afgeleide tokens daar dus opnieuw.
    Breakpoints (media queries kennen geen tokens): 1100 / 900 / 600 / 420 px, plus (hover:hover) en (hover:none).
-   Contrast: zie de waarden bij de kleuren (WCAG 2.2 AA: tekst 4,5:1, randen en grafische delen 3:1). */
+   Contrast: zie de waarden bij de kleuren (WCAG 2.2 AA: tekst 4,5:1, randen en grafische delen 3:1).
+   Bekende uitzonderingen, tot fase 4 (de shop blijft tot de visuele regressietest 1-op-1): de shopvelden (.checkout-form,
+   .request-form, .shop-sort select, .upload-drop) hebben nog --border (1,2:1) in plaats van --border-strong, shoplabels
+   zijn soms kleiner dan --text-xs, de shop gebruikt nog losse status-hexwaarden in plaats van --ok/--danger/--warning, en
+   de codemod voor de aliassen moet nog draaien. Ook nog open (§5.1): de metrisch aangepaste fallback-@font-face's voor
+   Saira en DM Sans in fonts.css. */
 :root{
 	/* Huisstijl (assets/Brand Identity/JS Colors.png): Electric Aqua, Deep Teal, Neon Raspberry, Misty Sage, Midnight Slate */
 	--brand:#03bcca;
@@ -48,7 +53,9 @@
 	--font-mono:'JetBrains Mono', Consolas, monospace;
 	--font-logo:'DM Sans', 'Segoe UI', sans-serif; /* woordmerk wordt een SVG; geen Stevie Sans als webfont */
 
-	/* Typeschaal. Lopende tekst in DM Sans minstens 1rem, labels minstens --text-xs; koppen schalen vloeiend mee */
+	/* Typeschaal. Lopende tekst en knoppen in DM Sans minstens 1rem (HUISSTIJL), labels minstens --text-xs; koppen schalen
+	   vloeiend mee. Uitzonderingen: chips, de cookieknoppen, menulinks (--text-sm) en de kleine lettertjes onderaan de
+	   footer (bedrijfsgegevens, copyright en juridische links, 0,85 tot 0,88rem) */
 	--text-xs:0.75rem;
 	--text-sm:0.875rem;
 	--text-base:1rem;
@@ -76,7 +83,7 @@
 	--space-16:4rem;
 	--space-20:5rem;
 
-	/* Layout. De huidige home (shop) zet --section-space in home.css op de compacte maat */
+	/* Layout. Alleen de huidige home (shop) gebruikt de compacte sectieruimte (home.css, body[data-page="home"]) */
 	--max-width:1280px;
 	--gutter:clamp(1rem, 3vw, 2rem);
 	--section-space:clamp(4rem, 9vw, 7rem);
@@ -141,13 +148,23 @@
 
 /* Gekleurde vlakken (pijlerwerelden). Binnen een vlak is alles Midnight Slate: tekst, koppen, links, focusring,
    extrude en isoraster. Gedempte tekst (slate 72%) alleen op aqua (5,2:1) en sage (8,1:1); op raspberry is alles volle
-   slate (4,7:1). Aqua accenten op sage worden --brand-on-light. De elementregels staan in brand.css. */
+   slate (4,7:1).
+   Wat buiten een vlak aqua is (vinkjes, .btn-text, het plusje van de FAQ, focusranden van velden), volgt hier
+   --surface-accent: slate op raspberry (4,7:1) en aqua (8,5:1), --brand-on-light op sage (5,0:1). Daarvoor wijst --brand
+   binnen een vlak naar --surface-accent, zodat elke regel met var(--brand) vanzelf meekleurt; .btn.primary wordt er
+   .btn--on-color. Donkere kaarten en velden (--dark-card, --dark-secondary) worden doorzichtig, zodat hun tekst op het
+   vlak zelf staat. Shoponderdelen (productkaarten, rails, filters, winkelwagen, bestelflow) horen niet in een vlak: hun
+   aqua knoppen en badges met slate tekst zouden er slate op slate worden. De elementregels staan in brand.css. */
 [data-surface]{
 	--fg:var(--dark);
 	--soft:var(--fg);
 	--fg-muted:rgba(8,10,13,0.72);
 	--border:rgba(8,10,13,0.18);
 	--border-strong:var(--dark);
+	--surface-accent:var(--dark);
+	--brand:var(--surface-accent);
+	--dark-card:transparent;
+	--dark-secondary:transparent;
 	--pillar:var(--dark);
 	--pillar-text:var(--dark);
 	--focus-ring:2px solid var(--dark);
@@ -158,4 +175,4 @@
 }
 [data-surface="branding"]{--surface:var(--pillar-branding);--fg-muted:var(--dark)}
 [data-surface="digitaal"]{--surface:var(--pillar-digitaal)}
-[data-surface="tastbaar"]{--surface:var(--pillar-tastbaar)}
+[data-surface="tastbaar"]{--surface:var(--pillar-tastbaar);--surface-accent:var(--brand-on-light)}

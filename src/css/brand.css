@@ -32,25 +32,38 @@ h3,h4,h5,h6{font-stretch:112%}
 	-webkit-mask-image:radial-gradient(ellipse 60% 75% at 74% 42%, #000 15%, transparent 72%);
 	mask-image:radial-gradient(ellipse 60% 75% at 74% 42%, #000 15%, transparent 72%)}
 
-/* Hoog contrast (Windows): verlooptekst wordt gewone tekst, anders valt hij weg */
+/* Hoog contrast (Windows): verlooptekst wordt gewone tekst, anders valt hij weg. Voor het menu: zie header.css */
 @media (forced-colors:active){
 	.highlight,.page-subtitle{background:none;-webkit-text-fill-color:currentColor}
 }
 
 /* ---------------------------------------------------------------------------------------------- gekleurde vlakken
    Pijlerwerelden in raspberry, aqua of sage: data-surface="branding|digitaal|tastbaar" (de tokens staan in tokens.css).
-   Alles is Midnight Slate: koppen, tekst en onderstreepte links. Accentwoorden staan in inkt in plaats van het verloop,
-   en een knop wordt .btn--on-color: een slate vlak met sage tekst en een extrude in slate. */
+   Alles is Midnight Slate: koppen, tekst en onderstreepte links. Aqua accenten volgen --surface-accent (via --brand),
+   accentwoorden staan in inkt in plaats van het verloop, en een knop wordt .btn--on-color: een slate vlak met sage
+   tekst en een extrude in slate. */
 /* Op de laag van de inhoud, zodat de gloed achter de pagina (body::before/::after) de kleur niet vertroebelt */
 [data-surface]{position:relative;z-index:var(--z-content);background:var(--surface);color:var(--fg)}
 [data-surface] :is(h1, h2, h3, h4, h5, h6),[data-surface] .kicker{color:var(--fg)}
 [data-surface] .kicker::before{background:var(--pillar)}
-[data-surface] a:not(.btn){color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+/* Links. Even specifiek als .text-page a:not(.btn):not(.chip-link) en later geladen, dus ook in tekst- en pijlerpagina's */
+[data-surface] a:not(.btn):not(.chip-link){color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+[data-surface] a:not(.btn):not(.chip-link):hover{color:var(--fg);text-decoration-thickness:2px}
 [data-surface] .highlight{background:none;-webkit-text-fill-color:currentColor;color:inherit}
 [data-surface] :focus-visible{outline:var(--focus-ring);outline-offset:var(--focus-offset)}
-.btn--on-color{background:var(--dark);border-color:var(--dark);color:var(--sage)}
-.btn--on-color:hover{transform:translate(-3px, -3px);box-shadow:4px 4px 0 0 var(--extrude-color)}
-.btn--on-color:active{transform:translate(-1px, -1px);box-shadow:2px 2px 0 0 var(--extrude-color)}
+/* Velden blijven bij focus doorzichtig en krijgen de slate focusring: de aqua gloed valt op een vlak weg */
+[data-surface] :is(input, select, textarea):focus-visible{background-color:transparent;outline:var(--focus-ring);outline-offset:var(--focus-offset)}
+/* Selectie in slate met sage tekst: de gewone raspberry valt op het branding-vlak weg */
+[data-surface]::selection,[data-surface] ::selection{background:var(--dark);color:var(--sage)}
+.btn--on-color,[data-surface] :is(.btn.primary, .btn-primary){background:var(--dark);border-color:var(--dark);color:var(--sage);box-shadow:0 0 0 0 var(--extrude-color)}
+.btn--on-color:hover,[data-surface] :is(.btn.primary, .btn-primary):hover{transform:translate(-3px, -3px);box-shadow:4px 4px 0 0 var(--extrude-color)}
+.btn--on-color:active,[data-surface] :is(.btn.primary, .btn-primary):active{transform:translate(-1px, -1px);box-shadow:2px 2px 0 0 var(--extrude-color)}
+/* Outline: een slate rand (--border haalt hier maar 1,4:1), ook bij aanwijzen; de extrude in slate */
+[data-surface] .btn.outline,[data-surface] .btn.outline:hover{border-color:var(--border-strong);color:var(--fg)}
+[data-surface] .btn.outline:hover{box-shadow:4px 4px 0 0 var(--extrude-color)}
+[data-surface] .btn.outline:active{box-shadow:2px 2px 0 0 var(--extrude-color)}
+/* .btn-text wordt bij aanwijzen raspberry; op een vlak blijft hij slate, met een dikkere onderstreping */
+[data-surface] .btn-text:hover{color:var(--fg);text-decoration-thickness:2px}
 
 /* ---------------------------------------------------------------------------------------------- paginaovergang
    Drie banden schuiven schuin omhoog (bovenrand onder 30°, zoals de lijnen van het teken): raspberry, aqua en

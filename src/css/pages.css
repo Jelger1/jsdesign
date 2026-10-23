@@ -36,7 +36,9 @@
 .pillar-page .kicker::before{background:var(--pillar)}
 .check-list{margin:1.75rem 0 0 0;padding:0;list-style:none;border-top:1px solid var(--border)}
 .check-list li,.text-page .check-list li{display:flex;align-items:baseline;gap:0.85rem;margin:0;padding:0.8rem 0;border-bottom:1px solid var(--border);color:var(--fg);line-height:1.5}
-.check-list li::before{content:'✓';flex:none;color:var(--pillar-text, var(--brand));font-weight:700}
+/* Het vinkje is versiering: met de lege alt-tekst achter de schuine streep leest een schermlezer het niet voor (de
+   eerste regel is de terugval voor browsers zonder alt-tekst) */
+.check-list li::before{content:'✓';content:'✓' / '';flex:none;color:var(--pillar-text, var(--brand));font-weight:700}
 /* Geen schuine DM Sans: die heeft geen eigen cursief, de browser zou de letters scheef trekken */
 .pillar-page .text-page-note{display:block;margin:1.25rem 0 0 0;font-style:normal;font-size:0.9rem}
 .pillar-page .cta-row{flex-wrap:wrap;margin:1.75rem 0 0 0}
