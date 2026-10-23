@@ -1,0 +1,64 @@
+[
+	{
+		"id": "rolduc",
+		"title": "Brouwerij Rolduc",
+		"pillar": "digitaal",
+		"tags": "Website · webshop · reserveringen",
+		"short": "Website, webshop en reserveringen",
+		"text": "Een informatieve website, webshop en reserveringssysteem in één, van A tot Z door mij ontwikkeld. Met een afgeschermde bestelomgeving voor de horeca.",
+		"image": "Portfolio-Rolduc.jpg",
+		"alt": "De homepage van Brouwerij Rolduc",
+		"url": "https://www.brouwerij-rolduc.nl",
+		"urlLabel": "brouwerij-rolduc.nl"
+	},
+	{
+		"id": "wmc",
+		"title": "Klankstad: WMC Kerkrade 1951",
+		"pillar": "digitaal",
+		"tags": "Interactief · keuzeverhaal",
+		"short": "Interactief verhaal over het WMC",
+		"text": "Kerkrade, augustus 1951: vierduizend muzikanten komen naar de mijnstad. Je speelt als Zef, en jouw keuzes bepalen hoe het allereerste Wereld Muziek Concours verloopt. Tweetalig, met voorleesfunctie.",
+		"image": "Portfolio-WMC.jpg",
+		"alt": "De titelpagina van Klankstad, het interactieve verhaal over het Wereld Muziek Concours",
+		"url": "https://de-wmc-story.nl/",
+		"urlLabel": "de-wmc-story.nl"
+	},
+	{
+		"id": "heerlen",
+		"title": "Heerlen: miljarden kilo's steenkool",
+		"pillar": "digitaal",
+		"tags": "Interactief · storytelling",
+		"short": "Interactieve geschiedenis van Heerlen",
+		"text": "Wat deden miljarden kilo's steenkool met Heerlen? Een interactieve geschiedenisles over de mijnstad, gebouwd op historische data. Gemaakt met een team: ik deed het ontwerp, de code en de teksten.",
+		"image": "Portfolio-Heerlen.jpg",
+		"alt": "Het startscherm van de interactieve story over Heerlen",
+		"url": "https://jelger1.github.io/Mijntijd-Heerlen/",
+		"urlLabel": "Mijntijd Heerlen",
+		"team": true
+	},
+	{
+		"id": "codemonster",
+		"title": "CodeMonster",
+		"pillar": "digitaal",
+		"tags": "Educatie · platform",
+		"short": "Leren programmeren met kunst",
+		"text": "Een workshopconcept en platform waarmee kinderen leren programmeren door kunst te maken. Binnen dit groepsproject deed ik het ontwerp en de front-end.",
+		"image": "Portfolio-CodeMonster.jpg",
+		"alt": "De homepage van CodeMonster",
+		"url": "https://jelger1.github.io/CodeMonster/",
+		"urlLabel": "CodeMonster",
+		"team": true
+	},
+	{
+		"id": "sanctus",
+		"title": "Sanctus Fusion",
+		"pillar": "branding",
+		"tags": "Branding · visual design",
+		"short": "Branding voor een exclusief bier",
+		"text": "De complete branding van een exclusief bier, gebrouwen door Brouwerij Rolduc: logo, posters, shirts, tafelkaarten en social content.",
+		"image": "Portfolio-Sanctus-Poster.jpg",
+		"alt": "Poster van het bier Sanctus Fusion",
+		"url": "",
+		"urlLabel": ""
+	}
+]
