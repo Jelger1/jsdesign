@@ -1,0 +1,114 @@
+<!-- De webshopsecties op de pijlerpagina Tastbaar (3d-printen.html), onder de intro. Ze stonden eerst op de homepage
+     van de webshop en zijn 1-op-1 overgenomen. {{...}} wordt door build.js ingevuld (zie src/templates/tastbaar.js). -->
+<section class="usp-bar" aria-label="Waarom JelgerS3D">
+	<ul class="container usp-list">
+		{{usps}}
+	</ul>
+</section>
+
+<section class="section container" aria-labelledby="categories-heading">
+	<header class="section-head">
+		<p class="kicker">Ontdek de collectie</p>
+		<h2 id="categories-heading">Waar ben je naar op zoek?</h2>
+	</header>
+	<ul class="category-grid">
+		{{categories}}
+	</ul>
+</section>
+
+{{keychainTeaser}}
+
+<section id="work" class="section container" aria-labelledby="work-heading">
+	<header class="section-head section-head-row">
+		<div>
+			<p class="kicker">{{collection:design:label}}</p>
+			<h2 id="work-heading">Sfeermakers voor je interieur</h2>
+		</div>
+		<a class="link-arrow" href="webshop.html?collectie=design">Bekijk alles</a>
+	</header>
+	{{rail:design}}
+</section>
+
+<section class="section section-tint" aria-labelledby="steps-heading">
+	<div class="container">
+		<header class="section-head section-head-center">
+			<p class="kicker">Zo werkt het</p>
+			<h2 id="steps-heading">Persoonlijk, van aanvraag tot levering</h2>
+		</header>
+		<ol class="how-steps">
+			<li>
+				<span class="how-number" aria-hidden="true">1</span>
+				<h3>Kies je ontwerp</h3>
+				<p>Leg je favoriet in de winkelwagen en verstuur je aanvraag. Je betaalt dan nog niets.</p>
+			</li>
+			<li>
+				<span class="how-number" aria-hidden="true">2</span>
+				<h3>We stemmen het af</h3>
+				<p>Ik neem persoonlijk contact met je op over kleur, details en of je wilt laten verzenden of komt ophalen in Kerkrade.</p>
+			</li>
+			<li>
+				<span class="how-number" aria-hidden="true">3</span>
+				<h3>Voor jou geprint</h3>
+				<p>Na jouw akkoord ga ik printen. Ik streef ernaar dat je bestelling binnen een week klaar is.</p>
+			</li>
+		</ol>
+	</div>
+</section>
+
+<section id="miners" class="section container" aria-labelledby="miners-heading">
+	<header class="section-head section-head-row">
+		<div>
+			<p class="kicker">{{collection:limburg:label}}</p>
+			<h2 id="miners-heading">Cadeaus met een Limburgs hart</h2>
+		</div>
+		<a class="link-arrow" href="limburgse-cadeaus.html">Bekijk alles</a>
+	</header>
+	{{rail:limburg}}
+</section>
+
+<section id="op-maat" class="section container" aria-labelledby="custom-heading">
+	<div class="custom-cta">
+		<div class="custom-cta-text">
+			<p class="kicker">Op maat</p>
+			<h2 id="custom-heading">Samen iets unieks creëren</h2>
+			<p>Heb je een idee voor iets dat nog niet bestaat? Van eerste schets tot afgewerkt product: ik denk met je mee en zorg dat het resultaat wordt zoals jij het voor je ziet.</p>
+			<ul class="feature-list">
+				<li>Een uniek cadeau dat niemand anders heeft</li>
+				<li>Je logo als verlichte lightbox</li>
+				<li>Gepersonaliseerde items voor je bedrijf of event</li>
+				<li>Lithofanies: foto's die oplichten</li>
+			</ul>
+			<!-- Twee gelijke ingangen: een idee laten uitwerken (via de contactpagina), of een eigen 3D-bestand laten printen -->
+			<div class="custom-choices">
+				<a class="custom-choice" href="contact.html">
+					<svg class="custom-choice-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+					<strong>Ik heb een idee</strong>
+					<span>Van eerste schets tot eindproduct: ik werk het samen met je uit.</span>
+					<span class="custom-choice-link">Vertel me je idee <span aria-hidden="true">→</span></span>
+				</a>
+				<a class="custom-choice" href="3d-printservice.html">
+					<svg class="custom-choice-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+					<strong>Ik heb al een 3D-bestand</strong>
+					<span>Upload je {{printFormats}} en ik print het voor je in {{pickupLocation}}.</span>
+					<span class="custom-choice-link">Bestand laten printen <span aria-hidden="true">→</span></span>
+				</a>
+			</div>
+			<p class="custom-cta-more"><a href="producten/custom-lightbox.html">Of bekijk de Custom Lightbox met je eigen logo <span aria-hidden="true">→</span></a></p>
+		</div>
+		<div class="custom-cta-art">
+			{{customImage}}
+		</div>
+	</div>
+</section>
+
+<section class="section container" aria-labelledby="faq-heading">
+	<header class="section-head section-head-center">
+		<p class="kicker">Goed om te weten</p>
+		<h2 id="faq-heading">Veelgestelde vragen</h2>
+	</header>
+	<div class="faq">
+		{{faq}}
+	</div>
+</section>
+
+{{reviews}}

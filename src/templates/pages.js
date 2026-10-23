@@ -287,6 +287,30 @@ function newsletterPage(ctx) {
 	};
 }
 
+// Contactpagina: het contactformulier van de oude homepage (src/pages/contact.html), verstuurd door src/js/forms.js.
+// Daaronder het e-mailadres (gecodeerd, zie mailLink) en Instagram.
+function contactPage(ctx, template) {
+	const site = ctx.site;
+	const socials = site.socials || {};
+	return {
+		path: 'contact.html',
+		root: '',
+		name: 'contact',
+		section: 'contact',
+		schemaType: 'ContactPage',
+		noindex: true, // tot fase 3 (zie NOINDEX_TOT_FASE_3 in tools/check.js)
+		title: 'Contact | ' + site.name,
+		description: 'Neem contact op met ' + site.name + ' in Kerkrade over branding, een website of een 3D-ontwerp.',
+		ogImage: ctx.images[site.defaultOgImage].og,
+		main: h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
+			nieuwsbriefCheckbox: h.nieuwsbriefCheckbox('cf-nieuwsbrief'),
+			privacyCheckbox: h.privacyCheckbox(site, '', 'cf-privacy', false),
+			emailLink: h.mailLink(site.email, ''),
+			instagram: h.esc(socials.instagram || site.instagram)
+		})
+	};
+}
+
 function repliedPage(ctx) {
 	return confirmPage(ctx, {
 		path: 'gereageerd.html', action: 'gereageerd', title: 'Gereageerd', busy: 'Even geduld...',
@@ -297,5 +321,5 @@ function repliedPage(ctx) {
 
 module.exports = {
 	privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage, printServicePage: printServicePage,
-	newsletterPage: newsletterPage, repliedPage: repliedPage
+	newsletterPage: newsletterPage, repliedPage: repliedPage, contactPage: contactPage
 };

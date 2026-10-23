@@ -1,4 +1,4 @@
-// Contactformulier op de homepage.
+// Contactformulier op de contactpagina (en op de oude homepage).
 import { verstuur, track } from './util.js';
 import { validateField } from './validate.js';
 

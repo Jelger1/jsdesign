@@ -11,8 +11,9 @@ const shopPage = require('./src/templates/shop');
 const productPage = require('./src/templates/product');
 const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
-const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage } = require('./src/templates/pages');
+const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage } = require('./src/templates/pages');
 const { pillarPage, placeholderPages } = require('./src/templates/pillar');
+const portfolioPage = require('./src/templates/portfolio');
 const discovery = require('./src/templates/discovery');
 const h = require('./src/templates/helpers');
 
@@ -31,7 +32,7 @@ if (!BASE.startsWith('/')) {
 }
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
+const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'portfolio.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
 
 // Lettertypen die elke pagina vooraf laadt: de koppen (Saira) en de lopende tekst (DM Sans). De rest staat in fonts.css.
 const PRELOAD_FONTS = ['saira-latin.woff2', 'dm-sans-latin.woff2'];
@@ -147,6 +148,23 @@ function validatePillars(pillars, site, report) {
 			if (titel > 60) report.errors.push(where + ': de titel wordt met " | ' + site.name + '" ' + titel + ' tekens (maximaal 60)');
 			if (p.seo.description.length > 155) report.errors.push(where + ': seo.description is ' + p.seo.description.length + ' tekens (maximaal 155)');
 		}
+	});
+}
+
+// De projecten (data/projects.json) op de portfoliopagina: het id is het anker (portfolio/#rolduc), de pijler een id
+// uit pillars.json. Of de afbeelding bestaat (met de juiste hoofdletters), controleert de afbeeldingspipeline.
+function validateProjects(projects, pillars, report) {
+	const ids = new Set();
+	const pillarIds = pillars.map(function (p) { return p.id; });
+	projects.forEach(function (p, i) {
+		const where = 'projects.json > "' + (p.id || '#' + i) + '"';
+		if (!/^[a-z0-9-]+$/.test(p.id || '')) report.errors.push(where + ': id ontbreekt of bevat andere tekens dan a-z, 0-9 en -');
+		if (ids.has(p.id)) report.errors.push(where + ': id komt dubbel voor');
+		ids.add(p.id);
+		if (pillarIds.indexOf(p.pillar) === -1) report.errors.push(where + ': onbekende pillar "' + p.pillar + '" (moet een id uit pillars.json zijn)');
+		if (!p.title || !p.text || !p.image || !p.tags) report.errors.push(where + ': title, tags, text en image zijn verplicht');
+		if (!p.alt) report.warnings.push(where + ': alt-tekst ontbreekt bij ' + p.image);
+		if (p.url && !/^https:\/\//.test(p.url)) report.errors.push(where + ': url moet met https:// beginnen');
 	});
 }
 
@@ -306,12 +324,14 @@ async function build() {
 	const shop = readJson('data/shop.json');
 	const site = Object.assign({}, shop, brand);
 	const pillars = readJson('data/pillars.json');
+	const projects = readJson('data/projects.json');
 	const products = readJson('data/products.json');
 	const reviews = readJson('data/reviews.json');
 
 	const today = new Date().toISOString().slice(0, 10);
 	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
 	validatePillars(pillars, site, report);
+	validateProjects(projects, pillars, report);
 	if (report.errors.length) {
 		console.error('\nBuild gestopt, los eerst deze fouten op:\n - ' + report.errors.join('\n - ') + '\n');
 		process.exit(1);
@@ -334,7 +354,8 @@ async function build() {
 	const used = products.flatMap(function (p) { return p.images.map(function (image) { return image.file; }); })
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
-		.concat(site.portfolio.projects.map(function (p) { return p.file; }));
+		.concat(site.portfolio.projects.map(function (p) { return p.file; }))
+		.concat(projects.map(function (p) { return p.image; }));
 	const imageResult = await processImages({
 		srcDir: path.join(ROOT, 'assets'),
 		outDir: path.join(DIST, 'assets/img'),
@@ -403,7 +424,7 @@ async function build() {
 	const byId = {};
 	products.forEach(function (p) { byId[p.id] = p; });
 	const ctx = {
-		site: site, brand: brand, shop: shop, pillars: pillars, products: products, reviews: reviews, images: images, byId: byId,
+		site: site, brand: brand, shop: shop, pillars: pillars, projects: projects, products: products, reviews: reviews, images: images, byId: byId,
 		version: version, year: new Date().getFullYear(), mode: MODE, base: BASE,
 		fonts: PRELOAD_FONTS,
 		partials: {
@@ -416,9 +437,12 @@ async function build() {
 	};
 
 	// Alle pagina's van de site. Volgorde: home, de drie pijlers, webshop, overige pagina's, producten.
+	// De pijler Tastbaar krijgt onder de intro de webshopsecties uit src/pages/tastbaar.html.
+	const tastbaarTemplate = read('src/pages/tastbaar.html');
 	const pages = [homePage(ctx, read('src/pages/index.html'))]
-		.concat(pillars.map(function (p) { return pillarPage(p, ctx); }))
+		.concat(pillars.map(function (p) { return pillarPage(p, ctx, tastbaarTemplate); }))
 		.concat(placeholderPages(ctx))
+		.concat([portfolioPage(ctx), contactPage(ctx, read('src/pages/contact.html'))])
 		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
 		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
