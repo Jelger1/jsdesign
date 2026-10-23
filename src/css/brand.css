@@ -1,10 +1,9 @@
 /* Huisstijl-accenten uit de brand identity: het isometrische raster waarop het JS-teken gebouwd is (lijnen onder
    30°), het raspberry-blokje uit het teken als markering, en de paginaovergang met de drie merkkleuren.
-   De vorm van het raspberry-blokje (en van de stapnummers) is die van het logo: clip-path --js-blok. */
+   De vorm van het raspberry-blokje (en van de stapnummers) is die van het logo: clip-path --js-blok (tokens.css). */
 
-:root{--js-blok:polygon(100% 43.5%, 50.3% 100%, 0 56.5%, 49.7% 0)}
-
-::selection{background:var(--raspberry);color:var(--sage)}
+/* Geselecteerde tekst: Midnight Slate op raspberry (4,7:1; sage haalde 4,2:1) */
+::selection{background:var(--raspberry);color:var(--dark)}
 
 /* Typografie "optie 2B": koppen in Saira Expanded (breedte 125%, het skelet van het JS-teken), kleinere koppen iets
    smaller, accentwoorden in koppen in de klassieke Instrument Serif Italic, labels en prijzen in JetBrains Mono.
@@ -29,17 +28,48 @@ h3,h4,h5,h6{font-stretch:112%}
 .kicker::before{content:'';flex:none;width:1.65em;height:1.02em;background:var(--raspberry);clip-path:var(--js-blok)}
 
 /* Isometrisch raster: twee lijnenreeksen onder +30° en -30°, zacht uitgevaagd naar de randen */
-.iso-grid{position:absolute;inset:0;z-index:-1;pointer-events:none;
-	background-image:repeating-linear-gradient(30deg, rgba(243,255,253,0.055) 0 1px, transparent 1px 72px),
-		repeating-linear-gradient(150deg, rgba(243,255,253,0.055) 0 1px, transparent 1px 72px);
+.iso-grid{position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:var(--iso-lijnen);
 	-webkit-mask-image:radial-gradient(ellipse 60% 75% at 74% 42%, #000 15%, transparent 72%);
 	mask-image:radial-gradient(ellipse 60% 75% at 74% 42%, #000 15%, transparent 72%)}
+
+/* Hoog contrast (Windows): verlooptekst wordt gewone tekst, anders valt hij weg. Voor het menu: zie header.css */
+@media (forced-colors:active){
+	.highlight,.page-subtitle{background:none;-webkit-text-fill-color:currentColor}
+}
+
+/* ---------------------------------------------------------------------------------------------- gekleurde vlakken
+   Pijlerwerelden in raspberry, aqua of sage: data-surface="branding|digitaal|tastbaar" (de tokens staan in tokens.css).
+   Alles is Midnight Slate: koppen, tekst en onderstreepte links. Aqua accenten volgen --surface-accent (via --brand),
+   accentwoorden staan in inkt in plaats van het verloop, en een knop wordt .btn--on-color: een slate vlak met sage
+   tekst en een extrude in slate. */
+/* Op de laag van de inhoud, zodat de gloed achter de pagina (body::before/::after) de kleur niet vertroebelt */
+[data-surface]{position:relative;z-index:var(--z-content);background:var(--surface);color:var(--fg)}
+[data-surface] :is(h1, h2, h3, h4, h5, h6),[data-surface] .kicker{color:var(--fg)}
+[data-surface] .kicker::before{background:var(--pillar)}
+/* Links. Even specifiek als .text-page a:not(.btn):not(.chip-link) en later geladen, dus ook in tekst- en pijlerpagina's */
+[data-surface] a:not(.btn):not(.chip-link){color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+[data-surface] a:not(.btn):not(.chip-link):hover{color:var(--fg);text-decoration-thickness:2px}
+[data-surface] .highlight{background:none;-webkit-text-fill-color:currentColor;color:inherit}
+[data-surface] :focus-visible{outline:var(--focus-ring);outline-offset:var(--focus-offset)}
+/* Velden blijven bij focus doorzichtig en krijgen de slate focusring: de aqua gloed valt op een vlak weg */
+[data-surface] :is(input, select, textarea):focus-visible{background-color:transparent;outline:var(--focus-ring);outline-offset:var(--focus-offset)}
+/* Selectie in slate met sage tekst: de gewone raspberry valt op het branding-vlak weg */
+[data-surface]::selection,[data-surface] ::selection{background:var(--dark);color:var(--sage)}
+.btn--on-color,[data-surface] :is(.btn.primary, .btn-primary){background:var(--dark);border-color:var(--dark);color:var(--sage);box-shadow:0 0 0 0 var(--extrude-color)}
+.btn--on-color:hover,[data-surface] :is(.btn.primary, .btn-primary):hover{transform:translate(-3px, -3px);box-shadow:4px 4px 0 0 var(--extrude-color)}
+.btn--on-color:active,[data-surface] :is(.btn.primary, .btn-primary):active{transform:translate(-1px, -1px);box-shadow:2px 2px 0 0 var(--extrude-color)}
+/* Outline: een slate rand (--border haalt hier maar 1,4:1), ook bij aanwijzen; de extrude in slate */
+[data-surface] .btn.outline,[data-surface] .btn.outline:hover{border-color:var(--border-strong);color:var(--fg)}
+[data-surface] .btn.outline:hover{box-shadow:4px 4px 0 0 var(--extrude-color)}
+[data-surface] .btn.outline:active{box-shadow:2px 2px 0 0 var(--extrude-color)}
+/* .btn-text wordt bij aanwijzen raspberry; op een vlak blijft hij slate, met een dikkere onderstreping */
+[data-surface] .btn-text:hover{color:var(--fg);text-decoration-thickness:2px}
 
 /* ---------------------------------------------------------------------------------------------- paginaovergang
    Drie banden schuiven schuin omhoog (bovenrand onder 30°, zoals de lijnen van het teken): raspberry, aqua en
    Midnight Slate. Op het slate-vlak valt het JS-teken in elkaar; op de nieuwe pagina schuiven ze verder weg.
    transition.js zet .pc-leaving op <html>, het scriptje in de <head> zet .pc-arriving. */
-.page-curtain{position:fixed;inset:0;z-index:10000;pointer-events:none;overflow:hidden;visibility:hidden}
+.page-curtain{position:fixed;inset:0;z-index:var(--z-curtain);pointer-events:none;overflow:hidden;visibility:hidden}
 .pc-leaving .page-curtain,.pc-arriving .page-curtain{visibility:visible}
 .pc-band{position:absolute;left:0;top:0;width:100%;height:calc(100vh + 60vw);height:calc(100lvh + 60vw);transform-origin:0 0;transform:translateY(calc(100lvh + 60vw)) skewY(-30deg)}
 .pc-band-1{background:var(--raspberry)}

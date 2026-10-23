@@ -1,0 +1,53 @@
+/* Footer: de nieuwsbrief (pages.css), het merk met drie linkkolommen, de verplichte bedrijfsgegevens en een onderregel
+   met copyright, socials en de juridische links. Rustig: kleine mono-labels, links in de tekstkleur en aqua bij
+   aanwijzen. Het watermerk-logo in de hoek is vervallen (MERGEPLAN §5.5). */
+.site-footer{--footer-gap:clamp(2.5rem, 5vw, 3.5rem);position:relative;isolation:isolate;background:var(--dark-secondary);color:var(--fg);border-top:1px solid var(--border);padding:clamp(2.5rem, 6vw, 4rem) 0 2rem}
+/* Bovenrand in het merkverloop, zoals onder de header */
+.site-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg, transparent, var(--raspberry) 30%, var(--brand) 70%, transparent)}
+.reviews-banner + .site-footer{border-top:0}
+.reviews-banner + .site-footer::before{display:none}
+.footer-inner{display:flex;flex-direction:column;gap:var(--footer-gap);max-width:var(--max-width);margin:0 auto;padding:0 var(--gutter)}
+
+/* Merk en drie kolommen: vier naast elkaar boven 900px, twee tot 600px, daaronder één */
+.footer-grid{display:grid;grid-template-columns:minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));gap:2.5rem clamp(1.5rem, 4vw, 3.5rem)}
+.footer-brand .brand-logo{width:170px}
+.footer-about{margin:1.25rem 0 0 0;max-width:36ch;color:var(--fg-muted);font-size:var(--text-base);line-height:1.7}
+.footer-former{margin:1rem 0 0 0;font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
+.footer-col h2{margin:0 0 1.1rem 0;font-family:var(--font-mono);font-size:var(--text-xs);font-weight:500;font-stretch:normal;letter-spacing:var(--tracking-label);line-height:1.4;text-transform:uppercase;color:var(--fg-muted)}
+.footer-col ul{display:grid;gap:0.7rem}
+.footer-col a{display:inline-flex;align-items:center;gap:0.6rem;min-height:1.5rem;color:var(--fg);font-size:var(--text-base);line-height:1.4;text-decoration:none}
+.footer-col a:hover{color:var(--brand);text-decoration:underline;text-underline-offset:4px}
+/* De pijlers met hun blokje (kleur via data-pillar, zie tokens.css); het label staat er altijd naast */
+.footer-col a[data-pillar]::before{content:'';flex:none;width:1.3em;height:0.8em;background:var(--pillar);clip-path:var(--js-blok)}
+
+/* Verplichte bedrijfsgegevens (informatieplicht webwinkels, art. 3:15d BW) */
+.footer-business{padding-top:1.75rem;border-top:1px solid var(--border);font-style:normal;font-size:0.88rem;line-height:1.8;color:var(--fg-muted)}
+.footer-business strong{color:var(--fg);font-weight:600}
+.footer-business a{color:var(--fg-muted);text-decoration:underline;text-underline-offset:3px}
+.footer-business a:hover{color:var(--brand)}
+
+/* Onderregel, dicht onder de bedrijfsgegevens */
+.footer-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem 2rem;margin-top:calc(1.25rem - var(--footer-gap))}
+.footer-copyright{margin:0;font-size:0.85rem;color:var(--fg-muted)}
+/* Socials als kleine knoppen die bij aanwijzen een laag omhoog komen (extrude) */
+.footer-socials{display:flex;flex-wrap:wrap;gap:0.5rem}
+.footer-socials a{display:inline-flex;align-items:center;min-height:2.25rem;padding:0 0.95rem;border:1px solid var(--border);border-radius:var(--radius-full);color:var(--fg);font-size:var(--text-base);font-weight:500;text-decoration:none}
+.footer-socials a:hover{border-color:var(--brand);color:var(--brand);transform:translate(-2px, -2px);box-shadow:3px 3px 0 0 var(--extrude-color)}
+.footer-socials a:active{transform:translate(-1px, -1px);box-shadow:1px 1px 0 0 var(--extrude-color)}
+/* Juridische links en de knop voor de cookie-instellingen (src/js/consent.js) */
+.foot-nav{display:flex;flex-wrap:wrap;align-items:center;gap:0.25rem 0.75rem;font-size:0.85rem}
+.foot-nav a,.foot-link-button{padding:0.25rem 0;color:var(--fg-muted);text-decoration:none}
+.foot-link-button{background:none;border:0;font:inherit;cursor:pointer}
+.foot-nav a:hover,.foot-link-button:hover{color:var(--brand);text-decoration:underline;text-underline-offset:3px}
+.foot-nav .separator{color:var(--border-strong)}
+
+@media (max-width:900px){
+	.footer-grid{grid-template-columns:repeat(2, minmax(0, 1fr))}
+}
+@media (max-width:600px){
+	.footer-grid{grid-template-columns:minmax(0, 1fr);gap:2rem}
+	.footer-bottom{flex-direction:column;align-items:flex-start}
+	/* Zonder puntjes, want die blijven bij het afbreken aan het eind van een regel hangen */
+	.foot-nav{gap:0.25rem 1.25rem}
+	.foot-nav .separator{display:none}
+}

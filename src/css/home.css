@@ -1,13 +1,15 @@
 /* Homepage: secties, USP-balk, categorietegels, "zo werkt het", de maker, maatwerk en FAQ. */
 
-:root{--section-space:clamp(3rem, 7vw, 5.5rem)}
+/* De huidige home (shop) gebruikt de compacte sectieruimte (tokens.css). Alleen de home: alles staat in één bundel, en
+   andere pagina's houden de gewone maat */
+body[data-page="home"]{--section-space:var(--section-space-compact)}
 
 /* Eén rustig, terugkerend accent boven koppen in plaats van streepjes en bolletjes */
-.kicker{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--brand);font-weight:600;margin:0 0 0.75rem 0}
+.kicker{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.18em;color:var(--brand);font-weight:600;margin:0 0 0.75rem 0}
 
 .section{padding-top:var(--section-space);padding-bottom:var(--section-space)}
-/* Getinte band met schuine boven- en onderkant, oplopend zoals de lijnen van het JS-teken */
-.section-tint{--slant:clamp(28px, 4.5vw, 76px);background:radial-gradient(ellipse at 0% 100%, rgba(241,0,103,0.09), transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(3,188,202,0.08), transparent 50%), var(--dark-secondary);clip-path:polygon(0 var(--slant), 100% 0, 100% calc(100% - var(--slant)), 0 100%);padding-top:calc(var(--section-space) + var(--slant) * 0.7);padding-bottom:calc(var(--section-space) + var(--slant) * 0.7);position:relative;z-index:1}
+/* Getinte band met schuine boven- en onderkant, oplopend zoals de lijnen van het JS-teken (--slant: tokens.css) */
+.section-tint{background:radial-gradient(ellipse at 0% 100%, rgba(241,0,103,0.09), transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(3,188,202,0.08), transparent 50%), var(--dark-secondary);clip-path:polygon(0 var(--slant), 100% 0, 100% calc(100% - var(--slant)), 0 100%);padding-top:calc(var(--section-space) + var(--slant) * 0.7);padding-bottom:calc(var(--section-space) + var(--slant) * 0.7);position:relative;z-index:1}
 .section-tint > .container{padding-top:0;padding-bottom:0}
 .section-head{margin:0 0 2.25rem 0;max-width:720px}
 .section-head h2{margin:0}
@@ -19,7 +21,7 @@
 .link-arrow:hover::after{transform:translateX(4px)}
 
 /* Hero: aanvullingen */
-.hero-text .kicker{margin-bottom:1rem;font-size:0.72rem;color:var(--brand)}
+.hero-text .kicker{margin-bottom:1rem;font-size:var(--text-xs);color:var(--brand)}
 .hero-assurance{display:flex;flex-wrap:wrap;gap:0.5rem 1.5rem;margin:1.75rem 0 0 0;font-size:0.88rem;color:var(--fg-muted)}
 .hero-assurance li{display:inline-flex;align-items:center;gap:0.45rem}
 .hero-assurance li::before{content:'✓';color:var(--brand);font-weight:700}

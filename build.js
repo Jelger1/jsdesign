@@ -26,7 +26,7 @@ const MODE = process.env.SITE_MODE === 'productie' ? 'productie' : 'preview';
 const BASE = (process.env.BASE_PATH || '/').replace(/\/?$/, '/');
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['fonts.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css', 'brand.css'];
+const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
 
 // Lettertypen die elke pagina vooraf laadt: de koppen (Saira) en de lopende tekst (DM Sans). De rest staat in fonts.css.
 const PRELOAD_FONTS = ['saira-latin.woff2', 'dm-sans-latin.woff2'];

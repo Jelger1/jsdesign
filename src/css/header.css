@@ -1,0 +1,73 @@
+/* Header: logo, menu (Branding · Digitaal · Tastbaar · Portfolio · Webshop · Over), de Contact-knop en de winkelwagen
+   (die knop staat in components.css). De pagina waar je bent (aria-current) krijgt het blokje uit het teken in de
+   pijlerkleur (--pillar, buiten de pijlers raspberry), de sectie erboven (data-ancestor) een kleiner blokje, en een
+   pijler die je aanwijst toont zijn eigen blokje. Onder 900px wordt het menu een lade (src/js/ui.js zet .show). */
+
+/* Skip-link voor toetsenbordgebruikers */
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:var(--z-skiplink);background:var(--brand);color:var(--dark);padding:0.6rem 1rem;border-radius:var(--radius);font-weight:700;text-decoration:none}
+.skip-link:focus{top:0.5rem}
+
+.site-header{position:sticky;top:0;z-index:var(--z-header);height:var(--nav-height);display:flex;align-items:center;background:rgba(8,10,13,0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--fg);border-bottom:1px solid var(--border)}
+/* Onderrand in het merkverloop */
+.site-header::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, rgba(241,0,103,0.55) 30%, rgba(3,188,202,0.55) 70%, transparent)}
+.header-inner{display:flex;align-items:center;gap:1.5rem;width:100%;max-width:var(--max-width);margin:0 auto;padding:0 var(--gutter)}
+
+/* Logo: het eenkleurige tegellogo met DESIGN (src/partials/logo.svg), in de tekstkleur */
+.brand{display:inline-flex;align-items:center;flex:none;color:var(--fg);text-decoration:none;border-radius:4px}
+.brand:hover{opacity:0.85}
+.brand-logo{display:block;width:150px;height:auto}
+
+.nav-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;padding:0;background:transparent;border:0;border-radius:var(--radius);color:var(--fg);cursor:pointer}
+.nav-toggle:hover,.nav-toggle[aria-expanded="true"]{color:var(--brand)}
+
+/* Menu. Alle onderdelen zijn even hoog als de knop, zodat de blokjes op één lijn staan */
+.main-nav{display:flex;align-items:center;gap:clamp(1rem, 2.2vw, 2rem);margin-left:auto}
+.main-nav a{position:relative;display:inline-flex;align-items:center;min-height:2.5rem;color:var(--fg-muted);font-size:var(--text-sm);font-weight:500;letter-spacing:0.05em;text-decoration:none;white-space:nowrap;border-radius:4px}
+.main-nav a:hover,.main-nav a[aria-current="page"]{color:var(--fg)}
+.main-nav a:focus-visible{outline-offset:4px}
+/* Het blokje: groot bij de huidige pagina, kleiner bij de sectie erboven en groot in de eigen kleur bij een pijler die
+   je aanwijst. Altijd in volle kleur: doorzichtig haalde raspberry op de header maar 1,7:1, vol is dat 4,6:1 */
+.main-nav a::after{content:'';position:absolute;left:50%;bottom:-0.45rem;width:14px;height:9px;background:var(--pillar, var(--raspberry));clip-path:var(--js-blok);transform:translateX(-50%) scale(0);transition:transform var(--duration) var(--ease-out)}
+.main-nav a[aria-current="page"]::after{transform:translateX(-50%) scale(1)}
+.main-nav a[data-ancestor]::after{transform:translateX(-50%) scale(0.6)}
+.main-nav a[data-pillar]:hover::after,.main-nav a[data-pillar]:focus-visible::after{transform:translateX(-50%) scale(1)}
+
+/* Contact: een extrude-knop zoals .btn.primary. Op de contactpagina zelf staat hij al een laag omhoog */
+.main-nav .nav-cta{margin-left:0.5rem;padding:0 1.2rem;border:2px solid var(--brand);border-radius:var(--radius-full);background:var(--brand);color:var(--dark);font-size:var(--text-base);font-weight:700;letter-spacing:0.02em;box-shadow:0 0 0 0 var(--extrude-color);transition:transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease)}
+.main-nav .nav-cta::after{content:none}
+.main-nav .nav-cta:hover,.main-nav .nav-cta[aria-current="page"]{color:var(--dark);transform:translate(-3px, -3px);box-shadow:4px 4px 0 0 var(--extrude-color)}
+.main-nav .nav-cta:active{transform:translate(-1px, -1px);box-shadow:2px 2px 0 0 var(--extrude-color)}
+
+/* Op een smaller scherm passen zeven onderdelen alleen met minder ruimte ertussen */
+@media (max-width:1100px){
+	.header-inner{gap:1rem}
+	.main-nav .nav-cta{margin-left:0.25rem;padding:0 1rem}
+}
+
+/* Lade: de knop links, het logo in het midden, de winkelwagen rechts */
+@media (max-width:900px){
+	.header-inner{display:grid;grid-template-columns:44px 1fr 44px;gap:0.5rem}
+	.nav-toggle{display:inline-flex}
+	.brand{justify-self:center}
+	.main-nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;margin:0;padding:0.5rem 0 1.25rem;max-height:calc(100vh - var(--nav-height));max-height:calc(100dvh - var(--nav-height));overflow-y:auto;overscroll-behavior:contain;background:var(--dark-card);border-bottom:1px solid var(--border);box-shadow:var(--shadow-lg)}
+	.main-nav.show{display:flex}
+	.main-nav a{min-height:3rem;padding:0 var(--gutter);border-radius:0;color:var(--fg);font-size:var(--text-base)}
+	.main-nav a:hover{background:var(--brand-glow)}
+	.main-nav a:focus-visible{outline-offset:-2px}
+	/* In de lade staat het blokje rechts naast het onderdeel */
+	.main-nav a::after{left:auto;right:var(--gutter);bottom:auto;top:50%;transform:translateY(-50%) scale(0)}
+	.main-nav a[aria-current="page"]::after,.main-nav a[data-pillar]:hover::after,.main-nav a[data-pillar]:focus-visible::after{transform:translateY(-50%) scale(1)}
+	.main-nav a[data-ancestor]::after{transform:translateY(-50%) scale(0.6)}
+	.main-nav .nav-cta{justify-content:center;margin:0.75rem var(--gutter) 0;padding:0 1.2rem;border-radius:var(--radius-full)}
+	.main-nav .nav-cta:hover{background:var(--brand)}
+	.main-nav .nav-cta:focus-visible{outline-offset:3px}
+}
+@media (max-width:600px){
+	.brand-logo{width:120px}
+}
+
+/* Hoog contrast (Windows): de browser maakt de achtergrond van de blokjes doorzichtig. Het blokje van de huidige pagina
+   en van de sectie erboven blijft daarom in de tekstkleur staan, anders is de actieve staat niet meer te zien */
+@media (forced-colors:active){
+	.main-nav a[aria-current="page"]::after,.main-nav a[data-ancestor]::after{forced-color-adjust:none;background:CanvasText}
+}
