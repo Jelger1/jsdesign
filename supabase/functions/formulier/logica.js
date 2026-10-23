@@ -1,6 +1,7 @@
-// Gedeelde logica van de Edge Function "formulier": invoer controleren, spam herkennen, prijzen narekenen
-// en de mails opbouwen. Gewoon JavaScript zonder Deno- of Node-specifieke dingen, zodat dit bestand ook
-// buiten Supabase te testen is. index.ts doet de rest (database, mail versturen, limieten).
+// Gedeelde logica van de Edge Function "formulier": bepalen welke websites de functie mogen aanroepen (CORS),
+// invoer controleren, spam herkennen, prijzen narekenen en de mails opbouwen. Gewoon JavaScript zonder Deno- of
+// Node-specifieke dingen, zodat dit bestand ook buiten Supabase te testen is. index.ts doet de rest (database,
+// mail versturen, limieten).
 
 export const SOORTEN = ['bestelling', 'contact', 'offerte', 'printservice', 'beschikbaarheid', 'nieuwsbrief'];
 export const MIN_DUUR_MS = 2000;   // sneller dan dit kan een mens geen formulier invullen
@@ -34,6 +35,46 @@ function heeft(object, sleutel) { return Boolean(object) && Object.prototype.has
 // Meerregelige tekst: alleen bijknippen. Eén regel: ook witruimte samenvoegen.
 function tekst(waarde, max) { return String(waarde == null ? '' : waarde).replace(/\r\n?/g, '\n').trim().slice(0, max); }
 function regel(waarde, max) { return tekst(waarde, max).replace(/\s+/g, ' '); }
+
+// ---------------------------------------------------------------------------------------------- herkomst (CORS)
+
+// Waar de formulieren staan: jsdesign.nl, de oude webshop en het oude portfolio (die blijven tijdens de overgang
+// gewoon werken) en de preview op GitHub Pages (jelger1.github.io/jsdesign). Bewust los van SITE_URL: als die
+// straks naar jsdesign.nl gaat, blijven de formulieren op de oude domeinen werken.
+export const HERKOMST_STANDAARD = [
+	'https://jsdesign.nl', 'https://www.jsdesign.nl',
+	'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
+	'https://jelgersieler.nl', 'https://www.jelgersieler.nl',
+	'https://jelger1.github.io'
+];
+
+// Een herkomst is alleen schema, domein en eventueel poort: " https://JSdesign.nl/ " wordt "https://jsdesign.nl",
+// en van "https://jelger1.github.io/jsdesign" blijft "https://jelger1.github.io" over. Geen http(s)-adres (een
+// typfout, "*" of "null"): een lege tekst.
+function herkomstVan(waarde) {
+	const adres = /^https?:\/\/[^\/?#\s]+/i.exec(String(waarde == null ? '' : waarde).trim());
+	return adres ? adres[0].toLowerCase() : '';
+}
+
+// De herkomsten die de functie toestaat. envWaarde: de secret ALLOWED_ORIGINS (kommagescheiden); staat daar iets
+// bruikbaars in, dan vervangt die de standaardlijst, anders geldt de standaardlijst. siteUrl (SITE_URL) en de
+// www-variant ervan komen er altijd bij, zodat de eigen site nooit wordt geweigerd. Een herkomst die niet mag,
+// krijgt van index.ts de eerste uit de lijst terug.
+export function herkomstLijst(envWaarde, siteUrl) {
+	const eigen = String(envWaarde == null ? '' : envWaarde).split(',').map(herkomstVan).filter(Boolean);
+	const lijst = eigen.length ? eigen : HERKOMST_STANDAARD.slice();
+	const site = herkomstVan(siteUrl);
+	if (site) lijst.push(site, site.replace(/^(https?:\/\/)(?!www\.)/, '$1www.'));
+	return lijst.filter(function (h, i) { return lijst.indexOf(h) === i; });
+}
+
+// Mag een pagina van deze herkomst (de Origin-header van de browser) de antwoorden van de functie lezen? Ja als hij
+// in de lijst staat, en voor http://localhost en http://127.0.0.1, met of zonder poort (lokaal ontwikkelen: npm run
+// dev draait op poort 3000). Precies vergelijken, dus http://jsdesign.nl of jsdesign.nl.voorbeeld.nl mag niet.
+export function toegestaneHerkomst(herkomst, lijst) {
+	if (typeof herkomst !== 'string' || !herkomst) return false;
+	return (Array.isArray(lijst) && lijst.indexOf(herkomst) !== -1) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(herkomst);
+}
 
 // ---------------------------------------------------------------------------------------------- invoer
 
