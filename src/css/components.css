@@ -1,4 +1,4 @@
-/* Componenten: header, productkaart, rails, winkelwagen, reviews. */
+/* Componenten: productkaart, rails, winkelwagen, reviews. De header staat in header.css, de footer in footer.css. */
 
 [hidden]{display:none !important}
 /* Afbeeldingen hebben width/height-attributen (tegen verspringen); de hoogte schaalt altijd mee */
@@ -7,44 +7,17 @@ body.is-locked{overflow:hidden}
 a,button{transition:color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease}
 input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease}
 
-/* Skip-link voor toetsenbordgebruikers */
-.skip-link{position:absolute;left:1rem;top:-4rem;z-index:2000;background:var(--brand);color:var(--dark);padding:0.6rem 1rem;border-radius:var(--radius);font-weight:700;text-decoration:none}
-.skip-link:focus{top:0.5rem}
-
 /* Scroll-animatie (alleen als de bezoeker animaties toestaat, zie ui.js) */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease, transform 0.6s ease}
 .reveal.is-revealed{opacity:1;transform:none}
 
-/* Header */
-.site-header{background:rgba(8,10,13,0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--soft);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);height:var(--nav-height);display:flex;align-items:center}
-.site-header::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, rgba(241,0,103,0.55) 30%, rgba(3,188,202,0.55) 70%, transparent)}
-.header-inner{display:flex;align-items:center;gap:1rem;padding:0 clamp(1rem,3vw,2rem);max-width:var(--max-width);margin:0 auto;width:100%}
-.brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;color:var(--soft)}
-.brand:hover{opacity:0.85}
-.brand-icon{height:38px;width:auto}
-.brand-name{font-family:var(--font-logo);font-weight:500;font-size:1.2rem;letter-spacing:0.06em;text-transform:uppercase;line-height:1;white-space:nowrap} /* zoals "DESIGN" in het volledige logo */
-.main-nav{margin-left:auto;display:flex;gap:2rem}
-.main-nav a{color:var(--fg-muted);text-decoration:none;font-weight:500;font-size:0.875rem;letter-spacing:0.05em}
-.main-nav a:hover,.main-nav a[aria-current="page"]{color:var(--soft)}
-.nav-toggle{display:none;background:transparent;border:0;color:var(--soft);cursor:pointer;width:44px;height:44px;align-items:center;justify-content:center;padding:0}
+/* Winkelwagenknop in de header */
 .cart-toggle{position:relative;background:transparent;border:0;color:var(--soft);cursor:pointer;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0}
 .cart-toggle:hover{color:var(--brand)}
 .cart-toggle svg{width:26px;height:26px}
 .cart-count{background:var(--brand);color:var(--dark);border-radius:var(--radius-full);min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;position:absolute;top:2px;right:0;padding:0 5px}
 .cart-toggle.is-bumped{animation:cartBump 0.45s ease}
 @keyframes cartBump{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
-
-@media (max-width:900px){
-	.header-inner{display:grid;grid-template-columns:44px 1fr 44px}
-	.nav-toggle{display:inline-flex}
-	.brand{justify-self:center;gap:0.5rem}
-	.brand-icon{height:30px}
-	.brand-name{font-size:1rem}
-	.main-nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--dark-card);padding:0.5rem 0;margin:0;border-bottom:1px solid var(--border)}
-	.main-nav.show{display:flex}
-	.main-nav a{padding:0.9rem 1.5rem;color:var(--soft);font-size:1rem}
-	.main-nav a:hover{background:var(--brand-glow)}
-}
 
 /* Productkaart */
 .grid-products{grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:1.5rem}
@@ -151,10 +124,6 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .review-author{color:var(--brand);font-weight:600;font-size:0.85rem}
 .review-product{font-size:0.75rem;color:var(--fg-muted);background:var(--dark-secondary);padding:0.2rem 0.5rem;border-radius:4px}
 @media (max-width:600px){.review-card{flex-basis:82vw;padding:1.25rem}}
-
-/* Footer-USP's zijn nu een lijst */
-.footer-tagline{width:100%;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
-.footer-tagline li{display:inline-flex;align-items:center;gap:0.5rem}
 
 /* Respecteer de systeeminstelling "minder beweging" */
 @media (prefers-reduced-motion:reduce){
