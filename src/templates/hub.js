@@ -67,7 +67,7 @@ function twijg(t, ctx) {
 	if (t.project) {
 		const p = ctx.projects.find(function (x) { return x.id === t.project; });
 		if (!p) throw new Error('Hub: onbekend project ' + t.project);
-		item = { label: t.label || p.title, note: t.note || p.short, href: 'portfolio/index.html#' + p.id, image: p.image, soort: 'project' };
+		item = { label: t.label || p.title, note: t.note || p.short, href: 'portfolio/#' + p.id, image: p.image, soort: 'project' };
 	}
 	const soort = item.soort || (item.image ? 'plek' : 'dienst');
 	const merk = item.image

@@ -1,5 +1,5 @@
 // "Maak je eigen sleutelhanger": koppelt het invoerveld aan de live preview en aan de knoppen.
-// Werkt op twee plekken: de productpagina (volledige tool) en de teaser op de homepage
+// Werkt op twee plekken: de productpagina (volledige tool) en de teaser op de pijlerpagina Tastbaar en de oude homepage
 // (daar gaat de getypte tekst mee naar de productpagina via ?tekst=...).
 import { drawSign, signToBlob, cleanText, MAX_LENGTH } from './keychain-sign.js';
 import { addAndShow } from './cart-ui.js';

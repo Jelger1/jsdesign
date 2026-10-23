@@ -42,6 +42,16 @@
 /* Geen schuine DM Sans: die heeft geen eigen cursief, de browser zou de letters scheef trekken */
 .pillar-page .text-page-note{display:block;margin:1.25rem 0 0 0;font-style:normal;font-size:0.9rem}
 .pillar-page .cta-row{flex-wrap:wrap;margin:1.75rem 0 0 0}
+/* Tastbaar (3d-printen.html): onder de intro staan de webshopsecties van de oude homepage (src/pages/tastbaar.html),
+   met dezelfde compacte sectieruimte als daar (home.css) */
+body[data-page="pillar"][data-pillar="tastbaar"]{--section-space:var(--section-space-compact)}
+
+/* Contactpagina (src/pages/contact.html): de kop zoals op de tekstpagina's, het formulier van de oude homepage (stijl in
+   styles.css) en daaronder de directe contactgegevens */
+.contact-page{max-width:760px;padding-top:2.5rem;padding-bottom:4rem}
+.contact-page h1{font-size:var(--text-3xl);letter-spacing:-0.01em;margin:0}
+.contact-direct{margin:1.5rem 0 0 0;color:var(--fg-muted);line-height:1.7}
+.contact-direct a{color:var(--brand)}
 
 /* Cookiemelding: klein, blokkeert niets, en weigeren is even makkelijk als accepteren */
 .cookie-banner{position:fixed;left:1rem;bottom:1rem;z-index:950;max-width:420px;padding:1.25rem;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);animation:fadeInUp 0.35s ease}

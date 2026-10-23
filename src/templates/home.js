@@ -14,7 +14,7 @@ function homePage(ctx, template) {
 	const werk = UITGELICHT.map(function (id, i) {
 		const p = ctx.projects.find(function (x) { return x.id === id; });
 		if (!p) throw new Error('Home: onbekend project ' + id);
-		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="portfolio/index.html#' + h.esc(p.id) + '">'
+		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="portfolio/#' + h.esc(p.id) + '">'
 			+ '<span class="werk-beeld">' + h.img(ctx.images, p.image, {
 				alt: p.alt,
 				sizes: i === 0 ? '(max-width: 900px) 92vw, 760px' : '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 380px'

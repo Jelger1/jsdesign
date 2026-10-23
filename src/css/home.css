@@ -1,7 +1,8 @@
-/* Homepage: secties, USP-balk, categorietegels, "zo werkt het", de maker, maatwerk en FAQ. */
+/* Secties van de home en van de pijlerpagina Tastbaar (die de webshopsecties van de oude home kreeg): USP-balk,
+   categorietegels, "zo werkt het", maatwerk en FAQ. De hub zelf staat in hub.css. */
 
-/* De huidige home (shop) gebruikt de compacte sectieruimte (tokens.css). Alleen de home: alles staat in één bundel, en
-   andere pagina's houden de gewone maat */
+/* De home gebruikt de compacte sectieruimte (tokens.css); de pijlerpagina Tastbaar ook (pages.css). Andere pagina's
+   houden de gewone maat. */
 body[data-page="home"]{--section-space:var(--section-space-compact)}
 
 /* Eén rustig, terugkerend accent boven koppen in plaats van streepjes en bolletjes */

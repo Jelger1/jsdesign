@@ -83,7 +83,7 @@
 	--space-16:4rem;
 	--space-20:5rem;
 
-	/* Layout. Alleen de huidige home (shop) gebruikt de compacte sectieruimte (home.css, body[data-page="home"]) */
+	/* Layout. De home en de pijlerpagina Tastbaar gebruiken de compacte sectieruimte (home.css en pages.css) */
 	--max-width:1280px;
 	--gutter:clamp(1rem, 3vw, 2rem);
 	--section-space:clamp(4rem, 9vw, 7rem);

@@ -26,14 +26,12 @@ initCartUi();
 initLightbox();
 initNieuwsbrief(); // aanmelden onderaan elke pagina en op de bedanktpagina
 
-if (page === 'home') {
-	initRails();
-	initForms();
-}
+initRails(); // productrails: op de home en de pijlerpagina Tastbaar; doet elders niets
+initForms(); // contactformulier: op de contactpagina; doet elders niets
 if (page === 'shop') initShop();
 if (page === 'product') initProduct();
 initRequest(); // aanvraagformulier: op productpagina's met maatwerk en op de printservicepagina
-initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagina en homepage)
+initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagina) of de teaser (Tastbaar, oude homepage)
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();
 if (page === 'confirm') initBevestig(); // links uit mails: nieuwsbrief bevestigen, "Ik heb gereageerd"
