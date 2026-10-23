@@ -1,0 +1,73 @@
+# Controles bij elke pull request: de site wordt in beide modi gebouwd en gecontroleerd, zodat een fout in de links,
+# de SEO-tags, de indexering of het contract met de oude webshop opvalt vóór het samenvoegen. Deze workflow publiceert
+# niets; dat doet alleen deploy.yml, vanuit main.
+name: Controles
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+# Een nieuwe push op dezelfde pull request maakt de vorige controle overbodig
+concurrency:
+  group: controles-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  controles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Zonder verify_jwt = false weigert Supabase elke aanroep zonder inlog (401): dan werken de formulieren van de
+      # site en de nachtelijke taken niet meer (MERGEPLAN §3 B5 en §12)
+      - name: verify_jwt = false voor de functie formulier
+        run: |
+          if awk '
+            { sub(/\r$/, "") }
+            /^[ \t]*\[/ { inFormulier = ($0 ~ /^[ \t]*\[functions\.formulier\][ \t]*(#.*)?$/) }
+            inFormulier && /^[ \t]*verify_jwt[ \t]*=[ \t]*false[ \t]*(#.*)?$/ { gevonden = 1 }
+            END { exit !gevonden }
+          ' supabase/config.toml; then
+            echo "In orde: verify_jwt = false staat onder [functions.formulier]."
+          else
+            echo "::error file=supabase/config.toml::verify_jwt = false ontbreekt onder [functions.formulier]. Zonder die regel geeft de functie 401 aan de site en aan de cron."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+
+      # De preview zoals deploy.yml hem standaard bouwt: overal noindex, in de submap /jsdesign/
+      - name: Bouwen en controleren (preview)
+        env:
+          SITE_MODE: preview
+          BASE_PATH: /jsdesign/
+        run: |
+          npm run build
+          npm run check
+
+      # De productiebuild voor jsdesign.nl zelf.
+      # Bekende uitzondering, tot fase 3 de homepage vervangt: de huidige home is nog de oude homepage van de webshop
+      # (src/pages/index.html, blok "Meer dan 3D") en linkt naar het portfolio op jelgersieler.nl. tools/check.js meldt
+      # die links als waarschuwing, maar alleen op die pagina en alleen zolang src/pages/index.html dat blok bevat.
+      # Elke andere link naar jelgers3d.nl of jelgersieler.nl, en elke andere productiefout, laat deze stap falen.
+      - name: Bouwen en controleren (productie)
+        env:
+          SITE_MODE: productie
+          BASE_PATH: /
+        run: |
+          npm run build
+          npm run check
+
+      - name: Tests van de formulierfunctie
+        run: npm test
+
+      - name: Contract met de oude webshop
+        run: npm run contract

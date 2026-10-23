@@ -8,6 +8,8 @@
     "dev": "node tools/dev.js",
     "check": "node tools/check.js",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tools/test-formulier.mjs",
+    "contract": "node --test tools/contract.mjs",
+    "catalogus-diff": "node tools/catalogus-diff.mjs",
     "video": "node tools/video.js"
   },
   "devDependencies": {
