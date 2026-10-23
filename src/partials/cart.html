@@ -1,0 +1,35 @@
+<div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+<aside id="cart-sidebar" class="cart-sidebar" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true" inert>
+	<div class="cart-header">
+		<h2 id="cart-title">Winkelwagen</h2>
+		<button id="cart-close" class="cart-close" type="button" aria-label="Winkelwagen sluiten">✕</button>
+	</div>
+	<p id="cart-added" class="cart-added" role="status" hidden></p>
+	<div class="cart-scroll">
+		<div id="cart-items" class="cart-items"></div>
+		<section id="cart-suggest" class="cart-suggest" aria-labelledby="cart-suggest-title" hidden>
+			<h3 id="cart-suggest-title">Maak het compleet</h3>
+			<ul id="cart-suggest-list" class="cart-suggest-list"></ul>
+		</section>
+	</div>
+	<div class="cart-footer">
+		<div class="cart-total">
+			<strong>Totaal</strong>
+			<strong id="cart-total-price">€0,00</strong>
+		</div>
+		<p class="cart-shipping-note">{{shippingNote}} · je betaalt pas na bevestiging</p>
+		<a id="cart-checkout" class="btn btn-primary btn-block" href="{{root}}afrekenen.html">Bestelling afronden</a>
+		<button id="cart-continue" class="btn outline btn-block" type="button">Verder winkelen</button>
+	</div>
+</aside>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true" inert>
+	<div class="modal-content">
+		<button id="modal-close" class="modal-close" type="button" aria-label="Sluiten">✕</button>
+		<button id="modal-prev" class="modal-nav modal-prev" type="button" aria-label="Vorige foto">‹</button>
+		<h2 id="modal-title"></h2>
+		<img id="modal-image" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<span id="modal-counter" class="modal-counter"></span>
+		<button id="modal-next" class="modal-nav modal-next" type="button" aria-label="Volgende foto">›</button>
+	</div>
+</div>

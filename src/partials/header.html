@@ -1,0 +1,27 @@
+<a class="skip-link" href="#main">Direct naar de inhoud</a>
+<header class="site-header">
+	<div class="header-inner">
+		<button class="nav-toggle" type="button" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+		</button>
+		<a class="brand" href="{{home}}" aria-label="JelgerS3D, naar de homepage">
+			<img src="{{root}}assets/brand/js-icon.svg" alt="" class="brand-icon" width="41" height="38">
+			<span class="brand-name">JelgerS3D</span>
+		</a>
+		<nav class="main-nav" id="main-nav" aria-label="Hoofdmenu">
+			<a href="{{root}}webshop.html"{{currentShop}}>Webshop</a>
+			<a href="{{root}}3d-printservice.html"{{currentPrint}}>3D-printen</a>
+			<a href="{{home}}#over-mij">Over mij</a>
+			<a href="{{home}}#op-maat">Op maat</a>
+			<a href="{{home}}#contact">Contact</a>
+		</nav>
+		<button id="cart-toggle" class="cart-toggle" type="button" aria-label="Winkelwagen openen" aria-controls="cart-sidebar" aria-expanded="false">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<circle cx="9" cy="21" r="1"></circle>
+				<circle cx="20" cy="21" r="1"></circle>
+				<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+			</svg>
+			<span id="cart-count" class="cart-count" hidden>0</span>
+		</button>
+	</div>
+</header>

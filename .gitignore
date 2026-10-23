@@ -1,0 +1,27 @@
+# Lokale geheimen: nooit committen
+.env
+.env.*
+!.env.example
+server/.env
+
+# Afhankelijkheden en build-uitvoer (alleen dist/ wordt gepubliceerd, via GitHub Actions)
+node_modules/
+dist/
+
+# Editor- en AI-tooling
+.history/
+.claude/
+.mcp.json
+skills-lock.json
+
+# Merk- en videobronnen blijven in het privé merkarchief, niet in deze openbare repo
+brag-output*/
+rebranding-video/
+/assets/*.mp4
+/assets/*.mov
+/assets/Brand Identity/
+/assets/Logo/
+*.glb
+# Originele lettertypebestanden (de site gebruikt WOFF2 in assets/fonts/; tools/fonts/Arimo-Bold.ttf blijft getrackt)
+/assets/**/*.ttf
+/assets/**/*.otf

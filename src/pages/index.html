@@ -1,0 +1,273 @@
+<!-- Inhoud van de homepage. {{...}} wordt door build.js ingevuld (zie src/templates/home.js). -->
+<section class="hero">
+	<div class="iso-grid" aria-hidden="true"></div>
+	<div class="container hero-inner">
+		<div class="hero-text">
+			<p class="kicker">3D-design uit Limburg</p>
+			<h1>Ontwerpen die vertellen <span class="highlight">wie je bent</span></h1>
+			<p>Van een statement-vaas op je tafel tot een cadeau met <span class="highlight">Limburgse ziel</span>, bij JelgerS3D maak ik objecten die iets betekenen. <strong>Eigen ontwerp, persoonlijk</strong> en speciaal voor jou geprint.</p>
+			<p class="cta-row">
+				<a class="btn primary" href="webshop.html">Bekijk de webshop</a>
+				<a class="btn outline" href="#op-maat">Laat iets op maat maken</a>
+			</p>
+			<ul class="hero-assurance">
+				<li>Binnen ongeveer 1 week klaar</li>
+				<li>Verzenden of ophalen in Kerkrade</li>
+				<li>Betalen pas na bevestiging</li>
+			</ul>
+		</div>
+		<div class="hero-art">
+			{{heroImage}}
+		</div>
+	</div>
+</section>
+
+<section class="usp-bar" aria-label="Waarom JelgerS3D">
+	<ul class="container usp-list">
+		{{usps}}
+	</ul>
+</section>
+
+<section class="section container" aria-labelledby="categories-heading">
+	<header class="section-head">
+		<p class="kicker">Ontdek de collectie</p>
+		<h2 id="categories-heading">Waar ben je naar op zoek?</h2>
+	</header>
+	<ul class="category-grid">
+		{{categories}}
+	</ul>
+</section>
+
+{{keychainTeaser}}
+
+<section id="work" class="section container" aria-labelledby="work-heading">
+	<header class="section-head section-head-row">
+		<div>
+			<p class="kicker">{{collection:design:label}}</p>
+			<h2 id="work-heading">Sfeermakers voor je interieur</h2>
+		</div>
+		<a class="link-arrow" href="webshop.html?collectie=design">Bekijk alles</a>
+	</header>
+	{{rail:design}}
+</section>
+
+<section class="section section-tint" aria-labelledby="steps-heading">
+	<div class="container">
+		<header class="section-head section-head-center">
+			<p class="kicker">Zo werkt het</p>
+			<h2 id="steps-heading">Persoonlijk, van aanvraag tot levering</h2>
+		</header>
+		<ol class="how-steps">
+			<li>
+				<span class="how-number" aria-hidden="true">1</span>
+				<h3>Kies je ontwerp</h3>
+				<p>Leg je favoriet in de winkelwagen en verstuur je aanvraag. Je betaalt dan nog niets.</p>
+			</li>
+			<li>
+				<span class="how-number" aria-hidden="true">2</span>
+				<h3>We stemmen het af</h3>
+				<p>Ik neem persoonlijk contact met je op over kleur, details en of je wilt laten verzenden of komt ophalen in Kerkrade.</p>
+			</li>
+			<li>
+				<span class="how-number" aria-hidden="true">3</span>
+				<h3>Voor jou geprint</h3>
+				<p>Na jouw akkoord ga ik printen. Ik streef ernaar dat je bestelling binnen een week klaar is.</p>
+			</li>
+		</ol>
+	</div>
+</section>
+
+<section id="miners" class="section container" aria-labelledby="miners-heading">
+	<header class="section-head section-head-row">
+		<div>
+			<p class="kicker">{{collection:limburg:label}}</p>
+			<h2 id="miners-heading">Cadeaus met een Limburgs hart</h2>
+		</div>
+		<a class="link-arrow" href="limburgse-cadeaus.html">Bekijk alles</a>
+	</header>
+	{{rail:limburg}}
+</section>
+
+<section id="over-mij" class="section container" aria-labelledby="maker-heading">
+	<div class="maker">
+		<div class="maker-photo">
+			{{aboutImage}}
+		</div>
+		<div class="maker-text">
+			<p class="kicker">De maker achter het design</p>
+			<h2 id="maker-heading">Ik ben Jelger, en ik maak dingen die <span class="highlight">ertoe doen</span></h2>
+			<p>Ik geloof dat een object meer kan zijn dan decoratie. Het kan een herinnering vastleggen, een verhaal vertellen of gewoon een glimlach opleveren. Alles wat je hier ziet ontwerp en print ik zelf, met zorg en aandacht, hier in Limburg.</p>
+			<blockquote class="maker-quote">Uniek design moet voor iedereen bereikbaar zijn. Daarom combineer ik moderne techniek met persoonlijke verhalen.</blockquote>
+			<p class="maker-more"><a href="#meer-dan-3d">Ik doe meer dan 3D: bekijk mijn websites en branding <span aria-hidden="true">↓</span></a></p>
+		</div>
+	</div>
+	<ul class="value-grid">
+		<li>
+			<h3>Persoonlijke aanpak</h3>
+			<p>Je hebt direct contact met de maker. Ik denk met je mee en adviseer over kleuren en afwerking, zodat het resultaat precies is wat je voor ogen had.</p>
+		</li>
+		<li>
+			<h3>Kwaliteit die je ziet</h3>
+			<p>Elk product wordt met zorg geprint en afgewerkt. Ik lever pas als ik er zelf trots op ben.</p>
+		</li>
+		<li>
+			<h3>Lokaal gemaakt</h3>
+			<p>Alles wordt hier in Limburg gemaakt. Geen anonieme fabriek, maar ambacht met een verhaal.</p>
+		</li>
+	</ul>
+</section>
+
+<!-- Meer dan 3D: de drie vakken als opengewerkt JS-teken (een "exploded view", zoals een technische tekening) en
+     projecten uit het portfolio. Aanwijzen van een vak licht het bijbehorende deel van het teken op (CSS :has). -->
+<section id="meer-dan-3d" class="section section-tint more3d" aria-labelledby="more3d-heading">
+	<div class="iso-grid" aria-hidden="true"></div>
+	<div class="container">
+		<div class="more3d-intro">
+			<div class="more3d-text">
+				<p class="kicker">Meer dan 3D</p>
+				<h2 id="more3d-heading">Eén ontwerper, <span class="highlight">drie vakken</span></h2>
+				<p class="section-intro">JelgerS3D is mijn 3D-printwerkplaats, maar ik ontwerp en bouw ook websites en complete huisstijlen. Net als het JS-teken bestaat mijn werk uit drie delen die in elkaar grijpen. Op <a href="{{portfolioUrl}}" target="_blank" rel="noopener">{{portfolioLabel}}</a> laat ik zien wat ik nog meer doe.</p>
+				<ol class="vakken">
+					<li class="vak vak-web">
+						<span class="vak-blok" aria-hidden="true">01</span>
+						<div>
+							<h3>Websites &amp; webshops</h3>
+							<p>Ontwerp én code: van UX/UI tot een snelle, toegankelijke site die op elk scherm werkt.</p>
+							<span class="vak-tools">UX/UI · HTML · CSS · JavaScript</span>
+						</div>
+					</li>
+					<li class="vak vak-branding">
+						<span class="vak-blok" aria-hidden="true">02</span>
+						<div>
+							<h3>Branding &amp; grafisch ontwerp</h3>
+							<p>Logo, huisstijl, posters, merchandise en social content die samen één merk vormen.</p>
+							<span class="vak-tools">Illustrator · Photoshop · InDesign</span>
+						</div>
+					</li>
+					<li class="vak vak-print">
+						<span class="vak-blok" aria-hidden="true">03</span>
+						<div>
+							<h3>3D-design &amp; printing <span class="vak-hier">Je bent hier</span></h3>
+							<p>Eigen ontwerpen, prototypes en kleine series, geprint op mijn eigen Bambu Lab-printers.</p>
+							<span class="vak-tools">PLA · PETG · TPU</span>
+						</div>
+					</li>
+				</ol>
+			</div>
+			<div class="more3d-art" aria-hidden="true">
+				<svg class="explode" viewBox="-96 -66 400 344" xmlns="http://www.w3.org/2000/svg">
+					<g class="xp-ghost"><path d="M244.05,41.54l-56.7,39.7-9.35-4.97-21.23-11.27-13.63-7.23c-.8-.43-1.77-.37-2.52.15l-12.5,8.75-.19-.1-57.35-30.45,13.72-9.6,17.93-12.56c23.79-16.66,54.91-18.57,80.56-4.95l15.74,8.36,14.93,7.93,21.23,11.27,9.35,4.97Z"/><path d="M253,149.99l-56.77,39.75-27.91,19.54-17.95,12.57c-23.79,16.66-54.91,18.57-80.56,4.95l-23.48-12.46-27.9-14.81-9.35-4.96,56.72-39.72,9.35,4.96,26.6,14.12c.8.43,1.77.37,2.52-.15l23.47-16.43c1.48-1.03,1.34-3.27-.25-4.11l-24.41-12.96-9.35-4.96-21.23-11.27,56.77-39.75,21.23,11.27,9.35,4.96,27.9,14.81,65.28,34.65Z"/><polygon points="114.31 76.36 57.54 116.11 0 85.57 56.77 45.81 114.31 76.36"/></g>
+					<g class="xp xp-branding"><g class="xp-lift"><g class="xp-float">
+						<path class="xp-lead" d="M14 80L-22 34"/>
+						<circle class="xp-dot" cx="14" cy="80" r="2.6"/>
+						<polygon fill="#f10067" points="114.31 76.36 57.54 116.11 0 85.57 56.77 45.81 114.31 76.36"/>
+						<g class="xp-chip" transform="translate(-66 18.7)"><polygon fill="#f10067" points="44 11.7 22.1 27 0 15.3 21.9 0"/><text x="22" y="17.6">02</text></g>
+					</g></g></g>
+					<g class="xp xp-web"><g class="xp-lift"><g class="xp-float">
+						<path class="xp-lead" d="M226 33L256 8"/>
+						<circle class="xp-dot" cx="226" cy="33" r="2.6"/>
+						<path fill="#03bcca" d="M244.05,41.54l-56.7,39.7-9.35-4.97-21.23-11.27-13.63-7.23c-.8-.43-1.77-.37-2.52.15l-12.5,8.75-.19-.1-57.35-30.45,13.72-9.6,17.93-12.56c23.79-16.66,54.91-18.57,80.56-4.95l15.74,8.36,14.93,7.93,21.23,11.27,9.35,4.97Z"/>
+						<g class="xp-chip" transform="translate(256 -7.3)"><polygon fill="#03bcca" points="44 11.7 22.1 27 0 15.3 21.9 0"/><text x="22" y="17.6">01</text></g>
+					</g></g></g>
+					<g class="xp xp-print"><g class="xp-lift"><g class="xp-float">
+						<path class="xp-lead" d="M226 169L256 196"/>
+						<circle class="xp-dot" cx="226" cy="169" r="2.6"/>
+						<path fill="#f3fffd" d="M253,149.99l-56.77,39.75-27.91,19.54-17.95,12.57c-23.79,16.66-54.91,18.57-80.56,4.95l-23.48-12.46-27.9-14.81-9.35-4.96,56.72-39.72,9.35,4.96,26.6,14.12c.8.43,1.77.37,2.52-.15l23.47-16.43c1.48-1.03,1.34-3.27-.25-4.11l-24.41-12.96-9.35-4.96-21.23-11.27,56.77-39.75,21.23,11.27,9.35,4.96,27.9,14.81,65.28,34.65Z"/>
+						<g class="xp-chip" transform="translate(256 180.7)"><polygon fill="#f3fffd" points="44 11.7 22.1 27 0 15.3 21.9 0"/><text x="22" y="17.6">03</text></g>
+					</g></g></g>
+				</svg>
+			</div>
+		</div>
+
+		<div class="work-head">
+			<h3>Werk buiten de printer</h3>
+			<a class="link-arrow" href="{{portfolioUrl}}#projecten" target="_blank" rel="noopener">Alle projecten</a>
+		</div>
+		<ul class="work-grid">
+			{{portfolioProjects}}
+		</ul>
+	</div>
+</section>
+
+<section id="op-maat" class="section container" aria-labelledby="custom-heading">
+	<div class="custom-cta">
+		<div class="custom-cta-text">
+			<p class="kicker">Op maat</p>
+			<h2 id="custom-heading">Samen iets unieks creëren</h2>
+			<p>Heb je een idee voor iets dat nog niet bestaat? Van eerste schets tot afgewerkt product: ik denk met je mee en zorg dat het resultaat wordt zoals jij het voor je ziet.</p>
+			<ul class="feature-list">
+				<li>Een uniek cadeau dat niemand anders heeft</li>
+				<li>Je logo als verlichte lightbox</li>
+				<li>Gepersonaliseerde items voor je bedrijf of event</li>
+				<li>Lithofanies: foto's die oplichten</li>
+			</ul>
+			<!-- Twee gelijke ingangen: een idee laten uitwerken, of een eigen 3D-bestand laten printen -->
+			<div class="custom-choices">
+				<a class="custom-choice" href="#contact">
+					<svg class="custom-choice-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+					<strong>Ik heb een idee</strong>
+					<span>Van eerste schets tot eindproduct: ik werk het samen met je uit.</span>
+					<span class="custom-choice-link">Vertel me je idee <span aria-hidden="true">→</span></span>
+				</a>
+				<a class="custom-choice" href="3d-printservice.html">
+					<svg class="custom-choice-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+					<strong>Ik heb al een 3D-bestand</strong>
+					<span>Upload je {{printFormats}} en ik print het voor je in {{pickupLocation}}.</span>
+					<span class="custom-choice-link">Bestand laten printen <span aria-hidden="true">→</span></span>
+				</a>
+			</div>
+			<p class="custom-cta-more"><a href="producten/custom-lightbox.html">Of bekijk de Custom Lightbox met je eigen logo <span aria-hidden="true">→</span></a></p>
+		</div>
+		<div class="custom-cta-art">
+			{{customImage}}
+		</div>
+	</div>
+</section>
+
+<section class="section container" aria-labelledby="faq-heading">
+	<header class="section-head section-head-center">
+		<p class="kicker">Goed om te weten</p>
+		<h2 id="faq-heading">Veelgestelde vragen</h2>
+	</header>
+	<div class="faq">
+		{{faq}}
+	</div>
+</section>
+
+<section id="contact" class="section container contact" aria-labelledby="contact-heading">
+	<header class="section-head section-head-center">
+		<p class="kicker">Contact</p>
+		<h2 id="contact-heading">Stel je vraag of deel je idee</h2>
+		<p class="section-intro">Je krijgt antwoord van mij persoonlijk.</p>
+	</header>
+
+	<form id="contact-form" class="contact-form" novalidate>
+		<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+		<div class="contact-form-card">
+			<div class="form-group">
+				<label for="cf-name">Naam</label>
+				<div class="input-wrap">
+					<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+					<input type="text" id="cf-name" name="name" required autocomplete="name" placeholder="Je volledige naam">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="cf-email">E-mailadres</label>
+				<div class="input-wrap">
+					<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+					<input type="email" id="cf-email" name="email" required autocomplete="email" placeholder="je@email.nl">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="cf-message">Bericht</label>
+				<textarea id="cf-message" name="message" rows="4" required placeholder="Vertel me kort over je vraag of idee..."></textarea>
+			</div>
+			{{nieuwsbriefCheckbox}}
+			{{privacyCheckbox}}
+			<button type="submit" class="btn primary btn-block">Verstuur bericht</button>
+			<p id="form-msg" class="form-msg" aria-live="polite"></p>
+		</div>
+	</form>
+</section>
+
+{{reviews}}

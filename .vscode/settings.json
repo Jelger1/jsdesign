@@ -1,0 +1,17 @@
+{
+	"local-history.exclude": [
+		"**/.history/**",
+		"**/.vscode/**",
+		"**/node_modules/**",
+		"**/typings/**",
+		"**/out/**",
+		"**/Microsoft/**",
+		"**/.env",
+		"**/.env.*",
+		"**/*.env"
+	],
+	"workbench.localHistory.exclude": {
+		"**/.env": true,
+		"**/.env.*": true
+	}
+}
