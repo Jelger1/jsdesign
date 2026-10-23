@@ -23,6 +23,10 @@
 //   MAIL_EIGENAAR    waar Jelger de overzichten wil ontvangen
 //   RESEND_SEGMENT   optioneel: id van het segment voor de nieuwsbrief (anders zoekt of maakt de functie "Nieuwsbrief")
 //   SITE_URL         standaard https://jelgers3d.nl
+//   ALLOWED_ORIGINS  optioneel: de websites die de functie mogen aanroepen (CORS), kommagescheiden. Vervangt de
+//                    standaardlijst (jsdesign.nl, jelgers3d.nl en jelgersieler.nl, elk ook met www, en de preview op
+//                    jelger1.github.io). SITE_URL en lokaal ontwikkelen (localhost, 127.0.0.1) mogen altijd; zie
+//                    herkomstLijst in logica.js.
 // SUPABASE_URL en de sleutel voor de database (SUPABASE_SECRET_KEYS of SUPABASE_SERVICE_ROLE_KEY) zet Supabase zelf.
 //
 // De functie draait zonder inlog ("verify_jwt = false"): de website is openbaar. Bescherming zit hierin:
@@ -31,7 +35,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.118.0';
 import {
 	controleer, controleerBestanden, spamSignaal, stilWeggooien, prijzen, ordernummer, ontcijferMail,
-	mailEigenaar, mailKlant, mailNieuwsbrief, mailHerinnering
+	mailEigenaar, mailKlant, mailNieuwsbrief, mailHerinnering, herkomstLijst, toegestaneHerkomst
 } from './logica.js';
 
 const SITE_URL = (Deno.env.get('SITE_URL') ?? 'https://jelgers3d.nl').replace(/\/$/, '');
@@ -43,7 +47,7 @@ const SERVICE_KEY = geheimeSleutel();
 const FUNCTIE_URL = SUPABASE_URL + '/functions/v1/formulier';
 const PORTFOLIO = { site: 'jelgersieler.nl', naam: 'JSdesign', url: 'https://jelgersieler.nl', slogan: 'Designer · Developer · Maker' };
 const MAIL_VAN_PORTFOLIO = Deno.env.get('MAIL_VAN_PORTFOLIO') ?? MAIL_VAN.replace(/^[^<]*</, PORTFOLIO.naam + ' <');
-const HERKOMST = [SITE_URL, SITE_URL.replace('://', '://www.'), PORTFOLIO.url, PORTFOLIO.url.replace('://', '://www.')];
+const HERKOMST = herkomstLijst(Deno.env.get('ALLOWED_ORIGINS'), SITE_URL); // CORS: ALLOWED_ORIGINS of de standaardlijst, plus SITE_URL
 const LIMIET_IP = 5;            // inzendingen per IP per 10 minuten
 const LIMIET_EMAIL = 5;         // inzendingen per e-mailadres per 24 uur
 const BUCKET = 'uploads';
@@ -81,8 +85,10 @@ async function winkel() {
 	return winkelCache.data;
 }
 
+// Een toegestane herkomst krijgt zichzelf terug, elke andere de eerste uit HERKOMST: dan geeft de browser het antwoord
+// niet door aan de pagina. De functie zelf weigert niets; voor aanroepen zonder browser (pg_cron) speelt CORS geen rol.
 function cors(herkomst: string | null) {
-	const toegestaan = herkomst && (HERKOMST.includes(herkomst) || /^http:\/\/localhost(:\d+)?$/.test(herkomst));
+	const toegestaan = toegestaneHerkomst(herkomst, HERKOMST);
 	return {
 		'Access-Control-Allow-Origin': toegestaan ? herkomst! : HERKOMST[0],
 		'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
