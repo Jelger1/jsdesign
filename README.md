@@ -14,7 +14,7 @@ npm run contract         # levert dist/ nog alles wat de oude webshop leverde?
 npm run catalogus-diff   # catalogus van jelgers3d.nl tegen die van dist/ (poort van cutover-stap 4)
 ```
 
-Beheer en werkwijze: zie `docs/`.
+Beheer en werkwijze: zie `docs/`. De Supabase-functie deploy je alleen volgens `docs/deploy-functie.md`.
 
 ## Controles en het contract met de oude webshop
 

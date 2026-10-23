@@ -24,6 +24,11 @@ const MODE = process.env.SITE_MODE === 'productie' ? 'productie' : 'preview';
 // De map waarin de site staat: "/" op jsdesign.nl, "/jsdesign/" in de preview op jelger1.github.io (alleen nodig
 // voor 404.html, de enige pagina met adressen vanaf de hoofdmap)
 const BASE = (process.env.BASE_PATH || '/').replace(/\/?$/, '/');
+// Git Bash op Windows maakt van "/jsdesign/" ongemerkt "C:/Program Files/Git/jsdesign/"
+if (!BASE.startsWith('/')) {
+	console.error('\nBASE_PATH moet met "/" beginnen, maar is "' + BASE + '". In Git Bash: zet MSYS_NO_PATHCONV=1 ervoor, of gebruik PowerShell.\n');
+	process.exit(1);
+}
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
 const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];

@@ -25,3 +25,6 @@ rebranding-video/
 # Originele lettertypebestanden (de site gebruikt WOFF2 in assets/fonts/; tools/fonts/Arimo-Bold.ttf blijft getrackt)
 /assets/**/*.ttf
 /assets/**/*.otf
+
+# Tijdelijke bestanden van de Supabase CLI
+supabase/.temp/
