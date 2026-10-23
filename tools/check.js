@@ -2,8 +2,9 @@
 // scripts en stylesheets? Is alle JSON-LD geldig? Heeft elke pagina precies één h1?
 // Daarnaast de SEO-regels van de bouwmodus (SITE_MODE, net als build.js):
 // - preview (standaard): elke pagina is noindex, robots.txt noemt geen sitemap en er laadt geen analytics;
-// - productie: wat in de sitemap staat is indexeerbaar en wat noindex is staat er niet in; afrekenen, bedankt,
-//   gereageerd en 404 blijven noindex; robots.txt noemt de sitemap; nergens staan nog links naar de oude domeinen.
+// - productie: noindex alleen op afrekenen, bedankt, gereageerd en 404 (die vier blijven noindex) en tot fase 3 op de
+//   pijler- en tussenpagina's; wat noindex is staat niet in de sitemap en de pagina's die de oude webshop liet
+//   indexeren staan er wel in; robots.txt noemt de sitemap; nergens in dist/ staan nog links naar de oude domeinen.
 // Basisbewust: adressen op site.url (https://jsdesign.nl/...) en vanaf de hoofdmap (/... in 404.html, met BASE_PATH
 // ervoor) worden bestanden in dist/. Zo worden ook canonical, og:image, JSON-LD, sitemap, feed, llms.txt en de
 // kennisbank nagelopen.
@@ -19,6 +20,17 @@ const SITE_URL = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/site.json'), '
 const ORGANISATIE = SITE_URL + '/#organization';
 // Pagina's die ook in productie niet in Google horen: stappen van een bestelling, de link uit mails en de 404
 const ALTIJD_NOINDEX = ['afrekenen.html', 'bedankt.html', 'gereageerd.html', '404.html'];
+// Paginatypes (body data-page) die tot fase 3 bewust noindex zijn: de pijlers en de tussenpagina's
+// (src/templates/pillar.js). Krijgt een type in fase 3 zijn volledige inhoud, haal het dan hier weg: vanaf dan is
+// noindex daar in productie een fout, net als op elke andere pagina buiten ALTIJD_NOINDEX.
+const NOINDEX_TOT_FASE_3 = ['pillar', 'placeholder'];
+// De pagina's die de oude webshop liet indexeren (28): alle pagina's uit de contractreferentie behalve ALTIJD_NOINDEX,
+// precies de vier die daar al noindex waren. In productie blijven ze indexeerbaar en staan ze in de sitemap, welk
+// paginatype ze ook krijgen; anders kost de domeinwissel hun plek in Google. Of ze bestaan, toetst npm run contract.
+const REFERENTIE = path.join(ROOT, 'tests/contract/referentie.json');
+const OUD_INDEXEERBAAR = fs.existsSync(REFERENTIE)
+	? JSON.parse(fs.readFileSync(REFERENTIE, 'utf8')).html.filter(function (page) { return ALTIJD_NOINDEX.indexOf(page) === -1; })
+	: [];
 // Nieuwe paginatypes (body data-page): daar is een te lange title of description een fout. De overige komen
 // 1-op-1 uit de oude webshop; daar is het een waarschuwing.
 const NIEUWE_TYPES = ['pillar', 'placeholder'];
@@ -30,11 +42,15 @@ const OUDE_DOMEINEN = ['jelgers3d.nl', 'jelgersieler.nl'].filter(function (domei
 const TEKSTBESTANDEN = /^(?:[^/]+\.(?:xml|txt)|ai\/[^/]+\.json|js\/winkel\.json)$/;
 
 // Bekende uitzondering tot fase 3 de homepage vervangt: de home is nog de oude homepage van de webshop
-// (src/pages/index.html, met het blok "Meer dan 3D") en linkt naar het portfolio op jelgersieler.nl. In productiemodus
-// is dat een waarschuwing in plaats van een fout, maar alleen voor jelgersieler.nl-links in dist/index.html en alleen
-// zolang src/pages/index.html dat blok ({{portfolioUrl}}) bevat. Daarna vervalt de uitzondering vanzelf.
+// (src/pages/index.html, met het blok "Meer dan 3D") en linkt naar het portfolio op jelgersieler.nl. Alleen met
+// OUDE_HOME_UITZONDERING=1, en dat zet alleen de pull-request-controle (ci.yml), is dat in productiemodus een
+// waarschuwing in plaats van een fout. Dan nog alleen voor jelgersieler.nl-links in dist/index.html en zolang
+// src/pages/index.html dat blok ({{portfolioUrl}}) bevat; daarna vervalt de uitzondering vanzelf. Bij het publiceren
+// (deploy.yml) en bij de SEO-poort van de livegang (§10.3 stap 3) geldt ze niet: daar bewijst een groene check dat
+// dist/ geen links naar de oude domeinen meer heeft.
 const OUDE_HOME = path.join(ROOT, 'src/pages/index.html');
 const OUDE_HOME_ACTIEF = fs.existsSync(OUDE_HOME) && fs.readFileSync(OUDE_HOME, 'utf8').indexOf('{{portfolioUrl}}') > -1;
+const OUDE_HOME_UITZONDERING = process.env.OUDE_HOME_UITZONDERING === '1';
 
 const problems = [];
 const warnings = [];
@@ -141,10 +157,11 @@ function urlsIn(value, found) {
 
 const SITE_URL_RE = new RegExp(escapeRegex(SITE_URL) + '(?:/[^\\s"\'<>)\\]]*)?', 'g');
 const OUD_RE = OUDE_DOMEINEN.length
-	? new RegExp('(?:https?:)?//(?:[a-z0-9-]+\\.)*(?:' + OUDE_DOMEINEN.map(escapeRegex).join('|') + ')(?![\\w-]|\\.\\w)[^\\s"\'<>)\\]]*', 'gi')
+	? new RegExp('(?:https?:)?//(?:[a-z0-9-]+\\.)*(?:' + OUDE_DOMEINEN.map(escapeRegex).join('|') + ')(?![\\w-]|\\.\\w)[^\\s"\'`<>)\\]]*', 'gi')
 	: null;
 
-// Productie: geen links naar de oude domeinen, op de bekende uitzondering (zie OUDE_HOME) na
+// Productie: geen links naar de oude domeinen. De jelgersieler.nl-links van de oude homepage zijn alleen met
+// OUDE_HOME_UITZONDERING=1 een waarschuwing (zie OUDE_HOME); zonder die vlag zijn ook zij een fout.
 function checkOldDomains(rel, text) {
 	if (MODE !== 'productie' || !OUD_RE) return;
 	const urls = Array.from(new Set(text.match(OUD_RE) || []));
@@ -152,7 +169,8 @@ function checkOldDomains(rel, text) {
 		return OUDE_HOME_ACTIEF && rel === 'index.html' && /^(?:https?:)?\/\/(?:www\.)?jelgersieler\.nl(?![\w-]|\.\w)/i.test(url);
 	});
 	const wrong = urls.filter(function (url) { return known.indexOf(url) === -1; });
-	if (known.length) warnings.push(rel + ': ' + known.length + ' link(s) naar jelgersieler.nl uit de oude homepage (src/pages/index.html); bekende uitzondering tot fase 3 de homepage vervangt');
+	if (known.length && OUDE_HOME_UITZONDERING) warnings.push(rel + ': ' + known.length + ' link(s) naar jelgersieler.nl uit de oude homepage (src/pages/index.html); bekende uitzondering (OUDE_HOME_UITZONDERING=1) tot fase 3 de homepage vervangt');
+	else if (known.length) problems.push(rel + ': ' + known.length + ' link(s) naar jelgersieler.nl uit de oude homepage (src/pages/index.html). Tot fase 3 de homepage vervangt, is dat alleen in de pull-request-controle een bekende uitzondering (OUDE_HOME_UITZONDERING=1 in ci.yml); om in productie te publiceren moeten ze weg zijn');
 	if (wrong.length) problems.push(rel + ': link(s) naar een oud domein: ' + wrong.join(', '));
 }
 
@@ -175,6 +193,7 @@ if (fs.existsSync(sitemapFile)) {
 } else if (MODE === 'productie') {
 	problems.push('sitemap.xml ontbreekt');
 }
+if (MODE === 'productie' && !fs.existsSync(REFERENTIE)) problems.push('tests/contract/referentie.json ontbreekt: zonder die lijst gaat deze controle niet na of de pagina\'s van de oude webshop indexeerbaar blijven');
 
 files.filter(function (f) { return f.endsWith('.html'); }).forEach(function (file) {
 	pageCount++;
@@ -246,7 +265,7 @@ files.filter(function (f) { return f.endsWith('.html'); }).forEach(function (fil
 	else if (ogImages[0].indexOf(SITE_URL + '/') !== 0) problems.push(rel + ': og:image "' + ogImages[0] + '" staat niet op ' + SITE_URL);
 	else if (!fs.existsSync(toFile(ogImages[0], file))) problems.push(rel + ': og:image "' + ogImages[0] + '" bestaat niet in dist/');
 
-	// Indexering: in de preview nooit; in productie in overeenstemming met de sitemap
+	// Indexering: in de preview nooit; in productie alleen waar het hoort, en in overeenstemming met de sitemap
 	const robots = tagValues(html, 'meta', 'name', 'robots', 'content')[0];
 	const noindex = /\bnoindex\b/i.test(robots || '');
 	if (MODE === 'preview') {
@@ -254,8 +273,14 @@ files.filter(function (f) { return f.endsWith('.html'); }).forEach(function (fil
 		// Alleen het laden zelf telt (gtm.js, gtag/js), niet een vermelding van het domein, zoals in een CSP
 		if (/googletagmanager\.com\/(?:gtm\.js|gtag\/js|ns\.html)/.test(html)) problems.push(rel + ': laadt Google Tag Manager (in de preview laadt geen analytics)');
 	} else {
+		// build.js laat een noindex-pagina zelf uit de sitemap, dus "noindex en in de sitemap" vangt een verkeerde noindex
+		// niet. Daarom apart: noindex mag alleen op ALTIJD_NOINDEX en tot fase 3 op de types van NOINDEX_TOT_FASE_3, en
+		// nooit op een pagina die de oude webshop liet indexeren.
+		const oud = OUD_INDEXEERBAAR.indexOf(rel) > -1;
+		const magNoindex = ALTIJD_NOINDEX.indexOf(rel) > -1 || (NOINDEX_TOT_FASE_3.indexOf(type) > -1 && !oud);
+		if (noindex && !magNoindex) problems.push(rel + ': heeft noindex in productie' + (oud ? ', terwijl de oude webshop deze pagina liet indexeren' : '') + ' (noindex mag alleen op ' + ALTIJD_NOINDEX.join(', ') + ' en tot fase 3 op de paginatypes ' + NOINDEX_TOT_FASE_3.join(' en ') + ')');
 		if (noindex && inSitemap.has(rel)) problems.push(rel + ': heeft noindex maar staat in de sitemap');
-		if (!noindex && !inSitemap.has(rel)) warnings.push(rel + ': is indexeerbaar maar staat niet in de sitemap');
+		if (!noindex && !inSitemap.has(rel)) (oud ? problems : warnings).push(rel + ': is indexeerbaar maar staat niet in de sitemap' + (oud ? ' (in de oude webshop stond hij er wel in)' : ''));
 		if (ALTIJD_NOINDEX.indexOf(rel) > -1 && !noindex) problems.push(rel + ': moet ook in productie noindex hebben');
 	}
 
@@ -282,6 +307,15 @@ files.map(relative).filter(function (rel) { return TEKSTBESTANDEN.test(rel); }).
 	(text.match(SITE_URL_RE) || []).forEach(function (url) { checkUrl(decode(url).replace(/[.,;:!?]+$/, ''), rel); });
 	checkOldDomains(rel, text);
 });
+
+// Productie: ook de scripts, stylesheets, SVG's, overige JSON en het webmanifest linken niet naar de oude domeinen.
+// Hier alleen die controle; volledige adressen lopen de pagina's en tekstbestanden hierboven al na.
+if (MODE === 'productie') files.map(relative).filter(function (rel) {
+	return /\.(?:m?js|css|svg|json|webmanifest|xml|txt|vtt)$/i.test(rel) && !TEKSTBESTANDEN.test(rel);
+}).forEach(function (rel) {
+	checkOldDomains(rel, fs.readFileSync(path.join(DIST, rel), 'utf8'));
+});
+if (MODE === 'productie' && OUDE_HOME_UITZONDERING && !OUDE_HOME_ACTIEF) warnings.push('OUDE_HOME_UITZONDERING=1 is niet meer nodig: de oude homepage is vervangen. Haal de vlag weg uit .github/workflows/ci.yml');
 
 // robots.txt: in productie met de sitemap erin, in de preview zonder (die pagina's zijn noindex)
 const robotsFile = path.join(DIST, 'robots.txt');

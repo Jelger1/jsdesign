@@ -55,13 +55,17 @@ jobs:
 
       # De productiebuild voor jsdesign.nl zelf.
       # Bekende uitzondering, tot fase 3 de homepage vervangt: de huidige home is nog de oude homepage van de webshop
-      # (src/pages/index.html, blok "Meer dan 3D") en linkt naar het portfolio op jelgersieler.nl. tools/check.js meldt
-      # die links als waarschuwing, maar alleen op die pagina en alleen zolang src/pages/index.html dat blok bevat.
-      # Elke andere link naar jelgers3d.nl of jelgersieler.nl, en elke andere productiefout, laat deze stap falen.
+      # (src/pages/index.html, blok "Meer dan 3D") en linkt naar het portfolio op jelgersieler.nl. Met
+      # OUDE_HOME_UITZONDERING=1 meldt tools/check.js die links als waarschuwing, maar alleen op die pagina en alleen
+      # zolang src/pages/index.html dat blok bevat. Elke andere link naar jelgers3d.nl of jelgersieler.nl, en elke
+      # andere productiefout, laat deze stap falen. De vlag staat alleen hier: bij het publiceren (deploy.yml) en bij
+      # de SEO-poort van de livegang geldt de uitzondering niet. Haal de regel weg zodra fase 3 de home heeft vervangen
+      # (check.js waarschuwt dan dat hij niet meer nodig is).
       - name: Bouwen en controleren (productie)
         env:
           SITE_MODE: productie
           BASE_PATH: /
+          OUDE_HOME_UITZONDERING: '1'
         run: |
           npm run build
           npm run check

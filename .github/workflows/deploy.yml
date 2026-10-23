@@ -11,7 +11,18 @@
 # - BASE_PATH: niet gezet = "/jsdesign/": de preview op https://jelger1.github.io/jsdesign/.
 # Naar productie (livegang, MERGEPLAN §10.3 stap 2): stel eerst bij Settings > Pages het custom domain jsdesign.nl in
 # (een CNAME-bestand telt bij Actions niet), zet dan SITE_MODE op "productie" en BASE_PATH op "/" en start deze
-# workflow met Run workflow. Terug naar de preview: beide variabelen verwijderen en opnieuw starten.
+# workflow met Run workflow.
+# Terug naar de preview (terugvalmatrix §10.3, na stap 2–3), in deze volgorde: haal eerst bij Settings > Pages het
+# custom domain jsdesign.nl weg (of zet de DNS terug), verwijder daarna SITE_MODE en BASE_PATH en start de workflow
+# opnieuw. Andersom bouwt hij met BASE_PATH /jsdesign/ terwijl de site nog op de hoofdmap van jsdesign.nl draait; dan
+# wijzen onder meer de paden in 404.html naar jsdesign.nl/jsdesign/... en breken ze.
+#
+# In productiemodus moet npm run check hier zonder uitzondering slagen. De bekende uitzondering voor de oude homepage
+# (OUDE_HOME_UITZONDERING, zie ci.yml) staat hier bewust niet aan: zolang de home nog naar jelgersieler.nl linkt, faalt
+# een productiebuild hier. Ga dus pas naar productie als fase 3 de home heeft vervangen.
+# npm run contract houdt elke publicatie tegen zodra dist/ afwijkt van de oude webshop, ook bij een bewuste wijziging
+# (een nieuw product, een andere prijs, een nieuwe sleutel in winkel.json) en ook de nachtelijke build. Leg zo'n
+# afwijking in dezelfde commit vast in AFWIJKINGEN in tools/contract.mjs (zie de README).
 #
 # Let op: in een openbare repo zet GitHub geplande workflows uit na 60 dagen zonder activiteit in de repo. Dan stopt
 # de nachtelijke build zonder melding, en blijft bijvoorbeeld een verlopen introductieprijs op de site staan.
