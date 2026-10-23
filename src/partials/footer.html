@@ -1,34 +1,55 @@
 <footer class="site-footer">
 	<div class="footer-inner">
 		{{newsletter}}
-		<ul class="footer-tagline">
-			{{usps}}
-		</ul>
-		<nav class="foot-categories" aria-label="Categorieën">
-			{{categoryLinks}}
-		</nav>
+		<div class="footer-grid">
+			<div class="footer-brand">
+				<a class="brand" href="{{home}}" aria-label="JS Design, naar de homepage">{{logo}}</a>
+				<p class="footer-about">{{description}}</p>
+				<p class="footer-former">Voorheen JelgerS3D</p>
+			</div>
+			<nav class="footer-col" aria-labelledby="footer-diensten">
+				<h2 id="footer-diensten">Diensten</h2>
+				<ul>
+					{{pillarLinks}}
+				</ul>
+			</nav>
+			<nav class="footer-col" aria-labelledby="footer-webshop">
+				<h2 id="footer-webshop">Webshop</h2>
+				<ul>
+					<li><a href="{{root}}webshop.html">Alle ontwerpen</a></li>
+					{{categoryLinks}}
+					<li><a href="{{root}}3d-printservice.html">3D-printservice</a></li>
+				</ul>
+			</nav>
+			<nav class="footer-col" aria-labelledby="footer-studio">
+				<h2 id="footer-studio">JS Design</h2>
+				<ul>
+					<li><a href="{{root}}portfolio/">Portfolio</a></li>
+					<li><a href="{{root}}over.html">Over</a></li>
+					<li><a href="{{root}}contact.html">Contact</a></li>
+					<li><a href="{{root}}nieuwsbrief.html">Nieuwsbrief</a></li>
+				</ul>
+			</nav>
+		</div>
 		<!-- Wettelijk verplichte bedrijfsgegevens (informatieplicht webwinkels, art. 3:15d BW) -->
 		<address class="footer-business">
-			<strong>{{name}}</strong> · {{addressLine}}<br>
+			<strong>{{name}}</strong> (voorheen JelgerS3D) · {{owner}} · {{addressLine}}<br>
 			KvK {{kvk}} · Btw {{btw}} · {{emailLink}}
 		</address>
-		<nav class="foot-nav" aria-label="Footermenu">
-			<a href="{{home}}">Home</a>
-			<span class="separator" aria-hidden="true">·</span>
-			<a href="{{root}}webshop.html">Webshop</a>
-			<span class="separator" aria-hidden="true">·</span>
-			<a href="{{root}}3d-printservice.html">3D-printservice</a>
-			<span class="separator" aria-hidden="true">·</span>
-			<a href="{{instagram}}" target="_blank" rel="noopener noreferrer">Instagram</a>
-			<span class="separator" aria-hidden="true">·</span>
-			<a href="{{portfolio}}" target="_blank" rel="noopener">Portfolio: web &amp; branding</a>
-			<span class="separator" aria-hidden="true">·</span>
-			<a href="{{root}}privacy.html">Privacyverklaring</a>
-			<span class="separator" aria-hidden="true">·</span>
-			<a href="{{root}}voorwaarden.html">Algemene voorwaarden</a>
-			<span class="separator" aria-hidden="true">·</span>
-			<button type="button" class="foot-link-button" data-cookie-settings>Cookie-instellingen</button>
-		</nav>
-		<p class="footer-copyright">© {{year}} {{name}} · 3D-design met karakter · Handgemaakt in Limburg</p>
+		<div class="footer-bottom">
+			<p class="footer-copyright">© {{year}} {{name}} · {{slogan}}</p>
+			<ul class="footer-socials">
+				<li><a href="{{instagram}}" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+				<li><a href="{{linkedin}}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+				<li><a href="{{github}}" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+			</ul>
+			<nav class="foot-nav" aria-label="Juridisch">
+				<a href="{{root}}privacy.html">Privacyverklaring</a>
+				<span class="separator" aria-hidden="true">·</span>
+				<a href="{{root}}voorwaarden.html">Algemene voorwaarden</a>
+				<span class="separator" aria-hidden="true">·</span>
+				<button type="button" class="foot-link-button" data-cookie-settings>Cookie-instellingen</button>
+			</nav>
+		</div>
 	</div>
 </footer>

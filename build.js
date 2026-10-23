@@ -12,10 +12,18 @@ const productPage = require('./src/templates/product');
 const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
 const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage } = require('./src/templates/pages');
+const { pillarPage, placeholderPages } = require('./src/templates/pillar');
+const discovery = require('./src/templates/discovery');
 const h = require('./src/templates/helpers');
 
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
+// Bouwmodus. "preview" (standaard, ook lokaal): niets wordt geïndexeerd en er laadt geen analytics.
+// "productie": alleen voor jsdesign.nl zelf, gezet door de deploy-workflow (repo-variabele SITE_MODE).
+const MODE = process.env.SITE_MODE === 'productie' ? 'productie' : 'preview';
+// De map waarin de site staat: "/" op jsdesign.nl, "/jsdesign/" in de preview op jelger1.github.io (alleen nodig
+// voor 404.html, de enige pagina met adressen vanaf de hoofdmap)
+const BASE = (process.env.BASE_PATH || '/').replace(/\/?$/, '/');
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
 const CSS_FILES = ['fonts.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css', 'brand.css'];
@@ -120,6 +128,23 @@ function validate(products, reviews, site) {
 	return { errors: errors, warnings: warnings, todos: todos };
 }
 
+// De pijlers (data/pillars.json): elk een eigen pagina, titel en omschrijving binnen de grenzen van Google
+function validatePillars(pillars, site, report) {
+	const paths = new Set();
+	pillars.forEach(function (p) {
+		const where = 'pillars.json > "' + p.id + '"';
+		if (!/^[a-z0-9-]+\.html$/.test(p.path || '')) report.errors.push(where + ': path moet eindigen op .html en alleen a-z, 0-9 en - bevatten');
+		if (paths.has(p.path)) report.errors.push(where + ': path komt dubbel voor');
+		paths.add(p.path);
+		if (!p.seo || !p.seo.title || !p.seo.description) report.errors.push(where + ': seo.title en seo.description zijn verplicht');
+		else {
+			const titel = p.seo.title.length + site.name.length + 3;
+			if (titel > 60) report.errors.push(where + ': de titel wordt met " | ' + site.name + '" ' + titel + ' tekens (maximaal 60)');
+			if (p.seo.description.length > 155) report.errors.push(where + ': seo.description is ' + p.seo.description.length + ' tekens (maximaal 155)');
+		}
+	});
+}
+
 // Introductieprijs ("intro": { "price": 49.95, "until": "2026-12-31" }). Zolang die loopt is dat de echte prijs:
 // op de kaart, op de productpagina, in de winkelwagen, in de productfeed en in schema.org. Is de datum voorbij,
 // dan rekent de site vanaf de eerstvolgende build vanzelf weer de gewone prijs uit "variants".
@@ -169,13 +194,14 @@ function buildCatalog(products, images) {
 // Voor de Supabase-functie "formulier" (supabase/functions/formulier): bedrijfsgegevens, de actuele prijzen en de
 // productfoto's voor de mails, zodat de bevestiging precies dezelfde prijzen noemt als de site. Eén bron: data/*.json.
 // Het e-mailadres staat er net als op de pagina's gecodeerd in (zie mailCode in src/templates/helpers.js).
-function buildWinkel(products, images, site) {
+// De slogan is die van de webshop (shop.json), niet de merkregel van JS Design: de mails gaan over bestellingen.
+function buildWinkel(products, images, site, shop) {
 	const a = site.address || {};
 	const catalogus = catalogData(products, images);
 	products.forEach(function (p) { catalogus[p.id].mailImage = 'assets/mail/' + mailImageName(p, images); });
 	return JSON.stringify({
 		winkel: {
-			naam: site.name, eigenaar: site.owner, mail: h.mailCode(site.email), url: site.url, instagram: site.instagram, slogan: site.slogan,
+			naam: site.name, eigenaar: site.owner, mail: h.mailCode(site.email), url: site.url, instagram: site.instagram, slogan: shop.slogan,
 			adres: [a.street, [a.postcode, a.city].filter(Boolean).join(' ')].filter(Boolean).join(', '),
 			kvk: site.kvk, btw: site.btw, ophaalplaats: site.pickupLocation, levertijd: site.delivery.leadTimeLong
 		},
@@ -238,7 +264,7 @@ async function buildBrandImages() {
 }
 
 // Productfeed voor Google Merchant Center (dist/feed.xml): één regel per bestelbare variant.
-function buildFeed(products, images, site) {
+function buildFeed(products, images, site, shop) {
 	function x(value) { return h.esc(value).replace(/'/g, '&apos;'); }
 	const items = [];
 	products.filter(function (p) { return p.sale === 'cart'; }).forEach(function (p) {
@@ -263,18 +289,24 @@ function buildFeed(products, images, site) {
 		});
 	});
 	return '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n\t<channel>\n'
-		+ '\t\t<title>' + x(site.name) + '</title>\n\t\t<link>' + x(site.url) + '</link>\n\t\t<description>' + x(site.slogan) + '</description>\n'
+		+ '\t\t<title>' + x(site.name) + '</title>\n\t\t<link>' + x(site.url) + '</link>\n\t\t<description>' + x(shop.slogan) + '</description>\n'
 		+ items.join('\n') + '\n\t</channel>\n</rss>\n';
 }
 
 async function build() {
 	const started = Date.now();
-	const site = readJson('data/site.json');
+	// Merk en bedrijf (site.json) en de webshop (shop.json) zijn aparte bestanden. Templates lezen ze als één
+	// object "site"; bij dezelfde sleutel wint het merk (site.json).
+	const brand = readJson('data/site.json');
+	const shop = readJson('data/shop.json');
+	const site = Object.assign({}, shop, brand);
+	const pillars = readJson('data/pillars.json');
 	const products = readJson('data/products.json');
 	const reviews = readJson('data/reviews.json');
 
 	const today = new Date().toISOString().slice(0, 10);
 	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
+	validatePillars(pillars, site, report);
 	if (report.errors.length) {
 		console.error('\nBuild gestopt, los eerst deze fouten op:\n - ' + report.errors.join('\n - ') + '\n');
 		process.exit(1);
@@ -282,7 +314,10 @@ async function build() {
 	applyIntro(products, today);
 
 	// 1. Afbeeldingen (incrementeel)
-	const ogFor = products.map(function (p) { return p.images[0].file; }).concat(site.defaultOgImage);
+	// Elke foto die een pagina als deelbeeld gebruikt, krijgt een OG-versie (1200x630). Eerder kreeg de foto bovenaan
+	// de 3D-printservice er geen, waardoor die pagina og:image ".../og/undefined" had.
+	const ogFor = products.map(function (p) { return p.images[0].file; })
+		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file);
 	// Elke productfoto krijgt een uitsnede met het product in het midden (zie "subject" in products.json)
 	const crops = {};
 	products.forEach(function (p) {
@@ -307,7 +342,7 @@ async function build() {
 	const images = imageResult.manifest;
 
 	// 2. Oude gegenereerde bestanden opruimen (de afbeeldingen blijven staan)
-	['css', 'js', 'producten'].forEach(function (dir) {
+	['css', 'js', 'producten', 'portfolio', 'ai'].forEach(function (dir) {
 		fs.rmSync(path.join(DIST, dir), { recursive: true, force: true });
 	});
 
@@ -326,7 +361,7 @@ async function build() {
 
 	write('css/styles.css', css);
 	write('js/catalog.js', catalog);
-	write('js/winkel.json', buildWinkel(products, images, site));
+	write('js/winkel.json', buildWinkel(products, images, site, shop));
 	jsFiles.forEach(function (f) { write('js/' + f, versionImports(read('src/js/' + f), version)); });
 	if (bundles.length) {
 		require('esbuild').buildSync({
@@ -363,33 +398,49 @@ async function build() {
 	const byId = {};
 	products.forEach(function (p) { byId[p.id] = p; });
 	const ctx = {
-		site: site, products: products, reviews: reviews, images: images, byId: byId,
-		version: version, year: new Date().getFullYear(),
+		site: site, brand: brand, shop: shop, pillars: pillars, products: products, reviews: reviews, images: images, byId: byId,
+		version: version, year: new Date().getFullYear(), mode: MODE, base: BASE,
 		fonts: PRELOAD_FONTS,
 		partials: {
 			header: read('src/partials/header.html'),
 			footer: read('src/partials/footer.html'),
 			curtain: read('src/partials/curtain.html'),
-			cart: read('src/partials/cart.html')
+			cart: read('src/partials/cart.html'),
+			logo: read('src/partials/logo.svg').trim()
 		}
 	};
 
-	const pages = [homePage(ctx, read('src/pages/index.html')), shopPage(ctx)]
+	// Alle pagina's van de site. Volgorde: home, de drie pijlers, webshop, overige pagina's, producten.
+	const pages = [homePage(ctx, read('src/pages/index.html'))]
+		.concat(pillars.map(function (p) { return pillarPage(p, ctx); }))
+		.concat(placeholderPages(ctx))
+		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
 		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
-	pages.forEach(function (page) { write(page.path, layout(page, ctx)); });
+	const seen = new Set();
+	pages.forEach(function (page) {
+		if (seen.has(page.path)) throw new Error('Twee pagina\'s met hetzelfde pad: ' + page.path);
+		seen.add(page.path);
+		write(page.path, layout(page, ctx));
+	});
 
-	// 6. sitemap.xml en robots.txt
+	// 6. Voor zoekmachines en AI-assistenten: sitemap.xml, robots.txt, llms.txt en de kennisbank van Jelly-bot
 	write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 		+ pages.filter(function (p) { return !p.noindex; }).map(function (p) {
-			return '\t<url><loc>' + site.url + '/' + (p.path === 'index.html' ? '' : p.path) + '</loc><lastmod>' + today + '</lastmod></url>';
+			const loc = p.path === 'index.html' ? '' : p.path.replace(/(^|\/)index\.html$/, '$1');
+			return '\t<url><loc>' + site.url + '/' + loc + '</loc><lastmod>' + today + '</lastmod></url>';
 		}).join('\n') + '\n</urlset>\n');
-	write('feed.xml', buildFeed(products, images, site));
-	write('robots.txt', 'User-agent: *\nAllow: /\n\nSitemap: ' + site.url + '/sitemap.xml\n');
+	write('feed.xml', buildFeed(products, images, site, shop));
+	write('robots.txt', discovery.robots(site, MODE));
+	write('llms.txt', discovery.llms(ctx, false));
+	write('llms-full.txt', discovery.llms(ctx, true));
+	write('ai/kennis.json', JSON.stringify(discovery.kennis(ctx), null, '\t') + '\n');
+	// Bouwmarker: bij de livegang is hiermee te controleren dat jsdesign.nl echt de juiste build serveert
+	write('build.txt', 'versie=' + version + '\nmodus=' + MODE + '\ncommit=' + (process.env.GITHUB_SHA || 'lokaal') + '\ngebouwd=' + new Date().toISOString() + '\n');
 
 	// 7. Verslag
-	console.log('\n✓ ' + pages.length + ' pagina\'s gebouwd in dist/ (' + products.length + ' producten, versie ' + version + ')');
+	console.log('\n✓ ' + pages.length + ' pagina\'s gebouwd in dist/ (' + products.length + ' producten, versie ' + version + ', modus ' + MODE + (MODE === 'preview' ? ': niet indexeerbaar, geen analytics' : '') + ')');
 	console.log('✓ Afbeeldingen: ' + imageResult.processed + ' nieuw verwerkt, ' + imageResult.total + ' totaal');
 	if (report.warnings.length) console.log('\nWaarschuwingen:\n - ' + report.warnings.join('\n - '));
 	// Een introductieprijs is een belofte met een datum: laat zien wanneer hij afloopt of dat hij voorbij is

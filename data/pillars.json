@@ -1,0 +1,48 @@
+[
+	{
+		"id": "branding",
+		"label": "Branding",
+		"path": "design-branding.html",
+		"color": "raspberry",
+		"h1": "Design & branding",
+		"summary": "Logo's en huisstijlen.",
+		"services": ["Merkidentiteit en logo", "Huisstijl", "Visual design: verpakking, merch en social", "UI/UX-design"],
+		"seo": {
+			"title": "Logo en huisstijl laten maken · branding",
+			"description": "Logo, huisstijl en visuele identiteit laten maken bij JS Design in Kerkrade: van merkidentiteit en UI/UX-design tot verpakking, merch en social."
+		},
+		"links": []
+	},
+	{
+		"id": "digitaal",
+		"label": "Digitaal",
+		"path": "websites-interactie.html",
+		"color": "aqua",
+		"h1": "Websites & interactieve verhalen",
+		"summary": "Slimme websites op maat, én interactieve stories die een verhaal online laten leven.",
+		"services": ["Websites op maat", "Webshops op maat", "Front-end development", "Interactieve verhalen (scrollytelling)"],
+		"seo": {
+			"title": "Website op maat & interactieve verhalen",
+			"description": "Een website op maat met precies de functies die je nodig hebt, of een interactief verhaal online. JS Design ontwerpt en bouwt het, in Kerkrade."
+		},
+		"links": []
+	},
+	{
+		"id": "tastbaar",
+		"label": "Tastbaar",
+		"path": "3d-printen.html",
+		"color": "sage",
+		"h1": "3D-printen & prototyping",
+		"summary": "3D-ontwerpen, prototypes en maatwerk.",
+		"services": ["3D-ontwerp", "3D-printen", "Prototypes en kleine series", "Maatwerk voor bedrijven en musea"],
+		"seo": {
+			"title": "3D-printen & prototyping in Limburg",
+			"description": "3D-ontwerp, 3D-printen en prototypes uit Kerkrade, Limburg. Maatwerk voor particulieren, bedrijven en musea, en een eigen webshop met Limburgse ontwerpen."
+		},
+		"links": [
+			{ "label": "Naar de webshop", "path": "webshop.html" },
+			{ "label": "Eigen 3D-bestand laten printen", "path": "3d-printservice.html" },
+			{ "label": "Maatwerk: de Custom Lightbox", "path": "producten/custom-lightbox.html" }
+		]
+	}
+]

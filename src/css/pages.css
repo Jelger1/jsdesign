@@ -137,7 +137,7 @@
 	.newsletter-row .btn{width:100%}
 }
 
-/* jelgers3d.nl/nieuwsbrief: aanmeldpagina om te delen op social media (newsletterPage in src/templates/pages.js) */
+/* jsdesign.nl/nieuwsbrief: aanmeldpagina om te delen op social media (newsletterPage in src/templates/pages.js) */
 .newsletter-page{padding-top:clamp(2rem, 5vw, 4rem);padding-bottom:clamp(2.5rem, 6vw, 5rem)}
 .newsletter-hero{display:grid;grid-template-columns:minmax(0, 1.1fr) minmax(0, 0.9fr);gap:clamp(2rem, 5vw, 4rem);align-items:center}
 .newsletter-hero h1{font-size:clamp(2rem, 4.5vw, 3.1rem);line-height:1.1;margin:0 0 1rem 0}

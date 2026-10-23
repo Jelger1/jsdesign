@@ -47,7 +47,7 @@ http.createServer(function (req, res) {
 		res.end(content);
 	});
 }).listen(PORT, function () {
-	console.log('\nJelgerS3D draait op http://localhost:' + PORT + '  (stoppen: Ctrl+C)\n');
+	console.log('\nJS Design draait op http://localhost:' + PORT + '  (stoppen: Ctrl+C)\n');
 });
 
 build();

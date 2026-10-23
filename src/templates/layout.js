@@ -1,49 +1,71 @@
 // Het HTML-skelet van elke pagina: <head> met SEO-tags, header, footer, winkelwagen.
 const h = require('./helpers');
+const seo = require('./seo');
 
-// page: { path, root, name, title, description, ogImage, ogType, jsonLd[], preload, main, noindex }
+// Menu-onderdelen en de pagina waar ze naartoe gaan
+const NAV = {
+	branding: 'design-branding.html', digitaal: 'websites-interactie.html', tastbaar: '3d-printen.html',
+	portfolio: 'portfolio/index.html', webshop: 'webshop.html', over: 'over.html', contact: 'contact.html'
+};
+// Bij welk menu-onderdeel een pagina hoort als ze er zelf niet in staat (voor de markering in het menu)
+const SECTION_BY_NAME = { shop: 'webshop', category: 'webshop', product: 'webshop', checkout: 'webshop', thanks: 'webshop' };
+const PILLARS = ['branding', 'digitaal', 'tastbaar'];
+
+// page: { path, root, name, section, pillar, title, description, ogImage, ogType, schemaType, jsonLd[], preload, main, noindex }
 function layout(page, ctx) {
 	const site = ctx.site;
 	const root = page.root || '';
-	const canonical = site.url + '/' + (page.path === 'index.html' ? '' : page.path);
-	const ogImage = site.url + '/assets/og/' + page.ogImage;
+	const productie = ctx.mode === 'productie';
+	const canonicalPath = page.path === 'index.html' ? '' : page.path.replace(/(^|\/)index\.html$/, '$1');
+	const canonical = site.url + '/' + canonicalPath;
+	const defaultOg = ctx.images[site.defaultOgImage].og;
+	const ogImage = site.url + '/assets/og/' + (page.ogImage || defaultOg);
 	const v = '?v=' + ctx.version;
+	// In de preview (en lokaal) nooit indexeren; in productie alleen pagina's die daar zelf om vragen niet
+	const noindex = page.noindex || !productie;
+
+	const section = page.section || SECTION_BY_NAME[page.name] || (page.path === '3d-printservice.html' ? 'tastbaar' : '');
+	const pillar = page.pillar || (PILLARS.indexOf(section) > -1 ? section : (section === 'webshop' ? 'tastbaar' : ''));
 
 	// Links naar de homepage gaan naar de map ("./", "../" of "/"), niet naar index.html: dat is voor Google een
 	// tweede adres van dezelfde pagina
 	const home = root || './';
-	let header = h.fill(ctx.partials.header, {
-		root: root,
-		home: home,
-		currentShop: page.name === 'shop' ? ' aria-current="page"' : '',
-		currentPrint: page.path === '3d-printservice.html' ? ' aria-current="page"' : ''
+	const headerValues = { root: root, home: home, logo: ctx.partials.logo };
+	Object.keys(NAV).forEach(function (key) {
+		headerValues['nav:' + key] = page.path === NAV[key] ? ' aria-current="page"' : (section === key ? ' data-ancestor' : '');
 	});
-	// Op de homepage zelf scrollen de ankerlinks binnen de pagina
+	let header = h.fill(ctx.partials.header, headerValues);
 	if (page.name === 'home') header = header.replace(/href="\.\/#/g, 'href="#');
 
+	const socials = site.socials || {};
 	const footer = h.fill(ctx.partials.footer, {
 		root: root,
 		home: home,
+		logo: ctx.partials.logo,
 		year: String(ctx.year),
 		name: h.esc(site.name),
-		emailLink: h.mailLink(site.email, home),
+		owner: h.esc(site.owner),
+		slogan: h.esc(site.slogan),
+		description: h.esc(site.description),
+		emailLink: h.mailLink(site.email, root),
 		addressLine: h.addressLine(site),
 		kvk: h.esc(site.kvk),
 		btw: h.esc(site.btw),
-		instagram: h.esc(site.instagram),
-		portfolio: h.esc(site.portfolio.url),
+		instagram: h.esc(socials.instagram || site.instagram),
+		linkedin: h.esc(socials.linkedin || ''),
+		github: h.esc(socials.github || ''),
 		// Aanmelden voor de nieuwsbrief, behalve waar de pagina dat zelf al vraagt (bedankt) of net bevestigt
 		newsletter: page.name === 'thanks' || page.name === 'confirm' ? '' : '<section class="footer-newsletter" aria-labelledby="footer-newsletter-heading">'
 			+ '<div class="footer-newsletter-text"><h2 id="footer-newsletter-heading">Als eerste horen over nieuwe ontwerpen?</h2>'
 			+ '<p>Laat je e-mailadres achter. Je krijgt alleen een mail als er iets nieuws is, en afmelden kan altijd.</p></div>'
 			+ h.nieuwsbriefForm('footer', root)
 			+ '</section>',
+		pillarLinks: ctx.pillars.map(function (p) {
+			return '<li><a href="' + root + p.path + '" data-pillar="' + p.id + '">' + h.esc(p.label) + '</a></li>';
+		}).join('\n\t\t\t\t\t'),
 		categoryLinks: (site.categoryPages || []).map(function (cat) {
-			return '<a href="' + root + cat.slug + '.html">' + h.esc(cat.label) + '</a>';
-		}).join('\n\t\t\t'),
-		usps: site.usps.map(function (usp) {
-			return '<li><span class="check" aria-hidden="true">✓</span> ' + h.esc(usp) + '</li>';
-		}).join('\n\t\t\t')
+			return '<li><a href="' + root + cat.slug + '.html">' + h.esc(cat.label) + '</a></li>';
+		}).join('\n\t\t\t\t\t')
 	});
 
 	const cart = h.fill(ctx.partials.cart, {
@@ -51,11 +73,10 @@ function layout(page, ctx) {
 		shippingNote: h.esc(site.shipping.note)
 	});
 
-	// Google Tag Manager precies zoals Google het aanlevert: zo hoog mogelijk in de <head> en direct na <body>.
-	// Daarvóór staat de standaardtoestemming (Consent Mode v2), anders kan een tag starten voordat de cookiebanner
-	// iets heeft doorgegeven: alles geweigerd, of de keuze die de bezoeker eerder maakte. Opslagnaam en termijn
-	// (12 maanden) moeten gelijk blijven aan src/js/consent.js.
-	const analytics = site.analytics || {};
+	// Google Tag Manager alleen in productie. Daarvóór staat de standaardtoestemming (Consent Mode v2), anders kan een
+	// tag starten voordat de cookiebanner iets heeft doorgegeven. Opslagnaam en termijn (12 maanden) moeten gelijk
+	// blijven aan src/js/consent.js. In de preview laadt er geen analytics en vraagt de banner dus ook niets.
+	const analytics = productie ? (site.analytics || {}) : {};
 	const gtm = /^GTM-[A-Z0-9]+$/.test(analytics.gtm || '') ? analytics.gtm : '';
 	const gtmHead = gtm
 		? '\t<script>window.dataLayer=window.dataLayer||[];(function(){function gtag(){dataLayer.push(arguments);}'
@@ -72,12 +93,6 @@ function layout(page, ctx) {
 			+ "})(window,document,'script','dataLayer','" + gtm + "');</script>\n"
 			+ '\t<!-- End Google Tag Manager -->\n'
 		: '';
-	const gtmBody = gtm
-		? '<!-- Google Tag Manager (noscript) -->\n'
-			+ '<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=' + gtm + '"\n'
-			+ 'height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n'
-			+ '<!-- End Google Tag Manager (noscript) -->\n'
-		: '';
 	// Welke toestemmingscategorieën er zijn, leest consent.js hieruit (ga4 = Statistieken, googleAds = Marketing)
 	const analyticsAttrs = (site.backend && site.backend.url ? ' data-backend="' + h.esc(site.backend.url) + '"' : '') // waar formulieren heen gaan (src/js/util.js)
 		+ (analytics.ga4 ? ' data-ga4="' + h.esc(analytics.ga4) + '"' : '')
@@ -87,15 +102,18 @@ function layout(page, ctx) {
 		? '\t<link rel="preload" as="image" imagesrcset="' + h.esc(page.preload.srcset) + '" imagesizes="' + h.esc(page.preload.sizes) + '" fetchpriority="high">\n'
 		: '';
 
+	// Eén samenhangende graaf: organisatie, persoon, website, deze pagina en wat de pagina zelf toevoegt
+	const graph = seo.graph(page, site, { canonical: canonical, ogImage: ogImage, orgImage: site.url + '/assets/og/' + defaultOg });
+
 	return '<!doctype html>\n'
 		+ '<!-- GEGENEREERD BESTAND: pas dit niet handmatig aan. Bewerk data/ of src/ en draai "npm run build". -->\n'
-		+ '<html lang="nl"' + analyticsAttrs + '>\n<head>\n'
+		+ '<html lang="nl-NL"' + analyticsAttrs + '>\n<head>\n'
 		+ '\t<meta charset="utf-8">\n'
 		+ gtmHead
 		+ '\t<meta name="viewport" content="width=device-width, initial-scale=1">\n'
 		+ '\t<title>' + h.esc(page.title) + '</title>\n'
 		+ '\t<meta name="description" content="' + h.esc(page.description) + '">\n'
-		+ '\t<meta name="robots" content="' + (page.noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large') + '">\n'
+		+ '\t<meta name="robots" content="' + (noindex ? 'noindex, ' + (productie ? 'follow' : 'nofollow') : 'index, follow, max-snippet:-1, max-image-preview:large') + '">\n'
 		+ '\t<link rel="canonical" href="' + h.esc(canonical) + '">\n'
 		+ '\t<meta name="theme-color" content="#080a0d">\n'
 		+ '\t<meta property="og:type" content="' + (page.ogType || 'website') + '">\n'
@@ -115,14 +133,14 @@ function layout(page, ctx) {
 		+ '\t<link rel="stylesheet" href="' + root + 'css/styles.css' + v + '">\n'
 		// Paginaovergang: kwam je hier via een link op de site (src/js/transition.js), dan begint de pagina achter het doek
 		+ '\t<script>try{var pc=+sessionStorage.getItem(\'pc\');sessionStorage.removeItem(\'pc\');if(Date.now()-pc<5000&&!matchMedia(\'(prefers-reduced-motion: reduce)\').matches)document.documentElement.classList.add(\'pc-arriving\')}catch(e){}</script>\n'
-		// Pagina's alvast ophalen als iemand een link aanwijst, zodat doorklikken (en de overgang) snel is
-		+ '\t<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>\n'
+		// Pagina's alvast ophalen als iemand een link aanwijst, zodat doorklikken (en de overgang) snel is.
+		// Niet voor stappen met een eigen werking (afrekenen, bevestigen, gereageerd).
+		+ '\t<script type="speculationrules">{"prefetch":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"*afrekenen*"}},{"not":{"href_matches":"*bedankt*"}},{"not":{"href_matches":"*gereageerd*"}},{"not":{"href_matches":"*nieuwsbrief*"}}]},"eagerness":"moderate"}]}</script>\n'
 		+ preload
-		+ (page.jsonLd || []).map(function (data) { return '\t' + h.jsonLd(data) + '\n'; }).join('')
+		+ '\t' + h.jsonLd(graph) + '\n'
 		+ '\t<script type="module" src="' + root + 'js/main.js' + v + '"></script>\n'
 		+ '</head>\n'
-		+ '<body data-page="' + page.name + '" data-root="' + root + '">\n'
-		+ gtmBody
+		+ '<body data-page="' + page.name + '" data-root="' + root + '"' + (pillar ? ' data-pillar="' + pillar + '"' : '') + '>\n'
 		+ ctx.partials.curtain
 		+ header + '\n'
 		+ '<main id="main">\n' + page.main + '\n</main>\n'

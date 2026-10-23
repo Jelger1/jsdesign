@@ -171,8 +171,9 @@ function mailCode(email) {
 	return Buffer.from(String(email).split('').reverse().join(''), 'utf8').toString('base64');
 }
 
-function mailLink(email, home) {
-	return '<a href="' + home + '#contact" data-mail="' + mailCode(email) + '">mijn e-mailadres</a>';
+// Zonder JavaScript gaat de link naar de contactpagina (root = pad naar de hoofdmap: '', '../' of '/')
+function mailLink(email, root) {
+	return '<a href="' + root + 'contact.html" data-mail="' + mailCode(email) + '">mijn e-mailadres</a>';
 }
 
 function fill(template, values) {

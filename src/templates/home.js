@@ -114,36 +114,15 @@ function homePage(ctx, template) {
 		path: 'index.html',
 		root: '',
 		name: 'home',
-		title: site.name + ' – 3D-geprint design uit Limburg',
-		description: site.owner + ' ontwerpt en print unieke vazen, lampen en Limburgse cadeaus. Eigen ontwerp, speciaal voor jou gemaakt in Limburg. Ook maatwerk en custom lightboxen.',
+		title: site.name + ' · branding, websites & 3D uit Kerkrade',
+		description: site.description + ' Voorheen JelgerS3D.',
 		ogImage: ctx.images[site.defaultOgImage].og,
 		preload: {
 			srcset: ctx.images[site.homeImages.hero.file].variants.map(function (v) { return 'assets/img/' + v.file + ' ' + v.w + 'w'; }).join(', '),
 			sizes: '(max-width: 900px) 320px, 460px'
 		},
+		// Organisatie, persoon en website staan op elke pagina in de graaf (src/templates/seo.js)
 		jsonLd: [{
-			'@context': 'https://schema.org',
-			'@type': 'Organization',
-			name: site.name,
-			alternateName: ['Jelger S3D', 'Jelgers3d', 'Jelger 3D'],
-			description: site.owner + ' maakt unieke 3D-geprinte ontwerpen met karakter, lokaal gemaakt in Limburg.',
-			url: site.url,
-			logo: site.url + '/assets/brand/js-logo-512.png',
-			image: site.url + '/assets/og/' + ctx.images[site.defaultOgImage].og,
-			// Bewust geen e-mailadres: dit is leesbaar voor robots die adressen verzamelen
-			founder: { '@type': 'Person', name: site.owner, jobTitle: 'Designer, developer & maker', url: site.portfolio.url },
-			address: Object.assign({ '@type': 'PostalAddress', addressLocality: (site.address && site.address.city) || site.pickupLocation, addressRegion: site.region, addressCountry: 'NL' },
-				site.address && site.address.street ? { streetAddress: site.address.street } : {},
-				site.address && site.address.postcode ? { postalCode: site.address.postcode } : {}),
-			areaServed: { '@type': 'Country', name: 'Nederland' },
-			vatID: site.btw,
-			sameAs: [site.instagram]
-		}, {
-			'@context': 'https://schema.org',
-			'@type': 'WebSite',
-			name: site.name,
-			url: site.url
-		}, {
 			'@context': 'https://schema.org',
 			'@type': 'FAQPage',
 			mainEntity: site.faq.map(function (item) {

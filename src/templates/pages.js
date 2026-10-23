@@ -5,7 +5,7 @@ function legalValues(site) {
 	const updated = new Date((site.legal && site.legal.updated || '2026-01-01') + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 	return {
 		name: h.esc(site.name), owner: h.esc(site.owner), city: h.esc((site.address && site.address.city) || site.pickupLocation),
-		emailLink: h.mailLink(site.email, './'), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
+		emailLink: h.mailLink(site.email, ''), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
 		// Zonder straat op de site: eerlijk zeggen waar de klant het volledige adres wél krijgt
 		addressHtml: h.addressLine(site, '<br>') + (site.address && site.address.onRequest && !site.address.street
 			? ', ' + h.esc(site.address.country || 'Nederland') + '<br><span class="text-page-note">Ik werk vanuit huis. Het volledige adres staat in je orderbevestiging en op je factuur, en krijg je op verzoek per e-mail.</span>'
@@ -135,7 +135,7 @@ function printServicePage(ctx, template) {
 		plaats: h.esc(site.pickupLocation),
 		levertijd: h.esc(site.delivery.leadTime + '.'),
 		maxMB: String(site.uploads ? site.uploads.maxMB : 50),
-		emailLink: h.mailLink(site.email, './'),
+		emailLink: h.mailLink(site.email, ''),
 		prijstabel: prijstabel,
 		faq: faq,
 		formulier: formulier
@@ -193,16 +193,16 @@ function termsPage(ctx, template) {
 }
 
 // GitHub Pages toont 404.html voor elk adres dat niet bestaat, ook in submappen.
-// Daarom gebruikt deze pagina adressen vanaf de hoofdmap ("/css/...") in plaats van relatieve.
+// Daarom gebruikt deze pagina adressen vanaf de hoofdmap van de site (ctx.base: "/", of "/jsdesign/" in de preview).
 function notFoundPage(ctx) {
 	const site = ctx.site;
 	const links = site.categoryPages.map(function (page) {
-		return '<li><a class="chip-link" href="/' + page.slug + '.html">' + h.esc(page.label) + '</a></li>';
+		return '<li><a class="chip-link" href="' + ctx.base + page.slug + '.html">' + h.esc(page.label) + '</a></li>';
 	}).join('\n\t\t');
 
 	return {
 		path: '404.html',
-		root: '/',
+		root: ctx.base,
 		name: 'text',
 		noindex: true,
 		title: 'Pagina niet gevonden | ' + site.name,
@@ -212,7 +212,7 @@ function notFoundPage(ctx) {
 			+ '\t<p class="kicker">Foutcode 404</p>\n'
 			+ '\t<h1>Deze pagina is <span class="highlight">niet gevonden</span></h1>\n'
 			+ '\t<p class="text-page-intro">Misschien is het product uit de collectie gehaald of klopt de link niet meer. Geen zorgen, de rest staat er nog.</p>\n'
-			+ '\t<p class="cta-row"><a class="btn primary" href="/webshop.html">Naar de webshop</a> <a class="btn outline" href="/">Naar de homepage</a></p>\n'
+			+ '\t<p class="cta-row"><a class="btn primary" href="' + ctx.base + 'webshop.html">Naar de webshop</a> <a class="btn outline" href="' + ctx.base + '">Naar de homepage</a></p>\n'
 			+ '\t<ul class="chips">\n\t\t' + links + '\n\t</ul>\n'
 			+ '</div>'
 	};
@@ -241,7 +241,7 @@ function confirmPage(ctx, opts) {
 	};
 }
 
-// jelgers3d.nl/nieuwsbrief: aanmeldpagina om te delen op social media. Met de code uit de bevestigingsmail
+// jsdesign.nl/nieuwsbrief: aanmeldpagina om te delen op social media. Met de code uit de bevestigingsmail
 // (#t=...) is dezelfde pagina de bevestiging; src/js/bevestig.js verbergt dan het aanmeldgedeelte.
 // De foto's komen uit data/site.json > newsletterPage.products.
 function newsletterPage(ctx) {

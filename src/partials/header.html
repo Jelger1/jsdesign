@@ -4,16 +4,17 @@
 		<button class="nav-toggle" type="button" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">
 			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
 		</button>
-		<a class="brand" href="{{home}}" aria-label="JelgerS3D, naar de homepage">
-			<img src="{{root}}assets/brand/js-icon.svg" alt="" class="brand-icon" width="41" height="38">
-			<span class="brand-name">JelgerS3D</span>
+		<a class="brand" href="{{home}}" aria-label="JS Design, naar de homepage">
+			{{logo}}
 		</a>
 		<nav class="main-nav" id="main-nav" aria-label="Hoofdmenu">
-			<a href="{{root}}webshop.html"{{currentShop}}>Webshop</a>
-			<a href="{{root}}3d-printservice.html"{{currentPrint}}>3D-printen</a>
-			<a href="{{home}}#over-mij">Over mij</a>
-			<a href="{{home}}#op-maat">Op maat</a>
-			<a href="{{home}}#contact">Contact</a>
+			<a href="{{root}}design-branding.html" data-pillar="branding"{{nav:branding}}>Branding</a>
+			<a href="{{root}}websites-interactie.html" data-pillar="digitaal"{{nav:digitaal}}>Digitaal</a>
+			<a href="{{root}}3d-printen.html" data-pillar="tastbaar"{{nav:tastbaar}}>Tastbaar</a>
+			<a href="{{root}}portfolio/"{{nav:portfolio}}>Portfolio</a>
+			<a href="{{root}}webshop.html"{{nav:webshop}}>Webshop</a>
+			<a href="{{root}}over.html"{{nav:over}}>Over</a>
+			<a href="{{root}}contact.html" class="nav-cta"{{nav:contact}}>Contact</a>
 		</nav>
 		<button id="cart-toggle" class="cart-toggle" type="button" aria-label="Winkelwagen openen" aria-controls="cart-sidebar" aria-expanded="false">
 			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
