@@ -38,7 +38,6 @@ body[data-page="over"]{--section-space:var(--section-space-compact)}
 .gereedschap div{display:grid;gap:var(--space-2) var(--space-6);padding:var(--space-4) 0;border-bottom:1px solid var(--border)}
 .gereedschap dt{font:500 var(--text-xs)/1.6 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
 .gereedschap dd{margin:0}
-.over-ai{max-width:62ch;margin:var(--space-6) 0 0;color:var(--fg-muted)}
 @media (min-width:760px){
 	.gereedschap div{grid-template-columns:10rem minmax(0, 1fr);align-items:baseline}
 }
