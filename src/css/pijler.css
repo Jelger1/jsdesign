@@ -1,0 +1,204 @@
+/* Pijlerpagina's (src/templates/pillar.js): drie hoofdpagina's, elk in de eigen kleurwereld. De hero staat in het
+   pijlervlak (data-surface, zie tokens.css en brand.css), met rechts "Je bent hier": het JS-teken op de tegel, het deel
+   van deze pijler massief en de andere twee als stippelcontour. De onderrand van het vlak is een trede onder 30° met een
+   streep in een tweede merkkleur. Daarna op donker: in het kort, de diensten als index, de werkwijze als trap, de cases
+   als grote beeldkaarten, wat ik kan, de FAQ en de afsluiter. Eén gekleurd vlak per pagina.
+   Wat ik kan (.kunde-*) en de trap (.trap) gebruiken ook de Over-pagina en de home. */
+body[data-page="pillar"]{--section-space:var(--section-space-compact)}
+/* Hoogte van de trede onderaan het vlak, en waar hij begint (gemeten vanaf rechts) */
+.pijler{--trede:clamp(2.25rem, 5vw, 4.5rem);--rechts:26%}
+.pijler .kicker{color:var(--pillar-text)}
+.pijler .kicker::before{background:var(--pillar)}
+.pijler[data-pillar="branding"]{--band-kleur:var(--brand)}
+.pijler[data-pillar="digitaal"],.pijler[data-pillar="tastbaar"]{--band-kleur:var(--raspberry)}
+
+/* ------------------------------------------------------------------ hero in het pijlervlak */
+.pijler-hero{padding:clamp(1.5rem, 4vw, 3rem) 0 calc(var(--trede) + clamp(2.5rem, 6vw, 4.5rem));
+	clip-path:polygon(0 0, 100% 0, 100% calc(100% - var(--trede)), calc(100% - var(--rechts)) calc(100% - var(--trede)), calc(100% - var(--rechts) - var(--trede) * 1.732) 100%, 0 100%)}
+/* Dezelfde zijmarges als de secties eronder (.container), zonder de ruimte boven en onder */
+.pijler-hero-in.container{padding-top:0;padding-bottom:0;display:grid;gap:var(--space-10);align-items:center}
+/* Op het vlak minstens 14 px en halfvet voor labels (tokens.css: op raspberry is alles volle slate) */
+.pijler-hero .breadcrumbs ol{margin:0 0 var(--space-8);padding:0;list-style:none;font-family:var(--font-mono);font-size:var(--text-sm);font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+.pijler-hero .kicker{font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-5)}
+.pijler-hero .pijler-kicker{gap:0.75rem}
+.pijler-kicker::before{display:none}
+.pijler-nr{display:grid;place-items:center;width:46px;height:28px;clip-path:var(--js-blok);background:var(--dark);color:var(--sage);font:700 var(--text-xs)/1 var(--font-mono);letter-spacing:0.02em}
+.pijler-titel{font-size:clamp(2.5rem, 1.1rem + 5.2vw, 5.5rem);line-height:1;letter-spacing:-0.02em;margin:0 0 var(--space-6)}
+.pijler-titel .highlight{display:block}
+.pijler-lead{max-width:36rem;margin:0;font-size:clamp(1.125rem, 1rem + 0.45vw, 1.375rem);line-height:1.55;color:var(--fg)}
+.pijler-knoppen{flex-wrap:wrap;margin:var(--space-8) 0 0}
+.pijler-knoppen .btn{text-align:center}
+
+/* Je bent hier: de tegel (zoals het app-icoon), met het isometrische raster en een gloed achter het actieve deel */
+.pijler-hier{margin:0;justify-self:center;width:min(100%, 25rem)}
+.pijler-tegel{position:relative;aspect-ratio:1;overflow:hidden;border-radius:22%;
+	background:radial-gradient(36% 36% at var(--gloed-x) var(--gloed-y), var(--gloed-kleur), transparent 72%),
+		repeating-linear-gradient(30deg, rgba(243,255,253,0.06) 0 1px, transparent 1px 32px),
+		repeating-linear-gradient(150deg, rgba(243,255,253,0.06) 0 1px, transparent 1px 32px),
+		var(--dark);
+	box-shadow:10px 10px 0 0 rgba(8,10,13,0.22)}
+.pijler-hier--branding .pijler-tegel{--gloed-x:29%;--gloed-y:41%;--gloed-kleur:rgba(241,0,103,0.3)}
+.pijler-hier--digitaal .pijler-tegel{--gloed-x:63%;--gloed-y:30%;--gloed-kleur:rgba(3,188,202,0.3)}
+.pijler-hier--tastbaar .pijler-tegel{--gloed-x:57%;--gloed-y:66%;--gloed-kleur:rgba(243,255,253,0.18)}
+.pijler-teken{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pijler-deel:not(.is-hier){fill:none;stroke:rgba(243,255,253,0.5);stroke-width:1.25;stroke-dasharray:4 5;vector-effect:non-scaling-stroke}
+.pijler-deel.is-hier{filter:drop-shadow(0 0 18px var(--gloed-kleur))}
+.pijler-wijzer{fill:none;stroke:rgba(243,255,253,0.75);stroke-width:1.25;vector-effect:non-scaling-stroke}
+.pijler-wijzer-punt{fill:var(--sage);stroke:var(--dark);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.pijler-hier-label{position:absolute;padding:0.4rem 0.75rem;border-radius:var(--radius-full);background:var(--sage);color:var(--dark);
+	font:600 var(--text-xs)/1 var(--font-mono);letter-spacing:0.12em;text-transform:uppercase;white-space:nowrap}
+.pijler-hier--branding .pijler-hier-label{left:6%;top:8%}
+.pijler-hier--digitaal .pijler-hier-label{right:6%;top:8%}
+.pijler-hier--tastbaar .pijler-hier-label{right:6%;bottom:8%}
+
+/* De streep langs de trede: links onderaan, schuin omhoog onder 30° (de lijn door de hoeken van het middelste vak) en
+   rechts langs de bovenkant van de uitsparing. Hij ligt net buiten het vlak, op het donker. */
+.pijler-band{--streep:6px;position:relative;z-index:var(--z-content);display:flex;height:calc(var(--trede) + var(--streep));margin-top:calc(-1 * var(--trede));pointer-events:none}
+.pijler-band i{display:block}
+.pijler-band i:nth-child(1){flex:1 1 auto;background:linear-gradient(to top, var(--band-kleur) var(--streep), transparent var(--streep))}
+.pijler-band i:nth-child(2){flex:0 0 calc(var(--trede) * 1.732);
+	background:linear-gradient(to bottom right, transparent 50%, var(--band-kleur) 50% calc(50% + var(--streep)), transparent calc(50% + var(--streep))) left top / 100% var(--trede) no-repeat,
+		linear-gradient(var(--band-kleur), var(--band-kleur)) left bottom / calc(var(--streep) * 2) var(--streep) no-repeat}
+.pijler-band i:nth-child(3){flex:0 0 var(--rechts);background:linear-gradient(var(--band-kleur) var(--streep), transparent var(--streep))}
+
+@media (min-width:900px){
+	.pijler-hero-in.container{grid-template-columns:minmax(0, 7fr) minmax(0, 5fr);gap:var(--space-12)}
+	.pijler-hier{justify-self:end}
+}
+@media (max-width:899px){
+	.pijler-hier{width:min(72vw, 20rem)}
+}
+
+/* ------------------------------------------------------------------ in het kort */
+/* Een kop als label: mono, met het blokje in de pijlerkleur */
+.pijler-label{display:flex;align-items:center;gap:0.6rem;margin:0;font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--pillar-text)}
+.pijler-label::before{content:'';flex:none;width:1.65em;height:1.02em;background:var(--pillar);clip-path:var(--js-blok)}
+.pijler-kort{display:grid;gap:var(--space-4)}
+.pijler-kort-tekst{margin:0;max-width:44ch;font-size:clamp(1.25rem, 0.95rem + 1.1vw, 1.875rem);line-height:1.42;color:var(--fg);text-wrap:pretty}
+@media (min-width:900px){
+	.pijler-kort{grid-template-columns:minmax(0, 3fr) minmax(0, 9fr);gap:var(--space-8);align-items:baseline}
+}
+
+/* ------------------------------------------------------------------ diensten: een index, geen kaarten */
+.dienst-index{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
+.dienst{display:grid;grid-template-columns:2.5rem minmax(0, 1fr);gap:var(--space-2) var(--space-4);padding:var(--space-6) 0;border-bottom:1px solid var(--border)}
+.dienst-nr{grid-row:span 2;padding-top:0.55em;font:500 var(--text-sm)/1 var(--font-mono);color:var(--pillar-text)}
+.dienst-naam{margin:0;font-size:clamp(1.375rem, 1.1rem + 1.1vw, 2rem);line-height:1.15}
+.dienst-tekst{margin:0;max-width:52ch;color:var(--fg-muted)}
+@media (min-width:900px){
+	.dienst{grid-template-columns:4rem minmax(0, 5fr) minmax(0, 6fr);gap:var(--space-8);align-items:baseline;padding:var(--space-8) 0}
+	.dienst-nr{grid-row:auto;padding-top:0}
+	.dienst-tekst{font-size:var(--text-md)}
+}
+
+/* ------------------------------------------------------------------ werkwijze: de trap
+   Mobiel onder elkaar met een stam langs de blokjes. Vanaf 1100px een trap: elke stap staat een trede (--trede) hoger
+   dan de vorige, met een streep in de pijlerkleur en het blokje erop; een lijn onder 30° verbindt de treden (het vak
+   tussen twee stappen is 1,732 x zo breed als hoog). --treden en --i zet de template. */
+.trap{--trede:1.4rem;list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
+.trap li{position:relative;min-height:35px;padding-left:4.5rem}
+.trap-nr{position:absolute;left:0;top:-0.15rem;display:grid;place-items:center;width:56px;height:35px;clip-path:var(--js-blok);background:var(--pillar, var(--brand));color:var(--dark);font:700 1rem/1 var(--font-display);font-stretch:112%}
+.trap li:not(:last-child)::after{content:'';position:absolute;left:27px;top:2.6rem;bottom:calc(0.4rem - var(--space-8));border-left:1px solid var(--border-strong)}
+.trap h3{margin:0 0 var(--space-1);font-size:var(--text-lg);line-height:1.25}
+.trap p{margin:0;max-width:40ch;color:var(--fg-muted);line-height:1.6}
+.trap-noot{margin:var(--space-10) 0 0;max-width:62ch;padding-left:var(--space-4);border-left:2px solid var(--pillar, var(--brand));color:var(--fg-muted)}
+.trap-noot a{color:var(--brand);text-underline-offset:3px}
+@media (min-width:1100px){
+	.trap{grid-template-columns:repeat(var(--treden), minmax(0, 1fr));gap:0 calc(var(--trede) * 1.732);align-items:start}
+	.trap li{min-height:0;padding:0;margin-top:calc((var(--treden) - 1 - var(--i)) * var(--trede));border-top:2px solid var(--pillar, var(--brand))}
+	.trap-nr{position:static;margin:-18.5px 0 var(--space-4)}
+	.trap li:not(:last-child)::after{left:100%;top:calc(-1 * var(--trede) - 1px);bottom:auto;width:calc(var(--trede) * 1.732);height:var(--trede);border:0;
+		background:linear-gradient(to bottom right, transparent calc(50% - 1px), var(--pillar, var(--brand)) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px))}
+}
+
+/* ------------------------------------------------------------------ uitgelicht werk
+   Het eerste project groot (beeld en tekst naast elkaar), de rest per twee. Het laatste vak gaat naar het portfolio;
+   staat het alleen op een rij, dan wordt het een brede strook. De titel is de link en dekt de hele kaart. */
+.case-raster{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-5);grid-template-columns:minmax(0, 1fr)}
+.case{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark-card);
+	transition:border-color var(--duration) var(--ease)}
+.case-beeld{aspect-ratio:16 / 10;overflow:hidden;background:var(--dark-secondary)}
+.case-beeld img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform var(--duration-slow) var(--ease-out)}
+.case--staand .case-beeld{background:var(--iso-lijnen), var(--dark-secondary)}
+.case--staand .case-beeld img{object-fit:contain;padding:var(--space-6);filter:drop-shadow(0 18px 32px rgba(0,0,0,0.5))}
+.case-tekst{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-5) var(--space-6) var(--space-6)}
+.case-tags{display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem 0.6rem;margin:0;font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
+.case-tags::before{content:'';flex:none;width:16px;height:10px;background:var(--pillar);clip-path:var(--js-blok)}
+.case-nr{color:var(--pillar-text)}
+.case-titel{margin:0;font-size:var(--text-xl);line-height:1.15}
+.case-titel a{color:var(--fg);text-decoration:none}
+.case-titel a::after{content:'';position:absolute;inset:0;z-index:1}
+.case-titel a:focus-visible{outline:none}
+.case:focus-within{outline:var(--focus-ring);outline-offset:var(--focus-offset)}
+.case-kort{margin:0;color:var(--fg-muted)}
+.case-meer{margin-top:var(--space-2);color:var(--brand);font-weight:600}
+.case-meer::after{content:'→';display:inline-block;margin-left:0.4rem;transition:transform var(--duration) var(--ease)}
+.case:hover{border-color:var(--pillar)}
+.case:hover .case-beeld img{transform:scale(1.03)}
+.case:hover .case-meer::after{transform:translateX(4px)}
+/* Naar het portfolio: een open vak, zoals een lege plek in een technische tekening */
+.case-alle a{display:flex;flex-direction:column;justify-content:flex-end;gap:var(--space-2);height:100%;min-height:11rem;padding:var(--space-6);
+	border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:var(--iso-lijnen);color:var(--fg);text-decoration:none;
+	transition:border-color var(--duration) var(--ease)}
+.case-alle-label{font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
+.case-alle strong{font-family:var(--font-display);font-size:var(--text-xl);font-stretch:112%;line-height:1.15}
+.case-alle strong::after{content:'→';display:inline-block;margin-left:0.5rem;font-family:var(--font-body);font-weight:400;color:var(--pillar-text);transition:transform var(--duration) var(--ease)}
+.case-alle a > span:last-child{color:var(--fg-muted)}
+.case-alle a:hover{border-style:solid;border-color:var(--pillar)}
+.case-alle a:hover strong::after{transform:translateX(4px)}
+@media (min-width:760px){
+	.case-raster{grid-template-columns:repeat(2, minmax(0, 1fr))}
+	.case:first-child,.case-alle:first-child,.case-alle:nth-child(even){grid-column:1 / -1}
+}
+@media (min-width:900px){
+	.case:first-child{display:grid;grid-template-columns:minmax(0, 1.55fr) minmax(0, 1fr)}
+	/* Het beeld vult de hoogte van de tekst (minstens 24rem), ook een staand beeld: het telt niet mee voor de rijhoogte */
+	.case:first-child .case-beeld{position:relative;aspect-ratio:auto;min-height:24rem}
+	.case:first-child .case-beeld img{position:absolute;inset:0}
+	.case:first-child .case-tekst{justify-content:center;padding:var(--space-10)}
+	.case:first-child .case-titel{font-size:var(--text-2xl)}
+}
+
+/* ------------------------------------------------------------------ wat ik kan (ook Over en home)
+   Per groep een kopje met het blokje van zijn pijler; een groep voor elk project (zonder pijler) krijgt de drie kleuren */
+.kunde-lijst{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill, minmax(min(100%, 16.5rem), 1fr));gap:var(--space-8) var(--space-6)}
+.kunde{padding-top:var(--space-4);border-top:1px solid var(--border)}
+.kunde-naam{display:flex;align-items:center;gap:0.6rem;margin:0 0 var(--space-3);font-size:var(--text-md);line-height:1.25}
+.kunde-naam::before{content:'';flex:none;width:1.4em;height:0.87em;clip-path:var(--js-blok);background:linear-gradient(90deg, var(--raspberry) 0 34%, var(--brand) 34% 67%, var(--sage) 67%)}
+.kunde[data-pillar] .kunde-naam::before{background:var(--pillar)}
+.kunde-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0;padding:0;list-style:none}
+.kunde-chips li{padding:0.3rem 0.7rem;border:1px solid var(--border-strong);border-radius:var(--radius-full);color:var(--fg);font-size:var(--text-sm);line-height:1.35}
+.kunde-bewijs{margin:var(--space-3) 0 0;color:var(--fg-muted)}
+.kunde-bewijs a{color:var(--brand);text-underline-offset:3px}
+/* Op een telefoon korter: op de home twee chips per groep, op een pijlerpagina vier (de Over-pagina toont alles) */
+@media (max-width:600px){
+	.kunde-lijst{gap:var(--space-6)}
+	.kunde-kort .kunde-chips li:nth-child(n+3),.pijler-kunde .kunde-chips li:nth-child(n+5){display:none}
+}
+
+/* ------------------------------------------------------------------ afsluiter */
+.pijler-cta .cta-band{background:radial-gradient(60% 120% at 0% 0%, color-mix(in srgb, var(--pillar) 16%, transparent), transparent 70%), var(--dark-card)}
+.pijler-ook{display:grid;gap:var(--space-4);margin-top:var(--space-8)}
+.pijler-ook ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-3)}
+.pijler-ook a{display:flex;flex-direction:column;gap:0.15rem;padding:var(--space-4) var(--space-5);border:1px solid var(--border);border-radius:var(--radius-lg);color:var(--fg);text-decoration:none;
+	transition:border-color var(--duration) var(--ease)}
+.pijler-ook a:hover{border-color:var(--pillar)}
+.pijler-ook-naam{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);font-stretch:112%}
+.pijler-ook-naam::before{content:'';flex:none;width:1.4em;height:0.87em;clip-path:var(--js-blok);background:var(--pillar)}
+.pijler-ook-naam::after{content:'→';margin-left:auto;font-family:var(--font-body);font-weight:400;color:var(--pillar-text);transition:transform var(--duration) var(--ease)}
+.pijler-ook a:hover .pijler-ook-naam::after{transform:translateX(4px)}
+.pijler-ook-wat{color:var(--fg-muted)}
+@media (min-width:760px){
+	.pijler-ook{grid-template-columns:minmax(0, 3fr) minmax(0, 9fr);align-items:center}
+	.pijler-ook ul{grid-template-columns:repeat(2, minmax(0, 1fr))}
+}
+
+@media (prefers-reduced-motion:reduce){
+	.case-beeld img,.case-meer::after,.case-alle strong::after,.pijler-ook-naam::after{transition:none}
+}
+@media (forced-colors:active){
+	.pijler-deel,.pijler-wijzer{stroke:CanvasText}
+	.pijler-deel.is-hier,.pijler-wijzer-punt{fill:CanvasText}
+	.pijler-nr,.trap-nr,.pijler-label::before,.kunde-naam::before,.case-tags::before,.pijler-ook-naam::before{forced-color-adjust:none;background:CanvasText;color:Canvas}
+	.pijler-band{display:none}
+}

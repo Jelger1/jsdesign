@@ -12,7 +12,8 @@ const productPage = require('./src/templates/product');
 const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
 const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage } = require('./src/templates/pages');
-const { pillarPage, placeholderPages } = require('./src/templates/pillar');
+const { pillarPage } = require('./src/templates/pillar');
+const overPage = require('./src/templates/over');
 const { hubImages } = require('./src/templates/hub');
 const portfolioPage = require('./src/templates/portfolio');
 const discovery = require('./src/templates/discovery');
@@ -33,7 +34,7 @@ if (!BASE.startsWith('/')) {
 }
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'hub.css', 'pages.css', 'portfolio.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
+const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'hub.css', 'pages.css', 'pijler.css', 'over.css', 'portfolio.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
 
 // Lettertypen die elke pagina vooraf laadt: de koppen (Saira) en de lopende tekst (DM Sans). De rest staat in fonts.css.
 const PRELOAD_FONTS = ['saira-latin.woff2', 'dm-sans-latin.woff2'];
@@ -149,6 +150,56 @@ function validatePillars(pillars, site, report) {
 			if (titel > 60) report.errors.push(where + ': de titel wordt met " | ' + site.name + '" ' + titel + ' tekens (maximaal 60)');
 			if (p.seo.description.length > 155) report.errors.push(where + ': seo.description is ' + p.seo.description.length + ' tekens (maximaal 155)');
 		}
+	});
+}
+
+// De inhoud van de pijlerpagina's (pillars.json > pagina) en de vaardigheden (data/skills.json). Een case of bewijs
+// dat (nog) niet in projects.json staat, slaat de pagina over: dat is een waarschuwing. Een vraag mag op de hele site
+// maar één keer voorkomen (home, webshop, categoriepagina's en pijlers), anders spreken de FAQ-gegevens elkaar tegen.
+function validatePagina(pillars, projects, site, skills, report) {
+	const projectIds = projects.map(function (p) { return p.id; });
+	const pillarIds = pillars.map(function (p) { return p.id; });
+	const vragen = new Map();
+	function vraag(q, where) {
+		const key = String(q || '').trim().toLowerCase();
+		if (vragen.has(key)) report.errors.push(where + ': de vraag "' + q + '" staat ook al bij ' + vragen.get(key));
+		else vragen.set(key, where);
+	}
+	(site.homeFaq || []).forEach(function (item) { vraag(item.q, 'site.json > homeFaq'); });
+	(site.faq || []).forEach(function (item) { vraag(item.q, 'shop.json > faq'); });
+	(site.categoryPages || []).forEach(function (cat) { (cat.faq || []).forEach(function (item) { vraag(item.q, 'shop.json > categoryPages > "' + cat.slug + '"'); }); });
+	pillars.forEach(function (p) {
+		const where = 'pillars.json > "' + p.id + '" > pagina';
+		const pagina = p.pagina;
+		if (!pagina || !pagina.kort || !pagina.werkwoord) {
+			report.errors.push(where + ': kort en werkwoord zijn verplicht');
+			return;
+		}
+		const woorden = pagina.kort.split(/\s+/).length;
+		if (woorden < 35 || woorden > 70) report.warnings.push(where + ' > kort: ' + woorden + ' woorden (richtlijn: 40 tot 60)');
+		[['diensten', ['naam', 'tekst']], ['aanpak', ['stap', 'tekst']], ['faq', ['q', 'a']]].forEach(function (lijst) {
+			const items = pagina[lijst[0]];
+			if (!Array.isArray(items) || !items.length) report.errors.push(where + ': ' + lijst[0] + ' moet een lijst met minstens één item zijn');
+			else if (items.some(function (item) { return lijst[1].some(function (key) { return !item[key]; }); })) report.errors.push(where + ' > ' + lijst[0] + ': elk item heeft ' + lijst[1].join(' en ') + ' nodig');
+		});
+		if (Array.isArray(pagina.aanpak) && (pagina.aanpak.length < 3 || pagina.aanpak.length > 6)) report.errors.push(where + ' > aanpak: 3 tot 6 stappen (de trap past er dan op)');
+		(pagina.cases || []).forEach(function (id) {
+			if (projectIds.indexOf(id) === -1) report.warnings.push(where + ' > cases: project "' + id + '" staat (nog) niet in projects.json en wordt overgeslagen');
+		});
+		(pagina.faq || []).forEach(function (item) { vraag(item.q, where + ' > faq'); });
+	});
+	const groepen = (skills && skills.groepen) || [];
+	if (!groepen.length) report.errors.push('skills.json: groepen ontbreekt of is leeg');
+	groepen.forEach(function (g, i) {
+		const where = 'skills.json > groepen > "' + (g.groep || '#' + i) + '"';
+		if (!g.groep || !Array.isArray(g.items) || !g.items.length) report.errors.push(where + ': groep en minstens één item zijn verplicht');
+		if (g.pijler !== null && pillarIds.indexOf(g.pijler) === -1) report.errors.push(where + ': pijler moet een id uit pillars.json zijn, of null voor elk project');
+		(g.bewijs || []).forEach(function (id) {
+			if (projectIds.indexOf(id) === -1) report.warnings.push(where + ' > bewijs: project "' + id + '" staat (nog) niet in projects.json en wordt overgeslagen');
+		});
+	});
+	((skills && skills.gereedschap) || []).forEach(function (g, i) {
+		if (!g.groep || !Array.isArray(g.items) || !g.items.length) report.errors.push('skills.json > gereedschap > #' + (i + 1) + ': groep en minstens één item zijn verplicht');
 	});
 }
 
@@ -377,12 +428,14 @@ async function build() {
 	const projects = readJson('data/projects.json');
 	const products = readJson('data/products.json');
 	const reviews = readJson('data/reviews.json');
+	const skills = readJson('data/skills.json');
 
 	const today = new Date().toISOString().slice(0, 10);
 	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
 	validatePillars(pillars, site, report);
 	validateProjects(projects, pillars, report);
 	validateHub(pillars, projects, report);
+	validatePagina(pillars, projects, site, skills, report);
 	if (report.errors.length) {
 		console.error('\nBuild gestopt, los eerst deze fouten op:\n - ' + report.errors.join('\n - ') + '\n');
 		process.exit(1);
@@ -484,6 +537,7 @@ async function build() {
 	products.forEach(function (p) { byId[p.id] = p; });
 	const ctx = {
 		site: site, brand: brand, shop: shop, pillars: pillars, projects: projects, products: products, reviews: reviews, images: images, byId: byId,
+		skills: skills,
 		thumbs: thumbs,
 		version: version, year: new Date().getFullYear(), mode: MODE, base: BASE,
 		fonts: PRELOAD_FONTS,
@@ -496,12 +550,12 @@ async function build() {
 		}
 	};
 
-	// Alle pagina's van de site. Volgorde: home, de drie pijlers, webshop, overige pagina's, producten.
-	// De pijler Tastbaar krijgt onder de intro de webshopsecties uit src/pages/tastbaar.html.
+	// Alle pagina's van de site. Volgorde: home, de drie pijlers, Over, webshop, overige pagina's, producten.
+	// De pijler Tastbaar krijgt na zijn eigen inhoud de webshopsecties uit src/pages/tastbaar.html.
 	const tastbaarTemplate = read('src/pages/tastbaar.html');
 	const pages = [homePage(ctx, read('src/pages/index.html'))]
 		.concat(pillars.map(function (p) { return pillarPage(p, ctx, tastbaarTemplate); }))
-		.concat(placeholderPages(ctx))
+		.concat([overPage(ctx, read('src/pages/over.html'))])
 		.concat([portfolioPage(ctx), contactPage(ctx, read('src/pages/contact.html'))])
 		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))

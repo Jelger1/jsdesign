@@ -1,9 +1,11 @@
-// De homepage: de hub (src/templates/hub.js) en daaronder uitgelicht werk, de webshop, de maker, de FAQ en contact.
+// De homepage: de hub (src/templates/hub.js) en daaronder uitgelicht werk, wat ik kan, de webshop, de maker, de FAQ en
+// contact.
 // De inhoud van de oude webshophome (categorieën, rails, stappen, op maat, winkel-FAQ, reviews) staat nu op de
 // Tastbaar-pagina (3d-printen.html).
 const h = require('./helpers');
 const c = require('./components');
 const { hub } = require('./hub');
+const skills = require('./skills');
 
 // Volgorde van het uitgelichte werk: het eerste project krijgt de grote tegel
 const UITGELICHT = ['rolduc', 'sanctus', 'wmc', 'heerlen'];
@@ -41,6 +43,8 @@ function homePage(ctx, template) {
 		hub: hub(ctx),
 		werk: werk,
 		'rail:design': c.productRail(design, ctx, { root: '' }),
+		// Wat ik kan: alle groepen uit data/skills.json, kort (drie chips per groep)
+		kunde: skills.lijst(skills.groepen(ctx), ctx, { max: 3 }),
 		aboutImage: h.img(ctx.images, site.homeImages.about.file, {
 			alt: site.homeImages.about.alt,
 			sizes: '(max-width: 900px) 280px, 360px'

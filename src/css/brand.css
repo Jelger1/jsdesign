@@ -16,7 +16,7 @@ h3,h4,h5,h6{font-stretch:112%}
 /* Stapnummers in de bestelflow (afrekenen, bedankt) in de vorm van het logo-blokje, net als op de homepage */
 .step-number{width:42px;height:26px;border-radius:0;border:0 !important;clip-path:var(--js-blok);font-family:var(--font-display);font-stretch:112%}
 .checkout-steps li:not(.is-active):not(.is-done) .step-number{background:#2c333d;color:var(--soft)}
-.category-tile-text strong,.custom-choice strong,.checkout-form legend,.how-number{font-stretch:112%}
+.category-tile-text strong,.custom-choice strong,.checkout-form legend{font-stretch:112%}
 .pdp-story p:first-of-type::first-letter{font-stretch:125%}
 @media (max-width:600px){
 	h1,h2{font-stretch:110%}

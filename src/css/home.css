@@ -1,8 +1,8 @@
 /* Secties van de home en van de pijlerpagina Tastbaar (die de webshopsecties van de oude home kreeg): USP-balk,
-   categorietegels, "zo werkt het", maatwerk en FAQ. De hub zelf staat in hub.css. */
+   categorietegels, maatwerk en FAQ. De hub zelf staat in hub.css; de werkwijze als trap staat in pijler.css. */
 
-/* De home gebruikt de compacte sectieruimte (tokens.css); de pijlerpagina Tastbaar ook (pages.css). Andere pagina's
-   houden de gewone maat. */
+/* De home gebruikt de compacte sectieruimte (tokens.css); de pijlerpagina's en Over ook (pijler.css, over.css).
+   Andere pagina's houden de gewone maat. */
 body[data-page="home"]{--section-space:var(--section-space-compact)}
 
 /* Eén rustig, terugkerend accent boven koppen in plaats van streepjes en bolletjes */
@@ -50,21 +50,6 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 .category-tile:hover img{transform:scale(1.06)}
 .category-tile:hover strong::after,.category-tile:focus-visible strong::after{opacity:1;transform:none}
 
-/* Zo werkt het: drie stappen als een trap, geen rij van drie gelijke kaarten (huisstijl §5.5). Elke stap staat hoger
-   dan de vorige, met een streep in de kleur van zijn blokje; het blokje staat op die streep. Mobiel onder elkaar, met
-   een stam langs de blokjes. */
-.how-steps{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:2rem;align-items:start;margin:0;padding:0;list-style:none}
-.how-steps li{position:relative;padding:0;border-top:2px solid var(--raspberry)}
-.how-steps li:nth-child(1){margin-top:4.5rem}
-.how-steps li:nth-child(2){margin-top:2.25rem;border-top-color:var(--brand)}
-.how-steps li:nth-child(3){border-top-color:var(--sage)}
-/* Stapnummers in de vorm van het raspberry-blokje uit het teken, in de drie kleuren van het teken */
-.how-number{display:grid;place-items:center;width:64px;height:40px;clip-path:var(--js-blok);background:var(--raspberry);color:var(--dark);font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin:-21px 0 1rem}
-.how-steps li:nth-child(2) .how-number{background:var(--brand)}
-.how-steps li:nth-child(3) .how-number{background:var(--sage)}
-.how-steps h3{font-size:1.15rem;margin:0 0 0.5rem 0}
-.how-steps p{margin:0;color:var(--fg-muted);line-height:1.65;font-size:0.97rem}
-
 /* De maker */
 .maker{display:grid;grid-template-columns:minmax(0, 380px) minmax(0, 1fr);gap:clamp(2rem, 5vw, 4.5rem);align-items:center}
 .maker-photo{position:relative}
@@ -106,10 +91,6 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 @media (max-width:900px){
 	.usp-list{grid-template-columns:repeat(2, minmax(0, 1fr));gap:1.25rem}
 	.category-grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:0.85rem}
-	.how-steps{grid-template-columns:minmax(0, 1fr);gap:1.75rem}
-	.how-steps li,.how-steps li:nth-child(n){margin-top:0;border-top:0;padding:0 0 0 5rem;min-height:40px}
-	.how-steps li .how-number{position:absolute;left:0;top:0;margin:0}
-	.how-steps li:not(:last-child)::after{content:'';position:absolute;left:31px;top:44px;bottom:-1.6rem;border-left:1px solid var(--border-strong)}
 	.maker{grid-template-columns:minmax(0, 1fr)}
 	.maker-photo{max-width:300px}
 	.value-grid{grid-template-columns:minmax(0, 1fr);gap:1.25rem}
