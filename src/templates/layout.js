@@ -7,6 +7,8 @@ const NAV = {
 	branding: 'design-branding.html', digitaal: 'websites-interactie.html', tastbaar: '3d-printen.html',
 	portfolio: 'portfolio/index.html', webshop: 'webshop.html', over: 'over.html', contact: 'contact.html'
 };
+// De naam van elk menu-onderdeel, zoals in het menu
+const NAV_LABEL = { branding: 'Branding', digitaal: 'Digitaal', tastbaar: 'Tastbaar', portfolio: 'Portfolio', webshop: 'Webshop', over: 'Over', contact: 'Contact' };
 // Bij welk menu-onderdeel een pagina hoort als ze er zelf niet in staat (voor de markering in het menu)
 const SECTION_BY_NAME = { shop: 'webshop', category: 'webshop', product: 'webshop', checkout: 'webshop', thanks: 'webshop' };
 const PILLARS = ['branding', 'digitaal', 'tastbaar'];
@@ -40,6 +42,17 @@ function layout(page, ctx) {
 	Object.keys(NAV).forEach(function (key) {
 		headerValues['nav:' + key] = page.path === NAV[key] ? ' aria-current="page"' : (section === key ? ' data-ancestor' : '');
 	});
+	// Onder 900px staat naast het logo waar je bent (header.css > .header-hier). Op een pagina eronder (een case, een
+	// product, de printservice) is het een link terug naar het overzicht van die sectie. In de bovenbalk van het menu
+	// staat dezelfde naam als kopie op dezelfde plek (aria-hidden: in het menu draagt de link zelf aria-current).
+	const hier = Object.keys(NAV).find(function (k) { return page.path === NAV[k]; }) || (NAV[section] ? section : '');
+	const sectie = Boolean(hier) && page.path !== NAV[hier];
+	const hierNaam = '<span class="header-hier-naam">' + h.esc(NAV_LABEL[hier] || '') + '</span>';
+	const hierKlasse = 'header-hier' + (sectie ? ' is-sectie' : '');
+	headerValues.hier = !hier ? ''
+		: sectie ? '<a class="' + hierKlasse + '" href="' + root + NAV[hier].replace(/index\.html$/, '') + '"><span class="sr-only">Terug naar </span>' + hierNaam + '</a>'
+		: '<span class="' + hierKlasse + '"><span class="sr-only">Je bent hier: </span>' + hierNaam + '</span>';
+	headerValues.hierMenu = hier ? '<span class="' + hierKlasse + '" aria-hidden="true">' + hierNaam + '</span>' : '';
 	ctx.pillars.forEach(function (p) { headerValues['kort:' + p.id] = h.esc(p.omschrijving); });
 	let header = h.fill(ctx.partials.header, headerValues);
 	if (page.name === 'home') header = header.replace(/href="\.\/#/g, 'href="#');
