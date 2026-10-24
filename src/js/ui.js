@@ -1,21 +1,38 @@
 // Algemene interface: mobiel menu, seizoensmelding en subtiele scroll-animaties.
 import { prefersReducedMotion } from './util.js';
 
+// Het menu onder 900px is een modale <dialog> (src/partials/header.html). showModal() maakt de rest van de pagina inert
+// en Escape sluit hem; daarna staat de focus weer op de menuknop. De sluitknop staat op dezelfde plek als de menuknop en
+// krijgt bij openen de focus, zodat nog een keer Enter het menu weer dichtdoet. Een link kiezen sluit het menu meteen
+// (zonder animatie), zodat de paginaovergang (transition.js) er niet achter valt.
 function initNav() {
 	const toggle = document.querySelector('.nav-toggle');
-	const nav = document.getElementById('main-nav');
-	if (!toggle || !nav) return;
+	const menu = document.getElementById('site-menu');
+	if (!toggle || !menu || typeof menu.showModal !== 'function') return;
+	const sluitKnop = menu.querySelector('.menu-sluit');
+	const mobiel = window.matchMedia('(max-width: 900px)');
 
-	function setOpen(open) {
-		nav.classList.toggle('show', open);
-		toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+	function sluit(direct) {
+		if (!menu.open) return;
+		menu.classList.toggle('is-direct', direct);
+		menu.close();
 	}
 
-	toggle.addEventListener('click', function () { setOpen(!nav.classList.contains('show')); });
-	nav.addEventListener('click', function (event) { if (event.target.closest('a')) setOpen(false); });
-	document.addEventListener('keydown', function (event) {
-		if (event.key === 'Escape' && nav.classList.contains('show')) { setOpen(false); toggle.focus(); }
+	toggle.addEventListener('click', function () {
+		if (menu.open) return;
+		menu.classList.remove('is-direct');
+		menu.showModal();
+		toggle.setAttribute('aria-expanded', 'true');
+		if (sluitKnop) sluitKnop.focus();
 	});
+	if (sluitKnop) sluitKnop.addEventListener('click', function () { sluit(false); });
+	menu.addEventListener('click', function (event) { if (event.target.closest('a')) sluit(true); });
+	menu.addEventListener('close', function () {
+		toggle.setAttribute('aria-expanded', 'false');
+		if (mobiel.matches) toggle.focus({ preventScroll: true });
+	});
+	// Breder dan 900px is er geen menuknop meer: dan gaat het menu dicht
+	mobiel.addEventListener('change', function () { if (!mobiel.matches) sluit(true); });
 }
 
 function initReveal() {

@@ -23,3 +23,7 @@ Beheer en werkwijze: zie `docs/`. De Supabase-functie deploy je alleen volgens `
 - **`npm run catalogus-diff`** vergelijkt de catalogus die de Supabase-functie nu leest (https://jelgers3d.nl/js/winkel.json, alleen lezen) met `dist/js/winkel.json`; vanaf cutover-stap 2 ook met de live nieuwe site: `npm run catalogus-diff -- https://jelgers3d.nl/js/winkel.json https://jsdesign.nl/js/winkel.json`. Draai het vlak vóór stap 4: alleen bij exitcode 0 mag `SITE_URL` naar jsdesign.nl. Niet in CI, want de live webshop kan tot de content-freeze nog wijzigen.
 
 **Bewuste afwijking van de oude webshop** (een nieuw product, een andere prijs, een nieuwe sleutel in `winkel.json` zoals `winkel.logo`): `contract` houdt dan elke publicatie tegen, ook de nachtelijke build voor introductieprijzen en deadlines. Zet in dezelfde commit het onderwerp uit de foutmelding met de reden in `AFWIJKINGEN` bovenaan `tools/contract.mjs`; daar staan voorbeelden. Vóór de cutover geldt de content-freeze, dan hoort er niets bij te komen. De referentie zelf pas je niet aan: die maak je alleen opnieuw bij een her-sync met de oude webshop (`tools/contract-referentie.mjs`), en het verschil kijk je dan apart na.
+
+## Ontwerp
+
+- **Het teken in één pijlerkleur** is een goedgekeurde variant op de huisstijlregel "het teken niet herkleuren": in de header van een pagina die bij een pijler hoort (`body data-pillar`) staan alle drie de delen in die pijlerkleur; elders, zoals in de footer, houdt het teken zijn drie kleuren.

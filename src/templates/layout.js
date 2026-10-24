@@ -30,14 +30,19 @@ function layout(page, ctx) {
 	// Links naar de homepage gaan naar de map ("./", "../" of "/"), niet naar index.html: dat is voor Google een
 	// tweede adres van dezelfde pagina
 	const home = root || './';
-	const headerValues = { root: root, home: home, logo: ctx.partials.logo };
+	const socials = site.socials || {};
+	// Het mobiele menu (een dialog in de header) toont per pijler de korte omschrijving uit de hub, en de socials
+	const headerValues = {
+		root: root, home: home, logo: ctx.partials.logo,
+		instagram: h.esc(socials.instagram || site.instagram), linkedin: h.esc(socials.linkedin || ''), github: h.esc(socials.github || '')
+	};
 	Object.keys(NAV).forEach(function (key) {
 		headerValues['nav:' + key] = page.path === NAV[key] ? ' aria-current="page"' : (section === key ? ' data-ancestor' : '');
 	});
+	ctx.pillars.forEach(function (p) { headerValues['kort:' + p.id] = h.esc(p.hub.kort); });
 	let header = h.fill(ctx.partials.header, headerValues);
 	if (page.name === 'home') header = header.replace(/href="\.\/#/g, 'href="#');
 
-	const socials = site.socials || {};
 	const footer = h.fill(ctx.partials.footer, {
 		root: root,
 		home: home,

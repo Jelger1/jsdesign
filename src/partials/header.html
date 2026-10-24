@@ -1,9 +1,6 @@
 <a class="skip-link" href="#main">Direct naar de inhoud</a>
 <header class="site-header">
 	<div class="header-inner">
-		<button class="nav-toggle" type="button" aria-label="Menu" aria-controls="main-nav" aria-expanded="false">
-			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-		</button>
 		<a class="brand" href="{{home}}" aria-label="JS Design, naar de homepage">
 			{{logo}}
 		</a>
@@ -24,5 +21,38 @@
 			</svg>
 			<span id="cart-count" class="cart-count" hidden>0</span>
 		</button>
+		<button class="nav-toggle menu-knop" type="button" aria-controls="site-menu" aria-expanded="false">
+			<span class="menu-knop-tekst">Menu</span>
+			<span class="menu-icoon" aria-hidden="true"><span></span><span></span><span></span></span>
+		</button>
 	</div>
+	<!-- Het menu onder 900px: een modale dialog die src/js/ui.js opent met showModal(). Zonder JavaScript blijft het
+	     gewone menu hierboven zichtbaar (header.css, scripting:none). -->
+	<dialog class="menu" id="site-menu" aria-label="Menu">
+		<div class="menu-balk">
+			<a class="brand" href="{{home}}" aria-label="JS Design, naar de homepage">{{logo}}</a>
+			<button class="menu-sluit menu-knop" type="button">
+				<span class="menu-knop-tekst">Sluiten</span>
+				<span class="menu-icoon menu-icoon--kruis" aria-hidden="true"><span></span><span></span><span></span></span>
+			</button>
+		</div>
+		<nav class="menu-nav" aria-label="Hoofdmenu">
+			<ol class="menu-pijlers">
+				<li data-pillar="branding"><a href="{{root}}design-branding.html"{{nav:branding}}><span class="menu-blok" aria-hidden="true">01</span><span class="menu-pijler"><span class="menu-naam">Branding</span><span class="menu-wat">{{kort:branding}}</span></span></a></li>
+				<li data-pillar="digitaal"><a href="{{root}}websites-interactie.html"{{nav:digitaal}}><span class="menu-blok" aria-hidden="true">02</span><span class="menu-pijler"><span class="menu-naam">Digitaal</span><span class="menu-wat">{{kort:digitaal}}</span></span></a></li>
+				<li data-pillar="tastbaar"><a href="{{root}}3d-printen.html"{{nav:tastbaar}}><span class="menu-blok" aria-hidden="true">03</span><span class="menu-pijler"><span class="menu-naam">Tastbaar</span><span class="menu-wat">{{kort:tastbaar}}</span></span></a></li>
+			</ol>
+			<ul class="menu-meer">
+				<li><a href="{{root}}portfolio/"{{nav:portfolio}}>Portfolio</a></li>
+				<li><a href="{{root}}webshop.html"{{nav:webshop}}>Webshop</a></li>
+				<li><a href="{{root}}over.html"{{nav:over}}>Over</a></li>
+			</ul>
+			<a class="menu-cta" href="{{root}}contact.html"{{nav:contact}}>Neem contact op</a>
+		</nav>
+		<ul class="menu-socials">
+			<li><a href="{{instagram}}" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+			<li><a href="{{linkedin}}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+			<li><a href="{{github}}" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+		</ul>
+	</dialog>
 </header>
