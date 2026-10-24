@@ -3,8 +3,9 @@
 // Daarnaast de SEO-regels van de bouwmodus (SITE_MODE, net als build.js):
 // - preview (standaard): elke pagina is noindex, robots.txt noemt geen sitemap en er laadt geen analytics;
 // - productie: noindex alleen op afrekenen, bedankt, gereageerd en 404 (die vier blijven noindex) en tot fase 3 op de
-//   pijler- en tussenpagina's; wat noindex is staat niet in de sitemap en de pagina's die de oude webshop liet
-//   indexeren staan er wel in; robots.txt noemt de sitemap; nergens in dist/ staan nog links naar de oude domeinen.
+//   tussenpagina's, de contactpagina en het portfolio; wat noindex is staat niet in de sitemap en de pagina's die de
+//   oude webshop liet indexeren staan er wel in; robots.txt noemt de sitemap; nergens in dist/ staan nog links naar de
+//   oude domeinen.
 // Basisbewust: adressen op site.url (https://jsdesign.nl/...) en vanaf de hoofdmap (/... in 404.html, met BASE_PATH
 // ervoor) worden bestanden in dist/. Zo worden ook canonical, og:image, JSON-LD, sitemap, feed, llms.txt en de
 // kennisbank nagelopen.
@@ -20,10 +21,10 @@ const SITE_URL = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/site.json'), '
 const ORGANISATIE = SITE_URL + '/#organization';
 // Pagina's die ook in productie niet in Google horen: stappen van een bestelling, de link uit mails en de 404
 const ALTIJD_NOINDEX = ['afrekenen.html', 'bedankt.html', 'gereageerd.html', '404.html'];
-// Paginatypes (body data-page) die tot fase 3 bewust noindex zijn: de pijlers en de tussenpagina's
-// (src/templates/pillar.js), de contactpagina en het portfolio. Krijgt een type in fase 3 zijn volledige inhoud, haal
-// het dan hier weg: vanaf dan is noindex daar in productie een fout, net als op elke andere pagina buiten ALTIJD_NOINDEX.
-const NOINDEX_TOT_FASE_3 = ['pillar', 'placeholder', 'contact', 'portfolio'];
+// Paginatypes (body data-page) die tot fase 3 bewust noindex zijn: tussenpagina's, de contactpagina en het portfolio.
+// Krijgt een type in fase 3 zijn volledige inhoud, haal het dan hier weg: vanaf dan is noindex daar in productie een
+// fout, net als op elke andere pagina buiten ALTIJD_NOINDEX. De pijlerpagina's (pillar) zijn klaar en indexeerbaar.
+const NOINDEX_TOT_FASE_3 = ['placeholder', 'contact', 'portfolio'];
 // De pagina's die de oude webshop liet indexeren (28): alle pagina's uit de contractreferentie behalve ALTIJD_NOINDEX,
 // precies de vier die daar al noindex waren. In productie blijven ze indexeerbaar en staan ze in de sitemap, welk
 // paginatype ze ook krijgen; anders kost de domeinwissel hun plek in Google. Of ze bestaan, toetst npm run contract.
@@ -33,7 +34,7 @@ const OUD_INDEXEERBAAR = fs.existsSync(REFERENTIE)
 	: [];
 // Nieuwe paginatypes (body data-page): daar is een te lange title of description een fout. De overige komen
 // 1-op-1 uit de oude webshop; daar is het een waarschuwing.
-const NIEUWE_TYPES = ['pillar', 'placeholder', 'contact', 'portfolio'];
+const NIEUWE_TYPES = ['pillar', 'placeholder', 'contact', 'portfolio', 'over'];
 // De oude domeinen. Draait de site zelf op een ervan (plan B: jelgers3d.nl), dan is dat domein niet oud.
 const OUDE_DOMEINEN = ['jelgers3d.nl', 'jelgersieler.nl'].filter(function (domein) {
 	return new URL(SITE_URL).hostname.replace(/^www\./, '') !== domein;

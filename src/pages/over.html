@@ -1,0 +1,67 @@
+<!-- De Over-pagina (over.html). {{...}} wordt door build.js ingevuld (zie src/templates/over.js): het kruimelpad, het
+     portret en de vaardigheden en het gereedschap uit data/skills.json. Het verhaal van JelgerS3D naar JS Design staat
+     bewust niet hier, maar in de FAQ op de home. -->
+<section class="container over-hero" aria-labelledby="over-titel">
+	<div class="over-hero-tekst">
+		{{breadcrumbs}}
+		<p class="kicker">Over</p>
+		<h1 id="over-titel">Hoi, ik ben Jelger</h1>
+		<p class="over-lead">Ik ben Jelger Sieler, en JS Design is mijn studio in Kerkrade. Ik ontwerp merken, bouw websites en interactieve verhalen, en ontwerp en print objecten in 3D.</p>
+		<p>JS Design is klein: ik werk alleen. Je praat dus altijd direct met degene die het maakt, van het eerste gesprek tot de oplevering.</p>
+		<dl class="over-feiten">
+			<div><dt>Waar</dt><dd>Kerkrade, Zuid-Limburg</dd></div>
+			<div><dt>Wat</dt><dd>Branding · Digitaal · Tastbaar</dd></div>
+			<div><dt>Voor wie</dt><dd>Particulieren en ondernemers, in heel Nederland</dd></div>
+		</dl>
+		<p class="cta-row"><a class="btn primary" href="contact.html">Neem contact op</a> <a class="btn outline" href="portfolio/">Bekijk mijn werk</a></p>
+	</div>
+	<figure class="over-portret">
+		{{portret}}
+	</figure>
+</section>
+
+<section class="section container over-kunde" aria-labelledby="kunde-titel">
+	<header class="section-head">
+		<p class="kicker">Vaardigheden</p>
+		<h2 id="kunde-titel">Wat ik kan</h2>
+		<p class="section-intro">Wat ik in mijn projecten heb gedaan, met bij elke groep een voorbeeld om te bekijken.</p>
+	</header>
+	{{kunde}}
+</section>
+
+<section class="section container over-aanpak" aria-labelledby="aanpak-titel">
+	<header class="section-head">
+		<p class="kicker">Werkwijze</p>
+		<h2 id="aanpak-titel">Zo werk ik</h2>
+	</header>
+	<ol class="trap" style="--treden:5">
+		<li style="--i:0"><span class="trap-nr" aria-hidden="true">1</span><h3>Kennismaken</h3><p>Wat wil je maken, voor wie, en wat moet het vertellen?</p></li>
+		<li style="--i:1"><span class="trap-nr" aria-hidden="true">2</span><h3>Uitzoeken</h3><p>Het product, de mensen die het gebruiken, wat anderen doen en welke regels gelden.</p></li>
+		<li style="--i:2"><span class="trap-nr" aria-hidden="true">3</span><h3>Richting kiezen</h3><p>Een paar richtingen naast elkaar; samen kiezen we er één.</p></li>
+		<li style="--i:3"><span class="trap-nr" aria-hidden="true">4</span><h3>Maken in stappen</h3><p>Ik laat tussendoor zien hoe het wordt, zodat we vroeg kunnen bijsturen.</p></li>
+		<li style="--i:4"><span class="trap-nr" aria-hidden="true">5</span><h3>Testen en opleveren</h3><p>Met jou en, waar het kan, met echte gebruikers. Daarna stel ik bij.</p></li>
+	</ol>
+	<p class="trap-noot">Per vak gaat het net iets anders: zie de werkwijze bij <a href="design-branding.html">Branding</a>, <a href="websites-interactie.html">Digitaal</a> en <a href="3d-printen.html">Tastbaar</a>.</p>
+</section>
+
+<section class="section container over-gereedschap" aria-labelledby="gereedschap-titel">
+	<header class="section-head">
+		<p class="kicker">Gereedschap</p>
+		<h2 id="gereedschap-titel">Waarmee ik werk</h2>
+	</header>
+	{{gereedschap}}
+	<p class="over-ai">Ik werk met AI als hulpmiddel, vooral bij het programmeren. Ontwerp, keuzes, controle en het contact met jou doe ik zelf.</p>
+</section>
+
+<section class="section container" aria-labelledby="contact-titel">
+	<div class="cta-band">
+		<div class="cta-band-tekst">
+			<h2 id="contact-titel">Zullen we kennismaken?</h2>
+			<p>Vertel kort wat je zoekt. Je krijgt antwoord van mij persoonlijk.</p>
+		</div>
+		<p class="cta-row">
+			<a class="btn primary" href="contact.html">Neem contact op</a>
+			<span class="cta-band-mail">of mail naar {{mail}}</span>
+		</p>
+	</div>
+</section>

@@ -84,6 +84,8 @@ function graph(page, site, urls) {
 		primaryImageOfPage: { '@type': 'ImageObject', url: urls.ogImage }
 	};
 	if (page.name === 'home') webPage.about = { '@id': id.organization };
+	// Een pagina over één entiteit (de Over-pagina gaat over de persoon): page.about is de @id daarvan
+	if (page.about) webPage.about = webPage.mainEntity = { '@id': page.about };
 	const extra = (page.jsonLd || []).map(function (item) {
 		const copy = Object.assign({}, item);
 		delete copy['@context'];

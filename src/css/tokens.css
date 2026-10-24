@@ -83,7 +83,7 @@
 	--space-16:4rem;
 	--space-20:5rem;
 
-	/* Layout. De home en de pijlerpagina Tastbaar gebruiken de compacte sectieruimte (home.css en pages.css) */
+	/* Layout. De home, de pijlerpagina's en Over gebruiken de compacte sectieruimte (home.css, pijler.css, over.css) */
 	--max-width:1280px;
 	--gutter:clamp(1rem, 3vw, 2rem);
 	--section-space:clamp(4rem, 9vw, 7rem);

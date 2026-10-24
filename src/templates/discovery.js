@@ -27,6 +27,11 @@ function prijs(product) {
 
 function link(site, path, label) { return '[' + label + '](' + site.url + '/' + path + ')'; }
 
+// De vragen van de pijlerpagina's (pillars.json > pagina.faq), in de volgorde van de pijlers
+function pijlerFaq(ctx) {
+	return ctx.pillars.reduce(function (alle, p) { return alle.concat((p.pagina && p.pagina.faq) || []); }, []);
+}
+
 // full = false: llms.txt (kort, met links). full = true: llms-full.txt (ook producten, FAQ en de printservice).
 function llms(ctx, full) {
 	const site = ctx.site;
@@ -63,7 +68,7 @@ function llms(ctx, full) {
 			lines.push('- ' + link(site, h.productUrl(p), p.name) + (prijs(p) ? ' (' + prijs(p) + ')' : '') + ': ' + (p.seo && p.seo.description ? p.seo.description : (p.tagline || '')));
 		});
 		lines.push('', '## Veelgestelde vragen', '');
-		(site.homeFaq || []).concat(site.faq || []).forEach(function (item) { lines.push('### ' + item.q, '', item.a, ''); });
+		(site.homeFaq || []).concat(pijlerFaq(ctx), site.faq || []).forEach(function (item) { lines.push('### ' + item.q, '', item.a, ''); });
 	}
 	lines.push('', '## Over en contact', '',
 		'- ' + link(site, 'over.html', 'Over JS Design'),
@@ -103,8 +108,8 @@ function kennis(ctx) {
 		projecten: (ctx.projects || []).map(function (p) {
 			return { titel: p.title, pijler: p.pillar, soort: p.tags, omschrijving: p.text, url: site.url + '/portfolio/#' + p.id, live: p.url || null, teamproject: Boolean(p.team) };
 		}),
-		// Eerst de vragen over JS Design zelf (home), dan die over de webshop
-		faq: (site.homeFaq || []).map(function (item) { return { q: item.q, a: item.a }; }).concat(site.faq || [])
+		// Eerst de vragen over JS Design zelf (home), dan die over de pijlers en die over de webshop
+		faq: (site.homeFaq || []).concat(pijlerFaq(ctx)).map(function (item) { return { q: item.q, a: item.a }; }).concat(site.faq || [])
 	};
 }
 

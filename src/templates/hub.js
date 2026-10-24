@@ -124,4 +124,5 @@ function hubImages(pillars, projects) {
 	return Array.from(new Set(files));
 }
 
-module.exports = { hub: hub, hubImages: hubImages };
+// DELEN en RICHTING gebruikt ook de pijlerpagina ("Je bent hier", src/templates/pillar.js)
+module.exports = { hub: hub, hubImages: hubImages, DELEN: DELEN, RICHTING: RICHTING };

@@ -1,4 +1,5 @@
-/* Categoriepagina's, tekstpagina's (privacy, 404), pijlerpagina's, de nieuwsbrief en de cookiemelding. */
+/* Categoriepagina's, tekstpagina's (privacy, 404), de contactpagina, de nieuwsbrief en de cookiemelding. De pijlerpagina's
+   staan in pijler.css. */
 
 /* Categoriepagina */
 .category-header{text-align:left;max-width:760px;margin:1.5rem 0 2.5rem 0}
@@ -24,29 +25,6 @@
 .not-found .text-page-intro{max-width:52ch;margin-left:auto;margin-right:auto}
 .not-found .cta-row,.not-found .chips{justify-content:center}
 .not-found .chips{margin-top:2.5rem}
-
-/* Pijlerpagina's (src/templates/pillar.js): kicker en blokje in de pijlerkleur (data-pillar, zie tokens.css), de
-   diensten als rustige lijst met vinkjes. Verder gelden de stijlen van de tekstpagina's. */
-.pillar-page .breadcrumbs ol{margin:0 0 1.75rem 0;padding:0;list-style:none}
-.pillar-page .breadcrumbs li{margin:0}
-/* Kruimelpad zoals op de productpagina: gedempt, aqua bij aanwijzen */
-.pillar-page .breadcrumbs a:not(.btn){color:var(--fg-muted)}
-.pillar-page .breadcrumbs a:not(.btn):hover{color:var(--brand)}
-.pillar-page .kicker{color:var(--pillar-text)}
-.pillar-page .kicker::before{background:var(--pillar)}
-.check-list{margin:1.75rem 0 0 0;padding:0;list-style:none;border-top:1px solid var(--border)}
-.check-list li,.text-page .check-list li{display:flex;align-items:baseline;gap:0.85rem;margin:0;padding:0.8rem 0;border-bottom:1px solid var(--border);color:var(--fg);line-height:1.5}
-/* Het vinkje is versiering: met de lege alt-tekst achter de schuine streep leest een schermlezer het niet voor (de
-   eerste regel is de terugval voor browsers zonder alt-tekst) */
-.check-list li::before{content:'✓';content:'✓' / '';flex:none;color:var(--pillar-text, var(--brand));font-weight:700}
-/* Geen schuine DM Sans: die heeft geen eigen cursief, de browser zou de letters scheef trekken */
-.pillar-page .text-page-note{display:block;margin:1.25rem 0 0 0;font-style:normal;font-size:0.9rem}
-.pillar-page .cta-row{flex-wrap:wrap;margin:1.75rem 0 0 0}
-.pillar-page[data-pillar="tastbaar"]{max-width:var(--max-width)}
-.pillar-page[data-pillar="tastbaar"] > :not(.breadcrumbs){max-width:760px}
-/* Tastbaar (3d-printen.html): onder de intro staan de webshopsecties van de oude homepage (src/pages/tastbaar.html),
-   met dezelfde compacte sectieruimte als daar (home.css) */
-body[data-page="pillar"][data-pillar="tastbaar"]{--section-space:var(--section-space-compact)}
 
 /* Contactpagina (src/pages/contact.html): de kop zoals op de tekstpagina's, het formulier van de oude homepage (stijl in
    styles.css) en daaronder de directe contactgegevens */

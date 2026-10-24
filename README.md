@@ -18,7 +18,7 @@ Beheer en werkwijze: zie `docs/`. De Supabase-functie deploy je alleen volgens `
 
 ## Controles en het contract met de oude webshop
 
-- **`npm run check`** volgt `SITE_MODE` en `BASE_PATH` van de build. In de preview is elke pagina noindex. In productie mag noindex alleen op afrekenen, bedankt, gereageerd en 404 (en tot fase 3 op de pijler- en tussenpagina's), staan de 28 pagina's die de oude webshop liet indexeren in de sitemap en linkt niets in `dist/` nog naar jelgers3d.nl of jelgersieler.nl.
+- **`npm run check`** volgt `SITE_MODE` en `BASE_PATH` van de build. In de preview is elke pagina noindex. In productie mag noindex alleen op afrekenen, bedankt, gereageerd en 404 (en tot fase 3 op de tussenpagina's, de contactpagina en het portfolio), staan de 28 pagina's die de oude webshop liet indexeren in de sitemap en linkt niets in `dist/` nog naar jelgers3d.nl of jelgersieler.nl.
 - **`npm run contract`** toetst `dist/` aan `tests/contract/referentie.json`, eenmalig gemaakt uit de build van de live webshop: de 32 pagina's, de mail- en lettertypebestanden, de beeldnamen, `winkel.json` (sleutels, producten, varianten en verkoopwijze), de basis- en introductieprijzen in `data/products.json` en de `g:id`'s van de feed. Het draait in CI en vóór elke publicatie.
 - **`npm run catalogus-diff`** vergelijkt de catalogus die de Supabase-functie nu leest (https://jelgers3d.nl/js/winkel.json, alleen lezen) met `dist/js/winkel.json`; vanaf cutover-stap 2 ook met de live nieuwe site: `npm run catalogus-diff -- https://jelgers3d.nl/js/winkel.json https://jsdesign.nl/js/winkel.json`. Draai het vlak vóór stap 4: alleen bij exitcode 0 mag `SITE_URL` naar jsdesign.nl. Niet in CI, want de live webshop kan tot de content-freeze nog wijzigen.
 

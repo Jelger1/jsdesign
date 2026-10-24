@@ -36,6 +36,73 @@
 					"project": "sanctus"
 				}
 			]
+		},
+		"pagina": {
+			"lead": "Een merk wordt herkenbaar als alles bij elkaar hoort, van etiket tot scherm. Ik ontwerp dat beeld en leg het vast, zodat ook het volgende product erbij past.",
+			"kort": "Bij JS Design in Kerkrade ontwerp ik merkidentiteiten, huisstijlen en visual design: van etiket, poster en tafelkaart tot shirts, posts en schermen. Ik begin met onderzoek, zet een paar richtingen naast elkaar en leg de gekozen richting vast op een brandboard. Drukwerk lever ik drukklaar aan, volgens de eisen van je drukker.",
+			"werkwoord": "ontwerp",
+			"diensten": [
+				{
+					"naam": "Merkidentiteit en logo",
+					"tekst": "Een herkenbaar beeld met een idee erachter, zoals de zon met de W van het café op het etiket van Sanctus Fusion."
+				},
+				{
+					"naam": "Huisstijl",
+					"tekst": "Kleuren, letters, vormen en toon op één brandboard, zodat alles bij elkaar blijft horen."
+				},
+				{
+					"naam": "Visual design: verpakking, merch en social",
+					"tekst": "Etiketten, tafelkaarten, posters, shirts en posts, drukklaar aangeleverd."
+				},
+				{
+					"naam": "UI/UX-design",
+					"tekst": "Schermen die werken voor wie ze gebruikt, ontworpen na onderzoek en gesprekken, zoals een tabletapp voor patiënten."
+				}
+			],
+			"aanpak": [
+				{
+					"stap": "Kennismaken",
+					"tekst": "Wat maak je, voor wie, en wat moet het merk vertellen?"
+				},
+				{
+					"stap": "Onderzoeken",
+					"tekst": "Het product, wat anderen doen, en bij schermen de gebruikers."
+				},
+				{
+					"stap": "Richtingen kiezen",
+					"tekst": "Een paar varianten naast elkaar; samen kiezen we er één."
+				},
+				{
+					"stap": "Vastleggen",
+					"tekst": "Logo, letters, kleuren, vormen en toon op een brandboard."
+				},
+				{
+					"stap": "Toepassen",
+					"tekst": "Van taplens tot tafelkaart en post, klaar voor de drukker."
+				}
+			],
+			"cases": [
+				"sanctus",
+				"kunstroute"
+			],
+			"faq": [
+				{
+					"q": "Wat staat er in een brandboard?",
+					"a": "De bouwstenen van je merk: het logo, de letters, de vormen, het soort beeld en de toon. Zo horen de poster, de taplens en het shirt bij elkaar."
+				},
+				{
+					"q": "Lever je drukwerk drukklaar aan?",
+					"a": "Ja. Ik maak de bestanden volgens de eisen van je drukker, bijvoorbeeld in CMYK en met 3 mm afloop. De tafelkaart van Sanctus Fusion ging zo door meerdere drukversies tot hij klopte."
+				},
+				{
+					"q": "Kan mijn huisstijl meegroeien met een nieuw product?",
+					"a": "Ja. Toen het café een tweede bier kreeg, Sanctus Mordax, kreeg dat dezelfde opbouw als Sanctus Fusion, met een eigen krans van vlierbloesem en vlierbes."
+				},
+				{
+					"q": "Ontwerp je ook schermen en apps?",
+					"a": "Ja, dat valt onder UI/UX-design. Voor de kunstcollectie van een ziekenhuis ontwierp ik een tabletapp voor herstellende patiënten: eerst kijken en praten op de afdeling, daarna grote knoppen, eenvoudige taal en een route die je zelf samenstelt."
+				}
+			]
 		}
 	},
 	{
@@ -75,6 +142,75 @@
 					"label": "Mijntijd Heerlen"
 				}
 			]
+		},
+		"pagina": {
+			"lead": "Ik ontwerp en bouw websites, webshops en interactieve verhalen op maat, zonder standaardsjabloon. Van een besloten bestelportaal voor horeca tot een keuzeverhaal over Kerkrade in 1951.",
+			"kort": "JS Design ontwerpt en bouwt websites, webshops en interactieve verhalen op maat, vanuit Kerkrade. Geen standaardsjabloon, maar alleen de functies die je nodig hebt. Ik bouw in stappen en laat tussendoor zien hoe het werkt, zodat we vroeg kunnen bijsturen. Zo kreeg Brouwerij Rolduc één site voor bezoekers, bestellers en horecazaken.",
+			"werkwoord": "bouw",
+			"diensten": [
+				{
+					"naam": "Websites op maat",
+					"tekst": "Alleen de functies die je nodig hebt, zoals reserveren of een bezoekpagina in drie talen."
+				},
+				{
+					"naam": "Webshops op maat",
+					"tekst": "Overzichtelijk zoeken, kiezen en bestellen, met de productinformatie die verplicht is, zoals allergenen en prijs per liter."
+				},
+				{
+					"naam": "Front-end development",
+					"tekst": "Snelle, toegankelijke pagina's in HTML, CSS en JavaScript, met koppelingen zoals een eigen login per klant."
+				},
+				{
+					"naam": "Interactieve verhalen (scrollytelling)",
+					"tekst": "Een verhaal dat je zelf doorloopt, met keuzes, beeld, geluid en voorlezen."
+				}
+			],
+			"aanpak": [
+				{
+					"stap": "Uitzoeken",
+					"tekst": "Wie gebruikt de site, wat moet erop, welke regels gelden en hoe doen anderen het?"
+				},
+				{
+					"stap": "Ontwerpen",
+					"tekst": "Binnen je huisstijl, met contrast en leesbaarheid gecontroleerd."
+				},
+				{
+					"stap": "Bouwen in stappen",
+					"tekst": "Ik laat tussendoor zien hoe het werkt, zodat we vroeg kunnen bijsturen."
+				},
+				{
+					"stap": "Testen en bijstellen",
+					"tekst": "Met jou en, waar het kan, met echte gebruikers, zoals een pilot met vier horecazaken."
+				},
+				{
+					"stap": "Live en daarna",
+					"tekst": "Fouten uit echt gebruik oplossen, en als je wilt beheer je zelf producten en prijzen."
+				}
+			],
+			"cases": [
+				"rolduc",
+				"heerlen",
+				"wmc",
+				"codemonster"
+			],
+			"faq": [
+				{
+					"q": "Kan ik zelf producten, prijzen of teksten aanpassen?",
+					"a": "Als je dat wilt, ja. Brouwerij Rolduc past producten, prijzen, foto's en voorraad zelf aan via een eigen beheerpagina, voor de webshop én het horecaportaal."
+				},
+				{
+					"q": "Moet een webshop online betalen hebben?",
+					"a": "Niet altijd. Bij Brouwerij Rolduc bestel je vooraf en betaal je bij het afhalen. In mijn eigen webshop betaal je pas als we alles hebben afgestemd."
+				},
+				{
+					"q": "Wat is een interactief verhaal?",
+					"a": "Een verhaal op een website dat je zelf doorloopt: je kiest, kijkt en luistert. In Klankstad speel je Zef in Kerkrade in 1951, en jouw keuzes bepalen hoe het afloopt."
+				},
+				{
+					"q": "Werkt de site ook goed op een telefoon?",
+					"a": "Daar ontwerp en test ik op. De site van Brouwerij Rolduc is in de testrondes ook op smalle telefoonschermen doorgelopen."
+				}
+			]
 		}
 	},
 	{
@@ -88,11 +224,11 @@
 			"3D-ontwerp",
 			"3D-printen",
 			"Prototypes en kleine series",
-			"Maatwerk voor bedrijven"
+			"Maatwerk voor bedrijven en verenigingen"
 		],
 		"seo": {
 			"title": "3D-printen & prototyping in Limburg",
-			"description": "3D-ontwerp, 3D-printen en prototypes uit Kerkrade, Limburg. Maatwerk voor particulieren, bedrijven en musea, en een eigen webshop met Limburgse ontwerpen."
+			"description": "3D-ontwerp, 3D-printen en prototypes uit Kerkrade. Maatwerk voor particulieren, bedrijven en verenigingen, en een eigen webshop met Limburgse ontwerpen."
 		},
 		"links": [
 			{
@@ -138,6 +274,74 @@
 				{
 					"label": "Prototypes",
 					"href": "3d-printen.html#diensten"
+				}
+			]
+		},
+		"pagina": {
+			"lead": "Ik ontwerp objecten in 3D en print ze op mijn eigen printers in Kerkrade. Van een vaas of een Limburgs icoon tot een kleine serie op maat voor een brouwerij of vereniging.",
+			"kort": "Bij JS Design in Kerkrade ontwerp ik objecten in 3D en print ik ze op mijn eigen printers: ontwerpen voor de webshop, prototypes en kleine series op maat voor bedrijven en verenigingen. Een ontwerp groeit in versies, met een proefprint ertussen. Je haalt het resultaat op in Kerkrade of krijgt het opgestuurd.",
+			"werkwoord": "maak",
+			"diensten": [
+				{
+					"naam": "3D-ontwerp",
+					"tekst": "Van idee of schets naar een printbaar 3D-model, gemaakt in Blender."
+				},
+				{
+					"naam": "3D-printen",
+					"tekst": "Op een Bambu Lab P1S of H2C, ook in meerdere kleuren; in PLA en waar nodig PETG of TPU."
+				},
+				{
+					"naam": "Prototypes en kleine series",
+					"tekst": "Eerst een proefprint om te testen en bij te stellen, daarna tientallen stuks per printplaat."
+				},
+				{
+					"naam": "Maatwerk voor bedrijven en verenigingen",
+					"tekst": "Objecten met je eigen logo of verhaal, zoals een lightbox, sleutelhangers of een figuur voor in de winkel."
+				}
+			],
+			"aanpak": [
+				{
+					"stap": "Idee bespreken",
+					"tekst": "Je vertelt wat je wilt maken en krijgt eerst vrijblijvend een voorstel met prijs."
+				},
+				{
+					"stap": "Ontwerpen in 3D",
+					"tekst": "Ik modelleer het object en maak het printklaar."
+				},
+				{
+					"stap": "Proefprint",
+					"tekst": "Die laat zien wat er beter kan; daarna pas ik het model aan."
+				},
+				{
+					"stap": "Printen",
+					"tekst": "In de gekozen kleuren, los of als serie op één printplaat."
+				},
+				{
+					"stap": "Ophalen of verzenden",
+					"tekst": "Je haalt het op in Kerkrade of krijgt het opgestuurd."
+				}
+			],
+			"aanpakNoot": "Bestel je een ontwerp uit de webshop? Dan sla je het ontwerpen over: je verstuurt je aanvraag, ik neem persoonlijk contact op over kleur en levering, en pas na jouw akkoord betaal je en ga ik printen. Ik streef ernaar dat je bestelling binnen een week klaar is.",
+			"cases": [
+				"jelgers3d",
+				"sanctus"
+			],
+			"faq": [
+				{
+					"q": "Kun je mijn idee eerst in 3D ontwerpen?",
+					"a": "Ja. Ik modelleer in Blender en maak de print klaar in Bambu Studio. Zo ontwierp ik D'r Joep in strakke vlakken en een drankenkaarthouder voor een café."
+				},
+				{
+					"q": "Ik heb al een 3D-bestand. Wat nu?",
+					"a": "Dan is de 3D-printservice de kortste weg: je stuurt je STL- of 3MF-bestand op en ik print het. Heb je alleen een idee, dan ontwerpen we het eerst samen."
+				},
+				{
+					"q": "Maak je ook kleine series?",
+					"a": "Ja. Ik verdeel een serie over printplaten, van sleutelhangers voor een brouwerij tot twintig eenden in één keer."
+				},
+				{
+					"q": "Kan een ontwerp op maat meerdere kleuren hebben?",
+					"a": "Vaak wel: de Custom Lightbox kan tot vier kleuren hebben. Het tarief van de 3D-printservice geldt voor één kleur per print."
 				}
 			]
 		}

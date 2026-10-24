@@ -1,6 +1,7 @@
 // De webshopsecties op de pijlerpagina Tastbaar (3d-printen.html): vult src/pages/tastbaar.html met data (USP's,
 // categorieën, de sleutelhangerteaser, rails, maatwerk, FAQ en reviews). Dit stond eerst op de homepage van de webshop
-// (src/templates/home.js) en is 1-op-1 overgenomen; pillarPage (src/templates/pillar.js) zet het onder de intro.
+// (src/templates/home.js); pillarPage (src/templates/pillar.js) zet het na de inhoud van de pijler. De stappen van een
+// bestelling staan nu in de werkwijze van de pijler, en de vragen over de pijler komen hier vóór die over de webshop.
 const h = require('./helpers');
 const c = require('./components');
 
@@ -11,9 +12,11 @@ const USP_ICONS = [
 	'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>'
 ];
 
-// Geeft de HTML van de secties en de gestructureerde gegevens die erbij horen (de FAQ)
-function tastbaarSections(ctx, template) {
+// Geeft de HTML van de secties en de gestructureerde gegevens die erbij horen (de FAQ). pijlerFaq: de vragen over de
+// pijler (pillars.json > pagina.faq), zodat de pagina één FAQ heeft
+function tastbaarSections(ctx, template, pijlerFaq) {
 	const site = ctx.site;
+	const vragen = (pijlerFaq || []).concat(site.faq);
 
 	function rail(collection) {
 		const items = ctx.products.filter(function (p) { return p.collection === collection; });
@@ -32,7 +35,7 @@ function tastbaarSections(ctx, template) {
 			+ '</a></li>';
 	}).join('\n\t\t');
 
-	const faq = site.faq.map(function (item) {
+	const faq = vragen.map(function (item) {
 		return '<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + h.esc(item.a) + '</p></details>';
 	}).join('\n\t\t');
 
@@ -85,7 +88,7 @@ function tastbaarSections(ctx, template) {
 		jsonLd: [{
 			'@context': 'https://schema.org',
 			'@type': 'FAQPage',
-			mainEntity: site.faq.map(function (item) {
+			mainEntity: vragen.map(function (item) {
 				return { '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } };
 			})
 		}]

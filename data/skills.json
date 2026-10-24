@@ -1,0 +1,166 @@
+{
+	"groepen": [
+		{
+			"groep": "Onderzoek",
+			"pijler": null,
+			"items": [
+				"Bronnen lezen en ordenen",
+				"Op locatie kijken",
+				"Gesprekken met de praktijk",
+				"Hoe anderen het doen",
+				"Welke regels gelden",
+				"Het product leren kennen"
+			],
+			"bewijs": [
+				"kunstroute",
+				"rolduc",
+				"wmc"
+			]
+		},
+		{
+			"groep": "Concepting",
+			"pijler": null,
+			"items": [
+				"Inzichten naar ontwerpeisen",
+				"Richtingen naast elkaar",
+				"Eén idee dat alles draagt",
+				"Naam- en logorichtingen"
+			],
+			"bewijs": [
+				"kunstroute",
+				"wmc",
+				"codemonster"
+			]
+		},
+		{
+			"groep": "Interactie- en UX-ontwerp",
+			"pijler": "branding",
+			"items": [
+				"Flows zonder uitleg",
+				"Voor wie moe is of één hand vrij heeft",
+				"Zoeken en kiezen",
+				"Toegankelijkheid",
+				"Vertakte keuzes"
+			],
+			"bewijs": [
+				"kunstroute",
+				"rolduc",
+				"wmc"
+			]
+		},
+		{
+			"groep": "Prototypen en testen",
+			"pijler": null,
+			"items": [
+				"Bouwen in kleine versies",
+				"Feedback van de opdrachtgever",
+				"Pilot met echte gebruikers",
+				"Testrondes per update",
+				"Concept vroeg toetsen"
+			],
+			"bewijs": [
+				"rolduc",
+				"kunstroute",
+				"jelgers3d"
+			]
+		},
+		{
+			"groep": "Visueel ontwerp en branding",
+			"pijler": "branding",
+			"items": [
+				"Etiket tot shirt in één lijn",
+				"Brandboard",
+				"Drukklaar aanleveren",
+				"Huisstijl doortrekken",
+				"Binnen een bestaande huisstijl",
+				"Stijlbord en beeldelementen"
+			],
+			"bewijs": [
+				"sanctus",
+				"wmc",
+				"heerlen"
+			]
+		},
+		{
+			"groep": "Front-end development",
+			"pijler": "digitaal",
+			"items": [
+				"HTML, CSS en JavaScript",
+				"Webshop met bestelaanvraag",
+				"Portaal met eigen login",
+				"Voorlezen, geluid en animatie",
+				"Snelheid en vindbaarheid",
+				"AI-codeerassistent, met eigen tests"
+			],
+			"bewijs": [
+				"rolduc",
+				"wmc",
+				"heerlen"
+			]
+		},
+		{
+			"groep": "Storytelling",
+			"pijler": "digitaal",
+			"items": [
+				"Keuzeverhaal in twee talen",
+				"Geschiedenis in korte hoofdstukken",
+				"Beeld, geluid en voorlezen",
+				"Menselijke verhalen bij kunst"
+			],
+			"bewijs": [
+				"wmc",
+				"heerlen",
+				"kunstroute"
+			]
+		},
+		{
+			"groep": "3D-ontwerp en printen",
+			"pijler": "tastbaar",
+			"items": [
+				"Modelleren in Blender",
+				"Printklaar in Bambu Studio",
+				"Ontwerpen in versies",
+				"PLA, PETG en TPU",
+				"Kleine series"
+			],
+			"bewijs": [
+				"jelgers3d"
+			]
+		}
+	],
+	"gereedschap": [
+		{
+			"groep": "Ontwerp",
+			"items": [
+				"Illustrator",
+				"Photoshop",
+				"InDesign"
+			]
+		},
+		{
+			"groep": "Web",
+			"items": [
+				"HTML",
+				"CSS",
+				"JavaScript",
+				"Tailwind CSS",
+				"Supabase",
+				"Git en GitHub"
+			]
+		},
+		{
+			"groep": "3D",
+			"items": [
+				"Blender",
+				"Bambu Studio",
+				"Bambu Lab P1S en H2C"
+			]
+		},
+		{
+			"groep": "Onderzoek",
+			"items": [
+				"Miro"
+			]
+		}
+	]
+}
