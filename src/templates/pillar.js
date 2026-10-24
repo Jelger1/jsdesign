@@ -66,12 +66,15 @@ function sectieKop(kicker, kop, id) {
 // Een case als grote beeldkaart. De titel is de link en dekt de hele kaart (zo blijft de linknaam kort). Een staand beeld
 // (de poster) staat helemaal in beeld op het isometrische raster, net als op het portfolio.
 function caseKaart(p, i, ctx) {
-	const entry = ctx.images[p.image];
+	// Een kaartbeeld (projects.json > kaart > 1610) is speciaal voor deze kaarten gemaakt; anders de gewone afbeelding
+	const kaart = p.kaart && p.kaart['1610'];
+	const file = kaart || p.image;
+	const entry = ctx.images[file];
 	const staand = entry.height > entry.width;
 	// Eigen klassenamen (pijler-case-...): de casepagina's gebruiken case-... al voor iets anders
 	return '\t\t<li class="pijler-case' + (staand ? ' pijler-case--staand' : '') + '" data-pillar="' + h.esc(p.pillar) + '">\n'
-		+ '\t\t\t<div class="pijler-case-beeld">' + h.img(ctx.images, p.image, {
-			alt: p.alt,
+		+ '\t\t\t<div class="pijler-case-beeld">' + h.img(ctx.images, file, {
+			alt: kaart ? p.kaart.alt : p.alt,
 			sizes: i === 0 ? '(max-width: 900px) 92vw, 760px' : '(max-width: 900px) 92vw, 600px'
 		}) + '</div>\n'
 		+ '\t\t\t<div class="pijler-case-tekst">\n'

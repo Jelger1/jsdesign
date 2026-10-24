@@ -109,6 +109,8 @@
 .werk-kaart a{position:relative;display:block;height:100%;overflow:hidden;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--dark-card);color:var(--fg);text-decoration:none;
 	transition:border-color var(--duration) var(--ease)}
 .werk-beeld{display:block;aspect-ratio:4 / 3;overflow:hidden}
+/* Een kaartbeeld met een ander beeld vanaf 900px staat in een <picture>; het beeld erin gedraagt zich als direct kind */
+.werk-beeld picture{display:contents}
 .werk-beeld img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform var(--duration-slow) var(--ease-out)}
 /* De tekst staat op een vrijwel dicht vlak (het verloop zit boven de tekst), zodat hij ook boven lichte foto's leesbaar
    blijft */

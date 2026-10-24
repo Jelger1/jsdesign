@@ -10,6 +10,19 @@ const skills = require('./skills');
 // Volgorde van het uitgelichte werk: het eerste project krijgt de grote tegel
 const UITGELICHT = ['rolduc', 'sanctus', 'wmc', 'heerlen'];
 
+// Het beeld van een tegel. Heeft het project een kaartbeeld (projects.json > kaart: speciaal voor de tegels gemaakt,
+// met een rustige onderkant voor de tekst), dan dat: 4:3 op elke breedte en vanaf 900px het staande beeld voor de
+// eerste tegel en het brede (21:9) voor de vierde. Anders de gewone afbeelding van het project.
+function tegelBeeld(p, i, ctx) {
+	const kaart = p.kaart || {};
+	const sizes = i === 0 || i === 3 ? '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 760px' : '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 380px';
+	const img = h.img(ctx.images, kaart['43'] || p.image, { alt: kaart['43'] ? kaart.alt : p.alt, sizes: sizes });
+	const groot = i === 0 ? kaart.staand : i === 3 ? kaart['219'] : null;
+	return groot
+		? '<picture><source media="(min-width: 900px)" srcset="' + h.srcset(ctx.images, groot) + '" sizes="760px">' + img + '</picture>'
+		: img;
+}
+
 function homePage(ctx, template) {
 	const site = ctx.site;
 
@@ -18,11 +31,7 @@ function homePage(ctx, template) {
 		if (!p) throw new Error('Home: onbekend project ' + id);
 		// Een project uit tier A heeft een eigen casepagina (portfolio/rolduc.html)
 		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="' + h.esc(h.projectUrl(p)) + '">'
-			+ '<span class="werk-beeld">' + h.img(ctx.images, p.image, {
-				alt: p.alt,
-				// De eerste kaart is vanaf 900px twee rijen hoog, de vierde twee kolommen breed
-				sizes: i === 0 || i === 3 ? '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 760px' : '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 380px'
-			}) + '</span>'
+			+ '<span class="werk-beeld">' + tegelBeeld(p, i, ctx) + '</span>'
 			+ '<span class="werk-tekst"><span class="werk-tags">' + h.esc(p.tags) + (p.klantopdracht ? ' · klantopdracht' : '') + (p.team ? ' · teamproject' : '') + '</span>'
 			+ '<strong class="werk-titel">' + h.esc(p.title) + '</strong></span>'
 			+ '<span class="werk-open" aria-hidden="true">→</span>'

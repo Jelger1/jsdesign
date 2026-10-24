@@ -48,8 +48,10 @@ function project(p, ctx, eerste) {
 // Tier B: een klein beeld (of zonder beeld het blokje van de pijler), titel, één zin en eventueel een live link
 function ookGemaakt(p, ctx) {
 	const pillar = ctx.pillars.find(function (x) { return x.id === p.pillar; });
-	const media = p.image
-		? h.img(ctx.images, p.image, { root: ROOT, alt: p.alt, sizes: '(max-width: 900px) 88px, 128px' })
+	// Het kaartbeeld (projects.json > kaart > 43) als dat er is, anders de gewone afbeelding
+	const kaart = p.kaart && p.kaart['43'];
+	const media = kaart || p.image
+		? h.img(ctx.images, kaart || p.image, { root: ROOT, alt: kaart ? p.kaart.alt : p.alt, sizes: '(max-width: 900px) 88px, 128px' })
 		: '<span class="ook-blok" aria-hidden="true"></span>';
 	return '\t\t\t<li id="' + h.esc(p.id) + '" class="ook-item" data-pillar="' + h.esc(p.pillar) + '">\n'
 		+ '\t\t\t\t<span class="ook-media">' + media + '</span>\n'

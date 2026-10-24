@@ -75,6 +75,13 @@ function img(manifest, file, opts) {
 		+ '>';
 }
 
+// srcset van een afbeelding, voor een <source> in een <picture> (een ander beeld per schermbreedte)
+function srcset(manifest, file, root) {
+	const entry = manifest[file];
+	if (!entry) throw new Error('Afbeelding niet gevonden in assets/: ' + file);
+	return variantsOf(entry).map(function (v) { return (root || '') + 'assets/img/' + v.file + ' ' + v.w + 'w'; }).join(', ');
+}
+
 function imgPath(manifest, file, width, root, crop) {
 	const entry = manifest[file];
 	if (!entry) throw new Error('Afbeelding niet gevonden in assets/: ' + file);
@@ -191,7 +198,7 @@ function fill(template, values) {
 
 module.exports = {
 	esc: esc, euro: euro, minPrice: minPrice, priceLabel: priceLabel, priceHtml: priceHtml, productUrl: productUrl, projectUrl: projectUrl,
-	img: img, imgPath: imgPath, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill,
+	img: img, imgPath: imgPath, srcset: srcset, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill,
 	addressLine: addressLine, privacyCheckbox: privacyCheckbox, mailCode: mailCode, mailLink: mailLink,
 	uploadField: uploadField, nieuwsbriefCheckbox: nieuwsbriefCheckbox, nieuwsbriefForm: nieuwsbriefForm
 };

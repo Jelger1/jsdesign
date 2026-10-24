@@ -209,6 +209,15 @@ function validatePagina(pillars, projects, site, skills, report) {
 	});
 }
 
+// Kaartbeelden (projects.json > kaart): per project beelden die speciaal voor de tegels op de home ("43" voor 4:3,
+// "staand" voor de grote eerste tegel, "219" voor de brede vierde), de kaarten op de pijlerpagina's ("1610") en de
+// kleine beelden in "Ook gemaakt" ("43") zijn gemaakt, met een rustige onderkant voor de tekst. Zonder kaartbeeld
+// gebruikt de site de gewone afbeelding (image).
+const KAART_VORMEN = ['43', 'staand', '219', '1610'];
+function kaartBeelden(p) {
+	return p.kaart ? KAART_VORMEN.map(function (v) { return p.kaart[v]; }).filter(Boolean) : [];
+}
+
 // De projecten (data/projects.json). Tier A krijgt een eigen casepagina (portfolio/<id>.html, src/templates/case.js),
 // tier B staat kort in "Ook gemaakt" op het portfolio, met zijn id als anker (portfolio/#dekentje) en een klein beeld als
 // image is ingevuld. De pijler is een id uit pillars.json. "klantopdracht": true zet het label Klantopdracht op de
@@ -231,6 +240,12 @@ function validateProjects(projects, pillars, site, report) {
 		if (p.image && !p.alt) report.warnings.push(where + ': alt-tekst ontbreekt bij ' + p.image);
 		if (p.url && !/^https:\/\//.test(p.url)) report.errors.push(where + ': url moet met https:// beginnen');
 		if (p.klantopdracht !== undefined && typeof p.klantopdracht !== 'boolean') report.errors.push(where + ': klantopdracht moet true of false zijn');
+		if (p.kaart) {
+			const beelden = kaartBeelden(p);
+			if (!beelden.length) report.errors.push(where + ' > kaart: geef minstens één beeld (' + KAART_VORMEN.join(', ') + ')');
+			beelden.forEach(function (b) { if (assets.indexOf(b) === -1) report.errors.push(where + ' > kaart: afbeelding "' + b + '" staat niet in assets/ (let op hoofdletters)'); });
+			if (!p.kaart.alt) report.errors.push(where + ' > kaart: alt ontbreekt (wat staat er op het kaartbeeld?)');
+		}
 		if (p.tier === 'A') validateCase(p, where, cases, site, assets, report);
 	});
 	// Toestemming van opdrachtgevers, teamgenoten en makers: zolang die niet is vastgelegd, meldt elke build het
@@ -496,6 +511,7 @@ async function build() {
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
 		.concat(projects.filter(function (p) { return p.image; }).map(function (p) { return p.image; }))
+		.concat(projects.flatMap(kaartBeelden)) // de beelden die speciaal voor de tegels en kaarten zijn gemaakt
 		.concat(cases.flatMap(caseImages)); // cover en beelden van elke casepagina
 	const imageResult = await processImages({
 		srcDir: path.join(ROOT, 'assets'),
