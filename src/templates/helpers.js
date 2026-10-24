@@ -40,6 +40,12 @@ function productUrl(product, root) {
 	return (root || '') + 'producten/' + product.id + '.html';
 }
 
+// Waar een project uit data/projects.json staat: een project uit tier A heeft een eigen casepagina
+// (portfolio/rolduc.html), een project uit tier B alleen een anker in "Ook gemaakt" op het portfolio (portfolio/#dekentje)
+function projectUrl(project, root) {
+	return (root || '') + (project.tier === 'A' ? 'portfolio/' + project.id + '.html' : 'portfolio/#' + project.id);
+}
+
 // Responsive <img> met srcset uit het afbeeldingsmanifest.
 // opts: alt, sizes, root, className, eager (boven de vouw), attrs (extra attributen als string),
 //       crop (true = de productuitsnede met het product in het midden, in plaats van de volledige foto)
@@ -184,7 +190,7 @@ function fill(template, values) {
 }
 
 module.exports = {
-	esc: esc, euro: euro, minPrice: minPrice, priceLabel: priceLabel, priceHtml: priceHtml, productUrl: productUrl,
+	esc: esc, euro: euro, minPrice: minPrice, priceLabel: priceLabel, priceHtml: priceHtml, productUrl: productUrl, projectUrl: projectUrl,
 	img: img, imgPath: imgPath, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill,
 	addressLine: addressLine, privacyCheckbox: privacyCheckbox, mailCode: mailCode, mailLink: mailLink,
 	uploadField: uploadField, nieuwsbriefCheckbox: nieuwsbriefCheckbox, nieuwsbriefForm: nieuwsbriefForm

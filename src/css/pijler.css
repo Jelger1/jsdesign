@@ -114,49 +114,49 @@ body[data-page="pillar"]{--section-space:var(--section-space-compact)}
 /* ------------------------------------------------------------------ uitgelicht werk
    Het eerste project groot (beeld en tekst naast elkaar), de rest per twee. Het laatste vak gaat naar het portfolio;
    staat het alleen op een rij, dan wordt het een brede strook. De titel is de link en dekt de hele kaart. */
-.case-raster{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-5);grid-template-columns:minmax(0, 1fr)}
-.case{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark-card);
+.pijler-case-raster{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-5);grid-template-columns:minmax(0, 1fr)}
+.pijler-case{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark-card);
 	transition:border-color var(--duration) var(--ease)}
-.case-beeld{aspect-ratio:16 / 10;overflow:hidden;background:var(--dark-secondary)}
-.case-beeld img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform var(--duration-slow) var(--ease-out)}
-.case--staand .case-beeld{background:var(--iso-lijnen), var(--dark-secondary)}
-.case--staand .case-beeld img{object-fit:contain;padding:var(--space-6);filter:drop-shadow(0 18px 32px rgba(0,0,0,0.5))}
-.case-tekst{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-5) var(--space-6) var(--space-6)}
-.case-tags{display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem 0.6rem;margin:0;font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
-.case-tags::before{content:'';flex:none;width:16px;height:10px;background:var(--pillar);clip-path:var(--js-blok)}
-.case-nr{color:var(--pillar-text)}
-.case-titel{margin:0;font-size:var(--text-xl);line-height:1.15}
-.case-titel a{color:var(--fg);text-decoration:none}
-.case-titel a::after{content:'';position:absolute;inset:0;z-index:1}
-.case-titel a:focus-visible{outline:none}
-.case:focus-within{outline:var(--focus-ring);outline-offset:var(--focus-offset)}
-.case-kort{margin:0;color:var(--fg-muted)}
-.case-meer{margin-top:var(--space-2);color:var(--brand);font-weight:600}
-.case-meer::after{content:'→';display:inline-block;margin-left:0.4rem;transition:transform var(--duration) var(--ease)}
-.case:hover{border-color:var(--pillar)}
-.case:hover .case-beeld img{transform:scale(1.03)}
-.case:hover .case-meer::after{transform:translateX(4px)}
+.pijler-case-beeld{aspect-ratio:16 / 10;overflow:hidden;background:var(--dark-secondary)}
+.pijler-case-beeld img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform var(--duration-slow) var(--ease-out)}
+.pijler-case--staand .pijler-case-beeld{background:var(--iso-lijnen), var(--dark-secondary)}
+.pijler-case--staand .pijler-case-beeld img{object-fit:contain;padding:var(--space-6);filter:drop-shadow(0 18px 32px rgba(0,0,0,0.5))}
+.pijler-case-tekst{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-5) var(--space-6) var(--space-6)}
+.pijler-case-tags{display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem 0.6rem;margin:0;font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
+.pijler-case-tags::before{content:'';flex:none;width:16px;height:10px;background:var(--pillar);clip-path:var(--js-blok)}
+.pijler-case-nr{color:var(--pillar-text)}
+.pijler-case-titel{margin:0;font-size:var(--text-xl);line-height:1.15}
+.pijler-case-titel a{color:var(--fg);text-decoration:none}
+.pijler-case-titel a::after{content:'';position:absolute;inset:0;z-index:1}
+.pijler-case-titel a:focus-visible{outline:none}
+.pijler-case:focus-within{outline:var(--focus-ring);outline-offset:var(--focus-offset)}
+.pijler-case-kort{margin:0;color:var(--fg-muted)}
+.pijler-case-meer{margin-top:var(--space-2);color:var(--brand);font-weight:600}
+.pijler-case-meer::after{content:'→';display:inline-block;margin-left:0.4rem;transition:transform var(--duration) var(--ease)}
+.pijler-case:hover{border-color:var(--pillar)}
+.pijler-case:hover .pijler-case-beeld img{transform:scale(1.03)}
+.pijler-case:hover .pijler-case-meer::after{transform:translateX(4px)}
 /* Naar het portfolio: een open vak, zoals een lege plek in een technische tekening */
-.case-alle a{display:flex;flex-direction:column;justify-content:flex-end;gap:var(--space-2);height:100%;min-height:11rem;padding:var(--space-6);
+.pijler-case-alle a{display:flex;flex-direction:column;justify-content:flex-end;gap:var(--space-2);height:100%;min-height:11rem;padding:var(--space-6);
 	border:1px dashed var(--border-strong);border-radius:var(--radius-lg);background:var(--iso-lijnen);color:var(--fg);text-decoration:none;
 	transition:border-color var(--duration) var(--ease)}
-.case-alle-label{font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
-.case-alle strong{font-family:var(--font-display);font-size:var(--text-xl);font-stretch:112%;line-height:1.15}
-.case-alle strong::after{content:'→';display:inline-block;margin-left:0.5rem;font-family:var(--font-body);font-weight:400;color:var(--pillar-text);transition:transform var(--duration) var(--ease)}
-.case-alle a > span:last-child{color:var(--fg-muted)}
-.case-alle a:hover{border-style:solid;border-color:var(--pillar)}
-.case-alle a:hover strong::after{transform:translateX(4px)}
+.pijler-case-alle-label{font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
+.pijler-case-alle strong{font-family:var(--font-display);font-size:var(--text-xl);font-stretch:112%;line-height:1.15}
+.pijler-case-alle strong::after{content:'→';display:inline-block;margin-left:0.5rem;font-family:var(--font-body);font-weight:400;color:var(--pillar-text);transition:transform var(--duration) var(--ease)}
+.pijler-case-alle a > span:last-child{color:var(--fg-muted)}
+.pijler-case-alle a:hover{border-style:solid;border-color:var(--pillar)}
+.pijler-case-alle a:hover strong::after{transform:translateX(4px)}
 @media (min-width:760px){
-	.case-raster{grid-template-columns:repeat(2, minmax(0, 1fr))}
-	.case:first-child,.case-alle:first-child,.case-alle:nth-child(even){grid-column:1 / -1}
+	.pijler-case-raster{grid-template-columns:repeat(2, minmax(0, 1fr))}
+	.pijler-case:first-child,.pijler-case-alle:first-child,.pijler-case-alle:nth-child(even){grid-column:1 / -1}
 }
 @media (min-width:900px){
-	.case:first-child{display:grid;grid-template-columns:minmax(0, 1.55fr) minmax(0, 1fr)}
+	.pijler-case:first-child{display:grid;grid-template-columns:minmax(0, 1.55fr) minmax(0, 1fr)}
 	/* Het beeld vult de hoogte van de tekst (minstens 24rem), ook een staand beeld: het telt niet mee voor de rijhoogte */
-	.case:first-child .case-beeld{position:relative;aspect-ratio:auto;min-height:24rem}
-	.case:first-child .case-beeld img{position:absolute;inset:0}
-	.case:first-child .case-tekst{justify-content:center;padding:var(--space-10)}
-	.case:first-child .case-titel{font-size:var(--text-2xl)}
+	.pijler-case:first-child .pijler-case-beeld{position:relative;aspect-ratio:auto;min-height:24rem}
+	.pijler-case:first-child .pijler-case-beeld img{position:absolute;inset:0}
+	.pijler-case:first-child .pijler-case-tekst{justify-content:center;padding:var(--space-10)}
+	.pijler-case:first-child .pijler-case-titel{font-size:var(--text-2xl)}
 }
 
 /* ------------------------------------------------------------------ wat ik kan (ook Over en home)
@@ -194,11 +194,11 @@ body[data-page="pillar"]{--section-space:var(--section-space-compact)}
 }
 
 @media (prefers-reduced-motion:reduce){
-	.case-beeld img,.case-meer::after,.case-alle strong::after,.pijler-ook-naam::after{transition:none}
+	.pijler-case-beeld img,.pijler-case-meer::after,.pijler-case-alle strong::after,.pijler-ook-naam::after{transition:none}
 }
 @media (forced-colors:active){
 	.pijler-deel,.pijler-wijzer{stroke:CanvasText}
 	.pijler-deel.is-hier,.pijler-wijzer-punt{fill:CanvasText}
-	.pijler-nr,.trap-nr,.pijler-label::before,.kunde-naam::before,.case-tags::before,.pijler-ook-naam::before{forced-color-adjust:none;background:CanvasText;color:Canvas}
+	.pijler-nr,.trap-nr,.pijler-label::before,.kunde-naam::before,.pijler-case-tags::before,.pijler-ook-naam::before{forced-color-adjust:none;background:CanvasText;color:Canvas}
 	.pijler-band{display:none}
 }

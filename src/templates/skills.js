@@ -3,12 +3,10 @@
 // Ook het adres van een case staat hier, zodat pijler- en Over-pagina naar dezelfde plek linken.
 const h = require('./helpers');
 
-// Projecten met een eigen casepagina (portfolio/<id>.html). Tot die pagina's er zijn, linkt een case naar zijn anker
-// op het portfolio (portfolio/#rolduc).
-const CASEPAGINAS = [];
-
-function caseUrl(id, root) {
-	return (root || '') + 'portfolio/' + (CASEPAGINAS.indexOf(id) > -1 ? id + '.html' : '#' + id);
+// Een project uit tier A heeft een eigen casepagina (portfolio/<id>.html), een project uit tier B alleen een anker op
+// het portfolio (portfolio/#dekentje); zie projectUrl in helpers.js
+function caseUrl(project, root) {
+	return h.projectUrl(project, root);
 }
 
 // De groepen van een pijler, gevolgd door de algemene groepen (pijler null: onderzoek, concepting, testen). Zonder pijler:
@@ -24,7 +22,7 @@ function groepen(ctx, pijler) {
 function bewijs(groep, ctx, root, max) {
 	return (groep.bewijs || []).map(function (id) { return ctx.projects.find(function (p) { return p.id === id; }); })
 		.filter(Boolean).slice(0, max || 2)
-		.map(function (p) { return '<a href="' + caseUrl(p.id, root) + '">' + h.esc(p.title) + '</a>'; });
+		.map(function (p) { return '<a href="' + caseUrl(p, root) + '">' + h.esc(p.title) + '</a>'; });
 }
 
 function chips(items, max) {

@@ -5,6 +5,9 @@ const STAR_PATH = 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25
 
 const CARD_SIZES = '(max-width: 600px) 90vw, (max-width: 900px) 45vw, 320px';
 
+// Browserbalk boven een website (portfolio en casepagina's), met de drie kleuren van het teken als knopjes
+const BROWSERBALK = '<span class="project-browser" aria-hidden="true"><i></i><i></i><i></i></span>';
+
 function kicker(product, ctx) {
 	const type = ctx.site.types[product.type];
 	const collection = ctx.site.collections[product.collection];
@@ -125,5 +128,6 @@ function breadcrumbsLd(items, site) {
 
 module.exports = {
 	productCard: productCard, productRail: productRail, reviewsSection: reviewsSection,
-	breadcrumbs: breadcrumbs, breadcrumbsLd: breadcrumbsLd, kicker: kicker, stars: stars, reviewCard: reviewCard
+	breadcrumbs: breadcrumbs, breadcrumbsLd: breadcrumbsLd, kicker: kicker, stars: stars, reviewCard: reviewCard,
+	browserBalk: BROWSERBALK
 };

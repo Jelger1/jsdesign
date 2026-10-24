@@ -68,16 +68,17 @@ function sectieKop(kicker, kop, id) {
 function caseKaart(p, i, ctx) {
 	const entry = ctx.images[p.image];
 	const staand = entry.height > entry.width;
-	return '\t\t<li class="case' + (staand ? ' case--staand' : '') + '" data-pillar="' + h.esc(p.pillar) + '">\n'
-		+ '\t\t\t<div class="case-beeld">' + h.img(ctx.images, p.image, {
+	// Eigen klassenamen (pijler-case-...): de casepagina's gebruiken case-... al voor iets anders
+	return '\t\t<li class="pijler-case' + (staand ? ' pijler-case--staand' : '') + '" data-pillar="' + h.esc(p.pillar) + '">\n'
+		+ '\t\t\t<div class="pijler-case-beeld">' + h.img(ctx.images, p.image, {
 			alt: p.alt,
 			sizes: i === 0 ? '(max-width: 900px) 92vw, 760px' : '(max-width: 900px) 92vw, 600px'
 		}) + '</div>\n'
-		+ '\t\t\t<div class="case-tekst">\n'
-		+ '\t\t\t\t<p class="case-tags"><span class="case-nr" aria-hidden="true">0' + (i + 1) + '</span>' + h.esc(p.tags) + '</p>\n'
-		+ '\t\t\t\t<h3 class="case-titel"><a href="' + skills.caseUrl(p.id) + '">' + h.esc(p.title) + '</a></h3>\n'
-		+ '\t\t\t\t<p class="case-kort">' + h.esc(p.short) + '</p>\n'
-		+ '\t\t\t\t<span class="case-meer" aria-hidden="true">Bekijk het project</span>\n'
+		+ '\t\t\t<div class="pijler-case-tekst">\n'
+		+ '\t\t\t\t<p class="pijler-case-tags"><span class="pijler-case-nr" aria-hidden="true">0' + (i + 1) + '</span>' + h.esc(p.tags) + '</p>\n'
+		+ '\t\t\t\t<h3 class="pijler-case-titel"><a href="' + skills.caseUrl(p) + '">' + h.esc(p.title) + '</a></h3>\n'
+		+ '\t\t\t\t<p class="pijler-case-kort">' + h.esc(p.short) + '</p>\n'
+		+ '\t\t\t\t<span class="pijler-case-meer" aria-hidden="true">Bekijk het project</span>\n'
 		+ '\t\t\t</div>\n'
 		+ '\t\t</li>';
 }
@@ -151,9 +152,9 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 	// Het laatste vak gaat naar het portfolio, zodat de sectie ook zonder (gevonden) cases iets toont
 	const werk = '<section id="werk" class="section container pijler-werk" aria-labelledby="werk-titel">\n'
 		+ sectieKop('Uitgelicht werk', 'Wat ik eerder <span class="highlight">maakte</span>', 'werk-titel')
-		+ '\t<ul class="case-raster">\n'
+		+ '\t<ul class="pijler-case-raster">\n'
 		+ cases.map(function (p, i) { return caseKaart(p, i, ctx); }).join('\n') + (cases.length ? '\n' : '')
-		+ '\t\t<li class="case-alle"><a href="portfolio/"><span class="case-alle-label">Portfolio</span><strong>Meer werk bekijken</strong>'
+		+ '\t\t<li class="pijler-case-alle"><a href="portfolio/"><span class="pijler-case-alle-label">Portfolio</span><strong>Meer werk bekijken</strong>'
 		+ '<span>Alle projecten op een rij, met wat ik deed en hoe.</span></a></li>\n'
 		+ '\t</ul>\n'
 		+ '</section>\n';

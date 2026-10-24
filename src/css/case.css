@@ -1,0 +1,141 @@
+/* Casepagina's (portfolio/<id>.html, src/templates/case.js). De hero staat in de kleurwereld van de pijler
+   ([data-surface], tokens.css en brand.css), met een schuine onderkant onder 30° zoals de banden van het teken. Daarna,
+   op donker: "In het kort" en de hoofdstukken. Vanaf 900px staat de kop van een hoofdstuk links (4 delen) en de tekst
+   met de beelden rechts (8 delen); brede beelden en voor/na-paren van schermen nemen de volle breedte. Scanbaar: korte
+   alinea's, details achter "Lees meer", elk beeld met een onderschrift. Bewust zonder in- of opschuivende animaties.
+   Op raspberry geldt: volle slate, tekst minstens 17px en labels minstens 14px/600 (HUISSTIJL). */
+.case{position:relative;z-index:var(--z-content);padding-bottom:clamp(4rem, 8vw, 6rem)}
+
+/* ------------------------------------------------------------------ hero in de pijlerwereld */
+.case-hero{padding:clamp(1.25rem, 3vw, 2rem) 0 calc(clamp(2.5rem, 6vw, 4rem) + var(--slant));
+	clip-path:polygon(0 0, 100% 0, 100% calc(100% - var(--slant)), 0 100%)}
+.case-hero-in{max-width:var(--max-width);margin:0 auto;padding:0 var(--gutter)}
+.case-hero .breadcrumbs ol{margin:0 0 clamp(1.5rem, 4vw, 2.5rem);padding:0;list-style:none;font-size:var(--text-sm);color:var(--fg)}
+.case-hero .breadcrumbs li + li::before{color:var(--fg)}
+/* Op raspberry zijn kleine letters minstens halfvet (HUISSTIJL) */
+.case-hero[data-surface="branding"] .breadcrumbs ol{font-weight:600}
+.case-hero-grid{display:grid;grid-template-columns:minmax(0, 1fr);gap:clamp(1.75rem, 4vw, 2.5rem)}
+.case-hero .kicker{font-size:var(--text-sm);font-weight:600;letter-spacing:0.1em;margin:0 0 1rem}
+.case-hero h1{font-size:clamp(2.25rem, 1.35rem + 3.8vw, 4.5rem);line-height:1;letter-spacing:-0.015em;margin:0;text-wrap:balance}
+.case-lead{margin:1.25rem 0 0;max-width:38ch;font-size:clamp(1.125rem, 1rem + 0.55vw, 1.375rem);line-height:1.45;color:var(--fg);text-wrap:pretty}
+
+/* De cover: schermen in een browserkader, staande beelden (etiket, foto) in hun geheel op een donker vlak. Binnen een
+   vlak worden --brand, --border en --dark-secondary slate of doorzichtig; in het kader gelden weer de donkere waarden. */
+.case-cover{--brand:var(--pillar-digitaal);--border:#252b33;--dark-secondary:#151920;
+	position:relative;margin:0;align-self:start;overflow:hidden;border-radius:var(--radius-lg);background:var(--dark);
+	border:1px solid rgba(8,10,13,0.35);box-shadow:0 24px 60px rgba(8,10,13,0.35)}
+.case-cover img{display:block;width:100%;height:auto}
+.case-cover--staand{display:flex;justify-content:center;padding:clamp(1rem, 3vw, 1.75rem)}
+.case-cover--staand img{width:auto;max-width:100%;max-height:min(70vh, 620px);border-radius:var(--radius)}
+
+/* Specificaties: een rustige tabel met haarlijnen */
+.case-spec{margin:0;padding:0}
+.case-spec-rij{display:grid;grid-template-columns:minmax(0, 7.5rem) minmax(0, 1fr);gap:0.25rem 1rem;padding:0.7rem 0;border-top:1px solid var(--border)}
+.case-spec-rij:last-child{border-bottom:1px solid var(--border)}
+.case-spec dt{font:600 var(--text-sm)/1.55 var(--font-mono);letter-spacing:0.06em;text-transform:uppercase;color:var(--fg)}
+.case-spec dd{margin:0;font-size:1.0625rem;line-height:1.5;color:var(--fg)}
+
+@media (min-width:900px){
+	.case-hero-grid{grid-template-columns:minmax(0, 5fr) minmax(0, 7fr);grid-template-areas:"tekst cover" "spec cover";column-gap:clamp(2.5rem, 5vw, 4.5rem);row-gap:2rem;align-items:start}
+	.case-hero-tekst{grid-area:tekst}
+	/* De cover staat midden naast tekst en specificaties */
+	.case-cover{grid-area:cover;align-self:center}
+	.case-spec{grid-area:spec}
+}
+
+/* ------------------------------------------------------------------ in het kort */
+.case-kort{padding-top:clamp(2.5rem, 6vw, 4rem);padding-bottom:0;display:grid;grid-template-columns:minmax(0, 1fr);gap:0.85rem}
+.case-kort h2{display:flex;align-items:center;gap:0.6rem;margin:0;font:600 var(--text-xs)/1.4 var(--font-mono);font-stretch:normal;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--pillar-text)}
+.case-kort h2::before{content:'';flex:none;width:1.65em;height:1.02em;background:var(--pillar);clip-path:var(--js-blok)}
+.case-kort p{margin:0;max-width:46ch;font-size:clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);line-height:1.5;color:var(--fg);text-wrap:pretty}
+
+/* ------------------------------------------------------------------ hoofdstukken */
+.case-stappen{padding-top:0;padding-bottom:0}
+.case-stap{display:grid;grid-template-columns:minmax(0, 1fr);gap:1.25rem;margin-top:clamp(2.75rem, 7vw, 4.5rem);padding-top:clamp(1.5rem, 3vw, 2rem);border-top:1px solid var(--border)}
+.case-stap-kop{display:flex;align-items:baseline;gap:0.85rem}
+.case-stap-nr{font:600 var(--text-sm)/1 var(--font-mono);letter-spacing:0.06em;color:var(--pillar-text)}
+.case-stap h2{font-size:var(--text-xl);line-height:1.15;margin:0}
+.case-stap-tekst > p{margin:0 0 1rem;max-width:62ch;font-size:var(--text-md);line-height:var(--leading);color:var(--fg-body, #c9d3d2)}
+.case-stap-tekst > :last-child{margin-bottom:0}
+
+/* Details achter "Lees meer": een gewone knop met een plus, open een min */
+.case-meer{margin:0.25rem 0 0}
+.case-meer summary{display:inline-flex;align-items:center;gap:0.55rem;padding:0.35rem 0;cursor:pointer;list-style:none;font-weight:600;color:var(--brand);border-radius:var(--radius)}
+.case-meer summary::-webkit-details-marker{display:none}
+.case-meer summary::after{content:'+';content:'+' / '';display:grid;place-items:center;width:1.4rem;height:1.4rem;border:1px solid currentColor;border-radius:var(--radius-full);font-size:1rem;line-height:1}
+.case-meer[open] summary::after{content:'−';content:'−' / ''}
+.case-meer summary:hover{text-decoration:underline;text-underline-offset:4px}
+.case-meer p{margin:0.75rem 0 0;max-width:62ch;font-size:var(--text-md);line-height:var(--leading);color:var(--fg-body, #c9d3d2)}
+
+/* Wat ik leerde: korte regels met het blokje van de pijler */
+.case-lijst{list-style:none;margin:0;padding:0;display:grid;gap:0.85rem}
+.case-lijst li{position:relative;max-width:60ch;padding-left:2rem;font-size:var(--text-md);line-height:var(--leading);color:var(--fg)}
+.case-lijst li::before{content:'';position:absolute;left:0;top:0.5em;width:1.15rem;height:0.71rem;background:var(--pillar);clip-path:var(--js-blok)}
+
+.case-links{display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;margin:1.5rem 0 0}
+
+/* Beelden met onderschrift ("Fig. 3") */
+.case-fig{margin:0}
+.case-fig-beeld{overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark-secondary)}
+.case-fig-beeld img{display:block;width:100%;height:auto}
+.case-fig figcaption{margin-top:0.7rem;max-width:68ch;font-size:var(--text-base);line-height:1.5;color:var(--fg-muted)}
+.case-fig-nr{margin-right:0.3rem;font-family:var(--font-mono);font-size:var(--text-sm);font-weight:600;letter-spacing:0.04em;color:var(--fg)}
+/* Staand beeld (telefoon, etiket, scorekaart): niet groter dan nodig */
+.case-fig--staand .case-fig-beeld{max-width:min(100%, 26rem)}
+/* Voor en na: onder elkaar op mobiel, vanaf 600px naast elkaar */
+.case-paar{display:grid;grid-template-columns:minmax(0, 1fr);gap:1.5rem}
+@media (min-width:600px){
+	.case-paar{grid-template-columns:repeat(2, minmax(0, 1fr));gap:1.25rem;align-items:start}
+}
+
+@media (min-width:900px){
+	.case-kort{grid-template-columns:minmax(0, 4fr) minmax(0, 8fr);column-gap:clamp(2rem, 5vw, 4.5rem);align-items:baseline}
+	.case-stap{grid-template-columns:minmax(0, 4fr) minmax(0, 8fr);column-gap:clamp(2rem, 5vw, 4.5rem);row-gap:2rem}
+	.case-stap-kop{grid-column:1;flex-direction:column;align-items:flex-start;gap:0.65rem}
+	.case-stap > :not(.case-stap-kop){grid-column:2}
+	.case-stap > .case-fig--breed,.case-stap > .case-paar--breed{grid-column:1 / -1}
+}
+
+/* ------------------------------------------------------------------ verantwoording */
+.case-noot{display:grid;grid-template-columns:minmax(0, 1fr);gap:0.6rem;margin-top:clamp(3rem, 7vw, 4.5rem);padding-top:0;padding-bottom:0}
+.case-noot h2{margin:0;font:600 var(--text-xs)/1.4 var(--font-mono);font-stretch:normal;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
+.case-noot p{margin:0;max-width:68ch;padding:1rem 1.25rem;border-left:3px solid var(--pillar);background:var(--dark-secondary);border-radius:0 var(--radius) var(--radius) 0;color:var(--fg-muted);line-height:var(--leading)}
+@media (min-width:900px){
+	.case-noot{grid-template-columns:minmax(0, 4fr) minmax(0, 8fr);column-gap:clamp(2rem, 5vw, 4.5rem);align-items:start}
+	.case-noot h2{padding-top:1.05rem}
+}
+
+/* ------------------------------------------------------------------ verwante cases: twee beeldkaarten */
+.case-verwant{padding-top:clamp(4rem, 9vw, 6.5rem);padding-bottom:0}
+.case-verwant-kop{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:0.75rem 1.5rem;margin:0 0 1.75rem}
+.case-verwant-kop h2{font-size:var(--text-2xl);line-height:1.1;margin:0}
+.verwant-lijst{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0, 1fr);gap:var(--space-4)}
+@media (min-width:700px){
+	.verwant-lijst{grid-template-columns:repeat(2, minmax(0, 1fr))}
+}
+.verwant-kaart{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark-card);transition:border-color var(--duration) var(--ease)}
+.verwant-beeld{aspect-ratio:16 / 9;overflow:hidden;background:var(--dark-secondary)}
+.verwant-beeld img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform var(--duration-slow) var(--ease-out)}
+.verwant-beeld--staand img{object-position:center 40%}
+.verwant-tekst{padding:1.1rem 1.25rem 1.35rem}
+.verwant-kicker{display:flex;align-items:center;gap:0.5rem;margin:0;font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--pillar-text)}
+.verwant-kicker::before{content:'';flex:none;width:16px;height:10px;background:var(--pillar);clip-path:var(--js-blok)}
+.verwant-kaart h3{margin:0.4rem 0 0;font-size:var(--text-lg);line-height:1.2}
+.verwant-kaart h3 a{color:var(--fg);text-decoration:none}
+/* De link in de kop dekt de hele kaart; de focusring komt om de kaart heen */
+.verwant-kaart h3 a::after{content:'';position:absolute;inset:0;border-radius:var(--radius-lg)}
+.verwant-kaart h3 a:focus-visible{outline:none}
+.verwant-kaart h3 a:focus-visible::after{outline:var(--focus-ring);outline-offset:var(--focus-offset)}
+.verwant-kaart p:last-child{margin:0.4rem 0 0;color:var(--fg-muted);line-height:1.55}
+.verwant-kaart:hover{border-color:var(--pillar)}
+.verwant-kaart:hover .verwant-beeld img{transform:scale(1.03)}
+
+/* ------------------------------------------------------------------ contactband */
+.case-cta{padding-top:clamp(3.5rem, 8vw, 5.5rem);padding-bottom:0}
+
+@media (prefers-reduced-motion:reduce){
+	.verwant-kaart,.verwant-beeld img{transition:none}
+}
+@media (forced-colors:active){
+	.case-kort h2::before,.case-lijst li::before,.verwant-kicker::before{forced-color-adjust:none;background:CanvasText}
+}

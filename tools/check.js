@@ -33,8 +33,9 @@ const OUD_INDEXEERBAAR = fs.existsSync(REFERENTIE)
 	? JSON.parse(fs.readFileSync(REFERENTIE, 'utf8')).html.filter(function (page) { return ALTIJD_NOINDEX.indexOf(page) === -1; })
 	: [];
 // Nieuwe paginatypes (body data-page): daar is een te lange title of description een fout. De overige komen
-// 1-op-1 uit de oude webshop; daar is het een waarschuwing.
-const NIEUWE_TYPES = ['pillar', 'placeholder', 'contact', 'portfolio', 'over'];
+// 1-op-1 uit de oude webshop; daar is het een waarschuwing. De casepagina's (portfolio/<id>.html) zijn nieuw en
+// staan bewust niet in NOINDEX_TOT_FASE_3: in productie zijn ze indexeerbaar.
+const NIEUWE_TYPES = ['pillar', 'placeholder', 'contact', 'portfolio', 'over', 'case'];
 // De oude domeinen. Draait de site zelf op een ervan (plan B: jelgers3d.nl), dan is dat domein niet oud.
 const OUDE_DOMEINEN = ['jelgers3d.nl', 'jelgersieler.nl'].filter(function (domein) {
 	return new URL(SITE_URL).hostname.replace(/^www\./, '') !== domein;
