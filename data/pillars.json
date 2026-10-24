@@ -17,26 +17,7 @@
 			"description": "Logo, huisstijl en visuele identiteit laten maken bij JS Design in Kerkrade: van merkidentiteit en UI/UX-design tot verpakking, merch en social."
 		},
 		"links": [],
-		"hub": {
-			"kort": "Logo’s, huisstijlen en visual design",
-			"takken": [
-				{
-					"label": "Logo & merk",
-					"href": "design-branding.html#diensten"
-				},
-				{
-					"label": "Huisstijl",
-					"href": "design-branding.html#diensten"
-				},
-				{
-					"label": "UI/UX-design",
-					"href": "design-branding.html#diensten"
-				},
-				{
-					"project": "sanctus"
-				}
-			]
-		},
+		"omschrijving": "Logo’s, huisstijlen en visual design",
 		"pagina": {
 			"lead": "Een merk wordt herkenbaar als alles bij elkaar hoort, van etiket tot scherm. Ik ontwerp dat beeld en leg het vast, zodat ook het volgende product erbij past.",
 			"kort": "Bij JS Design in Kerkrade ontwerp ik merkidentiteiten, huisstijlen en visual design: van etiket, poster en tafelkaart tot shirts, posts en schermen. Ik begin met onderzoek, zet een paar richtingen naast elkaar en leg de gekozen richting vast op een brandboard. Drukwerk lever ik drukklaar aan, volgens de eisen van je drukker.",
@@ -125,26 +106,7 @@
 			"description": "Een website op maat met precies de functies die je nodig hebt, of een interactief verhaal online. JS Design ontwerpt en bouwt het, in Kerkrade."
 		},
 		"links": [],
-		"hub": {
-			"kort": "Websites en interactieve verhalen",
-			"takken": [
-				{
-					"label": "Websites op maat",
-					"href": "websites-interactie.html#diensten"
-				},
-				{
-					"project": "rolduc"
-				},
-				{
-					"project": "wmc",
-					"label": "Klankstad"
-				},
-				{
-					"project": "heerlen",
-					"label": "Heerlen"
-				}
-			]
-		},
+		"omschrijving": "Websites en interactieve verhalen",
 		"pagina": {
 			"lead": "Ik ontwerp en bouw websites, webshops en interactieve verhalen op maat, zonder standaardsjabloon. Van een besloten bestelportaal voor horeca tot een keuzeverhaal over Kerkrade in 1951.",
 			"kort": "JS Design ontwerpt en bouwt websites, webshops en interactieve verhalen op maat, vanuit Kerkrade. Geen standaardsjabloon, maar alleen de functies die je nodig hebt. Ik bouw in stappen en laat tussendoor zien hoe het werkt, zodat we vroeg kunnen bijsturen. Zo kreeg Brouwerij Rolduc één site voor bezoekers, bestellers en horecazaken.",
@@ -248,39 +210,7 @@
 				"path": "producten/custom-lightbox.html"
 			}
 		],
-		"hub": {
-			"kort": "3D-ontwerp, 3D-printen en maatwerk",
-			"takken": [
-				{
-					"label": "Webshop",
-					"note": "Eigen ontwerpen",
-					"href": "webshop.html",
-					"image": "Kami-Vase-3kleuren1.jpg"
-				},
-				{
-					"label": "3D-printservice",
-					"note": "Jouw bestand geprint",
-					"href": "3d-printservice.html",
-					"image": "Printer-H2C.jpg"
-				},
-				{
-					"label": "Custom Lightbox",
-					"note": "Je logo in licht",
-					"href": "producten/custom-lightbox.html",
-					"image": "JS3D-LightBox.jpeg"
-				},
-				{
-					"label": "Limburgse cadeaus",
-					"note": "Mijnstreek in 3D",
-					"href": "limburgse-cadeaus.html",
-					"image": "Koempel-Eend.jpg"
-				},
-				{
-					"label": "Prototypes",
-					"href": "3d-printen.html#diensten"
-				}
-			]
-		},
+		"omschrijving": "3D-ontwerp, 3D-printen en maatwerk",
 		"pagina": {
 			"lead": "Ik ontwerp objecten in 3D en print ze op mijn eigen printers in Kerkrade. Van een vaas of een Limburgs icoon tot een kleine serie op maat voor een brouwerij of vereniging.",
 			"kort": "Bij JS Design in Kerkrade ontwerp ik objecten in 3D en print ik ze op mijn eigen printers: ontwerpen voor de webshop, prototypes en kleine series op maat voor bedrijven en verenigingen. Een ontwerp groeit in versies, met een proefprint ertussen. Je haalt het resultaat op in Kerkrade of krijgt het opgestuurd.",

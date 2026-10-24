@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const { processImages, slugify } = require('./tools/images');
+const { processImages } = require('./tools/images');
 const layout = require('./src/templates/layout');
 const homePage = require('./src/templates/home');
 const shopPage = require('./src/templates/shop');
@@ -14,7 +14,6 @@ const { categoryPage, productsFor } = require('./src/templates/category');
 const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage } = require('./src/templates/pages');
 const { pillarPage } = require('./src/templates/pillar');
 const overPage = require('./src/templates/over');
-const { hubImages } = require('./src/templates/hub');
 const portfolioPage = require('./src/templates/portfolio');
 const { casePage, caseImages, caseCover, caseTitel } = require('./src/templates/case');
 const discovery = require('./src/templates/discovery');
@@ -36,7 +35,7 @@ if (!BASE.startsWith('/')) {
 }
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'hub.css', 'pages.css', 'pijler.css', 'over.css', 'portfolio.css', 'case.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
+const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'held.css', 'pages.css', 'pijler.css', 'over.css', 'portfolio.css', 'case.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
 
 // Lettertypen die elke pagina vooraf laadt: de koppen (Saira) en de lopende tekst (DM Sans). De rest staat in fonts.css.
 const PRELOAD_FONTS = ['saira-latin.woff2', 'dm-sans-latin.woff2'];
@@ -146,6 +145,8 @@ function validatePillars(pillars, site, report) {
 		if (!/^[a-z0-9-]+\.html$/.test(p.path || '')) report.errors.push(where + ': path moet eindigen op .html en alleen a-z, 0-9 en - bevatten');
 		if (paths.has(p.path)) report.errors.push(where + ': path komt dubbel voor');
 		paths.add(p.path);
+		// De korte omschrijving staat in het mobiele menu en bij "Ook bij JS Design" op de andere pijlerpagina's
+		if (!p.omschrijving) report.errors.push(where + ': omschrijving is verplicht (bijvoorbeeld "Websites en interactieve verhalen")');
 		if (!p.seo || !p.seo.title || !p.seo.description) report.errors.push(where + ': seo.title en seo.description zijn verplicht');
 		else {
 			const titel = p.seo.title.length + site.name.length + 3;
@@ -279,30 +280,20 @@ function validateCase(p, where, cases, site, assets, report) {
 	});
 }
 
-// De hub op de home (pillars.json > hub): per pijler een korte omschrijving en twijgen. Een twijg is een project uit
-// projects.json ({ "project": "rolduc" }) of een eigen link ({ "label", "href" }, eventueel met "note" en "image").
-// Beelden moeten in assets/ staan, met de juiste hoofdletters (de online build draait op Linux).
-function validateHub(pillars, projects, report) {
-	const projectIds = projects.map(function (p) { return p.id; });
-	const assets = fs.readdirSync(path.join(ROOT, 'assets'));
-	pillars.forEach(function (p) {
-		const where = 'pillars.json > "' + p.id + '" > hub';
-		if (!p.hub || !p.hub.kort || !Array.isArray(p.hub.takken) || !p.hub.takken.length) {
-			report.errors.push(where + ': kort en minstens één twijg (takken) zijn verplicht');
-			return;
-		}
-		p.hub.takken.forEach(function (t, i) {
-			const twijg = where + ' > takken[' + i + ']';
-			if (t.project) {
-				const project = projects.find(function (x) { return x.id === t.project; });
-				if (projectIds.indexOf(t.project) === -1) report.errors.push(twijg + ': onbekend project "' + t.project + '" (moet een id uit projects.json zijn)');
-				else if (!project.image) report.errors.push(twijg + ': project "' + t.project + '" heeft geen image voor de miniatuur');
-			} else if (!t.label || !t.href) {
-				report.errors.push(twijg + ': een twijg zonder project heeft label en href nodig');
-			}
-			if (t.href && /^(?:https?:)?\/\//.test(t.href)) report.errors.push(twijg + ': href moet een pagina van de site zijn, geen extern adres');
-			if (t.image && assets.indexOf(t.image) === -1) report.errors.push(twijg + ': afbeelding "' + t.image + '" staat niet in assets/ (let op hoofdletters)');
-		});
+// "Gemaakt voor" in de hero van de home (site.json > homeBewijs): een opdrachtgever, wat ik maakte en de case waar de
+// link naartoe gaat. Alleen echte opdrachtgevers met toestemming; een schoolopdracht of mijn eigen merk hoort hier niet.
+function validateHome(site, projects, report) {
+	const lijst = site.homeBewijs;
+	if (!Array.isArray(lijst) || !lijst.length) {
+		report.errors.push('site.json > homeBewijs: minstens één opdrachtgever is verplicht ({ "project", "naam", "wat" })');
+		return;
+	}
+	lijst.forEach(function (b, i) {
+		const where = 'site.json > homeBewijs[' + i + ']';
+		const project = projects.find(function (p) { return p.id === b.project; });
+		if (!project) report.errors.push(where + ': onbekend project "' + b.project + '" (moet een id uit projects.json zijn)');
+		else if (project.tier !== 'A') report.errors.push(where + ': project "' + b.project + '" heeft geen casepagina (tier A)');
+		if (!b.naam || !b.wat) report.errors.push(where + ': naam en wat zijn verplicht');
 	});
 }
 
@@ -399,30 +390,6 @@ async function buildMailImages(products, images) {
 	fs.readdirSync(dir).forEach(function (f) { if (!keep.has(f)) fs.rmSync(path.join(dir, f)); });
 }
 
-// Kleine vierkante miniaturen voor de hub op de home (96 en 192 px). De kleinste gewone variant is 400 px breed, en de
-// hub toont er zo'n tien tegelijk. Ze staan in een eigen map (assets/duim): assets/img ruimt de beeldpijplijn zelf op,
-// en daar zouden ze bij elke build verdwijnen. Geeft per bronbestand de varianten terug: [{ file, w }].
-async function buildThumbs(files) {
-	const sharp = require('sharp');
-	const dir = path.join(DIST, 'assets/duim');
-	fs.mkdirSync(dir, { recursive: true });
-	const thumbs = {};
-	for (const file of files) {
-		const src = path.join(ROOT, 'assets', file);
-		if (!fs.existsSync(src)) throw new Error('Miniatuur voor de hub: bestand niet gevonden in assets/: ' + file);
-		thumbs[file] = [96, 192].map(function (w) { return { file: slugify(file) + '-t' + w + '.webp', w: w }; });
-		for (const v of thumbs[file]) {
-			const out = path.join(dir, v.file);
-			if (fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(src).mtimeMs) continue;
-			await sharp(src).resize(v.w, v.w, { fit: 'cover', position: sharp.strategy.attention }).webp({ quality: 74, effort: 5 }).toFile(out);
-		}
-	}
-	// Miniaturen van beelden die de hub niet meer toont, gaan weg
-	const keep = new Set(Object.keys(thumbs).flatMap(function (f) { return thumbs[f].map(function (v) { return v.file; }); }));
-	fs.readdirSync(dir).forEach(function (f) { if (!keep.has(f)) fs.rmSync(path.join(dir, f)); });
-	return thumbs;
-}
-
 // Het JS-teken voor browsers en Google: de SVG's uit assets/brand, plus PNG's waar SVG niet werkt (app-icoon op de
 // iPhone, favicon in de zoekresultaten, logo in de gestructureerde gegevens). Bron is de tegel: teken op Midnight Slate.
 async function buildBrandImages() {
@@ -495,7 +462,7 @@ async function build() {
 	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
 	validatePillars(pillars, site, report);
 	validateProjects(projects, pillars, site, report);
-	validateHub(pillars, projects, report);
+	validateHome(site, projects, report);
 	validatePagina(pillars, projects, site, skills, report);
 	if (report.errors.length) {
 		console.error('\nBuild gestopt, los eerst deze fouten op:\n - ' + report.errors.join('\n - ') + '\n');
@@ -523,8 +490,7 @@ async function build() {
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
 		.concat(projects.filter(function (p) { return p.image; }).map(function (p) { return p.image; }))
-		.concat(cases.flatMap(caseImages)) // cover en beelden van elke casepagina
-		.concat(hubImages(pillars, projects));
+		.concat(cases.flatMap(caseImages)); // cover en beelden van elke casepagina
 	const imageResult = await processImages({
 		srcDir: path.join(ROOT, 'assets'),
 		outDir: path.join(DIST, 'assets/img'),
@@ -566,9 +532,9 @@ async function build() {
 	write('js/winkel.json', buildWinkel(products, images, site, shop));
 	jsFiles.forEach(function (f) { write('js/' + f, versionImports(read('src/js/' + f), version)); });
 	if (bundles.length) {
-		// Met splitting komt Three.js in één gedeeld bestand (js/3d-<hash>.js) dat de hub en de sleutelhanger allebei
-		// gebruiken: wie van de home naar Tastbaar gaat, downloadt het maar één keer. De modules zelf houden hun naam
-		// (js/hub-3d.js, js/keychain-3d.js); het gedeelde stuk heeft een inhoudshash en hoeft dus geen ?v= te hebben.
+		// Met splitting komt Three.js in één gedeeld bestand (js/3d-<hash>.js) dat het teken op de home en de sleutelhanger
+		// allebei gebruiken: wie van de home naar Tastbaar gaat, downloadt het maar één keer. De modules zelf houden hun
+		// naam (js/held-3d.js, js/keychain-3d.js); het gedeelde stuk heeft een inhoudshash en hoeft dus geen ?v= te hebben.
 		require('esbuild').buildSync({
 			entryPoints: bundles.map(function (f) { return path.join(ROOT, 'src/3d', f); }),
 			outdir: path.join(DIST, 'js'),
@@ -599,7 +565,6 @@ async function build() {
 	});
 
 	await buildMailImages(products, images);
-	const thumbs = await buildThumbs(hubImages(pillars, projects));
 
 	// 5. Pagina's
 	const byId = {};
@@ -607,7 +572,6 @@ async function build() {
 	const ctx = {
 		site: site, brand: brand, shop: shop, pillars: pillars, projects: projects, products: products, reviews: reviews, images: images, byId: byId,
 		skills: skills,
-		thumbs: thumbs,
 		version: version, year: new Date().getFullYear(), mode: MODE, base: BASE,
 		fonts: PRELOAD_FONTS,
 		partials: {

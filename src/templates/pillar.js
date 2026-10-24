@@ -8,12 +8,12 @@ const c = require('./components');
 const seo = require('./seo');
 const tastbaarSections = require('./tastbaar');
 const skills = require('./skills');
-const { DELEN, RICHTING } = require('./hub');
+const { DELEN, RICHTING } = require('./teken');
 
 const getal = function (n) { return Math.round(n * 10) / 10; };
 
 // "Je bent hier": het JS-teken op de tegel, in een vak van 400 x 400. Het deel van deze pijler is massief en schuift een
-// stukje naar buiten langs zijn as (RICHTING, zoals in de hub); de andere twee staan als stippelcontour, zoals in een
+// stukje naar buiten langs zijn as (RICHTING, zie teken.js); de andere twee staan als stippelcontour, zoals in een
 // technische tekening. Een dunne lijn loopt van het deel naar het label: eerst schuin onder 30°, dan recht.
 const TEKEN = { x: 67.2, y: 82.2, schaal: 1.05 }; // het teken (253 x 235,83) midden in het vak
 const WIJZER = {
@@ -189,7 +189,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		+ '\t\t<ul>\n'
 		+ andere.map(function (p) {
 			return '\t\t\t<li data-pillar="' + p.id + '"><a href="' + h.esc(p.path) + '"><span class="pijler-ook-naam">' + h.esc(p.label) + '</span> '
-				+ '<span class="pijler-ook-wat">' + h.esc(p.hub.kort) + '</span></a></li>';
+				+ '<span class="pijler-ook-wat">' + h.esc(p.omschrijving) + '</span></a></li>';
 		}).join('\n') + '\n'
 		+ '\t\t</ul>\n'
 		+ '\t</nav>\n'

@@ -2,7 +2,7 @@
    (die knop staat in components.css). De pagina waar je bent (aria-current) krijgt het blokje uit het teken in de
    pijlerkleur (--pillar, buiten de pijlers raspberry), de sectie erboven (data-ancestor) een kleiner blokje, en een
    pijler die je aanwijst toont zijn eigen blokje. Onder 900px opent de menuknop het menu als modale dialog over het hele
-   scherm (src/js/ui.js), in de beeldtaal van de hub: de drie pijlers als genummerde blokjes aan één lijn. */
+   scherm (src/js/ui.js), in de beeldtaal van het teken: de drie pijlers als genummerde blokjes aan één lijn. */
 
 /* Skip-link voor toetsenbordgebruikers */
 .skip-link{position:absolute;left:1rem;top:-4rem;z-index:var(--z-skiplink);background:var(--brand);color:var(--dark);padding:0.6rem 1rem;border-radius:var(--radius);font-weight:700;text-decoration:none}
@@ -78,7 +78,7 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 .nav-toggle[aria-expanded="true"] .menu-icoon span:nth-child(3),.menu-icoon--kruis span:nth-child(3){transform:rotate(-45deg)}
 
 /* ---------------------------------------------------------------- het menu onder 900px
-   Een native <dialog> (showModal) over het hele scherm, met de achtergrond van de hub: het isoraster en een zachte gloed
+   Een native <dialog> (showModal) over het hele scherm, met het isoraster van het teken en een zachte gloed
    in aqua en raspberry. Bovenin dezelfde balk als de header (logo en sluitknop op dezelfde plek), daaronder de drie
    pijlers als genummerde blokjes aan één lijn, Portfolio · Webshop · Over, de contactknop en onderaan de socials. */
 .menu{
@@ -111,7 +111,7 @@ html:has(.menu[open]){overflow:hidden}
 .menu-naam{display:flex;align-items:center;font-family:var(--font-display);font-weight:700;font-size:2rem;line-height:1.1;letter-spacing:-0.01em}
 .menu-wat{display:block;margin-top:0.15rem;color:var(--fg-muted);font-size:var(--text-sm);line-height:1.4}
 
-/* De lijn, zoals de takken in de hub: van het midden van elk blokje naar het midden van het volgende, in het verloop van
+/* De lijn: van het midden van elk blokje naar het midden van het volgende, in het verloop van
    de ene pijlerkleur naar de andere. Bij Tastbaar houdt hij op: de rij eronder hoort niet bij een pijler */
 .menu-pijlers li:not(:last-child)::before{content:'';position:absolute;left:calc(var(--blok-b) / 2 - 0.5px);top:var(--blok-midden);bottom:calc(-1 * var(--tussen) - var(--blok-midden));width:1px;
 	background:linear-gradient(var(--pillar), var(--volgende));opacity:0.75}

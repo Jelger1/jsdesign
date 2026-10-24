@@ -1,8 +1,8 @@
-// Het JS-teken in 3D, in het midden van de hub op de home. src/js/hub.js laadt deze bundel pas als de hub in beeld is.
-// Drie blokken met printlaagjes op de zijkanten, een stukje uit elkaar in de richting van hun tak (30°, 150° en 270°,
-// zoals de kubus in src/templates/hub.js). Een tak aanwijzen tilt zijn blok naar voren; een blok aanwijzen licht zijn
-// tak op en klikken opent de pijler. Slepen draait het teken. Geen zwevende blokjes eromheen (huisstijl: geen losse
-// decoratie).
+// Het JS-teken in 3D, in de hero op de home. src/js/held.js laadt deze bundel pas als het teken in beeld is.
+// Drie blokken met printlaagjes op de zijkanten, een stukje uit elkaar langs hun as (30°, 150° en 270°, zoals de SVG in
+// src/templates/held.js). Een pijler aanwijzen in het bijschrift tilt zijn blok naar voren; een blok aanwijzen licht
+// zijn link op en klikken opent de pijler. Slepen draait het teken. Geen zwevende blokjes eromheen (huisstijl: geen
+// losse decoratie).
 // Beweging: het teken wiegt alleen de eerste 4,5 seconden na het verschijnen (WCAG 2.2.2: wat vanzelf beweegt, stopt
 // binnen 5 seconden); daarna beweegt het alleen nog als reactie op de bezoeker, en staat de renderlus stil zodra alles
 // in rust is. Bij "minder beweging" wiegt en kantelt het niet.
@@ -16,10 +16,10 @@ import { maakRenderer, renderLus, veer, minderBeweging } from './lib/util.js';
 const SCHAAL = 2.5 / BREEDTE;          // het teken is 2,5 eenheden breed
 const DIKTE = 34;                      // in SVG-eenheden, zoals het teken getekend is
 const LAAG = 1.4;                      // hoogte van een printlaagje, in SVG-eenheden
-const VAK = 392 * SCHAAL;              // het vak toont 392 SVG-eenheden, net als de viewBox van de SVG
+const VAK = 320 * SCHAAL;              // het vak toont 320 SVG-eenheden, net als de viewBox van de SVG (VAK in held.js)
 const RICHTING = { digitaal: 30, branding: 150, tastbaar: 270 };
 const RUST = 7 * SCHAAL;               // opengewerkt, zoals de SVG
-const ACTIEF = 20 * SCHAAL;            // verder uit elkaar als de tak actief is
+const ACTIEF = 20 * SCHAAL;            // verder uit elkaar als de pijler aangewezen is
 const WIEGEN = 4.5;                    // seconden dat het teken na het verschijnen wiegt
 const WIT = new Color('#ffffff');
 
@@ -43,8 +43,8 @@ function laagjes() {
 	return textuur;
 }
 
-// opties: { onActief(tak|null), onKies(tak), onKlaar() }. Geeft { zetActief(tak|null) } terug.
-export function startHub(container, opties) {
+// opties: { onActief(pijler|null), onKies(pijler), onKlaar() }. Geeft { zetActief(pijler|null) } terug.
+export function startTeken(container, opties) {
 	const { renderer, grootte } = maakRenderer(container, { maxPixelRatio: 1.75 });
 	const scene = new Scene();
 	const camera = new PerspectiveCamera(30, 1, 0.1, 100);
@@ -66,11 +66,11 @@ export function startHub(container, opties) {
 		const voorkant = new MeshBasicMaterial({ color: kleur.clone() });
 		const zijkant = new MeshStandardMaterial({ color: new Color(deel.zijkant), roughness: 0.62, metalness: 0, map: lagen });
 		const mesh = new Mesh(geo, [voorkant, zijkant]);
-		mesh.userData.tak = deel.tak;
+		mesh.userData.pijler = deel.pijler;
 		teken.add(mesh);
-		const hoek = RICHTING[deel.tak] * Math.PI / 180;
+		const hoek = RICHTING[deel.pijler] * Math.PI / 180;
 		return {
-			tak: deel.tak, mesh: mesh, voorkant: voorkant, kleur: kleur, licht: 0,
+			pijler: deel.pijler, mesh: mesh, voorkant: voorkant, kleur: kleur, licht: 0,
 			richting: { x: Math.cos(hoek), y: Math.sin(hoek) },
 			// De SVG heeft het teken al laten opengaan: de 3D-versie begint in rust, zonder tweede intro
 			uit: RUST, uitSnel: 0, til: 0, tilSnel: 0
@@ -84,7 +84,7 @@ export function startHub(container, opties) {
 	const wijzer = new Vector2(9, 9);
 	const raycaster = new Raycaster();
 	let gewezen = false;     // pas raycasten als de muis echt boven het teken is geweest
-	let actief = null;       // van buitenaf (een tak)
+	let actief = null;       // van buitenaf (het bijschrift)
 	let aangewezen = null;   // het blok onder de muis
 	let draai = 0, draaiSnel = 0;
 	let sleept = false, start = null, vorigeX = 0;
@@ -128,7 +128,7 @@ export function startHub(container, opties) {
 			const punt = new Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
 			raycaster.setFromCamera(punt, camera);
 			const raak = raycaster.intersectObjects(delen.map(function (d) { return d.mesh; }), false)[0];
-			if (raak && opties && opties.onKies) opties.onKies(raak.object.userData.tak);
+			if (raak && opties && opties.onKies) opties.onKies(raak.object.userData.pijler);
 		}
 		start = null;
 		wekken();
@@ -155,31 +155,31 @@ export function startHub(container, opties) {
 		zacht.x += (muis.x - zacht.x) * Math.min(1, dt * 3);
 		zacht.y += (muis.y - zacht.y) * Math.min(1, dt * 3);
 
-		// Aanwijzen (alleen met een muis): het blok onder de muis maakt zijn tak actief
+		// Aanwijzen (alleen met een muis): het blok onder de muis maakt zijn pijler actief
 		let nieuw = null;
 		if (gewezen) {
 			raycaster.setFromCamera(wijzer, camera);
 			const raak = raycaster.intersectObjects(delen.map(function (d) { return d.mesh; }), false)[0];
-			nieuw = raak ? raak.object.userData.tak : null;
+			nieuw = raak ? raak.object.userData.pijler : null;
 		}
 		if (nieuw !== aangewezen) {
 			aangewezen = nieuw;
 			if (!sleept) canvas.style.cursor = aangewezen ? 'pointer' : '';
 			if (opties && opties.onActief) opties.onActief(aangewezen);
 		}
-		const doelTak = aangewezen || actief;
+		const doel = aangewezen || actief;
 
 		let inRust = !sleept && Math.abs(draaiSnel) < 0.002 && Math.abs(draai) < 0.001;
 		delen.forEach(function (d) {
-			const doelUit = d.tak === doelTak ? ACTIEF : RUST;
-			const doelTil = d.tak === doelTak ? 0.16 : 0;
+			const doelUit = d.pijler === doel ? ACTIEF : RUST;
+			const doelTil = d.pijler === doel ? 0.16 : 0;
 			let uit = veer(d.uit, d.uitSnel, doelUit, dt, 70, 16.7);
 			d.uit = uit[0]; d.uitSnel = uit[1];
 			uit = veer(d.til, d.tilSnel, doelTil, dt, 70, 16.7);
 			d.til = uit[0]; d.tilSnel = uit[1];
 			d.mesh.position.set(d.richting.x * d.uit, d.richting.y * d.uit, d.til);
 			// Het actieve blok licht iets op (richting wit), zonder van kleur te veranderen
-			const licht = d.tak === doelTak ? 0.14 : 0;
+			const licht = d.pijler === doel ? 0.14 : 0;
 			d.licht += (licht - d.licht) * Math.min(1, dt * 8);
 			d.voorkant.color.copy(d.kleur).lerp(WIT, d.licht);
 			if (Math.abs(d.uit - doelUit) > 0.0005 || Math.abs(d.til - doelTil) > 0.0005 || Math.abs(d.licht - licht) > 0.002) inRust = false;
@@ -211,8 +211,8 @@ export function startHub(container, opties) {
 	compileer.catch(function () {}).then(function () { klaar = true; wekken(); });
 
 	return {
-		zetActief: function (tak) {
-			actief = tak;
+		zetActief: function (pijler) {
+			actief = pijler;
 			wekken();
 		}
 	};

@@ -1,14 +1,26 @@
-<!-- Inhoud van de homepage. {{...}} wordt door build.js ingevuld (zie src/templates/home.js en hub.js). -->
-<section class="hub" aria-labelledby="hub-titel" data-hub>
-	<div class="hub-raster" aria-hidden="true"></div>
-	<div class="hub-in">
-		<header class="hub-kop">
-			<p class="kicker hub-kicker">Branding · Digitaal · Tastbaar</p>
-			<h1 id="hub-titel" class="hub-titel">Ontwerpen die vertellen <span class="highlight">wie je bent</span></h1>
-			<p class="hub-lead">Ik ben Jelger. Vanuit Kerkrade ontwerp ik merken, bouw ik websites en print ik ideeën in 3D.</p>
-		</header>
-		<div class="hub-podium">
-			{{hub}}
+<!-- Inhoud van de homepage. {{...}} wordt door build.js ingevuld (zie src/templates/home.js en held.js). -->
+<section class="held" aria-labelledby="held-titel" data-held>
+	<div class="held-in">
+		<div class="held-tekst">
+			<p class="kicker">JS Design · ontwerpstudio</p>
+			<h1 id="held-titel">Branding, websites en <span class="held-heel">3D-printen</span> uit <span class="highlight">Kerkrade</span></h1>
+			<p class="held-lead">Ik ben Jelger Sieler en werk voor particulieren en ondernemers. Van eerste schets tot eindproduct praat je direct met mij.</p>
+			<p class="held-acties"><a class="btn primary" href="contact.html">Vertel over je project</a> <a class="link-arrow held-shop" href="webshop.html">Naar de webshop</a></p>
+		</div>
+		<div class="held-bewijs">
+			<p class="held-bewijs-label" id="bewijs-label">Gemaakt voor</p>
+			<ul aria-labelledby="bewijs-label">
+				{{bewijs}}
+			</ul>
+		</div>
+		<div class="held-beeld">
+			<div class="held-teken">
+				{{teken}}
+				<div class="held-3d" data-held-3d aria-hidden="true"></div>
+			</div>
+			<ul class="held-legenda">
+				{{legenda}}
+			</ul>
 		</div>
 	</div>
 </section>
@@ -41,11 +53,12 @@
 	<header class="section-head section-head-row">
 		<div>
 			<p class="kicker">Uit de webshop</p>
-			<h2 id="winkel-titel">Ontworpen en geprint in <span class="highlight">Kerkrade</span></h2>
+			<h2 id="winkel-titel">Ontworpen en <span class="highlight">geprint</span> in Kerkrade</h2>
 		</div>
 		<a class="link-arrow" href="webshop.html">Naar de webshop</a>
 	</header>
 	{{rail:design}}
+	<p class="winkel-ook">Ook: <a href="3d-printservice.html">je eigen 3D-bestand laten printen</a><span aria-hidden="true"> · </span> <a href="producten/custom-lightbox.html">Custom Lightbox met je logo</a><span aria-hidden="true"> · </span> <a href="limburgse-cadeaus.html">Limburgse cadeaus</a></p>
 </section>
 
 <section class="section container maker-kort" aria-labelledby="maker-titel">

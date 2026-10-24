@@ -1,5 +1,5 @@
 /* Secties van de home en van de pijlerpagina Tastbaar (die de webshopsecties van de oude home kreeg): USP-balk,
-   categorietegels, maatwerk en FAQ. De hub zelf staat in hub.css; de werkwijze als trap staat in pijler.css. */
+   categorietegels, maatwerk en FAQ. De hero van de home staat in held.css; de werkwijze als trap staat in pijler.css. */
 
 /* De home gebruikt de compacte sectieruimte (tokens.css); de pijlerpagina's en Over ook (pijler.css, over.css).
    Andere pagina's houden de gewone maat. */

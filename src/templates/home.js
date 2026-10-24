@@ -1,10 +1,10 @@
-// De homepage: de hub (src/templates/hub.js) en daaronder uitgelicht werk, wat ik kan, de webshop, de maker, de FAQ en
-// contact.
+// De homepage: de hero (src/templates/held.js) en daaronder uitgelicht werk, wat ik kan, de webshop, de maker, de FAQ
+// en contact.
 // De inhoud van de oude webshophome (categorieën, rails, stappen, op maat, winkel-FAQ, reviews) staat nu op de
 // Tastbaar-pagina (3d-printen.html).
 const h = require('./helpers');
 const c = require('./components');
-const { hub } = require('./hub');
+const { held } = require('./held');
 const skills = require('./skills');
 
 // Volgorde van het uitgelichte werk: het eerste project krijgt de grote tegel
@@ -39,9 +39,12 @@ function homePage(ctx, template) {
 	}).join('\n\t\t');
 
 	const design = ctx.products.filter(function (p) { return p.collection === 'design'; });
+	const hero = held(ctx);
 
 	const main = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
-		hub: hub(ctx),
+		teken: hero.teken,
+		legenda: hero.legenda,
+		bewijs: hero.bewijs,
 		werk: werk,
 		'rail:design': c.productRail(design, ctx, { root: '' }),
 		// Wat ik kan: alle groepen uit data/skills.json, kort (drie chips per groep)
