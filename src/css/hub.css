@@ -43,8 +43,8 @@
 .hub-deel[data-tak="branding"]{--gloed:rgba(241,0,103,0.55)}
 .hub-deel[data-tak="digitaal"]{--gloed:rgba(3,188,202,0.55)}
 .hub-deel[data-tak="tastbaar"]{--gloed:rgba(243,255,253,0.4)}
-.hub-3d{opacity:0;transition:opacity var(--duration-slow) var(--ease)}
-.hub.is-3d .hub-3d{opacity:1}
+.hub-3d{opacity:0;pointer-events:none;transition:opacity var(--duration-slow) var(--ease)}
+.hub.is-3d .hub-3d{opacity:1;pointer-events:auto}
 .hub.is-3d .hub-delen{opacity:0;transition:opacity var(--duration-slow) var(--ease)}
 .hub-3d canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y}
 .hub-3d canvas.is-dragging{cursor:grabbing}
@@ -52,24 +52,25 @@
 /* ------------------------------------------------------------------ takken en twijgen (mobiel: boompjes) */
 .hub-takken{margin-top:var(--space-10)}
 .hub-lijst{list-style:none;margin:0 auto;padding:0;display:grid;gap:var(--space-8);max-width:28rem}
-.hub-tak{--lijn:color-mix(in srgb, var(--pillar) 45%, transparent);transition:opacity var(--duration) var(--ease)}
+.hub-tak{--lijn:color-mix(in srgb, var(--pillar) 45%, transparent)}
 .hub-hoofd{display:flex;align-items:center;gap:var(--space-3);color:var(--fg);text-decoration:none;border-radius:var(--radius)}
 .hub-blok{flex:none;width:44px;height:27px;display:grid;place-items:center;background:var(--pillar);clip-path:var(--js-blok);
-	color:var(--dark);font:700 0.7rem/1 var(--font-mono);letter-spacing:0.02em}
+	color:var(--dark);font:700 var(--text-xs)/1 var(--font-mono);letter-spacing:0.02em}
 .hub-hoofd-tekst{display:block;min-width:0}
 .hub-naam{display:flex;align-items:center;gap:0.45em;font-family:var(--font-display);font-weight:700;font-size:clamp(1.35rem, 1.15rem + 0.7vw, 1.7rem);line-height:1.1;letter-spacing:-0.01em}
-.hub-naam::after{content:'→';font-family:var(--font-body);font-weight:400;font-size:0.8em;color:var(--pillar-text);transition:transform var(--duration) var(--ease)}
+.hub-naam::after{content:'→';content:'→' / '';font-family:var(--font-body);font-weight:400;font-size:0.8em;color:var(--pillar-text);transition:transform var(--duration) var(--ease)}
 .hub-wat{display:block;margin-top:0.15rem;color:var(--fg-muted);font-size:var(--text-sm)}
 .hub-hoofd:hover .hub-naam::after,.hub-hoofd:focus-visible .hub-naam::after{transform:translateX(4px)}
 
-/* De boom: een lijn vanaf het blokje omlaag, met een bocht naar elke twijg. 21px = midden van het blokje. */
+/* De boom: een stam vanaf het blokje omlaag, met een bocht naar elke twijg. 21px = midden van het blokje. De stam loopt
+   bij elke twijg behalve de laatste van boven tot onder door, zodat er bij de bochten geen gaatjes vallen. */
 .hub-twijgen{--inspring:21px;list-style:none;position:relative;margin:var(--space-2) 0 0 var(--inspring);padding:0}
 .hub-twijgen::before{content:'';position:absolute;left:0;top:calc(-1 * var(--space-2));height:var(--space-2);border-left:1px solid var(--lijn)}
 .hub-twijg{position:relative;padding:0.2rem 0 0.2rem 1.5rem}
-.hub-twijg::before{content:'';position:absolute;left:0;top:0;width:1.2rem;height:50%;border-left:1px solid var(--lijn);border-bottom:1px solid var(--lijn);border-bottom-left-radius:10px}
-.hub-twijg::after{position:absolute;left:0;top:50%;bottom:0;border-left:1px solid var(--lijn)}
+.hub-twijg::before{content:'';position:absolute;left:0;top:0;width:1.8rem;height:50%;border-left:1px solid var(--lijn);border-bottom:1px solid var(--lijn);border-bottom-left-radius:10px}
+.hub-twijg::after{position:absolute;left:0;top:0;bottom:0;border-left:1px solid var(--lijn)}
 .hub-twijg:not(:last-child)::after{content:''}
-.hub-twijg--dienst::before{width:calc(1.8rem + 14px)}
+.hub-twijg--dienst::before{width:calc(1.8rem + 15px)}
 .hub-twijg a{display:flex;align-items:center;gap:var(--space-3);padding:0.3rem 0.6rem 0.3rem 0.3rem;border-radius:var(--radius);color:var(--fg);text-decoration:none;
 	transition:background-color var(--duration-fast) var(--ease)}
 .hub-twijg a:hover{background:rgba(243,255,253,0.05)}
@@ -81,11 +82,8 @@
 .hub-twijg-naam{display:block;font-weight:600;font-size:var(--text-base);line-height:1.25}
 .hub-twijg-wat{display:block;color:var(--fg-muted);font-size:var(--text-sm);line-height:1.35}
 
-/* Aanwijzen: de tak licht op, de andere twee wijken, en het bijbehorende deel van het teken komt naar voren */
-.hub-podium:has(.hub-tak:is(:hover, :focus-within)) .hub-tak:not(:is(:hover, :focus-within)){opacity:0.5}
-.hub[data-actief="branding"] .hub-tak:not([data-tak="branding"]),
-.hub[data-actief="digitaal"] .hub-tak:not([data-tak="digitaal"]),
-.hub[data-actief="tastbaar"] .hub-tak:not([data-tak="tastbaar"]){opacity:0.5}
+/* Aanwijzen: de tak licht op en het bijbehorende deel van het teken komt naar voren. De andere takken blijven op volle
+   sterkte (niet dimmen: dat kostte leesbaarheid) */
 .hub-tak:is(:hover, :focus-within){--lijn:var(--pillar)}
 .hub-podium:has(.hub-tak[data-tak="branding"]:is(:hover, :focus-within)) .hub-deel[data-tak="branding"],
 .hub-podium:has(.hub-tak[data-tak="digitaal"]:is(:hover, :focus-within)) .hub-deel[data-tak="digitaal"],
@@ -119,9 +117,13 @@
 	.hub-kern{position:absolute;left:50%;top:var(--kern-y);margin:0;transform:translate(-50%, -50%)}
 	.hub-takken{position:absolute;inset:0;margin:0;pointer-events:none}
 	.hub-lijst{display:block;max-width:none}
-	.hub-tak{position:absolute;pointer-events:auto;width:max-content;max-width:min(26rem, calc(50% - var(--kern) * 0.402 - var(--tak-afstand) - 1rem))}
-	/* Vleugels: het blokje ligt iets hoger dan de bovenste kubushoek, zodat de lijn eerst schuin omhoog loopt */
-	.hub-tak[data-tak="branding"],.hub-tak[data-tak="digitaal"]{top:calc(var(--kern-y) - var(--kern) * 0.232 - 4.25rem)}
+	/* Alleen de links zelf vangen de muis: het (onzichtbare) vak van een tak mag een andere tak niet afdekken */
+	.hub-tak a{pointer-events:auto}
+	.hub-tak{position:absolute;pointer-events:none;width:max-content;max-width:min(26rem, calc(50% - var(--kern) * 0.402 - var(--tak-afstand) - 1rem))}
+	/* Vleugels: het blokje ligt iets hoger dan de bovenste kubushoek: ongeveer zo hoog als een lijn onder 30° over
+	   --tak-afstand stijgt (tan 30° ≈ 0,58; met 0,5 blijft er een kort recht stuk het blokje in). 1,4rem is de afstand
+	   van de bovenkant van de tak tot het midden van het blokje. */
+	.hub-tak[data-tak="branding"],.hub-tak[data-tak="digitaal"]{top:calc(var(--kern-y) - var(--kern) * 0.232 - var(--tak-afstand) * 0.5 - 1.4rem)}
 	.hub-tak[data-tak="branding"]{right:calc(50% + var(--kern) * 0.402 + var(--tak-afstand))}
 	.hub-tak[data-tak="digitaal"]{left:calc(50% + var(--kern) * 0.402 + var(--tak-afstand))}
 
@@ -141,14 +143,13 @@
 	.hub-tak[data-tak="tastbaar"] .hub-naam{justify-content:center}
 	.hub-tak[data-tak="tastbaar"] .hub-twijgen{display:flex;margin:var(--space-6) 0 0}
 	.hub-tak[data-tak="tastbaar"] .hub-twijgen::before{left:50%;top:calc(-1 * var(--space-6));height:var(--space-6)}
-	.hub-tak[data-tak="tastbaar"] .hub-twijg{padding:0.75rem 0.5rem 0;width:10.5rem}
-	.hub-tak[data-tak="tastbaar"] :is(.hub-twijg-naam, .hub-twijg-wat){white-space:nowrap}
+	.hub-tak[data-tak="tastbaar"] .hub-twijg{padding:0.75rem 0.5rem 0;width:11.25rem}
 	.hub-tak[data-tak="tastbaar"] .hub-twijg::before{left:0;right:0;top:0;width:auto;height:0.75rem;border-left:0;border-bottom:0;border-top:1px solid var(--lijn);border-radius:0}
 	.hub-tak[data-tak="tastbaar"] .hub-twijg:first-child::before{left:50%}
 	.hub-tak[data-tak="tastbaar"] .hub-twijg:last-child::before{right:50%}
-	.hub-tak[data-tak="tastbaar"] .hub-twijg::after{content:'';left:50%;top:0;bottom:auto;height:0.75rem;border-left:1px solid var(--lijn)}
+	.hub-tak[data-tak="tastbaar"] .hub-twijg::after{content:'';left:50%;top:0;bottom:auto;height:calc(0.75rem + 0.4rem);border-left:1px solid var(--lijn)}
 	.hub-tak[data-tak="tastbaar"] .hub-twijg a{flex-direction:column;text-align:center;gap:var(--space-2);padding:0.4rem 0.3rem}
-	.hub-tak[data-tak="tastbaar"] .hub-twijg--dienst::after{height:calc(0.75rem + 0.4rem + 18px)}
+	.hub-tak[data-tak="tastbaar"] .hub-twijg--dienst::after{height:calc(0.75rem + 0.4rem + 18.5px)}
 
 	.hub-lijnen{display:block;position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 	.hub-lijnen path{fill:none;stroke:var(--pillar);stroke-width:1.25;stroke-opacity:0.6;stroke-linecap:round;stroke-linejoin:round;transition:stroke-opacity var(--duration) var(--ease)}
@@ -164,11 +165,6 @@
 	.hub-tak[data-tak="tastbaar"] .hub-twijg{width:9.75rem}
 	.hub-tak[data-tak="tastbaar"] .hub-twijg-naam{font-size:0.95rem}
 }
-/* Lage schermen: zonder lead en zonder toelichting in de Tastbaar-rij, zodat de hele hub in beeld blijft */
-@media (min-width:900px) and (max-height:820px){
-	.hub-lead{display:none}
-	.hub-tak[data-tak="tastbaar"] .hub-twijg-wat{display:none}
-}
 
 /* Het teken komt bij het laden in elkaar, net als in de paginaovergang */
 @media (prefers-reduced-motion:no-preference){
@@ -179,11 +175,12 @@
 }
 @property --uit{syntax:'<length>';inherits:true;initial-value:7px}
 @media (prefers-reduced-motion:reduce){
-	.hub-deel,.hub-tak,.hub-3d,.hub-twijg a,.hub-twijg-beeld img{transition:none}
+	.hub-deel,.hub-3d,.hub-poort,.hub-twijg a,.hub-twijg-beeld img{transition:none}
 }
 @media (forced-colors:active){
-	.hub-kubus,.hub-binnen line{stroke:CanvasText}
-	.hub-blok,.hub-poort,.hub-twijg-stip::before{background:CanvasText;fill:CanvasText}
+	.hub-kubus,.hub-binnen line,.hub-lijnen path{stroke:CanvasText}
+	.hub-deel :is(path, polygon){fill:CanvasText}
+	.hub-blok,.hub-poort,.hub-twijg-stip::before{forced-color-adjust:none;background:CanvasText;fill:CanvasText;color:Canvas}
 	.hub-twijg::before,.hub-twijg::after,.hub-twijgen::before{border-color:CanvasText}
 }
 
@@ -193,8 +190,10 @@
 	transition:border-color var(--duration) var(--ease)}
 .werk-beeld{display:block;aspect-ratio:4 / 3;overflow:hidden}
 .werk-beeld img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform var(--duration-slow) var(--ease-out)}
-.werk-tekst{position:absolute;left:0;right:0;bottom:0;padding:var(--space-10) var(--space-5) var(--space-4);
-	background:linear-gradient(to top, rgba(8,10,13,0.92) 25%, rgba(8,10,13,0))}
+/* De tekst staat op een vrijwel dicht vlak (het verloop zit boven de tekst), zodat hij ook boven lichte foto's leesbaar
+   blijft */
+.werk-tekst{position:absolute;left:0;right:0;bottom:0;padding:var(--space-8) var(--space-5) var(--space-4);
+	background:linear-gradient(to top, rgba(8,10,13,0.95) calc(100% - var(--space-8)), rgba(8,10,13,0))}
 .werk-tags{display:flex;align-items:center;gap:0.5rem;font:500 var(--text-xs)/1.4 var(--font-mono);text-transform:uppercase;letter-spacing:var(--tracking-label);color:var(--fg-muted)}
 .werk-tags::before{content:'';flex:none;width:16px;height:10px;background:var(--pillar);clip-path:var(--js-blok)}
 .werk-titel{display:block;margin-top:0.2rem;font-family:var(--font-display);font-size:var(--text-lg);line-height:1.2}
@@ -228,6 +227,9 @@
 .faq-logos{float:right;display:flex;align-items:center;gap:0.5rem;margin:0.15rem 0 0.5rem 1rem}
 .faq-logos img{width:48px;height:48px;border-radius:10px}
 .faq-logos-pijl{color:var(--fg-muted)}
+@media (max-width:600px){
+	.faq-logos{float:none;margin:0 0 0.75rem}
+}
 
 /* ------------------------------------------------------------------ contactband */
 .cta-band{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-6);padding:clamp(1.5rem, 4vw, 2.5rem);
@@ -237,3 +239,9 @@
 .cta-band-tekst p{margin:0;color:var(--fg-muted);max-width:34rem}
 .cta-band .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);margin:0}
 .cta-band-mail{color:var(--fg-muted)}
+.cta-band-mail a{color:var(--brand);text-underline-offset:3px}
+@media (max-width:900px){
+	.cta-band{flex-direction:column;align-items:stretch;text-align:center}
+	.cta-band-tekst p{margin-inline:auto}
+	.cta-band .cta-row{flex-direction:column;justify-content:center}
+}

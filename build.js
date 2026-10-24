@@ -169,6 +169,31 @@ function validateProjects(projects, pillars, report) {
 	});
 }
 
+// De hub op de home (pillars.json > hub): per pijler een korte omschrijving en twijgen. Een twijg is een project uit
+// projects.json ({ "project": "rolduc" }) of een eigen link ({ "label", "href" }, eventueel met "note" en "image").
+// Beelden moeten in assets/ staan, met de juiste hoofdletters (de online build draait op Linux).
+function validateHub(pillars, projects, report) {
+	const projectIds = projects.map(function (p) { return p.id; });
+	const assets = fs.readdirSync(path.join(ROOT, 'assets'));
+	pillars.forEach(function (p) {
+		const where = 'pillars.json > "' + p.id + '" > hub';
+		if (!p.hub || !p.hub.kort || !Array.isArray(p.hub.takken) || !p.hub.takken.length) {
+			report.errors.push(where + ': kort en minstens één twijg (takken) zijn verplicht');
+			return;
+		}
+		p.hub.takken.forEach(function (t, i) {
+			const twijg = where + ' > takken[' + i + ']';
+			if (t.project) {
+				if (projectIds.indexOf(t.project) === -1) report.errors.push(twijg + ': onbekend project "' + t.project + '" (moet een id uit projects.json zijn)');
+			} else if (!t.label || !t.href) {
+				report.errors.push(twijg + ': een twijg zonder project heeft label en href nodig');
+			}
+			if (t.href && /^(?:https?:)?\/\//.test(t.href)) report.errors.push(twijg + ': href moet een pagina van de site zijn, geen extern adres');
+			if (t.image && assets.indexOf(t.image) === -1) report.errors.push(twijg + ': afbeelding "' + t.image + '" staat niet in assets/ (let op hoofdletters)');
+		});
+	});
+}
+
 // Introductieprijs ("intro": { "price": 49.95, "until": "2026-12-31" }). Zolang die loopt is dat de echte prijs:
 // op de kaart, op de productpagina, in de winkelwagen, in de productfeed en in schema.org. Is de datum voorbij,
 // dan rekent de site vanaf de eerstvolgende build vanzelf weer de gewone prijs uit "variants".
@@ -263,10 +288,11 @@ async function buildMailImages(products, images) {
 }
 
 // Kleine vierkante miniaturen voor de hub op de home (96 en 192 px). De kleinste gewone variant is 400 px breed, en de
-// hub toont er zo'n tien tegelijk. Geeft per bronbestand de varianten terug: [{ file, w }].
+// hub toont er zo'n tien tegelijk. Ze staan in een eigen map (assets/duim): assets/img ruimt de beeldpijplijn zelf op,
+// en daar zouden ze bij elke build verdwijnen. Geeft per bronbestand de varianten terug: [{ file, w }].
 async function buildThumbs(files) {
 	const sharp = require('sharp');
-	const dir = path.join(DIST, 'assets/img');
+	const dir = path.join(DIST, 'assets/duim');
 	fs.mkdirSync(dir, { recursive: true });
 	const thumbs = {};
 	for (const file of files) {
@@ -279,6 +305,9 @@ async function buildThumbs(files) {
 			await sharp(src).resize(v.w, v.w, { fit: 'cover', position: sharp.strategy.attention }).webp({ quality: 74, effort: 5 }).toFile(out);
 		}
 	}
+	// Miniaturen van beelden die de hub niet meer toont, gaan weg
+	const keep = new Set(Object.keys(thumbs).flatMap(function (f) { return thumbs[f].map(function (v) { return v.file; }); }));
+	fs.readdirSync(dir).forEach(function (f) { if (!keep.has(f)) fs.rmSync(path.join(dir, f)); });
 	return thumbs;
 }
 
@@ -353,6 +382,7 @@ async function build() {
 	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
 	validatePillars(pillars, site, report);
 	validateProjects(projects, pillars, report);
+	validateHub(pillars, projects, report);
 	if (report.errors.length) {
 		console.error('\nBuild gestopt, los eerst deze fouten op:\n - ' + report.errors.join('\n - ') + '\n');
 		process.exit(1);
@@ -375,7 +405,6 @@ async function build() {
 	const used = products.flatMap(function (p) { return p.images.map(function (image) { return image.file; }); })
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
-		.concat(site.portfolio.projects.map(function (p) { return p.file; }))
 		.concat(projects.map(function (p) { return p.image; }))
 		.concat(hubImages(pillars, projects));
 	const imageResult = await processImages({
@@ -415,9 +444,13 @@ async function build() {
 	write('js/winkel.json', buildWinkel(products, images, site, shop));
 	jsFiles.forEach(function (f) { write('js/' + f, versionImports(read('src/js/' + f), version)); });
 	if (bundles.length) {
+		// Met splitting komt Three.js in één gedeeld bestand (js/3d-<hash>.js) dat de hub en de sleutelhanger allebei
+		// gebruiken: wie van de home naar Tastbaar gaat, downloadt het maar één keer. De modules zelf houden hun naam
+		// (js/hub-3d.js, js/keychain-3d.js); het gedeelde stuk heeft een inhoudshash en hoeft dus geen ?v= te hebben.
 		require('esbuild').buildSync({
 			entryPoints: bundles.map(function (f) { return path.join(ROOT, 'src/3d', f); }),
 			outdir: path.join(DIST, 'js'),
+			entryNames: '[name]', chunkNames: '3d-[hash]', splitting: true,
 			bundle: true, minify: true, format: 'esm', target: 'es2020', legalComments: 'eof', logLevel: 'warning'
 		});
 	}

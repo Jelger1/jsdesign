@@ -1,10 +1,11 @@
 // De hub op de home (src/templates/hub.js): tekent vanaf 900px de drie lijnen van de kubushoeken naar de takken,
-// houdt bij welke tak actief is (aanwijzen of focus) en laadt het JS-teken in 3D zodra de hub in beeld is.
-// Zonder JavaScript of WebGL blijft alles werken: de takken zijn gewone links en het teken is een SVG.
+// houdt bij welke tak actief is (aanwijzen, focus of een blok van het 3D-teken) en laadt het JS-teken in 3D zodra de
+// hub in beeld is. Zonder JavaScript of WebGL blijft alles werken: de takken zijn gewone links en het teken is een SVG.
 const BREED = window.matchMedia('(min-width: 900px)');
 const MINDER_BEWEGING = window.matchMedia('(prefers-reduced-motion: reduce)');
 const NS = 'http://www.w3.org/2000/svg';
 const RICHTING = { branding: 150, digitaal: 30, tastbaar: 270 };
+const TAN30 = Math.tan(Math.PI / 6);
 
 // Een pad door de punten, met afgeronde hoeken (straal r)
 function rondPad(punten, r) {
@@ -23,8 +24,9 @@ function rondPad(punten, r) {
 	return d;
 }
 
-// Van de kubushoek eerst schuin in de richting van de tak (30° of 150°, zoals de isometrische assen), dan recht naar
-// het blokje. Tastbaar loopt recht omlaag, met zo nodig een knik als het blokje niet precies onder de hoek ligt.
+// Van de kubushoek schuin omhoog langs de isometrische as (30° of 150°), dan recht het blokje in. Ligt het blokje
+// hoger dan de schuine lijn kan halen, dan gaat de lijn eerst een stukje recht omhoog: het schuine stuk blijft er
+// altijd in. Tastbaar loopt recht omlaag, met zo nodig een knik als het blokje niet precies onder de hoek ligt.
 function lijnPunten(id, hoek, blok) {
 	const graden = RICHTING[id] * Math.PI / 180;
 	const richting = { x: Math.cos(graden), y: -Math.sin(graden) };
@@ -35,13 +37,16 @@ function lijnPunten(id, hoek, blok) {
 		const midden = (start.y + eind.y) / 2;
 		return [start, { x: start.x, y: midden }, { x: eind.x, y: midden }, eind];
 	}
+	const kant = id === 'branding' ? -1 : 1;
 	const eind = { x: id === 'branding' ? blok.right + 8 : blok.left - 8, y: blok.y };
 	const stijging = start.y - eind.y; // positief: het blokje ligt hoger dan de hoek
-	if (stijging <= 0) return [start, eind];
-	const knik = { x: start.x + richting.x * (stijging / 0.5), y: eind.y };
-	// Past de schuine lijn niet (blokje te dichtbij), dan rechtstreeks
-	if ((id === 'branding' && knik.x < eind.x) || (id === 'digitaal' && knik.x > eind.x)) return [start, eind];
-	return [start, knik, eind];
+	const ruimte = Math.abs(eind.x - start.x) - 12; // horizontaal beschikbaar voor het schuine stuk
+	if (stijging <= 0 || ruimte <= 0) return [start, eind];
+	const schuin = Math.min(stijging, ruimte * TAN30); // zoveel kan het schuine stuk stijgen
+	const punten = [start];
+	if (stijging > schuin) punten.push({ x: start.x, y: start.y - (stijging - schuin) });
+	punten.push({ x: start.x + kant * schuin / TAN30, y: eind.y }, eind);
+	return punten;
 }
 
 export function initHub() {
@@ -52,6 +57,10 @@ export function initHub() {
 	const takken = Array.from(hub.querySelectorAll('.hub-tak'));
 	let getekend = false;
 	let drieD = null;
+	let actief = null;
+	// Wie een tak actief maakt: toetsenbordfocus, de muis of een blok van het 3D-teken. Elk houdt zijn eigen stand
+	// bij, zodat de een de ander niet uitzet (de focus wint).
+	const bron = { focus: null, muis: null, teken: null };
 
 	function teken() {
 		svg.replaceChildren();
@@ -72,10 +81,10 @@ export function initHub() {
 			lijn.setAttribute('pathLength', '1');
 			lijn.setAttribute('data-pillar', id);
 			lijn.dataset.tak = id;
-			if (hub.dataset.actief === id) lijn.classList.add('is-actief');
+			if (actief === id) lijn.classList.add('is-actief');
 			svg.appendChild(lijn);
 		});
-		if (hub.dataset.actief) puls(hub.dataset.actief);
+		if (actief) puls(actief);
 		if (!getekend) {
 			getekend = true;
 			svg.classList.add('is-klaar');
@@ -105,23 +114,29 @@ export function initHub() {
 		if (beweging.beginElement) beweging.beginElement();
 	}
 
-	// Actieve tak: voor de lijnen hierboven en voor het teken in 3D (de CSS doet de rest met :has)
-	function zetActief(id) {
+	// De actieve tak volgt uit de drie bronnen; de CSS doet de rest met data-actief (en :has zonder JavaScript)
+	function bijwerken() {
+		const id = bron.focus || bron.muis || bron.teken || null;
+		if (id === actief) return;
+		actief = id;
 		if (id) hub.dataset.actief = id;
 		else delete hub.dataset.actief;
 		svg.querySelectorAll('path').forEach(function (lijn) { lijn.classList.toggle('is-actief', lijn.dataset.tak === id); });
 		puls(id);
-		if (drieD) drieD.zetActief(id || null);
+		if (drieD) drieD.zetActief(id);
 	}
+	function zet(soort, id) { bron[soort] = id; bijwerken(); }
+
+	// Aanraken telt niet als aanwijzen: scrollen over de hub mag geen tak aanzetten
 	takken.forEach(function (tak) {
-		tak.addEventListener('pointerenter', function () { zetActief(tak.dataset.tak); });
-		tak.addEventListener('pointerleave', function () { if (!tak.contains(document.activeElement)) zetActief(null); });
-		tak.addEventListener('focusin', function () { zetActief(tak.dataset.tak); });
-		tak.addEventListener('focusout', function (e) { if (!tak.contains(e.relatedTarget)) zetActief(null); });
+		tak.addEventListener('pointerenter', function (e) { if (e.pointerType !== 'touch') zet('muis', tak.dataset.tak); });
+		tak.addEventListener('pointerleave', function (e) { if (e.pointerType !== 'touch' && bron.muis === tak.dataset.tak) zet('muis', null); });
+		tak.addEventListener('focusin', function () { zet('focus', tak.dataset.tak); });
+		tak.addEventListener('focusout', function (e) { if (!tak.contains(e.relatedTarget)) zet('focus', null); });
 	});
 	hub.querySelectorAll('.hub-deel').forEach(function (deel) {
-		deel.addEventListener('pointerenter', function () { zetActief(deel.dataset.tak); });
-		deel.addEventListener('pointerleave', function () { zetActief(null); });
+		deel.addEventListener('pointerenter', function (e) { if (e.pointerType !== 'touch') zet('muis', deel.dataset.tak); });
+		deel.addEventListener('pointerleave', function (e) { if (e.pointerType !== 'touch' && bron.muis === deel.dataset.tak) zet('muis', null); });
 	});
 
 	teken();
@@ -132,22 +147,29 @@ export function initHub() {
 
 	laad3D(hub, function (scene) {
 		drieD = scene;
-		if (hub.dataset.actief) scene.zetActief(hub.dataset.actief);
-	}, zetActief);
+		if (actief) scene.zetActief(actief);
+	}, function (id) { zet('teken', id); });
 }
 
 // Three.js heeft WebGL 2 nodig en een grafische chip die het vlot kan tekenen. Met "databesparing" aan blijft het bij
-// de SVG. De bundel (js/hub-3d.js, met Three.js erin) laadt pas als de hub in beeld is en de browser even niets doet.
+// de SVG. De testcontext wordt meteen weer vrijgegeven.
 function kan3D() {
 	if (navigator.connection && navigator.connection.saveData) return false;
 	try {
-		return Boolean(window.WebGL2RenderingContext && document.createElement('canvas').getContext('webgl2', { failIfMajorPerformanceCaveat: true }));
+		if (!window.WebGL2RenderingContext) return false;
+		const gl = document.createElement('canvas').getContext('webgl2', { failIfMajorPerformanceCaveat: true });
+		if (!gl) return false;
+		const vrij = gl.getExtension('WEBGL_lose_context');
+		if (vrij) vrij.loseContext();
+		return true;
 	} catch (e) {
 		return false;
 	}
 }
 
-function laad3D(hub, klaar, zetActief) {
+// De bundel (js/hub-3d.js) laadt pas als de hub in beeld is en de browser even niets doet. Het canvas verschijnt pas
+// als het eerste beeld getekend is (onKlaar), zodat het SVG-teken nooit een moment wegvalt.
+function laad3D(hub, klaar, opTeken) {
 	const vak = hub.querySelector('[data-hub-3d]');
 	if (!vak || !kan3D()) return;
 	const naarTak = function (id) {
@@ -156,8 +178,11 @@ function laad3D(hub, klaar, zetActief) {
 	};
 	const start = function () {
 		import('./hub-3d.js').then(function (module) {
-			const scene = module.startHub(vak, { onActief: zetActief, onKies: naarTak });
-			hub.classList.add('is-3d');
+			const scene = module.startHub(vak, {
+				onActief: opTeken,
+				onKies: naarTak,
+				onKlaar: function () { hub.classList.add('is-3d'); }
+			});
 			klaar(scene);
 		}).catch(function (e) {
 			console.warn('Het teken in 3D lukt niet; de SVG blijft staan', e);
@@ -166,7 +191,7 @@ function laad3D(hub, klaar, zetActief) {
 	const wacht = window.requestIdleCallback || function (f) { return setTimeout(f, 600); };
 	if (!('IntersectionObserver' in window)) { wacht(start); return; }
 	const kijker = new IntersectionObserver(function (entries) {
-		if (!entries[0].isIntersecting) return;
+		if (!entries[entries.length - 1].isIntersecting) return;
 		kijker.disconnect();
 		wacht(start, { timeout: 2000 });
 	});

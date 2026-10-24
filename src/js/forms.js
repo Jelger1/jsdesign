@@ -1,6 +1,7 @@
-// Contactformulier op de contactpagina (en op de oude homepage).
+// Contactformulier op de contactpagina. De velden worden per veld gecontroleerd (validate.js): de melding staat onder
+// het veld, het veld krijgt aria-invalid en de focus gaat naar het eerste veld dat niet klopt.
 import { verstuur, track } from './util.js';
-import { validateField } from './validate.js';
+import { validateForm, watchForm } from './validate.js';
 
 export function initForms() {
 	const form = document.getElementById('contact-form');
@@ -9,7 +10,7 @@ export function initForms() {
 	const submitBtn = form.querySelector('button[type="submit"]');
 	const SUBMIT_LABEL = submitBtn.textContent;
 
-	if (form.elements.privacy) form.elements.privacy.addEventListener('change', function () { validateField(form.elements.privacy); });
+	watchForm(form);
 
 	function say(text, ok) {
 		message.textContent = text;
@@ -18,12 +19,13 @@ export function initForms() {
 
 	form.addEventListener('submit', function (event) {
 		event.preventDefault();
+		// Een oude melding (van een eerdere poging) weg; daarna per veld controleren
+		message.textContent = '';
+		message.className = 'form-msg';
+		if (!validateForm(form)) return;
 		const name = form.elements.name.value.trim();
 		const email = form.elements.email.value.trim();
 		const text = form.elements.message.value.trim();
-		if (!name || !email || !text) { say('Vul alle velden in.', false); return; }
-		if (!form.elements.email.checkValidity()) { say('Controleer je e-mailadres.', false); return; }
-		if (form.elements.privacy && !validateField(form.elements.privacy)) { form.elements.privacy.focus(); return; }
 
 		submitBtn.disabled = true;
 		submitBtn.textContent = 'Verzenden...';

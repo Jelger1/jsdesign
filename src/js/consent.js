@@ -86,6 +86,7 @@ function apply(choice) {
 	const previous = readChoice();
 	const record = saveChoice(choice);
 	if (bannerEl) bannerEl.hidden = true;
+	document.documentElement.style.removeProperty('--cookie-hoogte');
 	if (dialogEl) closeDialog(dialogEl);
 	const revoked = previous && ((previous.statistics && !record.statistics) || (previous.marketing && !record.marketing));
 	// Bij intrekken eerst Analytics stilzetten, anders zet het de cookies die hieronder worden opgeruimd meteen opnieuw
@@ -123,6 +124,8 @@ function showBanner() {
 		document.body.appendChild(bannerEl);
 	}
 	bannerEl.hidden = false;
+	// Ruimte onderin vrijhouden zolang de melding staat (zie pages.css): de hoogte plus de afstand tot de onderrand
+	document.documentElement.style.setProperty('--cookie-hoogte', (bannerEl.offsetHeight + 24) + 'px');
 }
 
 function showPreferences() {

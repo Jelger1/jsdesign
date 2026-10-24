@@ -28,7 +28,7 @@ function project(p, ctx, eerste) {
 		+ '\t\t\t\t<h2>' + h.esc(p.title) + '</h2>\n'
 		+ '\t\t\t\t<p class="project-meta"><span class="project-tags">' + h.esc(p.tags) + '</span>' + (p.team ? ' <span class="project-team">Teamproject</span>' : '') + '</p>\n'
 		+ '\t\t\t\t<p class="project-desc">' + h.esc(p.text) + '</p>\n'
-		+ (p.url ? '\t\t\t\t<p class="project-link"><a class="btn outline" href="' + h.esc(p.url) + '" target="_blank" rel="noopener">Bekijk het project <span aria-hidden="true">↗</span><span class="sr-only"> (opent in een nieuw venster)</span></a></p>\n' : '')
+		+ (p.url ? '\t\t\t\t<p class="project-link"><a class="btn outline" href="' + h.esc(p.url) + '" target="_blank" rel="noopener">Bekijk ' + h.esc(p.urlLabel || 'het project') + ' <span aria-hidden="true">↗</span><span class="sr-only"> (opent in een nieuw venster)</span></a></p>\n' : '')
 		+ '\t\t\t</div>\n'
 		+ '\t\t</article>';
 }

@@ -25,6 +25,11 @@ export function initRails() {
 		prev.addEventListener('click', function () { step(-1); });
 		next.addEventListener('click', function () { step(1); });
 		track.addEventListener('scroll', update, { passive: true });
+		// Met de tab-toets naar een kaart die buiten beeld staat: schuif hem in beeld
+		track.addEventListener('focusin', function (event) {
+			const card = event.target.closest('.rail-card');
+			if (card) card.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+		});
 		window.addEventListener('resize', update);
 		update();
 	});

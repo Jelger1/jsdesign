@@ -2,11 +2,17 @@
 // Overgenomen uit het portfolio (Portfolio/src/3d/util.js).
 import { WebGLRenderer } from 'three';
 
-export const minderBeweging = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// "Minder beweging" kan veranderen terwijl de pagina open is (instelling van het systeem): daarom een functie
+const MINDER = window.matchMedia('(prefers-reduced-motion: reduce)');
+export function minderBeweging() { return MINDER.matches; }
+export function bijMinderBeweging(f) {
+	if (MINDER.addEventListener) MINDER.addEventListener('change', f);
+}
 
 // Renderer die zijn container vult en meeschaalt. Geeft { renderer, grootte } terug; grootte() = { b, h }.
+// Het teken is klein: de gewone grafische chip is genoeg (scheelt accu op laptops met twee chips).
 export function maakRenderer(container, opties) {
-	const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+	const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'default' });
 	renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, (opties && opties.maxPixelRatio) || 2));
 	renderer.setClearColor(0x000000, 0);
 	container.appendChild(renderer.domElement);
@@ -18,8 +24,8 @@ export function maakRenderer(container, opties) {
 	return { renderer, grootte };
 }
 
-// Roept elk frame frame(dt, t) aan zolang de container in beeld is (scheelt GPU en accu). Geeft frame() true terug,
-// dan is de scène in rust en stopt de lus tot wekken() hem weer start (bij "minder beweging" en zonder interactie).
+// Roept frame(dt, t) aan zolang de container in beeld is, hooguit ongeveer 60 keer per seconde (ook op schermen van
+// 120 Hz en meer). Geeft frame() true terug, dan is de scène in rust en stopt de lus tot wekken() hem weer start.
 export function renderLus(container, frame, opnieuw) {
 	let zichtbaar = false;
 	let loopt = false;
@@ -28,6 +34,7 @@ export function renderLus(container, frame, opnieuw) {
 
 	function lus(nu) {
 		if (!zichtbaar) { loopt = false; return; }
+		if (vorige && nu - vorige < 15) { requestAnimationFrame(lus); return; }
 		const dt = Math.min(0.05, vorige ? (nu - vorige) / 1000 : 0.016);
 		vorige = nu;
 		tijd += dt;
@@ -42,7 +49,7 @@ export function renderLus(container, frame, opnieuw) {
 	}
 
 	new IntersectionObserver(function (entries) {
-		zichtbaar = entries[0].isIntersecting;
+		zichtbaar = entries[entries.length - 1].isIntersecting; // de nieuwste stand telt
 		if (zichtbaar) wekken();
 	}, { rootMargin: '80px' }).observe(container);
 

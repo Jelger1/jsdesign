@@ -41,17 +41,6 @@ const OUDE_DOMEINEN = ['jelgers3d.nl', 'jelgersieler.nl'].filter(function (domei
 // Naast de pagina's: sitemap, feed, robots.txt, llms.txt, build.txt, de kennisbank van Jelly-bot en winkel.json
 const TEKSTBESTANDEN = /^(?:[^/]+\.(?:xml|txt)|ai\/[^/]+\.json|js\/winkel\.json)$/;
 
-// Bekende uitzondering tot fase 3 de homepage vervangt: de home is nog de oude homepage van de webshop
-// (src/pages/index.html, met het blok "Meer dan 3D") en linkt naar het portfolio op jelgersieler.nl. Alleen met
-// OUDE_HOME_UITZONDERING=1, en dat zet alleen de pull-request-controle (ci.yml), is dat in productiemodus een
-// waarschuwing in plaats van een fout. Dan nog alleen voor jelgersieler.nl-links in dist/index.html en zolang
-// src/pages/index.html dat blok ({{portfolioUrl}}) bevat; daarna vervalt de uitzondering vanzelf. Bij het publiceren
-// (deploy.yml) en bij de SEO-poort van de livegang (§10.3 stap 3) geldt ze niet: daar bewijst een groene check dat
-// dist/ geen links naar de oude domeinen meer heeft.
-const OUDE_HOME = path.join(ROOT, 'src/pages/index.html');
-const OUDE_HOME_ACTIEF = fs.existsSync(OUDE_HOME) && fs.readFileSync(OUDE_HOME, 'utf8').indexOf('{{portfolioUrl}}') > -1;
-const OUDE_HOME_UITZONDERING = process.env.OUDE_HOME_UITZONDERING === '1';
-
 const problems = [];
 const warnings = [];
 const missing = new Map(); // ontbrekend volledig adres -> de bestanden waarin het staat
@@ -160,18 +149,11 @@ const OUD_RE = OUDE_DOMEINEN.length
 	? new RegExp('(?:https?:)?//(?:[a-z0-9-]+\\.)*(?:' + OUDE_DOMEINEN.map(escapeRegex).join('|') + ')(?![\\w-]|\\.\\w)[^\\s"\'`<>)\\]]*', 'gi')
 	: null;
 
-// Productie: geen links naar de oude domeinen. De jelgersieler.nl-links van de oude homepage zijn alleen met
-// OUDE_HOME_UITZONDERING=1 een waarschuwing (zie OUDE_HOME); zonder die vlag zijn ook zij een fout.
+// Productie: geen links naar de oude domeinen (jelgers3d.nl, jelgersieler.nl)
 function checkOldDomains(rel, text) {
 	if (MODE !== 'productie' || !OUD_RE) return;
 	const urls = Array.from(new Set(text.match(OUD_RE) || []));
-	const known = urls.filter(function (url) {
-		return OUDE_HOME_ACTIEF && rel === 'index.html' && /^(?:https?:)?\/\/(?:www\.)?jelgersieler\.nl(?![\w-]|\.\w)/i.test(url);
-	});
-	const wrong = urls.filter(function (url) { return known.indexOf(url) === -1; });
-	if (known.length && OUDE_HOME_UITZONDERING) warnings.push(rel + ': ' + known.length + ' link(s) naar jelgersieler.nl uit de oude homepage (src/pages/index.html); bekende uitzondering (OUDE_HOME_UITZONDERING=1) tot fase 3 de homepage vervangt');
-	else if (known.length) problems.push(rel + ': ' + known.length + ' link(s) naar jelgersieler.nl uit de oude homepage (src/pages/index.html). Tot fase 3 de homepage vervangt, is dat alleen in de pull-request-controle een bekende uitzondering (OUDE_HOME_UITZONDERING=1 in ci.yml); om in productie te publiceren moeten ze weg zijn');
-	if (wrong.length) problems.push(rel + ': link(s) naar een oud domein: ' + wrong.join(', '));
+	if (urls.length) problems.push(rel + ': link(s) naar een oud domein: ' + urls.join(', '));
 }
 
 const files = walk(DIST);
@@ -315,7 +297,6 @@ if (MODE === 'productie') files.map(relative).filter(function (rel) {
 }).forEach(function (rel) {
 	checkOldDomains(rel, fs.readFileSync(path.join(DIST, rel), 'utf8'));
 });
-if (MODE === 'productie' && OUDE_HOME_UITZONDERING && !OUDE_HOME_ACTIEF) warnings.push('OUDE_HOME_UITZONDERING=1 is niet meer nodig: de oude homepage is vervangen. Haal de vlag weg uit .github/workflows/ci.yml');
 
 // robots.txt: in productie met de sitemap erin, in de preview zonder (die pagina's zijn noindex)
 const robotsFile = path.join(DIST, 'robots.txt');

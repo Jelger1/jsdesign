@@ -1,12 +1,14 @@
 // Het JS-teken in 3D, in het midden van de hub op de home. src/js/hub.js laadt deze bundel pas als de hub in beeld is.
 // Drie blokken met printlaagjes op de zijkanten, een stukje uit elkaar in de richting van hun tak (30°, 150° en 270°,
 // zoals de kubus in src/templates/hub.js). Een tak aanwijzen tilt zijn blok naar voren; een blok aanwijzen licht zijn
-// tak op en klikken opent de pijler. Slepen draait het teken, daarna wiegt het rustig terug. Geen zwevende blokjes
-// eromheen (huisstijl: geen losse decoratie). Bij "minder beweging" staat het teken stil en tekent de lus alleen als er
-// iets verandert.
+// tak op en klikken opent de pijler. Slepen draait het teken. Geen zwevende blokjes eromheen (huisstijl: geen losse
+// decoratie).
+// Beweging: het teken wiegt alleen de eerste 4,5 seconden na het verschijnen (WCAG 2.2.2: wat vanzelf beweegt, stopt
+// binnen 5 seconden); daarna beweegt het alleen nog als reactie op de bezoeker, en staat de renderlus stil zodra alles
+// in rust is. Bij "minder beweging" wiegt en kantelt het niet.
 import {
-	Scene, PerspectiveCamera, Group, Mesh, ExtrudeGeometry, MeshStandardMaterial, HemisphereLight, DirectionalLight,
-	PointLight, Color, CanvasTexture, RepeatWrapping, SRGBColorSpace, Raycaster, Vector2
+	Scene, PerspectiveCamera, Group, Mesh, ExtrudeGeometry, MeshBasicMaterial, MeshStandardMaterial, HemisphereLight,
+	DirectionalLight, Color, CanvasTexture, RepeatWrapping, SRGBColorSpace, Raycaster, Vector2
 } from 'three';
 import { DELEN, BREEDTE, vorm } from './lib/js-mark.js';
 import { maakRenderer, renderLus, veer, minderBeweging } from './lib/util.js';
@@ -18,7 +20,8 @@ const VAK = 392 * SCHAAL;              // het vak toont 392 SVG-eenheden, net al
 const RICHTING = { digitaal: 30, branding: 150, tastbaar: 270 };
 const RUST = 7 * SCHAAL;               // opengewerkt, zoals de SVG
 const ACTIEF = 20 * SCHAAL;            // verder uit elkaar als de tak actief is
-const AANKOMST = 46 * SCHAAL;          // waar de delen vandaan komen als de 3D-versie verschijnt
+const WIEGEN = 4.5;                    // seconden dat het teken na het verschijnen wiegt
+const WIT = new Color('#ffffff');
 
 // Printlaagjes: dunne lichtere en donkere strepen langs de dikte, herhaald over de zijkanten
 function laagjes() {
@@ -40,24 +43,17 @@ function laagjes() {
 	return textuur;
 }
 
-// opties: { onActief(tak|null), onKies(tak) }. Geeft { zetActief(tak|null) } terug.
+// opties: { onActief(tak|null), onKies(tak), onKlaar() }. Geeft { zetActief(tak|null) } terug.
 export function startHub(container, opties) {
 	const { renderer, grootte } = maakRenderer(container, { maxPixelRatio: 1.75 });
 	const scene = new Scene();
 	const camera = new PerspectiveCamera(30, 1, 0.1, 100);
 
-	// Licht: helder van voren, aqua van links en een beetje raspberry van rechtsonder, zoals de gloed op de site. De
-	// raspberry blijft zacht, zodat de lichte J (Tastbaar) sage blijft en niet roze wordt.
-	scene.add(new HemisphereLight('#f3fffd', '#080a0d', 0.9));
-	const hoofd = new DirectionalLight('#ffffff', 1.7);
+	// Licht alleen voor de zijkanten: de voorkanten zijn onverlicht, zodat ze precies de merkkleuren houden
+	scene.add(new HemisphereLight('#f3fffd', '#080a0d', 1.1));
+	const hoofd = new DirectionalLight('#ffffff', 1.6);
 	hoofd.position.set(2.5, 4, 6);
 	scene.add(hoofd);
-	const aqua = new PointLight('#03bcca', 16, 0, 2);
-	aqua.position.set(-3.2, 1.8, 2.5);
-	scene.add(aqua);
-	const roze = new PointLight('#f10067', 7, 0, 2);
-	roze.position.set(3.2, -2.6, 1.6);
-	scene.add(roze);
 
 	const teken = new Group();
 	scene.add(teken);
@@ -67,18 +63,17 @@ export function startHub(container, opties) {
 		geo.translate(0, 0, -DIKTE / 2);
 		geo.scale(SCHAAL, SCHAAL, SCHAAL);
 		const kleur = new Color(deel.kleur);
-		// Aqua en raspberry gloeien iets, zodat ze verzadigd blijven; de lichte J kleurt alleen door het licht
-		const basis = deel.tak === 'tastbaar' ? 0 : 0.16;
-		const voorkant = new MeshStandardMaterial({ color: kleur, roughness: 0.4, metalness: 0.02, emissive: kleur, emissiveIntensity: basis });
-		const zijkant = new MeshStandardMaterial({ color: new Color(deel.zijkant), roughness: 0.62, metalness: 0, map: lagen, emissive: kleur, emissiveIntensity: 0.04 });
+		const voorkant = new MeshBasicMaterial({ color: kleur.clone() });
+		const zijkant = new MeshStandardMaterial({ color: new Color(deel.zijkant), roughness: 0.62, metalness: 0, map: lagen });
 		const mesh = new Mesh(geo, [voorkant, zijkant]);
 		mesh.userData.tak = deel.tak;
 		teken.add(mesh);
 		const hoek = RICHTING[deel.tak] * Math.PI / 180;
 		return {
-			tak: deel.tak, mesh: mesh, voorkant: voorkant, basis: basis, gloed: basis,
+			tak: deel.tak, mesh: mesh, voorkant: voorkant, kleur: kleur, licht: 0,
 			richting: { x: Math.cos(hoek), y: Math.sin(hoek) },
-			uit: minderBeweging ? RUST : AANKOMST, uitSnel: 0, til: 0, tilSnel: 0
+			// De SVG heeft het teken al laten opengaan: de 3D-versie begint in rust, zonder tweede intro
+			uit: RUST, uitSnel: 0, til: 0, tilSnel: 0
 		};
 	});
 
@@ -88,7 +83,8 @@ export function startHub(container, opties) {
 	const muis = { x: 0, y: 0 }, zacht = { x: 0, y: 0 };
 	const wijzer = new Vector2(9, 9);
 	const raycaster = new Raycaster();
-	let actief = null;       // van buitenaf (een tak) of door een blok aan te wijzen
+	let gewezen = false;     // pas raycasten als de muis echt boven het teken is geweest
+	let actief = null;       // van buitenaf (een tak)
 	let aangewezen = null;   // het blok onder de muis
 	let draai = 0, draaiSnel = 0;
 	let sleept = false, start = null, vorigeX = 0;
@@ -98,14 +94,16 @@ export function startHub(container, opties) {
 		muis.x = (e.clientX / window.innerWidth) * 2 - 1;
 		muis.y = -(e.clientY / window.innerHeight) * 2 + 1;
 		const r = canvas.getBoundingClientRect();
-		if (e.pointerType === 'mouse') wijzer.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+		if (e.pointerType === 'mouse') {
+			wijzer.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+			if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) gewezen = true;
+		}
 		if (sleept) {
 			draaiSnel = (e.clientX - vorigeX) * 0.012;
 			draai += draaiSnel;
 			vorigeX = e.clientX;
 		}
-		if (!minderBeweging || sleept) wekken();
-		else if (e.pointerType === 'mouse' && e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) wekken();
+		if (sleept || !minderBeweging() || gewezen) wekken();
 	}, { passive: true });
 	canvas.addEventListener('pointerleave', function () {
 		wijzer.set(9, 9);
@@ -113,7 +111,8 @@ export function startHub(container, opties) {
 	});
 	canvas.addEventListener('pointerdown', function (e) {
 		sleept = true;
-		start = { x: e.clientX, y: e.clientY, t: performance.now() };
+		// Alleen de gewone knop zonder ctrl, cmd, shift of alt telt straks als klik
+		start = { x: e.clientX, y: e.clientY, t: performance.now(), klik: e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey };
 		vorigeX = e.clientX;
 		draaiSnel = 0;
 		canvas.classList.add('is-dragging');
@@ -124,7 +123,7 @@ export function startHub(container, opties) {
 		sleept = false;
 		canvas.classList.remove('is-dragging');
 		// Kort getikt zonder te slepen: het blok onder de vinger of muis opent zijn pijler
-		if (e.type === 'pointerup' && start && Math.hypot(e.clientX - start.x, e.clientY - start.y) < 6 && performance.now() - start.t < 450) {
+		if (e.type === 'pointerup' && start && start.klik && Math.hypot(e.clientX - start.x, e.clientY - start.y) < 6 && performance.now() - start.t < 450) {
 			const r = canvas.getBoundingClientRect();
 			const punt = new Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
 			raycaster.setFromCamera(punt, camera);
@@ -148,14 +147,21 @@ export function startHub(container, opties) {
 	opnieuw();
 
 	// ------------------------------------------------------------------ animatie
+	let klaar = false;       // shaders gecompileerd
+	let gemeld = false;      // onKlaar is aangeroepen
+	let verschenen = 0;      // tijd (s) waarop het eerste beeld er stond
 	function frame(dt, t) {
+		if (!klaar) return true; // wacht op de shaders; compileer() wekt de lus daarna
 		zacht.x += (muis.x - zacht.x) * Math.min(1, dt * 3);
 		zacht.y += (muis.y - zacht.y) * Math.min(1, dt * 3);
 
 		// Aanwijzen (alleen met een muis): het blok onder de muis maakt zijn tak actief
-		raycaster.setFromCamera(wijzer, camera);
-		const raak = raycaster.intersectObjects(delen.map(function (d) { return d.mesh; }), false)[0];
-		const nieuw = raak ? raak.object.userData.tak : null;
+		let nieuw = null;
+		if (gewezen) {
+			raycaster.setFromCamera(wijzer, camera);
+			const raak = raycaster.intersectObjects(delen.map(function (d) { return d.mesh; }), false)[0];
+			nieuw = raak ? raak.object.userData.tak : null;
+		}
 		if (nieuw !== aangewezen) {
 			aangewezen = nieuw;
 			if (!sleept) canvas.style.cursor = aangewezen ? 'pointer' : '';
@@ -172,28 +178,37 @@ export function startHub(container, opties) {
 			uit = veer(d.til, d.tilSnel, doelTil, dt, 70, 16.7);
 			d.til = uit[0]; d.tilSnel = uit[1];
 			d.mesh.position.set(d.richting.x * d.uit, d.richting.y * d.uit, d.til);
-			const gloed = d.tak === doelTak ? d.basis + 0.2 : d.basis;
-			d.gloed += (gloed - d.gloed) * Math.min(1, dt * 8);
-			d.voorkant.emissiveIntensity = d.gloed;
-			if (Math.abs(d.uit - doelUit) > 0.0005 || Math.abs(d.til - doelTil) > 0.0005 || Math.abs(d.gloed - gloed) > 0.002) inRust = false;
+			// Het actieve blok licht iets op (richting wit), zonder van kleur te veranderen
+			const licht = d.tak === doelTak ? 0.14 : 0;
+			d.licht += (licht - d.licht) * Math.min(1, dt * 8);
+			d.voorkant.color.copy(d.kleur).lerp(WIT, d.licht);
+			if (Math.abs(d.uit - doelUit) > 0.0005 || Math.abs(d.til - doelTil) > 0.0005 || Math.abs(d.licht - licht) > 0.002) inRust = false;
 		});
 
-		// Draaien: slepen geeft een zwiep die uitdempt; daarna wiegt het teken rustig terug naar zijn houding
+		// Draaien: slepen geeft een zwiep die uitdempt; daarna draait het teken rustig terug naar zijn houding
 		if (!sleept) {
 			draaiSnel *= Math.exp(-dt * 2.2);
 			draai = Math.atan2(Math.sin(draai + draaiSnel), Math.cos(draai + draaiSnel)); // de kortste weg terug
 			if (Math.abs(draaiSnel) < 0.002) draai += (0 - draai) * Math.min(1, dt * 0.9);
 		}
-		const wieg = minderBeweging ? 0 : Math.sin(t * 0.4) * 0.16;
-		const kantel = minderBeweging ? 0 : 1;
+		// Wiegen: alleen de eerste WIEGEN seconden, uitlopend naar nul
+		if (!verschenen) verschenen = t;
+		const rest = minderBeweging() ? 0 : Math.max(0, 1 - (t - verschenen) / WIEGEN);
+		const wieg = Math.sin((t - verschenen) * 0.9) * 0.16 * rest * rest;
+		const kantel = minderBeweging() ? 0 : 1;
 		teken.rotation.y = 0.26 + wieg + draai + zacht.x * 0.3 * kantel;
 		teken.rotation.x = -0.1 - zacht.y * 0.16 * kantel;
+		if (rest > 0) inRust = false;
+		if (kantel && (Math.abs(muis.x - zacht.x) > 0.001 || Math.abs(muis.y - zacht.y) > 0.001)) inRust = false;
 		renderer.render(scene, camera);
-		// Bij "minder beweging" stopt de lus zodra alles stilstaat; aanwijzen of slepen wekt hem weer
-		return minderBeweging && inRust;
+		if (!gemeld) { gemeld = true; if (opties && opties.onKlaar) opties.onKlaar(); }
+		return inRust;
 	}
 
 	wekken = renderLus(container, frame, opnieuw);
+	// De shaders vooraf compileren (zonder de pagina te laten haperen) en pas daarna het eerste beeld tekenen
+	const compileer = renderer.compileAsync ? renderer.compileAsync(scene, camera) : Promise.resolve();
+	compileer.catch(function () {}).then(function () { klaar = true; wekken(); });
 
 	return {
 		zetActief: function (tak) {

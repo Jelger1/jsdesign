@@ -13,6 +13,7 @@ const RULES = {
 	},
 	city: function (value) { return !value ? 'Vul je woonplaats in.' : ''; },
 	text: function (value) { return value.length < 5 ? 'Vertel kort wat je wilt laten maken.' : ''; },
+	message: function (value) { return value.length < 5 ? 'Vertel kort waar je vraag of idee over gaat.' : ''; },
 	privacy: function (value, input) { return input.checked ? '' : 'Vink dit aan om het formulier te kunnen versturen.'; }
 };
 
@@ -26,7 +27,9 @@ function errorElement(input) {
 		el.id = input.id + '-error';
 		el.hidden = true;
 		input.setAttribute('aria-describedby', el.id);
-		(input.closest('.form-consent') || input).insertAdjacentElement(input.closest('.form-consent') ? 'beforeend' : 'afterend', el);
+		// Onder het veld; staat het veld in een omhulsel met icoon (.input-wrap), dan onder dat omhulsel
+		const consent = input.closest('.form-consent');
+		(consent || input.closest('.input-wrap') || input).insertAdjacentElement(consent ? 'beforeend' : 'afterend', el);
 	}
 	return el;
 }

@@ -8,8 +8,8 @@ a,button{transition:color 0.2s ease, background-color 0.2s ease, border-color 0.
 input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease}
 
 /* Scroll-animatie (alleen als de bezoeker animaties toestaat, zie ui.js) */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease, transform 0.6s ease}
-.reveal.is-revealed{opacity:1;transform:none}
+/* De scroll-onthulling (vervagen en omhoog schuiven) is vervallen: dat verbiedt de huisstijl (§5.5). ui.js zet nog
+   .reveal, maar dat heeft geen effect meer. */
 
 /* Winkelwagenknop in de header */
 .cart-toggle{position:relative;background:transparent;border:0;color:var(--soft);cursor:pointer;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0}

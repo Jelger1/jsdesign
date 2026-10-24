@@ -58,8 +58,9 @@ function teken(pillars) {
 function duim(ctx, file) {
 	const t = ctx.thumbs && ctx.thumbs[file];
 	if (!t) throw new Error('Geen miniatuur voor de hub: ' + file + ' (zie buildThumbs in build.js)');
-	return '<img src="assets/img/' + t[0].file + '" srcset="' + t.map(function (v) { return 'assets/img/' + v.file + ' ' + v.w + 'w'; }).join(', ')
-		+ '" sizes="48px" width="96" height="96" alt="" loading="lazy" decoding="async">';
+	// Niet lazy: ze zijn klein (1-2 kB) en staan op desktop in het eerste beeld
+	return '<img src="assets/duim/' + t[0].file + '" srcset="' + t.map(function (v) { return 'assets/duim/' + v.file + ' ' + v.w + 'w'; }).join(', ')
+		+ '" sizes="48px" width="96" height="96" alt="" decoding="async">';
 }
 
 function twijg(t, ctx) {
@@ -76,7 +77,8 @@ function twijg(t, ctx) {
 	return '<li class="hub-twijg hub-twijg--' + soort + '"><a href="' + h.esc(item.href) + '">'
 		+ merk
 		+ '<span class="hub-twijg-tekst"><span class="hub-twijg-naam">' + h.esc(item.label) + '</span>'
-		+ (item.note ? '<span class="hub-twijg-wat">' + h.esc(item.note) + '</span>' : '')
+		// De spatie scheidt naam en toelichting in de linknaam (anders leest een schermlezer ze als één woord)
+		+ (item.note ? ' <span class="hub-twijg-wat">' + h.esc(item.note) + '</span>' : '')
 		+ (soort === 'project' ? '<span class="sr-only"> (project)</span>' : '')
 		+ '</span></a></li>';
 }
