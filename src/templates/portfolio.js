@@ -93,7 +93,7 @@ function portfolioPage(ctx) {
 		name: 'portfolio',
 		section: 'portfolio',
 		schemaType: 'CollectionPage',
-		noindex: true, // tot fase 3 (zie NOINDEX_TOT_FASE_3 in tools/check.js)
+		// Volledige inhoud: in productie indexeerbaar
 		title: 'Portfolio · branding, websites & interactie | ' + site.name,
 		description: 'Werk van ' + site.name + ' uit Kerkrade: websites, interactieve verhalen en branding, van de site van Brouwerij Rolduc tot een verhaal over het WMC.',
 		ogImage: ctx.images[site.defaultOgImage].og,
@@ -103,7 +103,7 @@ function portfolioPage(ctx) {
 			+ '\t<header class="portfolio-head">\n'
 			+ '\t\t<p class="kicker">Werk</p>\n'
 			+ '\t\t<h1>Portfolio</h1>\n'
-			+ '\t\t<p class="portfolio-intro">Een selectie van mijn werk: websites, interactieve verhalen, branding en 3D. Bij elk project vertel ik hoe het tot stand kwam.</p>\n'
+			+ '\t\t<p class="portfolio-intro">Een selectie van mijn werk: websites, interactieve verhalen, branding en 3D. Bij de uitgelichte projecten vertel ik hoe ze tot stand kwamen.</p>\n'
 			+ '\t</header>\n'
 			+ '\t<div class="portfolio-list">\n'
 			+ cases.map(function (p, i) { return project(p, ctx, i === 0); }).join('\n') + '\n'

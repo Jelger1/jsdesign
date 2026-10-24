@@ -163,6 +163,10 @@ body[data-page="pillar"]{--section-space:var(--section-space-compact)}
    Per groep een kopje met het blokje van zijn pijler; een groep voor elk project (zonder pijler) krijgt de drie kleuren */
 .kunde-lijst{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill, minmax(min(100%, 16.5rem), 1fr));gap:var(--space-8) var(--space-6)}
 .kunde{padding-top:var(--space-4);border-top:1px solid var(--border)}
+/* Een losse laatste groep op een eigen rij krijgt de hele breedte */
+@media (min-width:75rem){
+	.kunde-lijst > .kunde:last-child:nth-child(4n+1){grid-column:1 / -1}
+}
 .kunde-naam{display:flex;align-items:center;gap:0.6rem;margin:0 0 var(--space-3);font-size:var(--text-md);line-height:1.25}
 .kunde-naam::before{content:'';flex:none;width:1.4em;height:0.87em;clip-path:var(--js-blok);background:linear-gradient(90deg, var(--raspberry) 0 34%, var(--brand) 34% 67%, var(--sage) 67%)}
 .kunde[data-pillar] .kunde-naam::before{background:var(--pillar)}

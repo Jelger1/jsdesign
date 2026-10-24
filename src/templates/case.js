@@ -188,8 +188,9 @@ function creativeWork(p, ctx, url) {
 		url: url,
 		mainEntityOfPage: { '@id': url + '#webpage' }
 	};
-	if (p.team) werk.contributor = jelger;
-	else { werk.creator = jelger; werk.author = jelger; }
+	// Bij een teamproject is Jelger een van de makers; het team staat (zonder namen) in de tekst
+	werk.creator = jelger;
+	if (!p.team) werk.author = jelger;
 	return werk;
 }
 

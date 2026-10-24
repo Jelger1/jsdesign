@@ -23,7 +23,7 @@ function homePage(ctx, template) {
 				// De eerste kaart is vanaf 900px twee rijen hoog, de vierde twee kolommen breed
 				sizes: i === 0 || i === 3 ? '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 760px' : '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 380px'
 			}) + '</span>'
-			+ '<span class="werk-tekst"><span class="werk-tags">' + h.esc(p.tags) + '</span>'
+			+ '<span class="werk-tekst"><span class="werk-tags">' + h.esc(p.tags) + (p.team ? ' · teamproject' : '') + '</span>'
 			+ '<strong class="werk-titel">' + h.esc(p.title) + '</strong></span>'
 			+ '<span class="werk-open" aria-hidden="true">→</span>'
 			+ '</a></li>';

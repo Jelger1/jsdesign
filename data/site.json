@@ -6,7 +6,6 @@
 	"description": "JS Design is de ontwerpstudio van Jelger Sieler in Kerkrade: branding, websites & interactieve verhalen, en 3D-printen.",
 	"formerNames": [
 		"JelgerS3D",
-		"JSdesign",
 		"Jelgers3d",
 		"Jelger S3D"
 	],
@@ -63,5 +62,8 @@
 			"q": "Hoe begin ik?",
 			"a": "Stuur me een bericht via het contactformulier of per mail, en vertel kort wat je zoekt. Je krijgt antwoord van mij persoonlijk."
 		}
+	],
+	"alternateNames": [
+		"JSdesign"
 	]
 }

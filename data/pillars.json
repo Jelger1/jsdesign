@@ -102,7 +102,9 @@
 					"q": "Ontwerp je ook schermen en apps?",
 					"a": "Ja, dat valt onder UI/UX-design. Voor de kunstcollectie van een ziekenhuis ontwierp ik een tabletapp voor herstellende patiënten: eerst kijken en praten op de afdeling, daarna grote knoppen, eenvoudige taal en een route die je zelf samenstelt."
 				}
-			]
+			],
+			"ogImage": "case-sanctus-01.jpg",
+			"serviceType": "Branding, huisstijl en visual design"
 		}
 	},
 	{
@@ -210,7 +212,9 @@
 					"q": "Werkt de site ook goed op een telefoon?",
 					"a": "Daar ontwerp en test ik op. De site van Brouwerij Rolduc is in de testrondes ook op smalle telefoonschermen doorgelopen."
 				}
-			]
+			],
+			"ogImage": "Portfolio-Rolduc.jpg",
+			"serviceType": "Webdesign, webontwikkeling en interactieve verhalen"
 		}
 	},
 	{
@@ -323,8 +327,7 @@
 			],
 			"aanpakNoot": "Bestel je een ontwerp uit de webshop? Dan sla je het ontwerpen over: je verstuurt je aanvraag, ik neem persoonlijk contact op over kleur en levering, en pas na jouw akkoord betaal je en ga ik printen. Ik streef ernaar dat je bestelling binnen een week klaar is.",
 			"cases": [
-				"jelgers3d",
-				"sanctus"
+				"jelgers3d"
 			],
 			"faq": [
 				{
@@ -343,7 +346,8 @@
 					"q": "Kan een ontwerp op maat meerdere kleuren hebben?",
 					"a": "Vaak wel: de Custom Lightbox kan tot vier kleuren hebben. Het tarief van de 3D-printservice geldt voor één kleur per print."
 				}
-			]
+			],
+			"serviceType": "3D-ontwerp, 3D-printen en prototyping"
 		}
 	}
 ]

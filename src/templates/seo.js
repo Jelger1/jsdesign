@@ -28,7 +28,7 @@ function organization(site, ogImageUrl) {
 		'@type': 'ProfessionalService',
 		'@id': id.organization,
 		name: site.name,
-		alternateName: site.formerNames || [],
+		alternateName: (site.formerNames || []).concat(site.alternateNames || []),
 		description: site.description,
 		url: site.url + '/',
 		logo: { '@type': 'ImageObject', url: site.url + '/assets/brand/js-logo-512.png', width: 512, height: 512 },
@@ -44,6 +44,9 @@ function organization(site, ogImageUrl) {
 	};
 }
 
+// Bestandsnaam van de OG-versie van een foto (zie tools/images.js: <slug>.jpg in assets/og)
+function slugOg(file) { return file ? file.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.jpg' : ''; }
+
 function person(site) {
 	const id = ids(site);
 	const socials = site.socials || {};
@@ -52,6 +55,9 @@ function person(site) {
 		'@id': id.person,
 		name: site.owner,
 		jobTitle: 'Ontwerper, developer en maker',
+		url: site.url + '/over.html',
+		image: site.url + '/assets/og/' + slugOg(site.homeImages && site.homeImages.about && site.homeImages.about.file),
+		knowsAbout: ['Branding', 'Huisstijl', 'UI/UX-design', 'Webdesign', 'Front-end development', 'Interactieve verhalen', '3D-ontwerp', '3D-printen'],
 		worksFor: { '@id': id.organization },
 		sameAs: [socials.linkedin, socials.github].filter(Boolean)
 	};
@@ -64,7 +70,7 @@ function website(site) {
 		'@id': id.website,
 		url: site.url + '/',
 		name: site.name,
-		alternateName: site.formerNames || [],
+		alternateName: (site.formerNames || []).concat(site.alternateNames || []),
 		inLanguage: 'nl-NL',
 		publisher: { '@id': id.organization }
 	};

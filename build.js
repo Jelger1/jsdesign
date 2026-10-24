@@ -508,7 +508,8 @@ async function build() {
 	const cases = projects.filter(function (p) { return p.tier === 'A'; });
 	const ogFor = products.map(function (p) { return p.images[0].file; })
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
-		.concat(cases.map(caseCover));
+		.concat(cases.map(caseCover))
+		.concat(pillars.map(function (p) { return p.pagina && p.pagina.ogImage; }).filter(Boolean));
 	// Elke productfoto krijgt een uitsnede met het product in het midden (zie "subject" in products.json)
 	const crops = {};
 	products.forEach(function (p) {

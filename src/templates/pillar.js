@@ -75,7 +75,7 @@ function caseKaart(p, i, ctx) {
 			sizes: i === 0 ? '(max-width: 900px) 92vw, 760px' : '(max-width: 900px) 92vw, 600px'
 		}) + '</div>\n'
 		+ '\t\t\t<div class="pijler-case-tekst">\n'
-		+ '\t\t\t\t<p class="pijler-case-tags"><span class="pijler-case-nr" aria-hidden="true">0' + (i + 1) + '</span>' + h.esc(p.tags) + '</p>\n'
+		+ '\t\t\t\t<p class="pijler-case-tags"><span class="pijler-case-nr" aria-hidden="true">0' + (i + 1) + '</span>' + h.esc(p.tags) + (p.team ? ' · teamproject' : '') + '</p>\n'
 		+ '\t\t\t\t<h3 class="pijler-case-titel"><a href="' + skills.caseUrl(p) + '">' + h.esc(p.title) + '</a></h3>\n'
 		+ '\t\t\t\t<p class="pijler-case-kort">' + h.esc(p.short) + '</p>\n'
 		+ '\t\t\t\t<span class="pijler-case-meer" aria-hidden="true">Bekijk het project</span>\n'
@@ -200,13 +200,13 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		'@context': 'https://schema.org',
 		'@type': 'Service',
 		name: pillar.h1,
-		serviceType: pillar.label,
+		serviceType: (pillar.pagina && pillar.pagina.serviceType) || pillar.label,
 		description: pagina.kort,
 		provider: { '@id': seo.ids(site).organization },
 		areaServed: [{ '@type': 'AdministrativeArea', name: 'Limburg' }, { '@type': 'Country', name: 'Nederland' }],
 		hasOfferCatalog: {
 			'@type': 'OfferCatalog',
-			name: pillar.label,
+			name: (pillar.pagina && pillar.pagina.serviceType) || pillar.label,
 			itemListElement: pagina.diensten.map(function (d) {
 				return { '@type': 'Offer', itemOffered: { '@type': 'Service', name: d.naam, description: d.tekst } };
 			})
@@ -221,7 +221,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		section: pillar.id,
 		title: pillar.seo.title + ' | ' + site.name,
 		description: pillar.seo.description,
-		ogImage: ctx.images[site.defaultOgImage].og,
+		ogImage: ((pillar.pagina && pillar.pagina.ogImage && ctx.images[pillar.pagina.ogImage]) || ctx.images[site.defaultOgImage]).og,
 		jsonLd: [c.breadcrumbsLd(crumbs, site), dienstLd].concat(shop ? shop.jsonLd : [faqLd(pagina.faq)]),
 		main: '<div class="pijler" data-pillar="' + pillar.id + '">\n'
 			+ hero + kort + diensten + aanpak + werk + kunde + (shop ? '' : faq)
