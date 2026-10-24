@@ -15,6 +15,7 @@ const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, 
 const { pillarPage, placeholderPages } = require('./src/templates/pillar');
 const { hubImages } = require('./src/templates/hub');
 const portfolioPage = require('./src/templates/portfolio');
+const { casePage, caseImages, caseCover, caseTitel } = require('./src/templates/case');
 const discovery = require('./src/templates/discovery');
 const h = require('./src/templates/helpers');
 
@@ -33,7 +34,7 @@ if (!BASE.startsWith('/')) {
 }
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'hub.css', 'pages.css', 'portfolio.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
+const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'hub.css', 'pages.css', 'portfolio.css', 'case.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
 
 // Lettertypen die elke pagina vooraf laadt: de koppen (Saira) en de lopende tekst (DM Sans). De rest staat in fonts.css.
 const PRELOAD_FONTS = ['saira-latin.woff2', 'dm-sans-latin.woff2'];
@@ -152,20 +153,77 @@ function validatePillars(pillars, site, report) {
 	});
 }
 
-// De projecten (data/projects.json) op de portfoliopagina: het id is het anker (portfolio/#rolduc), de pijler een id
-// uit pillars.json. Of de afbeelding bestaat (met de juiste hoofdletters), controleert de afbeeldingspipeline.
-function validateProjects(projects, pillars, report) {
+// De projecten (data/projects.json). Tier A krijgt een eigen casepagina (portfolio/<id>.html, src/templates/case.js),
+// tier B staat kort in "Ook gemaakt" op het portfolio, met zijn id als anker (portfolio/#dekentje). De pijler is een id
+// uit pillars.json. Beelden moeten in assets/ staan, met de juiste hoofdletters (de online build draait op Linux).
+function validateProjects(projects, pillars, site, report) {
 	const ids = new Set();
 	const pillarIds = pillars.map(function (p) { return p.id; });
+	const assets = fs.readdirSync(path.join(ROOT, 'assets'));
+	const cases = projects.filter(function (p) { return p.tier === 'A'; }).map(function (p) { return p.id; });
 	projects.forEach(function (p, i) {
 		const where = 'projects.json > "' + (p.id || '#' + i) + '"';
 		if (!/^[a-z0-9-]+$/.test(p.id || '')) report.errors.push(where + ': id ontbreekt of bevat andere tekens dan a-z, 0-9 en -');
 		if (ids.has(p.id)) report.errors.push(where + ': id komt dubbel voor');
 		ids.add(p.id);
+		if (p.tier !== 'A' && p.tier !== 'B') report.errors.push(where + ': tier moet "A" (eigen casepagina) of "B" (korte vermelding) zijn');
 		if (pillarIds.indexOf(p.pillar) === -1) report.errors.push(where + ': onbekende pillar "' + p.pillar + '" (moet een id uit pillars.json zijn)');
-		if (!p.title || !p.text || !p.image || !p.tags) report.errors.push(where + ': title, tags, text en image zijn verplicht');
-		if (!p.alt) report.warnings.push(where + ': alt-tekst ontbreekt bij ' + p.image);
+		if (!p.title || !p.text || !p.tags) report.errors.push(where + ': title, tags en text zijn verplicht');
+		if (p.image && assets.indexOf(p.image) === -1) report.errors.push(where + ': afbeelding "' + p.image + '" staat niet in assets/ (let op hoofdletters)');
+		if (p.image && !p.alt) report.warnings.push(where + ': alt-tekst ontbreekt bij ' + p.image);
 		if (p.url && !/^https:\/\//.test(p.url)) report.errors.push(where + ': url moet met https:// beginnen');
+		if (p.tier === 'A') validateCase(p, where, cases, site, assets, report);
+	});
+	// Toestemming van opdrachtgevers, teamgenoten en makers: zolang die niet is vastgelegd, meldt elke build het
+	const zonderAkkoord = projects.filter(function (p) { return p.tier === 'A' && p.case && p.case.akkoord !== true; }).map(function (p) { return p.id; });
+	if (zonderAkkoord.length) report.warnings.push('projects.json: nog geen akkoord vastgelegd voor de cases ' + zonderAkkoord.join(', ') + ' (zet "akkoord": true in case zodra de toestemmingen er zijn)');
+}
+
+// Een case (projects.json > case): specificaties, "In het kort" (40-60 woorden), hoofdstukken met korte alinea's en
+// beelden met alt-tekst en bijschrift, het resultaat en precies twee verwante cases
+function validateCase(p, where, cases, site, assets, report) {
+	const k = p.case;
+	if (!p.image) report.errors.push(where + ': een case heeft een image nodig (voor het portfolio en de home)');
+	if (!k) {
+		report.errors.push(where + ': een project uit tier A heeft een "case" nodig');
+		return;
+	}
+	['gemaakt', 'jaar', 'context', 'rol', 'team', 'lead', 'kort', 'beschrijving'].forEach(function (key) {
+		if (!k[key]) report.errors.push(where + ' > case: ' + key + ' ontbreekt');
+	});
+	if (!Array.isArray(k.techniek) || !k.techniek.length) report.errors.push(where + ' > case: techniek moet een lijst zijn');
+	if (k.gemaakt && !/^\d{4}-\d{2}-\d{2}$/.test(k.gemaakt)) report.errors.push(where + ' > case: gemaakt moet een datum zijn, zoals "2026-04-11"');
+	const woorden = (k.kort || '').split(/\s+/).filter(Boolean).length;
+	if (k.kort && (woorden < 40 || woorden > 60)) report.warnings.push(where + ' > case: "kort" telt ' + woorden + ' woorden (richtlijn: 40 tot 60)');
+	const titel = caseTitel(p, site);
+	if (titel.length > 60) report.errors.push(where + ' > case: de titel "' + titel + '" wordt ' + titel.length + ' tekens (maximaal 60, geef een kortere seoTitel)');
+	if ((k.beschrijving || '').length > 155) report.errors.push(where + ' > case: beschrijving is ' + k.beschrijving.length + ' tekens (maximaal 155)');
+	if (k.kader && k.kader !== 'browser') report.errors.push(where + ' > case: kader kan alleen "browser" zijn');
+	if (k.pagina && (!k.pagina.href || !k.pagina.label || /^(?:https?:)?\/\//.test(k.pagina.href))) report.errors.push(where + ' > case: pagina heeft een label en een href op deze site nodig');
+	if (!k.resultaat || !Array.isArray(k.resultaat.alineas)) report.errors.push(where + ' > case: resultaat met alineas ontbreekt');
+	if (!Array.isArray(k.hoofdstukken) || !k.hoofdstukken.length) report.errors.push(where + ' > case: minstens één hoofdstuk nodig');
+
+	const beelden = k.cover ? [{ file: k.cover, alt: k.coverAlt, plek: where + ' > case > cover', cover: true }] : [];
+	(k.hoofdstukken || []).concat(k.resultaat ? [Object.assign({ titel: 'Resultaat' }, k.resultaat)] : []).forEach(function (hs, i) {
+		const plek = where + ' > case > ' + (hs.titel || 'hoofdstuk ' + (i + 1));
+		if (!hs.titel) report.errors.push(plek + ': titel ontbreekt');
+		if (!Array.isArray(hs.alineas) || !hs.alineas.length) report.errors.push(plek + ': minstens één alinea nodig');
+		// Scanbaar: korte alinea's, de rest achter "Lees meer"
+		(hs.alineas || []).concat(hs.meer || []).forEach(function (a) {
+			const n = a.split(/\s+/).filter(Boolean).length;
+			if (n > 60) report.warnings.push(plek + ': een alinea telt ' + n + ' woorden (richtlijn: hooguit 60): "' + a.slice(0, 40) + '…"');
+		});
+		if (hs.paar && (hs.beelden || []).length < 2) report.errors.push(plek + ': "paar" heeft minstens twee beelden nodig');
+		(hs.beelden || []).forEach(function (b) { beelden.push({ file: b.file, alt: b.alt, bijschrift: b.bijschrift, plek: plek }); });
+	});
+	beelden.forEach(function (b) {
+		if (!b.file || assets.indexOf(b.file) === -1) report.errors.push(b.plek + ': afbeelding "' + (b.file || '') + '" staat niet in assets/ (let op hoofdletters)');
+		if (!b.alt) report.errors.push(b.plek + ': alt-tekst ontbreekt bij ' + b.file);
+		if (!b.cover && !b.bijschrift) report.warnings.push(b.plek + ': geen bijschrift bij ' + b.file);
+	});
+	if (!Array.isArray(k.verwant) || k.verwant.length !== 2) report.errors.push(where + ' > case: verwant moet precies twee cases noemen');
+	(k.verwant || []).forEach(function (id) {
+		if (cases.indexOf(id) === -1 || id === p.id) report.errors.push(where + ' > case: verwant "' + id + '" is geen andere case uit tier A');
 	});
 }
 
@@ -184,7 +242,9 @@ function validateHub(pillars, projects, report) {
 		p.hub.takken.forEach(function (t, i) {
 			const twijg = where + ' > takken[' + i + ']';
 			if (t.project) {
+				const project = projects.find(function (x) { return x.id === t.project; });
 				if (projectIds.indexOf(t.project) === -1) report.errors.push(twijg + ': onbekend project "' + t.project + '" (moet een id uit projects.json zijn)');
+				else if (!project.image) report.errors.push(twijg + ': project "' + t.project + '" heeft geen image voor de miniatuur');
 			} else if (!t.label || !t.href) {
 				report.errors.push(twijg + ': een twijg zonder project heeft label en href nodig');
 			}
@@ -381,7 +441,7 @@ async function build() {
 	const today = new Date().toISOString().slice(0, 10);
 	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
 	validatePillars(pillars, site, report);
-	validateProjects(projects, pillars, report);
+	validateProjects(projects, pillars, site, report);
 	validateHub(pillars, projects, report);
 	if (report.errors.length) {
 		console.error('\nBuild gestopt, los eerst deze fouten op:\n - ' + report.errors.join('\n - ') + '\n');
@@ -391,9 +451,11 @@ async function build() {
 
 	// 1. Afbeeldingen (incrementeel)
 	// Elke foto die een pagina als deelbeeld gebruikt, krijgt een OG-versie (1200x630). Eerder kreeg de foto bovenaan
-	// de 3D-printservice er geen, waardoor die pagina og:image ".../og/undefined" had.
+	// de 3D-printservice er geen, waardoor die pagina og:image ".../og/undefined" had. Een casepagina deelt haar cover.
+	const cases = projects.filter(function (p) { return p.tier === 'A'; });
 	const ogFor = products.map(function (p) { return p.images[0].file; })
-		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file);
+		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
+		.concat(cases.map(caseCover));
 	// Elke productfoto krijgt een uitsnede met het product in het midden (zie "subject" in products.json)
 	const crops = {};
 	products.forEach(function (p) {
@@ -405,7 +467,8 @@ async function build() {
 	const used = products.flatMap(function (p) { return p.images.map(function (image) { return image.file; }); })
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
-		.concat(projects.map(function (p) { return p.image; }))
+		.concat(projects.filter(function (p) { return p.image; }).map(function (p) { return p.image; }))
+		.concat(cases.flatMap(caseImages)) // cover en beelden van elke casepagina
 		.concat(hubImages(pillars, projects));
 	const imageResult = await processImages({
 		srcDir: path.join(ROOT, 'assets'),
@@ -496,13 +559,16 @@ async function build() {
 		}
 	};
 
-	// Alle pagina's van de site. Volgorde: home, de drie pijlers, webshop, overige pagina's, producten.
-	// De pijler Tastbaar krijgt onder de intro de webshopsecties uit src/pages/tastbaar.html.
+	// Alle pagina's van de site. Volgorde: home, de drie pijlers, het portfolio met een casepagina per project uit tier A,
+	// webshop, overige pagina's, producten. De pijler Tastbaar krijgt onder de intro de webshopsecties uit
+	// src/pages/tastbaar.html.
 	const tastbaarTemplate = read('src/pages/tastbaar.html');
 	const pages = [homePage(ctx, read('src/pages/index.html'))]
 		.concat(pillars.map(function (p) { return pillarPage(p, ctx, tastbaarTemplate); }))
 		.concat(placeholderPages(ctx))
-		.concat([portfolioPage(ctx), contactPage(ctx, read('src/pages/contact.html'))])
+		.concat([portfolioPage(ctx)])
+		.concat(cases.map(function (p) { return casePage(p, ctx); }))
+		.concat([contactPage(ctx, read('src/pages/contact.html'))])
 		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
 		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])

@@ -14,7 +14,8 @@ function homePage(ctx, template) {
 	const werk = UITGELICHT.map(function (id, i) {
 		const p = ctx.projects.find(function (x) { return x.id === id; });
 		if (!p) throw new Error('Home: onbekend project ' + id);
-		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="portfolio/#' + h.esc(p.id) + '">'
+		// Een project uit tier A heeft een eigen casepagina (portfolio/rolduc.html)
+		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="' + h.esc(h.projectUrl(p)) + '">'
 			+ '<span class="werk-beeld">' + h.img(ctx.images, p.image, {
 				alt: p.alt,
 				// De eerste kaart is vanaf 900px twee rijen hoog, de vierde twee kolommen breed

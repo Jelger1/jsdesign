@@ -48,10 +48,17 @@ function llms(ctx, full) {
 	ctx.pillars.forEach(function (p) {
 		lines.push('- ' + link(site, p.path, p.h1) + ': ' + p.summary + ' Diensten: ' + p.services.map(inZin).join(', ') + '.');
 	});
+	// Werk: de cases (tier A) met een link naar hun casepagina, daarna kort wat er verder gemaakt is (tier B)
+	const projects = ctx.projects || [];
 	lines.push('', '## Werk', '');
-	(ctx.projects || []).forEach(function (p) {
-		lines.push('- ' + link(site, 'portfolio/#' + p.id, p.title) + ': ' + p.text + (p.url ? ' Live: ' + p.url : ''));
+	projects.filter(function (p) { return p.tier === 'A'; }).forEach(function (p) {
+		lines.push('- ' + link(site, h.projectUrl(p), p.title) + ' (' + p.case.jaar + ', ' + inZin(p.case.context) + '): ' + (full ? p.case.kort : p.text) + (p.url ? ' Live: ' + p.url : ''));
 	});
+	const ook = projects.filter(function (p) { return p.tier === 'B'; });
+	if (ook.length) {
+		lines.push('', '### Ook gemaakt', '');
+		ook.forEach(function (p) { lines.push('- ' + p.title + ': ' + p.text + (p.url ? ' Live: ' + p.url : '')); });
+	}
 	lines.push('', '## Webshop', '', '- ' + link(site, 'webshop.html', 'Webshop') + ': eigen 3D-geprinte ontwerpen, gemaakt in Limburg.');
 	(site.categoryPages || []).forEach(function (cat) {
 		lines.push('- ' + link(site, cat.slug + '.html', cat.label) + (cat.seoDescription ? ': ' + cat.seoDescription : ''));
@@ -100,8 +107,11 @@ function kennis(ctx) {
 			}),
 			printservice: Object.assign({ url: site.url + '/3d-printservice.html' }, site.printService)
 		},
+		// Cases (tier A) met hun casepagina en de kern van de case; tier B kort, met een anker op het portfolio
 		projecten: (ctx.projects || []).map(function (p) {
-			return { titel: p.title, pijler: p.pillar, soort: p.tags, omschrijving: p.text, url: site.url + '/portfolio/#' + p.id, live: p.url || null, teamproject: Boolean(p.team) };
+			const project = { titel: p.title, pijler: p.pillar, soort: p.tags, omschrijving: p.text, url: site.url + '/' + h.projectUrl(p), live: p.url || null, teamproject: Boolean(p.team), case: p.tier === 'A' };
+			if (p.tier === 'A') Object.assign(project, { jaar: p.case.jaar, context: p.case.context, rol: p.case.rol, inHetKort: p.case.kort });
+			return project;
 		}),
 		// Eerst de vragen over JS Design zelf (home), dan die over de webshop
 		faq: (site.homeFaq || []).map(function (item) { return { q: item.q, a: item.a }; }).concat(site.faq || [])
