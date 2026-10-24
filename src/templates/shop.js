@@ -123,7 +123,8 @@ function shopPage(ctx) {
 		name: 'shop',
 		title: 'Webshop – 3D-geprinte vazen, lampen & cadeaus | ' + site.name,
 		description: 'Shop unieke 3D-geprinte designvazen, lampen en Limburgse cadeaus van ' + site.owner + '. Eigen ontwerp, speciaal voor jou geprint in Limburg. Vanaf ' + h.euro(Math.min.apply(null, prices)) + '.',
-		ogImage: ctx.images[site.defaultOgImage].og,
+		// Een productfoto, net als op de categoriepagina's; de rest van de site deelt het beeld van de studio
+		ogImage: ctx.images[products[0].images[0].file].og,
 		jsonLd: [
 			c.breadcrumbsLd(crumbs, site),
 			{

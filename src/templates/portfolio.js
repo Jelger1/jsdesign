@@ -35,7 +35,8 @@ function project(p, ctx, eerste) {
 		+ '\t\t\t<div class="project-text">\n'
 		+ '\t\t\t\t<p class="kicker">' + h.esc(pillar.label) + '</p>\n'
 		+ '\t\t\t\t<h2><a href="' + caseLink + '">' + h.esc(p.title) + '</a></h2>\n'
-		+ '\t\t\t\t<p class="project-meta"><span class="project-tags">' + h.esc(p.tags) + '</span>' + (p.team ? ' <span class="project-team">Teamproject</span>' : '') + '</p>\n'
+		+ '\t\t\t\t<p class="project-meta"><span class="project-tags">' + h.esc(p.tags) + '</span>'
+		+ (p.klantopdracht ? ' <span class="project-label">Klantopdracht</span>' : '') + (p.team ? ' <span class="project-label">Teamproject</span>' : '') + '</p>\n'
 		+ '\t\t\t\t<p class="project-desc">' + h.esc(p.text) + '</p>\n'
 		+ '\t\t\t\t<p class="project-link"><a class="btn primary" href="' + caseLink + '">Lees de case<span class="sr-only"> over ' + h.esc(p.title) + '</span></a>'
 		+ (p.url ? ' <a class="btn-text project-live" href="' + h.esc(p.url) + '" target="_blank" rel="noopener">' + nieuwVenster('Bekijk ' + h.esc(p.urlLabel || 'het project')) + '</a>' : '')
@@ -44,12 +45,16 @@ function project(p, ctx, eerste) {
 		+ '\t\t</article>';
 }
 
-// Tier B: titel, één zin, het blokje van de pijler en eventueel een live link
+// Tier B: een klein beeld (of zonder beeld het blokje van de pijler), titel, één zin en eventueel een live link
 function ookGemaakt(p, ctx) {
 	const pillar = ctx.pillars.find(function (x) { return x.id === p.pillar; });
+	const media = p.image
+		? h.img(ctx.images, p.image, { root: ROOT, alt: p.alt, sizes: '(max-width: 900px) 88px, 128px' })
+		: '<span class="ook-blok" aria-hidden="true"></span>';
 	return '\t\t\t<li id="' + h.esc(p.id) + '" class="ook-item" data-pillar="' + h.esc(p.pillar) + '">\n'
-		+ '\t\t\t\t<span class="ook-blok" aria-hidden="true"></span>\n'
-		+ '\t\t\t\t<div class="ook-kop"><h3>' + h.esc(p.title) + '</h3><p class="ook-tags"><span class="sr-only">' + h.esc(pillar.label) + ': </span>' + h.esc(p.tags) + (p.team ? ' · teamproject' : '') + '</p></div>\n'
+		+ '\t\t\t\t<span class="ook-media">' + media + '</span>\n'
+		+ '\t\t\t\t<div class="ook-kop"><h3>' + h.esc(p.title) + '</h3><p class="ook-tags"><span class="sr-only">' + h.esc(pillar.label) + ': </span>' + h.esc(p.tags)
+		+ (p.klantopdracht ? ' · klantopdracht' : '') + (p.team ? ' · teamproject' : '') + '</p></div>\n'
 		+ '\t\t\t\t<p class="ook-tekst">' + h.esc(p.text) + '</p>\n'
 		+ (p.url ? '\t\t\t\t<p class="ook-link"><a class="btn-text" href="' + h.esc(p.url) + '" target="_blank" rel="noopener">' + nieuwVenster('Bekijk ' + h.esc(p.urlLabel || 'het project')) + '</a></p>\n' : '')
 		+ '\t\t\t</li>';
@@ -75,7 +80,7 @@ function itemList(ctx) {
 				keywords: p.tags.split(' · ').join(', '),
 				url: p.tier === 'A' ? adres : (p.url || adres)
 			};
-			if (p.tier === 'A') werk.image = site.url + '/' + h.imgPath(ctx.images, caseCover(p), 1200, '');
+			if (p.tier === 'A' || p.image) werk.image = site.url + '/' + h.imgPath(ctx.images, p.tier === 'A' ? caseCover(p) : p.image, 1200, '');
 			werk[p.team ? 'contributor' : 'creator'] = jelger;
 			return { '@type': 'ListItem', position: i + 1, item: werk };
 		})
@@ -110,7 +115,7 @@ function portfolioPage(ctx) {
 			+ '\t</div>\n'
 			+ (ook.length ? '\t<section class="portfolio-ook" aria-labelledby="ook-titel">\n'
 				+ '\t\t<h2 id="ook-titel">Ook gemaakt</h2>\n'
-				+ '\t\t<p class="portfolio-ook-intro">Kleinere projecten, teamwerk en interne tools.</p>\n'
+				+ '\t\t<p class="portfolio-ook-intro">Kleinere opdrachten en projecten, teamwerk en interne tools.</p>\n'
 				+ '\t\t<ul class="ook-lijst">\n'
 				+ ook.map(function (p) { return ookGemaakt(p, ctx); }).join('\n') + '\n'
 				+ '\t\t</ul>\n'

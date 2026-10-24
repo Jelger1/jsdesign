@@ -1,8 +1,10 @@
 // Losse pagina's: de privacyverklaring (tekst uit src/pages/privacy.html) en de 404-pagina.
 const h = require('./helpers');
 
-function legalValues(site) {
-	const updated = new Date((site.legal && site.legal.updated || '2026-01-01') + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+// datum: wanneer de tekst voor het laatst is bijgewerkt. De privacyverklaring en de voorwaarden hebben elk hun eigen datum
+// (site.json > legal.updated en legal.termsUpdated)
+function legalValues(site, datum) {
+	const updated = new Date((datum || (site.legal && site.legal.updated) || '2026-01-01') + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 	return {
 		name: h.esc(site.name), owner: h.esc(site.owner), city: h.esc((site.address && site.address.city) || site.pickupLocation),
 		emailLink: h.mailLink(site.email, ''), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
@@ -187,9 +189,9 @@ function termsPage(ctx, template) {
 		root: '',
 		name: 'text',
 		title: 'Algemene voorwaarden | ' + site.name,
-		description: 'De algemene voorwaarden van ' + site.name + ': hoe bestellen werkt, prijzen en betaling, levering en ophalen, herroepingsrecht, garantie en klachten.',
+		description: 'De algemene voorwaarden van ' + site.name + ': bestellen en 3D-printwerk, ontwerp- en webopdrachten, betaling, rechten op ontwerpen en klachten.',
 		ogImage: ctx.images[site.defaultOgImage].og,
-		main: '<div class="container text-page">\n' + h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), legalValues(site)) + '\n</div>'
+		main: '<div class="container text-page">\n' + h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), legalValues(site, site.legal && site.legal.termsUpdated)) + '\n</div>'
 	};
 }
 
@@ -304,6 +306,8 @@ function contactPage(ctx, template) {
 		description: 'Neem contact op met ' + site.name + ' in Kerkrade over branding, een website of een 3D-ontwerp.',
 		ogImage: ctx.images[site.defaultOgImage].og,
 		main: h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
+			// Het portret van Over naast "je krijgt antwoord van mij persoonlijk"
+			portret: h.img(ctx.images, site.homeImages.about.file, { alt: site.homeImages.about.alt, sizes: '72px', className: 'contact-portret' }),
 			nieuwsbriefCheckbox: h.nieuwsbriefCheckbox('cf-nieuwsbrief'),
 			privacyCheckbox: h.privacyCheckbox(site, '', 'cf-privacy', false),
 			emailLink: h.mailLink(site.email, ''),

@@ -1,7 +1,8 @@
 // Een casepagina voor elk project uit tier A (data/projects.json > case): portfolio/<id>.html.
 // Opbouw: de hero in de kleurwereld van de pijler (kicker met blokje, titel, lead, cover en specificaties), "In het
 // kort" (40-60 woorden: het antwoord eerst, ook voor AI-assistenten), de hoofdstukken van het proces, het resultaat met
-// de live link, wat ik leerde, de verantwoording (credits, mockups, AI), twee verwante cases en de contactband.
+// de live link en een tekstlink naar contact, wat ik leerde, de verantwoording (credits, mockups, AI), twee verwante
+// cases en de contactband.
 // Scanbaar: per hoofdstuk een nummer, een korte kop en één of twee korte alinea's; de rest staat achter "Lees meer".
 // Elk beeld heeft een onderschrift, en een voor/na-paar ("paar": true, de eerste twee beelden van een hoofdstuk) staat
 // vanaf 600px naast elkaar. Stijlen: src/css/case.css. Bewust zonder in- of opschuivende animaties.
@@ -88,8 +89,9 @@ function alineas(lijst) {
 }
 
 // Een hoofdstuk: nummer en kop, korte alinea's of een lijst, details achter "Lees meer", en dan de beelden.
-// extra: wat er nog onder de tekst hoort (de links bij het resultaat).
-function stap(ctx, hs, i, teller, extra) {
+// extra: wat er nog onder de tekst hoort (de links bij het resultaat); na: wat het hoofdstuk afsluit, na de beelden
+// (de vraag naar contact bij het resultaat).
+function stap(ctx, hs, i, teller, extra, na) {
 	const id = 'stap-' + (i + 1);
 	const beelden = hs.beelden || [];
 	const tweetal = hs.paar ? beelden.slice(0, 2) : [];
@@ -105,6 +107,7 @@ function stap(ctx, hs, i, teller, extra) {
 		+ '\t\t<div class="case-stap-tekst">' + tekst + '</div>\n'
 		+ (tweetal.length ? '\t\t' + paar(ctx, tweetal, teller) + '\n' : '')
 		+ los.map(function (b) { return '\t\t' + figuur(ctx, b, teller) + '\n'; }).join('')
+		+ (na ? '\t\t' + na + '\n' : '')
 		+ '\t</section>';
 }
 
@@ -204,10 +207,11 @@ function casePage(p, ctx) {
 	const entry = ctx.images[cover(p)];
 	const coverSizes = staand(ctx, cover(p)) ? SIZES.coverStaand : SIZES.cover;
 
-	// Het proces, daarna het resultaat (met de links) en wat ik leerde, in dezelfde nummering
+	// Het proces, daarna het resultaat (met de links en een tekstlink naar contact) en wat ik leerde, in dezelfde nummering
 	const teller = { n: 0 };
 	const stappen = k.hoofdstukken.map(function (hs, i) { return stap(ctx, hs, i, teller); });
-	stappen.push(stap(ctx, { titel: 'Resultaat', alineas: k.resultaat.alineas, beelden: k.resultaat.beelden, paar: k.resultaat.paar }, stappen.length, teller, links(p)));
+	const vraag = '<p class="case-vraag">Iets vergelijkbaars nodig? <a class="link-arrow" href="' + ROOT + 'contact.html">Vertel over je project</a></p>';
+	stappen.push(stap(ctx, { titel: 'Resultaat', alineas: k.resultaat.alineas, beelden: k.resultaat.beelden, paar: k.resultaat.paar }, stappen.length, teller, links(p), vraag));
 	if (k.geleerd && k.geleerd.length) stappen.push(stap(ctx, { titel: 'Wat ik leerde', lijst: k.geleerd }, stappen.length, teller));
 
 	return {
@@ -236,7 +240,7 @@ function casePage(p, ctx) {
 			+ '\t<div class="cta-band">\n'
 			+ '\t\t<div class="cta-band-tekst">\n'
 			+ '\t\t\t<h2 id="cta-titel">' + h.esc(CTA[p.pillar]) + '</h2>\n'
-			+ '\t\t\t<p>Vertel me wat je in gedachten hebt. Je krijgt antwoord van mij persoonlijk.</p>\n'
+			+ '\t\t\t<p>Vertel me wat je in gedachten hebt. Je krijgt antwoord van mij persoonlijk, meestal binnen 3 tot 4 werkdagen.</p>\n'
 			+ '\t\t</div>\n'
 			+ '\t\t<p class="cta-row"><a class="btn primary" href="' + ROOT + 'contact.html">Neem contact op</a><span class="cta-band-mail">of mail naar ' + h.mailLink(site.email, ROOT) + '</span></p>\n'
 			+ '\t</div>\n'

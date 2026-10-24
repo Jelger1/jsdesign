@@ -10,9 +10,9 @@
 		"Jelger S3D"
 	],
 	"email": "sielerjelger@gmail.com",
-	"instagram": "https://www.instagram.com/jelgers3d/",
+	"instagram": "https://www.instagram.com/jsdesign.nl/",
 	"socials": {
-		"instagram": "https://www.instagram.com/jelgers3d/",
+		"instagram": "https://www.instagram.com/jsdesign.nl/",
 		"linkedin": "https://www.linkedin.com/in/jelger-sieler-9146a9306/",
 		"github": "https://github.com/Jelger1"
 	},
@@ -25,7 +25,7 @@
 		"city": "Kerkrade",
 		"country": "Nederland"
 	},
-	"defaultOgImage": "Kami-Vase-3kleuren2.jpg",
+	"defaultOgImage": "JS-Design-Deelbeeld.jpg",
 	"backend": {
 		"url": "https://kgxhefdzufhmigbmchhk.supabase.co/functions/v1/formulier"
 	},
@@ -35,7 +35,8 @@
 		"googleAds": ""
 	},
 	"legal": {
-		"updated": "2026-10-21"
+		"updated": "2026-10-24",
+		"termsUpdated": "2026-10-24"
 	},
 	"forms": {
 		"privacyCheckbox": true
@@ -63,13 +64,12 @@
 			"a": "JS Design is de ontwerpstudio van Jelger Sieler in Kerkrade. Ik doe drie dingen: branding (logo’s en huisstijlen), websites en interactieve verhalen, en 3D-printen, van eigen ontwerpen in de webshop tot prototypes en maatwerk. Je kunt dus van begin tot eind bij mij terecht: van je logo en huisstijl tot je website en iets om vast te pakken."
 		},
 		{
-			"q": "Is JelgerS3D gestopt?",
-			"a": "Nee, JelgerS3D heet nu JS Design. Misschien ken je me van de 3D-prints: producten die je kunt vastpakken. Achter de schermen deed ik al meer, zoals logo’s, huisstijlen en websites. Dat staat nu samen onder één naam. De webshop en de printservice blijven gewoon bestaan.",
-			"logo": true
+			"q": "Werk je ook voor bedrijven en organisaties?",
+			"a": "Ja. Ik werk voor particulieren, ondernemers en organisaties: van een logo of een website tot prototypes en kleine series in 3D. Voor WMC Kerkrade maakte ik bijvoorbeeld Klankstad, een keuzeverhaal bij hun 75-jarig jubileum."
 		},
 		{
-			"q": "Werk je ook voor bedrijven?",
-			"a": "Ja. Ik werk voor particulieren en ondernemers: van een logo of een website tot prototypes en kleine series in 3D."
+			"q": "Hoe begin ik?",
+			"a": "Stuur me een bericht via het contactformulier of per mail, en vertel kort wat je zoekt. Je krijgt antwoord van mij persoonlijk, meestal binnen 3 tot 4 werkdagen."
 		},
 		{
 			"q": "Waar zit je?",
@@ -80,8 +80,9 @@
 			"a": "Ja, als hulpmiddel. Daardoor werk ik sneller, en omdat ik AI al sinds de opkomst volg en gebruik, weet ik wat het kan en hoe je het goed inzet. Het onderzoek, de keuzes en het testen met gebruikers doe ik zelf. Ik ben de maker; AI is gereedschap."
 		},
 		{
-			"q": "Hoe begin ik?",
-			"a": "Stuur me een bericht via het contactformulier of per mail, en vertel kort wat je zoekt. Je krijgt antwoord van mij persoonlijk."
+			"q": "Is JelgerS3D gestopt?",
+			"a": "Nee, JelgerS3D heet nu JS Design. Misschien ken je me van de 3D-prints: producten die je kunt vastpakken. Achter de schermen deed ik al meer, zoals logo’s, huisstijlen en websites. Dat staat nu samen onder één naam. De webshop en de printservice blijven gewoon bestaan.",
+			"logo": true
 		}
 	],
 	"alternateNames": [

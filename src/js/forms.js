@@ -41,7 +41,7 @@ export function initForms() {
 		}).then(function (antwoord) {
 			track('generate_lead', { lead_type: 'contact' });
 			const nieuwsbrief = antwoord.mail && form.elements.nieuwsbrief && form.elements.nieuwsbrief.checked;
-			say('Bedankt! Je bericht is verstuurd.' + (antwoord.mail ? ' Je krijgt een bevestiging per mail' + (nieuwsbrief ? ', met daarin de knop om je aanmelding voor de nieuwsbrief te bevestigen.' : '.') : '') + ' Ik neem snel contact met je op.', true);
+			say('Bedankt! Je bericht is verstuurd.' + (antwoord.mail ? ' Je krijgt een bevestiging per mail' + (nieuwsbrief ? ', met daarin de knop om je aanmelding voor de nieuwsbrief te bevestigen.' : '.') : '') + ' Je hoort meestal binnen 3 tot 4 werkdagen van me.', true);
 			form.reset();
 		}).catch(function (error) {
 			say(error.message, false);

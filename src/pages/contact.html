@@ -4,7 +4,10 @@
 	<header class="section-head">
 		<p class="kicker">Contact</p>
 		<h1>Neem contact op</h1>
-		<p class="section-intro">Stel je vraag of deel je idee: je krijgt antwoord van mij persoonlijk.</p>
+		<div class="contact-persoon">
+			{{portret}}
+			<p class="section-intro">Stel je vraag of deel je idee. Je krijgt antwoord van mij persoonlijk, meestal binnen 3 tot 4 werkdagen.</p>
+		</div>
 	</header>
 
 	<form id="contact-form" class="contact-form" novalidate>
@@ -27,7 +30,7 @@
 			</div>
 			<div class="form-group">
 				<label for="cf-message">Bericht</label>
-				<textarea id="cf-message" name="message" rows="4" required placeholder="Vertel me kort over je vraag of idee..."></textarea>
+				<textarea id="cf-message" name="message" rows="4" required placeholder="Wat heb je nodig, voor wie, en wanneer moet het klaar zijn?"></textarea>
 			</div>
 			{{nieuwsbriefCheckbox}}
 			{{privacyCheckbox}}

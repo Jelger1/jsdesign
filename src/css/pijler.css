@@ -68,6 +68,15 @@ body[data-page="pillar"]{--section-space:var(--section-space-compact)}
 @media (max-width:899px){
 	.pijler-hier{width:min(72vw, 20rem)}
 }
+/* Op een telefoon kleiner, zodat de inhoud eerder in beeld komt; het label krimpt mee en schuift naar de rand, zodat
+   het niet over het teken valt */
+@media (max-width:599px){
+	.pijler-hier{width:min(50vw, 12.5rem)}
+	.pijler-hier-label{font-size:0.625rem;padding:0.3rem 0.5rem;letter-spacing:0.08em}
+	.pijler-hier--branding .pijler-hier-label{left:9%;top:3.5%}
+	.pijler-hier--digitaal .pijler-hier-label{right:10%;top:3%}
+	.pijler-hier--tastbaar .pijler-hier-label{right:12%;bottom:2%}
+}
 
 /* ------------------------------------------------------------------ in het kort */
 /* Een kop als label: mono, met het blokje in de pijlerkleur */

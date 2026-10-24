@@ -545,11 +545,13 @@ export function mailKlant(data, extra, winkel) {
 		tekstversie = 'Je staat genoteerd: zodra de ' + data.product + ' weer te bestellen is, krijg je één mail van mij.';
 	} else {
 		const wat = TITELS[data.soort];
+		// De reactietermijn zoals de site hem noemt; het oude portfolio (jelgersieler.nl) belooft nog "een paar dagen"
+		const termijn = winkel.portfolio ? 'meestal binnen een paar dagen' : 'meestal binnen 3 tot 4 werkdagen';
 		onderwerp = data.soort === 'contact' ? 'Je bericht aan ' + winkel.naam + ' is binnen' : 'Je ' + wat + ' bij ' + winkel.naam + ' is binnen';
-		preheader = data.soort === 'contact' ? 'Ik reageer zo snel mogelijk, meestal binnen een paar dagen.' : 'Je hoort zo snel mogelijk wat het kost en hoe lang het duurt.';
+		preheader = data.soort === 'contact' ? 'Je hoort ' + termijn + ' van me.' : 'Je hoort zo snel mogelijk wat het kost en hoe lang het duurt.';
 		const bericht = zonderLinks(data.bericht);
 		inhoud = bovenkop(wat.charAt(0).toUpperCase() + wat.slice(1) + ' ontvangen') + titel('Bedankt voor je ' + wat + '!')
-			+ alinea(hoi + ' ' + (data.soort === 'contact' ? 'ik reageer zo snel mogelijk, meestal binnen een paar dagen.'
+			+ alinea(hoi + ' ' + (data.soort === 'contact' ? 'je hoort ' + termijn + ' van me.'
 				: 'je ' + wat + (data.soort === 'offerte' && data.product ? ' voor de <strong>' + esc(data.product) + '</strong>' : '') + ' is binnen. Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt.'))
 			+ (data.soort === 'printservice' && !bestanden.length ? notitie('<strong>Stuur je bestand (STL of 3MF) als antwoord op deze mail</strong>, als je dat nog niet hebt gedaan. Dan kan ik het meteen bekijken.') : '')
 			+ kop('Wat je hebt gestuurd')
@@ -557,7 +559,7 @@ export function mailKlant(data, extra, winkel) {
 			+ (bestanden.length ? alinea('<strong>' + (bestanden.length === 1 ? 'Je bestand is' : 'Je bestanden zijn') + ' goed aangekomen:</strong>', 'margin-top:14px') + bestandenLijst(bestanden, false) : '')
 			+ alinea('Je zit nergens aan vast: eerst hoor je van mij, daarna beslis je.')
 			+ nieuwsbrief + afsluiting;
-		tekstversie = 'Bedankt voor je ' + wat + '. Ik reageer zo snel mogelijk.\n\n' + (bericht || velden.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n'))
+		tekstversie = (data.soort === 'contact' ? 'Bedankt voor je bericht. Je hoort ' + termijn + ' van me.' : 'Bedankt voor je ' + wat + '. Ik reageer zo snel mogelijk.') + '\n\n' + (bericht || velden.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n'))
 			+ (bestanden.length ? '\n\nGoed aangekomen: ' + bestanden.map(function (b) { return zonderLinks(b.naam) + ' (' + grootteTekst(b.grootte) + ')'; }).join(', ') : '');
 	}
 	if (extra.nieuwsbriefLink) tekstversie += '\n\nJe vinkte aan dat je op de hoogte wilt blijven van nieuwe ontwerpen. Bevestig dat met deze link: ' + extra.nieuwsbriefLink;

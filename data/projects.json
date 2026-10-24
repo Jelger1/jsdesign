@@ -44,7 +44,14 @@
 						"De eerste versie ontwierp en codeerde ik zelf, van de kleuren tot de opbouw. Ik weet precies hoe de site in elkaar zit, zodat ik er altijd zelf iets aan kan toevoegen of weghalen. Ik houd de code schoon en licht. Zo kan Google de site goed lezen en kost elk bezoek weinig energie."
 					],
 					"meer": [
-						"Naast de site ontwierp ik etiketten voor de brouwerij, zoals die van Zondig Genot, Vrome Tinus en de specials, en het eenvoudige ontwerp op de dozen. Ook de Blonde Non in 3D, te koop in de Abdijwinkel, is van mij."
+						"Naast de site ontwierp ik etiketten voor de brouwerij, zoals die van Zondig Genot, Vrome Tinus, Joepeman en de specials, het blik van de Blonde Non en het eenvoudige ontwerp op de dozen. Ook de Blonde Non in 3D, te koop in de Abdijwinkel, is van mij."
+					],
+					"beelden": [
+						{
+							"file": "Portfolio-Rolduc-Etiketten.jpg",
+							"alt": "Vier etiketten van Brouwerij Rolduc: de flessen van Zondig Genot, Vrome Tinus en Joepeman en het blik van de Blonde Non",
+							"bijschrift": "Etiketten die ik ontwierp voor Zondig Genot, Vrome Tinus, Joepeman en het blik van de Blonde Non."
+						}
 					]
 				},
 				{
@@ -138,7 +145,145 @@
 				"sanctus",
 				"wmc"
 			]
-		}
+		},
+		"klantopdracht": true
+	},
+	{
+		"id": "wmc",
+		"tier": "A",
+		"title": "Klankstad: WMC Kerkrade 1951",
+		"pillar": "digitaal",
+		"tags": "Interactief · keuzeverhaal",
+		"short": "Keuzeverhaal voor 75 jaar WMC Kerkrade",
+		"text": "Kerkrade, augustus 1951: vierduizend muzikanten komen naar de mijnstad. Je speelt als Zef, en jouw keuzes bepalen hoe het allereerste Wereld Muziek Concours verloopt. Tweetalig, met voorleesfunctie.",
+		"image": "Portfolio-WMC.jpg",
+		"alt": "De titelpagina van Klankstad, het interactieve verhaal over het Wereld Muziek Concours",
+		"url": "https://de-wmc-story.nl/",
+		"urlLabel": "de-wmc-story.nl",
+		"case": {
+			"gemaakt": "2026-04-11",
+			"akkoord": true,
+			"jaar": "2026",
+			"context": "Opdracht van WMC Kerkrade",
+			"rol": "Onderzoek, verhaal, ontwerp en bouw",
+			"team": "Solo",
+			"techniek": [
+				"HTML, CSS en JavaScript",
+				"Web Speech API",
+				"Canvas",
+				"localStorage"
+			],
+			"cover": "case-wmc-01.jpg",
+			"coverAlt": "Het titelscherm van Klankstad: het jaartal 1951 naast een kleurrijke figuur met blaasinstrumenten",
+			"kader": "browser",
+			"lead": "Een tweetalig keuzeverhaal over het eerste Wereld Muziek Concours, waarin de grijze mijnstad per hoofdstuk weer kleur krijgt.",
+			"beschrijving": "Case: Klankstad, een interactief keuzeverhaal over het eerste Wereld Muziek Concours in Kerkrade (1951). Tweetalig, met voorlezen en geluid.",
+			"kort": "Kerkrade, augustus 1951: vierduizend muzikanten komen naar een grijze mijnstad, en er zijn niet genoeg bedden. In Klankstad speel je Zef, die het moet oplossen; jouw keuzes bepalen het verloop. Ik deed het onderzoek, schreef het verhaal en ontwierp en bouwde het, in het Nederlands en Engels, met voorlezen en geluid per scène.",
+			"noot": "De huisstijl van 75 jaar WMC, met het logo en de Viva la Vida-figuren, is van WMC Kerkrade en ontworpen door Sascha Teschner.",
+			"hoofdstukken": [
+				{
+					"titel": "Aanleiding",
+					"alineas": [
+						"In 2026 bestaat WMC Kerkrade 75 jaar. Het WMC vroeg me eerst om een beeld in 3D, als relatiegeschenk voor mensen die veel voor het concours betekenen. Zelf kwam ik met het idee om in het jubileumjaar ook te vertellen hoe het WMC ontstond. Dat presenteerde ik, en zo kreeg ik de opdracht.",
+						"Klankstad gaat terug naar de allereerste editie, in augustus 1951."
+					]
+				},
+				{
+					"titel": "Mijn rol",
+					"alineas": [
+						"Ik deed het onderzoek, schreef het verhaal en ontwierp en bouwde het in HTML, CSS en JavaScript. Ook na de oplevering bleef ik het verbeteren.",
+						"De huisstijl van 75 jaar WMC bestond al. Die is ontworpen door Sascha Teschner, afgeleid van het Viva la Vida-beeld in Kerkrade. Daarop bouwde ik verder, bijvoorbeeld met de beweging van de figuren."
+					]
+				},
+				{
+					"titel": "Onderzoek",
+					"alineas": [
+						"Ik begon met onderzoek naar het WMC, van 1949 tot nu. Ik sprak mensen van het concours, gebruikte de WMC-website en vergeleek die met andere bronnen online. Dat vatte ik samen in een document van zo'n 2.400 woorden.",
+						"In 1951 kwamen er ongeveer 4.000 muzikanten en 200.000 bezoekers, terwijl er 50.000 waren verwacht. De muzikanten sliepen bij gastgezinnen."
+					],
+					"meer": [
+						"Veel van het verhaal komt hier rechtstreeks uit: de gastgezinnen, een Engelse band, de verwachte 50.000 tegenover 200.000 bezoekers en de keuze tussen traditie en vernieuwing.",
+						"Met mensen van het WMC deed ik een reviewronde om alles kloppend te maken. Ik controleerde ook of de muziek op de achtergrond in die tijd al bestond."
+					]
+				},
+				{
+					"titel": "Concept",
+					"alineas": [
+						"De stad begint grijs van het kolenstof. Per hoofdstuk krijgt ze kleuren uit het WMC-palet terug, tot alle zeven in de finale.",
+						"Ik schreef een volledig script met alle routes: vier keuzemomenten met elk twee opties en twee verborgen meters, Stadstrots en Openheid. Na elke keuze komen de paden weer samen."
+					],
+					"paar": true,
+					"beelden": [
+						{
+							"file": "case-wmc-02.jpg",
+							"alt": "De proloog van Klankstad: lopende tekst op zwart, met grijze vormen en instrumenten",
+							"bijschrift": "De proloog: grijs, kolenstof."
+						},
+						{
+							"file": "case-wmc-03.jpg",
+							"alt": "Een einde van Klankstad met de titel De Olympische Spelen van de Blaasmuziek en figuren in alle WMC-kleuren",
+							"bijschrift": "De finale: alle zeven kleuren terug."
+						}
+					]
+				},
+				{
+					"titel": "Ontwerp en prototype",
+					"alineas": [
+						"De eerste versie bouwde ik in april 2026, met een voorleesfunctie, in de zeven vaste kleuren van de officiële WMC 2026-styleguide op zwart, met de WMC-cirkel op lage dekking. De Viva la Vida-figuren met oog en instrument kwamen er in oktober 2026 bij."
+					],
+					"beelden": [
+						{
+							"file": "case-wmc-06.jpg",
+							"alt": "Het startscherm met de keuze tussen Nederlands en English en een knop voor geluid",
+							"bijschrift": "Kies je taal, met of zonder geluid."
+						}
+					]
+				},
+				{
+					"titel": "Testen en iteraties",
+					"alineas": [
+						"Testers vonden het fijn dat de tekst in kleine stukjes komt in plaats van alles tegelijk. Daarom zit er een knop 'Lees verder' in.",
+						"Juni 2026: na feedback van iemand van het WMC paste ik een aantal feiten aan. Er kwam geluid per scène bij en een eigen domein.",
+						"Oktober 2026: het officiële WMC-lettertype, figuren die per tijdperk mee inkleuren, bediening met het toetsenbord, verder waar je was en een deelbare scorekaart."
+					],
+					"paar": true,
+					"beelden": [
+						{
+							"file": "case-wmc-04.jpg",
+							"alt": "Het keuzescherm in juni 2026: twee tekstblokken met de opties Deur aan deur en Café De Kroon",
+							"bijschrift": "Juni 2026: de keuze als twee tekstblokken."
+						},
+						{
+							"file": "case-wmc-05.jpg",
+							"alt": "Het keuzescherm in oktober 2026: de gekozen optie Deur aan deur in oranje, met de melding Stadstrots +1",
+							"bijschrift": "Oktober 2026: kaarten met figuren, en je ziet direct wat je keuze doet."
+						}
+					]
+				}
+			],
+			"resultaat": {
+				"alineas": [
+					"Klankstad staat live op de-wmc-story.nl, in het Nederlands en het Engels: per taal zestien scènes en zo'n 4.000 woorden.",
+					"Aan het einde krijg je een scorekaart met jouw einde en meters, die je als afbeelding kunt delen."
+				],
+				"beelden": [
+					{
+						"file": "case-wmc-07.jpg",
+						"alt": "De scorekaart van Klankstad met het einde De Olympische Spelen van de Blaasmuziek en de meters Stadstrots en Openheid",
+						"bijschrift": "De scorekaart om te delen."
+					}
+				]
+			},
+			"geleerd": [
+				"Samenwerken met een grote klant, en verder werken binnen een bestaande huisstijl.",
+				"Mijn storytelling is een stuk beter geworden, net als het presenteren van een idee aan de klant."
+			],
+			"verwant": [
+				"heerlen",
+				"kunstroute"
+			]
+		},
+		"klantopdracht": true
 	},
 	{
 		"id": "sanctus",
@@ -146,7 +291,7 @@
 		"title": "Sanctus Fusion",
 		"pillar": "branding",
 		"tags": "Branding · visual design",
-		"short": "Branding voor een exclusief bier",
+		"short": "Huisstijl voor een eigen bier, nu een serie van drie",
 		"text": "Etiket en huisstijl voor het eigen bier van café dé Wieëtsjaf, gebrouwen door Brouwerij Rolduc: van taplens tot tafelkaart, poster en shirt.",
 		"image": "Portfolio-Sanctus-Poster.jpg",
 		"alt": "Poster van het bier Sanctus Fusion",
@@ -273,7 +418,8 @@
 				"rolduc",
 				"jelgers3d"
 			]
-		}
+		},
+		"klantopdracht": true
 	},
 	{
 		"id": "jelgers3d",
@@ -389,6 +535,127 @@
 			"verwant": [
 				"sanctus",
 				"rolduc"
+			]
+		}
+	},
+	{
+		"id": "heerlen",
+		"tier": "A",
+		"title": "Heerlen: miljarden kilo's steenkool",
+		"pillar": "digitaal",
+		"tags": "Interactief · storytelling",
+		"short": "Interactieve geschiedenis van Heerlen",
+		"text": "Wat deden miljarden kilo's steenkool met Heerlen? Een interactieve geschiedenisles over de mijnstad, gebouwd op historische data. Gemaakt met een team: ik deed de vormgeving, de code en het grootste deel van de teksten.",
+		"image": "Portfolio-Heerlen.jpg",
+		"alt": "Het startscherm van de interactieve story over Heerlen",
+		"url": "https://jelger1.github.io/Mijntijd-Heerlen/",
+		"urlLabel": "de story",
+		"team": true,
+		"case": {
+			"gemaakt": "2026-01-08",
+			"akkoord": true,
+			"jaar": "2025–2026",
+			"context": "Schoolopdracht voor CBS",
+			"rol": "Vormgeving, code en het grootste deel van de teksten",
+			"team": "Teamproject; een teamgenoot maakte de introvideo",
+			"techniek": [
+				"HTML, CSS en JavaScript",
+				"Tailwind CSS",
+				"Chart.js",
+				"SVG"
+			],
+			"cover": "case-heerlen-04.jpg",
+			"coverAlt": "Het keuzescherm van de story: drie gloeiende kolen voor Welvaart, Migratie en Mijncultuur",
+			"kader": "browser",
+			"lead": "Een vraag van CBS werd een interactieve story over de mijnstad, in drie thema's en 31 korte hoofdstukken.",
+			"beschrijving": "Case: een interactieve story over wat de steenkoolwinning met Heerlen deed, gemaakt voor een opdracht van CBS. Drie thema's en 31 korte hoofdstukken.",
+			"kort": "CBS vroeg om een verhaal over de steenkoolwinning, onderbouwd met cijfers. Met mijn team maakte ik een interactieve story: na een introvideo kies je zelf Welvaart, Migratie of Mijncultuur, in 31 korte hoofdstukken van de Romeinse tijd tot na de mijnsluiting. Ik deed de vormgeving, de code en het grootste deel van de teksten.",
+			"noot": "De introvideo is gemaakt door een teamgenoot. De archiefbeelden in de story zijn van derden.",
+			"hoofdstukken": [
+				{
+					"titel": "Aanleiding",
+					"alineas": [
+						"CBS gaf in november 2025 een keuzemenu voor multimedia-stories. Ons team koos de story van steenkool: over de steenkoolwinning in de mijnstreek, waar mogelijk onderbouwd met CBS-cijfers."
+					]
+				},
+				{
+					"titel": "Mijn rol",
+					"alineas": [
+						"Ik ontwierp de visuele stijl, programmeerde de hele website en bedacht en schreef het grootste deel van de content. De introvideo is van een teamgenoot; ik dacht mee over de opbouw."
+					]
+				},
+				{
+					"titel": "Onderzoek",
+					"alineas": [
+						"Een CBS-document noemt dat er tussen 1802 en 1974 ongeveer 570 miljard kilo steenkool uit de grond kwam. Dat werd onze kernvraag: wat deed al die steenkool met Heerlen?",
+						"De story kreeg drie thema's, Welvaart, Migratie en Mijncultuur, met een proloog over de tijd vóór de mijnen en een slot over de tijd erna.",
+						"Tussendoor hadden we een paar keer contact met CBS, over de richting die we kozen en voor extra informatie."
+					],
+					"beelden": [
+						{
+							"file": "case-heerlen-03.jpg",
+							"alt": "Hoofdstuk Molenberg uit 1922, met een staafgrafiek van de herkomst van mijnwerkers in Heerlen",
+							"bijschrift": "Onderbouwd met cijfers: de herkomst van mijnwerkers in 1922."
+						}
+					]
+				},
+				{
+					"titel": "Ontwerp en prototype",
+					"alineas": [
+						"Op een stijlbord zette ik twee richtingen naast elkaar: zwart-wit voor vroeger en kleur voor nu.",
+						"Het werd een donkere achtergrond met een eigen kleur per thema, en archieffoto's in kaders in de vorm van een brok kool, met een gloed. Daarbij maakte ik een eigen set SVG's: knoppen met handgetekende pijlen, iconen en speelknoppen."
+					],
+					"beelden": [
+						{
+							"file": "case-heerlen-01.jpg",
+							"alt": "Stijlbord in zwart-wit met archieffoto's, een kaart van Heerlen, de hamer en bijl en een korte tekst",
+							"bijschrift": "Stijlbord, richting 'vroeger' (december 2025).",
+							"breed": true
+						},
+						{
+							"file": "case-heerlen-02.jpg",
+							"alt": "Hoofdstuk uit 1894 over de komst van de spoorwegen, met een archieffoto in een kolenkader met groene gloed",
+							"bijschrift": "Een hoofdstuk: jaartal, kop, kort verhaal en beeld in een kolenkader."
+						}
+					]
+				},
+				{
+					"titel": "Testen en iteraties",
+					"alineas": [
+						"We kwamen tot deze story door veel te itereren, te testen en te vergelijken met andere stories.",
+						"Sinds de oplevering werk ik er alleen aan verder. Op basis van gebruikerstesten en nieuw onderzoek verbeterde ik de story: mobiel eerst, lichtere video's, voorlezen en een mijnenkaart."
+					],
+					"meer": [
+						"Een teamreview van de eerste ontwerpen leverde een verbeterpunt in de content op, dat een teamgenoot oppakte.",
+						"Na de oplevering gingen de video's van 29 naar 7 MB, kregen alle 31 hoofdstukken een voorleesstem en werd de keuzepagina een doorsnede van de grond."
+					],
+					"paar": true,
+					"beelden": [
+						{
+							"file": "case-heerlen-05.jpg",
+							"alt": "De doorontwikkelde keuzepagina als doorsnede van de grond, met de drie thema's in de laag van de mijntijd",
+							"bijschrift": "Oktober 2026: de keuzepagina als doorsnede van de grond."
+						},
+						{
+							"file": "case-heerlen-06.jpg",
+							"alt": "Hoofdstuk uit 1902 met een kaart van Heerlen en de ligging van de mijnen",
+							"bijschrift": "Oktober 2026: een mijnenkaart (grens: CBS/PDOK, mijnen: Wikidata)."
+						}
+					]
+				}
+			],
+			"resultaat": {
+				"alineas": [
+					"Opgeleverd als teamproduct op 29 januari 2026 en live op GitHub Pages: 31 hoofdstukken in drie thema's, met een proloog en een slot."
+				]
+			},
+			"geleerd": [
+				"Ik nam veel werk op me. Volgende keer maak ik vanaf het begin duidelijke afspraken over wie wat doet.",
+				"Goed contact binnen een team is net zo belangrijk als het werk zelf."
+			],
+			"verwant": [
+				"wmc",
+				"kunstroute"
 			]
 		}
 	},
@@ -529,284 +796,67 @@
 		}
 	},
 	{
-		"id": "heerlen",
-		"tier": "A",
-		"title": "Heerlen: miljarden kilo's steenkool",
-		"pillar": "digitaal",
-		"tags": "Interactief · storytelling",
-		"short": "Interactieve geschiedenis van Heerlen",
-		"text": "Wat deden miljarden kilo's steenkool met Heerlen? Een interactieve geschiedenisles over de mijnstad, gebouwd op historische data. Gemaakt met een team: ik deed de vormgeving, de code en het grootste deel van de teksten.",
-		"image": "Portfolio-Heerlen.jpg",
-		"alt": "Het startscherm van de interactieve story over Heerlen",
-		"url": "https://jelger1.github.io/Mijntijd-Heerlen/",
-		"urlLabel": "de story",
-		"team": true,
-		"case": {
-			"gemaakt": "2026-01-08",
-			"akkoord": true,
-			"jaar": "2025–2026",
-			"context": "Schoolopdracht voor CBS",
-			"rol": "Vormgeving, code en het grootste deel van de teksten",
-			"team": "Teamproject; een teamgenoot maakte de introvideo",
-			"techniek": [
-				"HTML, CSS en JavaScript",
-				"Tailwind CSS",
-				"Chart.js",
-				"SVG"
-			],
-			"cover": "case-heerlen-04.jpg",
-			"coverAlt": "Het keuzescherm van de story: drie gloeiende kolen voor Welvaart, Migratie en Mijncultuur",
-			"kader": "browser",
-			"lead": "Een vraag van CBS werd een interactieve story over de mijnstad, in drie thema's en 31 korte hoofdstukken.",
-			"beschrijving": "Case: een interactieve story over wat de steenkoolwinning met Heerlen deed, gemaakt voor een opdracht van CBS. Drie thema's en 31 korte hoofdstukken.",
-			"kort": "CBS vroeg om een verhaal over de steenkoolwinning, onderbouwd met cijfers. Met mijn team maakte ik een interactieve story: na een introvideo kies je zelf Welvaart, Migratie of Mijncultuur, in 31 korte hoofdstukken van de Romeinse tijd tot na de mijnsluiting. Ik deed de vormgeving, de code en het grootste deel van de teksten.",
-			"noot": "De introvideo is gemaakt door een teamgenoot. De archiefbeelden in de story zijn van derden.",
-			"hoofdstukken": [
-				{
-					"titel": "Aanleiding",
-					"alineas": [
-						"CBS gaf in november 2025 een keuzemenu voor multimedia-stories. Ons team koos de story van steenkool: over de steenkoolwinning in de mijnstreek, waar mogelijk onderbouwd met CBS-cijfers."
-					]
-				},
-				{
-					"titel": "Mijn rol",
-					"alineas": [
-						"Ik ontwierp de visuele stijl, programmeerde de hele website en bedacht en schreef het grootste deel van de content. De introvideo is van een teamgenoot; ik dacht mee over de opbouw."
-					]
-				},
-				{
-					"titel": "Onderzoek",
-					"alineas": [
-						"Een CBS-document noemt dat er tussen 1802 en 1974 ongeveer 570 miljard kilo steenkool uit de grond kwam. Dat werd onze kernvraag: wat deed al die steenkool met Heerlen?",
-						"De story kreeg drie thema's, Welvaart, Migratie en Mijncultuur, met een proloog over de tijd vóór de mijnen en een slot over de tijd erna.",
-						"Tussendoor hadden we een paar keer contact met CBS, over de richting die we kozen en voor extra informatie."
-					],
-					"beelden": [
-						{
-							"file": "case-heerlen-03.jpg",
-							"alt": "Hoofdstuk Molenberg uit 1922, met een staafgrafiek van de herkomst van mijnwerkers in Heerlen",
-							"bijschrift": "Onderbouwd met cijfers: de herkomst van mijnwerkers in 1922."
-						}
-					]
-				},
-				{
-					"titel": "Ontwerp en prototype",
-					"alineas": [
-						"Op een stijlbord zette ik twee richtingen naast elkaar: zwart-wit voor vroeger en kleur voor nu.",
-						"Het werd een donkere achtergrond met een eigen kleur per thema, en archieffoto's in kaders in de vorm van een brok kool, met een gloed. Daarbij maakte ik een eigen set SVG's: knoppen met handgetekende pijlen, iconen en speelknoppen."
-					],
-					"beelden": [
-						{
-							"file": "case-heerlen-01.jpg",
-							"alt": "Stijlbord in zwart-wit met archieffoto's, een kaart van Heerlen, de hamer en bijl en een korte tekst",
-							"bijschrift": "Stijlbord, richting 'vroeger' (december 2025).",
-							"breed": true
-						},
-						{
-							"file": "case-heerlen-02.jpg",
-							"alt": "Hoofdstuk uit 1894 over de komst van de spoorwegen, met een archieffoto in een kolenkader met groene gloed",
-							"bijschrift": "Een hoofdstuk: jaartal, kop, kort verhaal en beeld in een kolenkader."
-						}
-					]
-				},
-				{
-					"titel": "Testen en iteraties",
-					"alineas": [
-						"We kwamen tot deze story door veel te itereren, te testen en te vergelijken met andere stories.",
-						"Sinds de oplevering werk ik er alleen aan verder. Op basis van gebruikerstesten en nieuw onderzoek verbeterde ik de story: mobiel eerst, lichtere video's, voorlezen en een mijnenkaart."
-					],
-					"meer": [
-						"Een teamreview van de eerste ontwerpen leverde een verbeterpunt in de content op, dat een teamgenoot oppakte.",
-						"Na de oplevering gingen de video's van 29 naar 7 MB, kregen alle 31 hoofdstukken een voorleesstem en werd de keuzepagina een doorsnede van de grond."
-					],
-					"paar": true,
-					"beelden": [
-						{
-							"file": "case-heerlen-05.jpg",
-							"alt": "De doorontwikkelde keuzepagina als doorsnede van de grond, met de drie thema's in de laag van de mijntijd",
-							"bijschrift": "Oktober 2026: de keuzepagina als doorsnede van de grond."
-						},
-						{
-							"file": "case-heerlen-06.jpg",
-							"alt": "Hoofdstuk uit 1902 met een kaart van Heerlen en de ligging van de mijnen",
-							"bijschrift": "Oktober 2026: een mijnenkaart (grens: CBS/PDOK, mijnen: Wikidata)."
-						}
-					]
-				}
-			],
-			"resultaat": {
-				"alineas": [
-					"Opgeleverd als teamproduct op 29 januari 2026 en live op GitHub Pages: 31 hoofdstukken in drie thema's, met een proloog en een slot."
-				]
-			},
-			"geleerd": [
-				"Ik nam veel werk op me. Volgende keer maak ik vanaf het begin duidelijke afspraken over wie wat doet.",
-				"Goed contact binnen een team is net zo belangrijk als het werk zelf."
-			],
-			"verwant": [
-				"wmc",
-				"kunstroute"
-			]
-		}
-	},
-	{
-		"id": "wmc",
-		"tier": "A",
-		"title": "Klankstad: WMC Kerkrade 1951",
-		"pillar": "digitaal",
-		"tags": "Interactief · keuzeverhaal",
-		"short": "Interactief verhaal over het WMC",
-		"text": "Kerkrade, augustus 1951: vierduizend muzikanten komen naar de mijnstad. Je speelt als Zef, en jouw keuzes bepalen hoe het allereerste Wereld Muziek Concours verloopt. Tweetalig, met voorleesfunctie.",
-		"image": "Portfolio-WMC.jpg",
-		"alt": "De titelpagina van Klankstad, het interactieve verhaal over het Wereld Muziek Concours",
-		"url": "https://de-wmc-story.nl/",
-		"urlLabel": "de-wmc-story.nl",
-		"case": {
-			"gemaakt": "2026-04-11",
-			"akkoord": true,
-			"jaar": "2026",
-			"context": "Opdracht van WMC Kerkrade",
-			"rol": "Onderzoek, verhaal, ontwerp en bouw",
-			"team": "Solo",
-			"techniek": [
-				"HTML, CSS en JavaScript",
-				"Web Speech API",
-				"Canvas",
-				"localStorage"
-			],
-			"cover": "case-wmc-01.jpg",
-			"coverAlt": "Het titelscherm van Klankstad: het jaartal 1951 naast een kleurrijke figuur met blaasinstrumenten",
-			"kader": "browser",
-			"lead": "Een tweetalig keuzeverhaal over het eerste Wereld Muziek Concours, waarin de grijze mijnstad per hoofdstuk weer kleur krijgt.",
-			"beschrijving": "Case: Klankstad, een interactief keuzeverhaal over het eerste Wereld Muziek Concours in Kerkrade (1951). Tweetalig, met voorlezen en geluid.",
-			"kort": "Kerkrade, augustus 1951: vierduizend muzikanten komen naar een grijze mijnstad, en er zijn niet genoeg bedden. In Klankstad speel je Zef, die het moet oplossen; jouw keuzes bepalen het verloop. Ik deed het onderzoek, schreef het verhaal en ontwierp en bouwde het, in het Nederlands en Engels, met voorlezen en geluid per scène.",
-			"noot": "De huisstijl van 75 jaar WMC, met het logo en de Viva la Vida-figuren, is van WMC Kerkrade en ontworpen door Sascha Teschner.",
-			"hoofdstukken": [
-				{
-					"titel": "Aanleiding",
-					"alineas": [
-						"In 2026 bestaat WMC Kerkrade 75 jaar. Het WMC vroeg me eerst om een beeld in 3D, als relatiegeschenk voor mensen die veel voor het concours betekenen. Zelf kwam ik met het idee om in het jubileumjaar ook te vertellen hoe het WMC ontstond. Dat presenteerde ik, en zo kreeg ik de opdracht.",
-						"Klankstad gaat terug naar de allereerste editie, in augustus 1951."
-					]
-				},
-				{
-					"titel": "Mijn rol",
-					"alineas": [
-						"Ik deed het onderzoek, schreef het verhaal en ontwierp en bouwde het in HTML, CSS en JavaScript. Ook na de oplevering bleef ik het verbeteren.",
-						"De huisstijl van 75 jaar WMC bestond al. Die is ontworpen door Sascha Teschner, afgeleid van het Viva la Vida-beeld in Kerkrade. Daarop bouwde ik verder, bijvoorbeeld met de beweging van de figuren."
-					]
-				},
-				{
-					"titel": "Onderzoek",
-					"alineas": [
-						"Ik begon met onderzoek naar het WMC, van 1949 tot nu. Ik sprak mensen van het concours, gebruikte de WMC-website en vergeleek die met andere bronnen online. Dat vatte ik samen in een document van zo'n 2.400 woorden.",
-						"In 1951 kwamen er ongeveer 4.000 muzikanten en 200.000 bezoekers, terwijl er 50.000 waren verwacht. De muzikanten sliepen bij gastgezinnen."
-					],
-					"meer": [
-						"Veel van het verhaal komt hier rechtstreeks uit: de gastgezinnen, een Engelse band, de verwachte 50.000 tegenover 200.000 bezoekers en de keuze tussen traditie en vernieuwing.",
-						"Met mensen van het WMC deed ik een reviewronde om alles kloppend te maken. Ik controleerde ook of de muziek op de achtergrond in die tijd al bestond."
-					]
-				},
-				{
-					"titel": "Concept",
-					"alineas": [
-						"De stad begint grijs van het kolenstof. Per hoofdstuk krijgt ze kleuren uit het WMC-palet terug, tot alle zeven in de finale.",
-						"Ik schreef een volledig script met alle routes: vier keuzemomenten met elk twee opties en twee verborgen meters, Stadstrots en Openheid. Na elke keuze komen de paden weer samen."
-					],
-					"paar": true,
-					"beelden": [
-						{
-							"file": "case-wmc-02.jpg",
-							"alt": "De proloog van Klankstad: lopende tekst op zwart, met grijze vormen en instrumenten",
-							"bijschrift": "De proloog: grijs, kolenstof."
-						},
-						{
-							"file": "case-wmc-03.jpg",
-							"alt": "Een einde van Klankstad met de titel De Olympische Spelen van de Blaasmuziek en figuren in alle WMC-kleuren",
-							"bijschrift": "De finale: alle zeven kleuren terug."
-						}
-					]
-				},
-				{
-					"titel": "Ontwerp en prototype",
-					"alineas": [
-						"De eerste versie bouwde ik in april 2026, met een voorleesfunctie, in de zeven vaste kleuren van de officiële WMC 2026-styleguide op zwart, met de WMC-cirkel op lage dekking. De Viva la Vida-figuren met oog en instrument kwamen er in oktober 2026 bij."
-					],
-					"beelden": [
-						{
-							"file": "case-wmc-06.jpg",
-							"alt": "Het startscherm met de keuze tussen Nederlands en English en een knop voor geluid",
-							"bijschrift": "Kies je taal, met of zonder geluid."
-						}
-					]
-				},
-				{
-					"titel": "Testen en iteraties",
-					"alineas": [
-						"Testers vonden het fijn dat de tekst in kleine stukjes komt in plaats van alles tegelijk. Daarom zit er een knop 'Lees verder' in.",
-						"Juni 2026: na feedback van iemand van het WMC paste ik een aantal feiten aan. Er kwam geluid per scène bij en een eigen domein.",
-						"Oktober 2026: het officiële WMC-lettertype, figuren die per tijdperk mee inkleuren, bediening met het toetsenbord, verder waar je was en een deelbare scorekaart."
-					],
-					"paar": true,
-					"beelden": [
-						{
-							"file": "case-wmc-04.jpg",
-							"alt": "Het keuzescherm in juni 2026: twee tekstblokken met de opties Deur aan deur en Café De Kroon",
-							"bijschrift": "Juni 2026: de keuze als twee tekstblokken."
-						},
-						{
-							"file": "case-wmc-05.jpg",
-							"alt": "Het keuzescherm in oktober 2026: de gekozen optie Deur aan deur in oranje, met de melding Stadstrots +1",
-							"bijschrift": "Oktober 2026: kaarten met figuren, en je ziet direct wat je keuze doet."
-						}
-					]
-				}
-			],
-			"resultaat": {
-				"alineas": [
-					"Klankstad staat live op de-wmc-story.nl, in het Nederlands en het Engels: per taal zestien scènes en zo'n 4.000 woorden.",
-					"Aan het einde krijg je een scorekaart met jouw einde en meters, die je als afbeelding kunt delen."
-				],
-				"beelden": [
-					{
-						"file": "case-wmc-07.jpg",
-						"alt": "De scorekaart van Klankstad met het einde De Olympische Spelen van de Blaasmuziek en de meters Stadstrots en Openheid",
-						"bijschrift": "De scorekaart om te delen."
-					}
-				]
-			},
-			"geleerd": [
-				"Samenwerken met een grote klant, en verder werken binnen een bestaande huisstijl.",
-				"Mijn storytelling is een stuk beter geworden, net als het presenteren van een idee aan de klant."
-			],
-			"verwant": [
-				"heerlen",
-				"kunstroute"
-			]
-		}
-	},
-	{
-		"id": "codemonster",
+		"id": "rolduc-etiketten",
 		"tier": "B",
-		"title": "CodeMonster",
-		"pillar": "digitaal",
-		"tags": "Concept · schoolproject",
-		"short": "Leren programmeren met kunst",
-		"text": "Concept voor programmeerworkshops op school: leerlingen tekenen een monster en bouwen het daarna na in code. Schoolproject in een team van vier: ik dacht mee over de huisstijl en de toon en bouwde de website. De workshop is twee keer gegeven, op het Bernard Lievegoed College, aan zo'n 40 leerlingen. In 2026 ontwierp ik de site opnieuw in Figma, binnen de bestaande huisstijl, en bouwde ik het nieuwe ontwerp.",
-		"image": "Portfolio-CodeMonster.jpg",
-		"alt": "De homepage van CodeMonster",
-		"url": "https://jelger1.github.io/CodeMonster/",
-		"urlLabel": "CodeMonster",
-		"team": true
+		"title": "Etiketten voor Brouwerij Rolduc",
+		"pillar": "branding",
+		"tags": "Etiketten · verpakking",
+		"short": "Zondig Genot, Vrome Tinus, Joepeman en de Blonde Non",
+		"text": "Naast de website ontwierp ik etiketten voor Brouwerij Rolduc, onder meer voor Zondig Genot, Vrome Tinus, Joepeman en het blik van de Blonde Non, en het eenvoudige ontwerp op de dozen.",
+		"image": "Portfolio-Rolduc-Etiketten.jpg",
+		"alt": "Vier etiketten van Brouwerij Rolduc: de flessen van Zondig Genot, Vrome Tinus en Joepeman en het blik van de Blonde Non",
+		"url": "",
+		"urlLabel": "",
+		"klantopdracht": true
+	},
+	{
+		"id": "pureminds-huisstijl",
+		"tier": "B",
+		"title": "Huisstijl voor Pure Minds",
+		"pillar": "branding",
+		"tags": "Huisstijl · brandbook",
+		"short": "Een brandbook van 18 pagina's voor een marketingbureau",
+		"text": "Voor marketingbureau Pure Minds ontwierp ik een nieuwe huisstijl. Alles staat in een brandbook van 18 pagina's: het logo en de zeshoek, de kleuren, de letters, het beeld, de iconen, de toon en voorbeelden voor posts en documenten.",
+		"image": "Portfolio-PureMinds.jpg",
+		"alt": "Vier pagina's uit het brandbook van Pure Minds: de cover, het logo in een zeshoek, de kleuren cyaan, magenta en inkt, en de iconen",
+		"url": "",
+		"urlLabel": ""
 	},
 	{
 		"id": "dekentje",
 		"tier": "B",
 		"title": "Dekentje.nl",
-		"pillar": "digitaal",
+		"pillar": "branding",
 		"tags": "Huisstijl · homepage",
 		"short": "Huisstijl en homepage voor een webshop in plaids",
 		"text": "Dekentje.nl is een webshop in plaids, bedspreien en picknickkleden. Via Pure Minds vroeg de eigenaar mij om een nieuwe huisstijl. Ik onderzocht het aanbod, de doelgroep en de concurrenten en maakte een testontwerp. Daarna werkte ik de homepage uit als mockup en in code, zodat de klant echt kon ervaren hoe het eruit zou kunnen zien. Alles is vastgelegd in een stijlgids.",
+		"url": "",
+		"urlLabel": "",
+		"image": "Portfolio-Dekentje.jpg",
+		"alt": "Vier pagina's uit het brandboard van Dekentje.nl: het logo van gekruiste lijnen, de letters, de kleuren en tekeningen van een plaid, kussens, een picknickkleed en een bedsprei"
+	},
+	{
+		"id": "blonde-non",
+		"tier": "B",
+		"title": "Blonde Non",
+		"pillar": "tastbaar",
+		"tags": "3D-ontwerp · 3D-printen",
+		"short": "Een figuur bij het bier van Brouwerij Rolduc",
+		"text": "In opdracht van Brouwerij Rolduc ontwierp ik de Blonde Non: een non met een krans van bloemen in het haar, als beeld bij hun bier. Ze is te koop in de Abdijwinkel van de brouwerij. Ook het etiket op het blik ontwierp ik.",
+		"image": "Blonde-Non-3d.jpeg",
+		"alt": "De Blonde Non: een roze buste van een non met een krans van rozen in het haar en een kruisje op de borst",
+		"url": "",
+		"urlLabel": "",
+		"klantopdracht": true
+	},
+	{
+		"id": "toolhub",
+		"tier": "B",
+		"title": "Generatorhub",
+		"pillar": "digitaal",
+		"tags": "Interne tool · huisstijl",
+		"short": "Interne hub voor het team van Pure Minds",
+		"text": "Om het team van marketingbureau Pure Minds makkelijk in de nieuwe huisstijl te laten werken, bouwde ik deze interne hub: social posts, documenten op briefpapier, presentaties en iconen in de huisstijl, plus checks voor SEO, ads en websites. Zo'n acht mensen gebruiken hem, elk met een eigen login.",
 		"url": "",
 		"urlLabel": ""
 	},
@@ -822,14 +872,17 @@
 		"urlLabel": ""
 	},
 	{
-		"id": "toolhub",
+		"id": "codemonster",
 		"tier": "B",
-		"title": "Generatorhub",
+		"title": "CodeMonster",
 		"pillar": "digitaal",
-		"tags": "Interne tool · huisstijl",
-		"short": "Huisstijl en interne hub voor Pure Minds",
-		"text": "Voor marketingbureau Pure Minds ontwierp ik een nieuwe huisstijl met huisstijlgids. Om het team daar makkelijk in te laten werken, bouwde ik deze interne hub: social posts, documenten op briefpapier, presentaties en iconen in de huisstijl, plus checks voor SEO, ads en websites. Zo'n acht mensen gebruiken hem, elk met een eigen login.",
-		"url": "",
-		"urlLabel": ""
+		"tags": "Concept · schoolproject",
+		"short": "Leren programmeren met kunst",
+		"text": "Concept voor programmeerworkshops op school: leerlingen tekenen een monster en bouwen het daarna na in code. Schoolproject in een team van vier: ik dacht mee over de huisstijl en de toon en bouwde de website. De workshop is twee keer gegeven, op het Bernard Lievegoed College, aan zo'n 40 leerlingen. In 2026 ontwierp ik de site opnieuw in Figma, binnen de bestaande huisstijl, en bouwde ik het nieuwe ontwerp.",
+		"image": "Portfolio-CodeMonster.jpg",
+		"alt": "De homepage van CodeMonster",
+		"url": "https://jelger1.github.io/CodeMonster/",
+		"urlLabel": "CodeMonster",
+		"team": true
 	}
 ]

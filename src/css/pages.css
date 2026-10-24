@@ -32,6 +32,9 @@
    styles.css) en daaronder de directe contactgegevens */
 .contact-page{max-width:760px;padding-top:2.5rem;padding-bottom:4rem}
 .contact-page h1{font-size:var(--text-3xl);letter-spacing:-0.01em;margin:0}
+.contact-persoon{display:flex;align-items:center;gap:1rem;margin-top:0.85rem}
+.contact-persoon .section-intro{margin:0}
+.contact-portret{flex:none;width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 18%;background:var(--dark-secondary)}
 .contact-direct{margin:1.5rem 0 0 0;color:var(--fg-muted);line-height:1.7}
 .contact-direct a{color:var(--brand)}
 
