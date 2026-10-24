@@ -162,7 +162,9 @@ body[data-page="pillar"]{--section-space:var(--section-space-compact)}
 @media (min-width:900px){
 	.pijler-case:first-child{display:grid;grid-template-columns:minmax(0, 1.55fr) minmax(0, 1fr)}
 	/* Het beeld vult de hoogte van de tekst (minstens 24rem), ook een staand beeld: het telt niet mee voor de rijhoogte */
-	.pijler-case:first-child .pijler-case-beeld{position:relative;aspect-ratio:auto;min-height:24rem}
+	/* Hooguit 39vw hoog: zo wordt het beeld net boven 900px niet smaller dan ongeveer 1,5:1 en vallen de randen van een
+	   kaartbeeld (16:10) er niet af */
+	.pijler-case:first-child .pijler-case-beeld{position:relative;aspect-ratio:auto;min-height:min(24rem, 39vw)}
 	.pijler-case:first-child .pijler-case-beeld img{position:absolute;inset:0}
 	.pijler-case:first-child .pijler-case-tekst{justify-content:center;padding:var(--space-10)}
 	.pijler-case:first-child .pijler-case-titel{font-size:var(--text-2xl)}

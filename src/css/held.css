@@ -116,7 +116,9 @@
    blijft */
 .werk-tekst{position:absolute;left:0;right:0;bottom:0;padding:var(--space-8) var(--space-5) var(--space-4);
 	background:linear-gradient(to top, rgba(8,10,13,0.95) calc(100% - var(--space-8)), rgba(8,10,13,0))}
-.werk-tags{display:flex;align-items:center;gap:0.5rem;font:500 var(--text-xs)/1.4 var(--font-mono);text-transform:uppercase;letter-spacing:var(--tracking-label);color:var(--fg-muted)}
+.werk-tags{display:flex;align-items:center;gap:0.5rem;min-width:0;font:500 var(--text-xs)/1.4 var(--font-mono);text-transform:uppercase;letter-spacing:var(--tracking-label);color:var(--fg-muted)}
+/* Eén regel: past het niet, dan eindigt hij op een beletselteken in plaats van over het beeld te groeien */
+.werk-tags > span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .werk-tags::before{content:'';flex:none;width:16px;height:10px;background:var(--pillar);clip-path:var(--js-blok)}
 .werk-titel{display:block;margin-top:0.2rem;font-family:var(--font-display);font-size:var(--text-lg);line-height:1.2}
 .werk-open{position:absolute;top:var(--space-4);right:var(--space-4);width:2.25rem;height:2.25rem;display:grid;place-items:center;border-radius:var(--radius-full);

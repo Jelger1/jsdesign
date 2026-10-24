@@ -50,7 +50,7 @@
 						{
 							"file": "Portfolio-Rolduc-Etiketten.jpg",
 							"alt": "Vier etiketten van Brouwerij Rolduc: de flessen van Zondig Genot, Vrome Tinus en Joepeman en het blik van de Blonde Non",
-							"bijschrift": "Etiketten die ik ontwierp voor Zondig Genot, Vrome Tinus, Joepeman en het blik van de Blonde Non."
+							"bijschrift": "Etiketten die ik ontwierp voor Zondig Genot, Vrome Tinus, Joepeman en het blik van de Blonde Non. Joepeman is hier een mockup op een fles."
 						}
 					]
 				},
@@ -146,7 +146,13 @@
 				"wmc"
 			]
 		},
-		"klantopdracht": true
+		"klantopdracht": true,
+		"kaart": {
+			"43": "kaart-rolduc-43.jpg",
+			"1610": "kaart-rolduc-1610.jpg",
+			"staand": "kaart-rolduc-staand.jpg",
+			"alt": "De website van Brouwerij Rolduc als schuine platen, met het bestelscherm van het horecaportaal op een telefoon"
+		}
 	},
 	{
 		"id": "wmc",
@@ -283,7 +289,12 @@
 				"kunstroute"
 			]
 		},
-		"klantopdracht": true
+		"klantopdracht": true,
+		"kaart": {
+			"43": "kaart-wmc-43.jpg",
+			"1610": "kaart-wmc-1610.jpg",
+			"alt": "Het titelscherm van Klankstad met het jaartal 1951 en kleurrijke figuren met blaasinstrumenten, met daaronder een keuzescherm uit het verhaal"
+		}
 	},
 	{
 		"id": "sanctus",
@@ -419,7 +430,12 @@
 				"jelgers3d"
 			]
 		},
-		"klantopdracht": true
+		"klantopdracht": true,
+		"kaart": {
+			"43": "kaart-sanctus-43.jpg",
+			"1610": "kaart-sanctus-1610.jpg",
+			"alt": "De etiketten van Sanctus Fusion en Sanctus Mordax, twee bieren uit dezelfde serie: een witte zon met de W van dé Wieëtsjaf in een krans van fruit, hop en bloesem"
+		}
 	},
 	{
 		"id": "jelgers3d",
@@ -536,6 +552,10 @@
 				"sanctus",
 				"rolduc"
 			]
+		},
+		"kaart": {
+			"1610": "kaart-jelgers3d-1610.jpg",
+			"alt": "Een productfoto van de Kami Vase in geel, roze en oranje op een sokkel, met daarachter de webshop van JelgerS3D"
 		}
 	},
 	{
@@ -657,6 +677,12 @@
 				"wmc",
 				"kunstroute"
 			]
+		},
+		"kaart": {
+			"43": "kaart-heerlen-43.jpg",
+			"219": "kaart-heerlen-219.jpg",
+			"1610": "kaart-heerlen-1610.jpg",
+			"alt": "Het startscherm met een gloeiend kolenkader en de keuzepagina met Welvaart, Migratie en Mijncultuur uit de interactieve story over Heerlen"
 		}
 	},
 	{
@@ -793,6 +819,10 @@
 				"wmc",
 				"heerlen"
 			]
+		},
+		"kaart": {
+			"1610": "kaart-kunstroute-1610.jpg",
+			"alt": "Het startscherm en het loopscherm van de Kunstroute-app op twee tablets: ontdek kunst op jouw tempo, met een kaart per kunstwerk, en de looprichting met de knop Ik ben er! (de kunstwerken zijn onscherp gemaakt)"
 		}
 	},
 	{
@@ -807,7 +837,12 @@
 		"alt": "Vier etiketten van Brouwerij Rolduc: de flessen van Zondig Genot, Vrome Tinus en Joepeman en het blik van de Blonde Non",
 		"url": "",
 		"urlLabel": "",
-		"klantopdracht": true
+		"klantopdracht": true,
+		"kaart": {
+			"43": "kaart-rolduc-etiketten-43.jpg",
+			"1610": "kaart-rolduc-etiketten-1610.jpg",
+			"alt": "Vier etiketten van Brouwerij Rolduc als drukwerkkaarten: Zondig Genot groot vooraan, daarachter Vrome Tinus, Joepeman en de Blonde Non"
+		}
 	},
 	{
 		"id": "pureminds-huisstijl",
@@ -820,7 +855,12 @@
 		"image": "Portfolio-PureMinds.jpg",
 		"alt": "Vier pagina's uit het brandbook van Pure Minds: de cover, het logo in een zeshoek, de kleuren cyaan, magenta en inkt, en de iconen",
 		"url": "",
-		"urlLabel": ""
+		"urlLabel": "",
+		"kaart": {
+			"43": "kaart-pureminds-huisstijl-43.jpg",
+			"1610": "kaart-pureminds-huisstijl-1610.jpg",
+			"alt": "Drie pagina's uit het brandbook van Pure Minds: de cover met 'Brandbook' en het zeshoekige logo, de kleurenpagina met cyaan, magenta en inkt, en de pagina over het logo op donker en op licht"
+		}
 	},
 	{
 		"id": "dekentje",
@@ -833,7 +873,12 @@
 		"url": "",
 		"urlLabel": "",
 		"image": "Portfolio-Dekentje.jpg",
-		"alt": "Vier pagina's uit het brandboard van Dekentje.nl: het logo van gekruiste lijnen, de letters, de kleuren en tekeningen van een plaid, kussens, een picknickkleed en een bedsprei"
+		"alt": "Vier pagina's uit het brandboard van Dekentje.nl: het logo van gekruiste lijnen, de letters, de kleuren en tekeningen van een plaid, kussens, een picknickkleed en een bedsprei",
+		"kaart": {
+			"43": "kaart-dekentje-43.jpg",
+			"1610": "kaart-dekentje-1610.jpg",
+			"alt": "De collectiepagina van de gecodeerde homepage van Dekentje.nl, met tekeningen van een plaid, sierkussens, een bedsprei en een picknickkleed, boven twee pagina's uit het brandboard: de letters en de kleuren"
+		}
 	},
 	{
 		"id": "blonde-non",
@@ -847,7 +892,12 @@
 		"alt": "De Blonde Non: een roze buste van een non met een krans van rozen in het haar en een kruisje op de borst",
 		"url": "",
 		"urlLabel": "",
-		"klantopdracht": true
+		"klantopdracht": true,
+		"kaart": {
+			"43": "kaart-blonde-non-43.jpg",
+			"1610": "kaart-blonde-non-1610.jpg",
+			"alt": "De Blonde Non: een roze 3D-geprinte buste van een non met een krans van rozen in het haar en een kruisje op de borst, op een sokkel"
+		}
 	},
 	{
 		"id": "toolhub",
@@ -860,7 +910,11 @@
 		"url": "",
 		"urlLabel": "",
 		"image": "Portfolio-Generatorhub.jpg",
-		"alt": "Het startscherm van de Generator Hub van Pure Minds, met makers voor posts, documenten, presentaties en nieuwsbrieven en links naar checks"
+		"alt": "Het startscherm van de Generator Hub van Pure Minds, met makers voor posts, documenten, presentaties en nieuwsbrieven en links naar checks",
+		"kaart": {
+			"43": "kaart-toolhub-43.jpg",
+			"alt": "Het startscherm van de Generator Hub van Pure Minds, met makers voor posts, documenten, presentaties en nieuwsbrieven en een donker blok met checks, en daarnaast de Presentation Maker met een slide in de huisstijl"
+		}
 	},
 	{
 		"id": "focuskeyword",
@@ -873,7 +927,11 @@
 		"url": "",
 		"urlLabel": "",
 		"image": "Portfolio-Zoekintentie.jpg",
-		"alt": "Het startscherm van de Zoekintentie-check, met lege velden voor de pagina en het zoekwoord"
+		"alt": "Het startscherm van de Zoekintentie-check, met lege velden voor de pagina en het zoekwoord",
+		"kaart": {
+			"43": "kaart-focuskeyword-43.jpg",
+			"alt": "Het startscherm van de Zoekintentie-check: lege velden voor de pagina en het focus zoekwoord, de keuze voor regio en taal, de knop 'analyseer pagina' en rechts de vier stappen van de check"
+		}
 	},
 	{
 		"id": "codemonster",
@@ -887,6 +945,11 @@
 		"alt": "De homepage van CodeMonster",
 		"url": "https://jelger1.github.io/CodeMonster/",
 		"urlLabel": "CodeMonster",
-		"team": true
+		"team": true,
+		"kaart": {
+			"43": "kaart-codemonster-43.jpg",
+			"1610": "kaart-codemonster-1610.jpg",
+			"alt": "De homepage van CodeMonster, met de kop Word een monster in coderen"
+		}
 	}
 ]

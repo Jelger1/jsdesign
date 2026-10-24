@@ -32,7 +32,9 @@ function homePage(ctx, template) {
 		// Een project uit tier A heeft een eigen casepagina (portfolio/rolduc.html)
 		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="' + h.esc(h.projectUrl(p)) + '">'
 			+ '<span class="werk-beeld">' + tegelBeeld(p, i, ctx) + '</span>'
-			+ '<span class="werk-tekst"><span class="werk-tags">' + h.esc(p.tags) + (p.klantopdracht ? ' · klantopdracht' : '') + (p.team ? ' · teamproject' : '') + '</span>'
+			// Op de tegels alleen de tags, op één regel, zodat het beeld zichtbaar blijft; de labels Klantopdracht en
+			// Teamproject staan op de pijlerpagina's, het portfolio en de casepagina's
+			+ '<span class="werk-tekst"><span class="werk-tags"><span>' + h.esc(p.tags) + '</span></span>'
 			+ '<strong class="werk-titel">' + h.esc(p.title) + '</strong></span>'
 			+ '<span class="werk-open" aria-hidden="true">→</span>'
 			+ '</a></li>';
