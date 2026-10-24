@@ -14,17 +14,19 @@ function kicker(product, ctx) {
 	return h.esc(type.singular) + ' · ' + h.esc(collection.label);
 }
 
-// De actie onderaan een kaart hangt af van hoe het product verkocht wordt
+// De actie onderaan een kaart hangt af van hoe het product verkocht wordt. Een schermlezer hoort ook welk product het
+// is ("In winkelwagen: Kami Vase"); de zichtbare tekst blijft het begin van die naam (WCAG 2.5.3).
 function cardAction(product, root) {
 	const url = h.productUrl(product, root);
-	if (product.personalize) return '<a class="btn btn-add-cart" href="' + url + '">Ontwerp de jouwe</a>';
+	const naam = '<span class="sr-only">: ' + h.esc(product.name) + '</span>';
+	if (product.personalize) return '<a class="btn btn-add-cart" href="' + url + '">Ontwerp de jouwe' + naam + '</a>';
 	if (product.sale === 'cart' && product.variants.length === 1) {
-		return '<button class="btn btn-add-cart" type="button" data-add="' + h.esc(product.id) + '" data-variant="' + h.esc(product.variants[0].id) + '">In winkelwagen</button>';
+		return '<button class="btn btn-add-cart" type="button" data-add="' + h.esc(product.id) + '" data-variant="' + h.esc(product.variants[0].id) + '">In winkelwagen' + naam + '</button>';
 	}
-	if (product.sale === 'cart') return '<a class="btn btn-add-cart" href="' + url + '">Kies je optie</a>';
-	if (product.sale === 'external') return '<a class="btn outline" href="' + h.esc(product.externalUrl) + '" target="_blank" rel="noopener">' + h.esc(product.externalLabel) + '</a>';
-	if (product.sale === 'request') return '<a class="btn btn-add-cart" href="' + url + '">Vraag aan</a>';
-	return '<a class="btn outline" href="' + url + '">Bekijk</a>';
+	if (product.sale === 'cart') return '<a class="btn btn-add-cart" href="' + url + '">Kies je optie' + naam + '</a>';
+	if (product.sale === 'external') return '<a class="btn outline" href="' + h.esc(product.externalUrl) + '" target="_blank" rel="noopener">' + h.esc(product.externalLabel) + naam + '</a>';
+	if (product.sale === 'request') return '<a class="btn btn-add-cart" href="' + url + '">Vraag aan' + naam + '</a>';
+	return '<a class="btn outline" href="' + url + '">Bekijk' + naam + '</a>';
 }
 
 function productCard(product, ctx, opts) {
