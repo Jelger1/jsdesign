@@ -21,7 +21,6 @@ const RICHTING = { digitaal: 30, branding: 150, tastbaar: 270 };
 const RUST = 7 * SCHAAL;               // opengewerkt, zoals de SVG
 const ACTIEF = 20 * SCHAAL;            // verder uit elkaar als de pijler aangewezen is
 const WIEGEN = 4.5;                    // seconden dat het teken na het verschijnen wiegt
-const WIT = new Color('#ffffff');
 
 // Printlaagjes: dunne lichtere en donkere strepen langs de dikte, herhaald over de zijkanten
 function laagjes() {
@@ -62,15 +61,14 @@ export function startTeken(container, opties) {
 		const geo = new ExtrudeGeometry(vorm(deel.pad), { depth: DIKTE, bevelEnabled: true, bevelThickness: 3, bevelSize: 2.4, bevelSegments: 3, curveSegments: 10 });
 		geo.translate(0, 0, -DIKTE / 2);
 		geo.scale(SCHAAL, SCHAAL, SCHAAL);
-		const kleur = new Color(deel.kleur);
-		const voorkant = new MeshBasicMaterial({ color: kleur.clone() });
+		const voorkant = new MeshBasicMaterial({ color: new Color(deel.kleur) });
 		const zijkant = new MeshStandardMaterial({ color: new Color(deel.zijkant), roughness: 0.62, metalness: 0, map: lagen });
 		const mesh = new Mesh(geo, [voorkant, zijkant]);
 		mesh.userData.pijler = deel.pijler;
 		teken.add(mesh);
 		const hoek = RICHTING[deel.pijler] * Math.PI / 180;
 		return {
-			pijler: deel.pijler, mesh: mesh, voorkant: voorkant, kleur: kleur, licht: 0,
+			pijler: deel.pijler, mesh: mesh,
 			richting: { x: Math.cos(hoek), y: Math.sin(hoek) },
 			// De SVG heeft het teken al laten opengaan: de 3D-versie begint in rust, zonder tweede intro
 			uit: RUST, uitSnel: 0, til: 0, tilSnel: 0
@@ -177,12 +175,9 @@ export function startTeken(container, opties) {
 			d.uit = uit[0]; d.uitSnel = uit[1];
 			uit = veer(d.til, d.tilSnel, doelTil, dt, 70, 16.7);
 			d.til = uit[0]; d.tilSnel = uit[1];
+			// Het actieve blok komt naar voren en houdt precies zijn merkkleur (zoals de SVG, die alleen een gloed krijgt)
 			d.mesh.position.set(d.richting.x * d.uit, d.richting.y * d.uit, d.til);
-			// Het actieve blok licht iets op (richting wit), zonder van kleur te veranderen
-			const licht = d.pijler === doel ? 0.14 : 0;
-			d.licht += (licht - d.licht) * Math.min(1, dt * 8);
-			d.voorkant.color.copy(d.kleur).lerp(WIT, d.licht);
-			if (Math.abs(d.uit - doelUit) > 0.0005 || Math.abs(d.til - doelTil) > 0.0005 || Math.abs(d.licht - licht) > 0.002) inRust = false;
+			if (Math.abs(d.uit - doelUit) > 0.0005 || Math.abs(d.til - doelTil) > 0.0005) inRust = false;
 		});
 
 		// Draaien: slepen geeft een zwiep die uitdempt; daarna draait het teken rustig terug naar zijn houding

@@ -38,10 +38,12 @@ export function initHeld() {
 	}, function (id) { zet('teken', id); });
 }
 
-// Three.js heeft WebGL 2 nodig en een grafische chip die het vlot kan tekenen. Met "databesparing" aan blijft het bij
-// de SVG. De testcontext wordt meteen weer vrijgegeven.
+// Three.js heeft WebGL 2 nodig en een grafische chip die het vlot kan tekenen. Met "databesparing" of hoog contrast aan
+// blijft het bij de SVG (die neemt in hoog contrast de systeemkleur aan; het canvas kan dat niet). De testcontext wordt
+// meteen weer vrijgegeven.
 function kan3D() {
 	if (navigator.connection && navigator.connection.saveData) return false;
+	if (window.matchMedia && window.matchMedia('(forced-colors: active)').matches) return false;
 	try {
 		if (!window.WebGL2RenderingContext) return false;
 		const gl = document.createElement('canvas').getContext('webgl2', { failIfMajorPerformanceCaveat: true });

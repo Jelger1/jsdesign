@@ -54,8 +54,8 @@ jobs:
           npm run check
 
       # De productiebuild voor jsdesign.nl zelf. Elke link naar jelgers3d.nl of jelgersieler.nl, en elke andere
-      # productiefout, laat deze stap falen. (De uitzondering voor de oude homepage is vervallen: de hub heeft die
-      # vervangen.)
+      # productiefout, laat deze stap falen. (De uitzondering voor de oude homepage is vervallen: de nieuwe home heeft
+      # die vervangen.)
       - name: Bouwen en controleren (productie)
         env:
           SITE_MODE: productie

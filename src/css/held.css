@@ -10,10 +10,11 @@
 .held .kicker{margin:0 0 var(--space-4)}
 .held h1{font-size:clamp(2.1rem, 1.2rem + 3vw, 3.4rem);line-height:1.06;margin:0 0 var(--space-5);text-wrap:balance}
 .held-heel{white-space:nowrap}
-.held-lead{margin:0;max-width:34rem;color:var(--fg-muted);font-size:var(--text-md);line-height:var(--leading)}
+.held-lead{margin:0;max-width:34rem;color:var(--fg-muted);font-size:var(--text-md);line-height:var(--leading);text-wrap:pretty}
 .held-acties{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4) var(--space-8);margin:var(--space-8) 0 0}
-.held-shop{display:inline-flex;align-items:center;gap:0.5rem;font-size:1rem;padding:0.6rem 0}
-.held-shop::before{content:'';flex:none;width:13px;height:8px;background:var(--sage);clip-path:var(--js-blok)}
+/* Het blokje in de Tastbaar-kleur ervoor; de pijl erachter is die van elke .link-arrow (home.css) */
+.held-shop{display:inline-flex;align-items:center;font-size:1rem;padding:0.6rem 0}
+.held-shop::before{content:'';flex:none;width:13px;height:8px;margin-right:0.5rem;background:var(--sage);clip-path:var(--js-blok)}
 
 /* ------------------------------------------------------------------ gemaakt voor */
 .held-bewijs{grid-area:bewijs;border-top:1px solid var(--border);padding-top:var(--space-5);display:grid;gap:var(--space-3)}
@@ -71,8 +72,14 @@
 	.held-in{grid-template-columns:minmax(0, 7fr) minmax(0, 5fr);grid-template-areas:'tekst beeld' 'bewijs bewijs';align-items:center;
 		column-gap:var(--space-12);row-gap:clamp(2rem, 6vh, 3.5rem);padding-top:clamp(2.5rem, 9vh, 5.5rem)}
 	.held-teken{width:min(30vw, 46vh, 400px)}
-	.held-bewijs{grid-template-columns:auto minmax(0, 1fr);align-items:center;column-gap:var(--space-8)}
+	/* Het label staat op de hoogte van de eerste regel, ook als de lijst toch over twee regels loopt */
+	.held-bewijs{grid-template-columns:auto minmax(0, 1fr);align-items:baseline;column-gap:var(--space-8)}
 	.held-bewijs ul{display:flex;flex-wrap:wrap;gap:var(--space-3) var(--space-10)}
+}
+/* Tot 1200px past het label niet naast de drie opdrachtgevers: dan staat het erboven en blijft de lijst één regel */
+@media (min-width:900px) and (max-width:1199px){
+	.held-bewijs{grid-template-columns:minmax(0, 1fr)}
+	.held-bewijs ul{gap:var(--space-3) var(--space-6)}
 }
 /* Het werk eronder begint direct onder de hero, niet een hele sectieafstand lager */
 .held + .werk{padding-top:clamp(2.5rem, 6vh, 4rem)}
@@ -88,8 +95,12 @@
 @media (prefers-reduced-motion:reduce){
 	.held-deel,.held-3d,.held-svg,.held-legenda a::before{transition:none}
 }
+/* Hoog contrast: het teken als SVG in de systeemkleur. held.js laadt dan geen 3D; gaat hoog contrast aan terwijl de
+   pagina al open is, dan verdwijnt het 3D-teken alsnog (de merkkleuren op het canvas kan het systeem niet aanpassen). */
 @media (forced-colors:active){
 	.held-deel :is(path, polygon){fill:CanvasText}
+	.held-3d{display:none}
+	.held.is-3d .held-svg{opacity:1}
 	.held-shop::before,.held-bewijs a::before,.held-legenda a::before{forced-color-adjust:none;background:CanvasText}
 }
 

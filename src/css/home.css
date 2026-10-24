@@ -18,7 +18,8 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 .section-head-center{text-align:center;margin-left:auto;margin-right:auto}
 .section-intro{color:var(--fg-muted);font-size:1.05rem;line-height:1.7;margin:0.85rem 0 0 0}
 .link-arrow{color:var(--brand);text-decoration:none;font-weight:600;font-size:0.95rem;white-space:nowrap;padding-bottom:0.35rem}
-.link-arrow::after{content:'→';display:inline-block;margin-left:0.4rem;transition:transform 0.25s ease}
+/* De pijl hoort niet bij de linknaam ('→' / '' is de alt-tekst van de pijl: leeg) */
+.link-arrow::after{content:'→';content:'→' / '';display:inline-block;margin-left:0.4rem;transition:transform 0.25s ease}
 .link-arrow:hover::after{transform:translateX(4px)}
 
 /* Hero: aanvullingen */
