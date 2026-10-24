@@ -858,7 +858,9 @@
 		"short": "Interne hub voor het team van Pure Minds",
 		"text": "Om het team van marketingbureau Pure Minds makkelijk in de nieuwe huisstijl te laten werken, bouwde ik deze interne hub: social posts, documenten op briefpapier, presentaties en iconen in de huisstijl, plus checks voor SEO, ads en websites. Zo'n acht mensen gebruiken hem, elk met een eigen login.",
 		"url": "",
-		"urlLabel": ""
+		"urlLabel": "",
+		"image": "Portfolio-Generatorhub.jpg",
+		"alt": "Het startscherm van de Generator Hub van Pure Minds, met makers voor posts, documenten, presentaties en nieuwsbrieven en links naar checks"
 	},
 	{
 		"id": "focuskeyword",
@@ -869,7 +871,9 @@
 		"short": "Interne SEO-tool voor Pure Minds",
 		"text": "Een interne SEO-tool die marketingbureau Pure Minds nu gebruikt. Een medewerker vroeg me hem te bouwen. De tool legt een pagina naast de Google-top 10, checkt eerst of de pagina past bij wat zoekers willen en maakt daarna een rapport. Ik koppelde daarvoor verschillende API's aan elkaar, waaronder een AI-model dat meeschrijft, en testte de bediening uitgebreid.",
 		"url": "",
-		"urlLabel": ""
+		"urlLabel": "",
+		"image": "Portfolio-Zoekintentie.jpg",
+		"alt": "Het startscherm van de Zoekintentie-check, met lege velden voor de pagina en het zoekwoord"
 	},
 	{
 		"id": "codemonster",
