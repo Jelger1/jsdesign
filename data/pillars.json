@@ -20,12 +20,12 @@
 		"omschrijving": "Logo’s, huisstijlen en visual design",
 		"pagina": {
 			"lead": "Een merk wordt herkenbaar als alles bij elkaar hoort, van etiket tot scherm. Ik ontwerp dat beeld en leg het vast, zodat ook het volgende product erbij past.",
-			"kort": "Bij JS Design in Kerkrade ontwerp ik merkidentiteiten, huisstijlen en visual design: van etiket, poster en tafelkaart tot shirts, posts en schermen. Ik begin met onderzoek, zet een paar richtingen naast elkaar en leg de gekozen richting vast op een brandboard. Drukwerk lever ik drukklaar aan, volgens de eisen van je drukker.",
+			"kort": "Bij JS Design in Kerkrade ontwerp ik merkidentiteiten, huisstijlen en visual design: van logo en huisstijlgids tot verpakking, drukwerk, merch, posts en schermen. Ik begin met onderzoek, zet een paar richtingen naast elkaar en leg de gekozen richting vast in een brandboard of brandbook. Drukwerk lever ik drukklaar aan, volgens de eisen van je drukker.",
 			"werkwoord": "ontwerp",
 			"diensten": [
 				{
 					"naam": "Merkidentiteit en logo",
-					"tekst": "Een herkenbaar beeld met een idee erachter, zoals de zon met de W van het café op het etiket van Sanctus Fusion."
+					"tekst": "Een herkenbaar beeld met een idee erachter, zoals het etiket van Sanctus Fusion, dat voortbouwt op de zon van de bierviltjes van café dé Wieëtsjaf."
 				},
 				{
 					"naam": "Huisstijl",
@@ -33,7 +33,7 @@
 				},
 				{
 					"naam": "Visual design: verpakking, merch en social",
-					"tekst": "Etiketten, tafelkaarten, posters, shirts en posts, drukklaar aangeleverd."
+					"tekst": "Etiketten, verpakkingen, drukwerk en shirts drukklaar aangeleverd, en posts klaar om te plaatsen."
 				},
 				{
 					"naam": "UI/UX-design",
@@ -59,17 +59,16 @@
 				},
 				{
 					"stap": "Toepassen",
-					"tekst": "Van taplens tot tafelkaart en post, klaar voor de drukker."
+					"tekst": "Het merk op alles wat je gebruikt, van verpakking en drukwerk tot posts en website."
 				}
 			],
 			"cases": [
-				"sanctus",
-				"kunstroute"
+				"sanctus"
 			],
 			"faq": [
 				{
 					"q": "Wat staat er in een brandboard?",
-					"a": "De bouwstenen van je merk: het logo, de letters, de vormen, het soort beeld en de toon. Zo horen de poster, de taplens en het shirt bij elkaar."
+					"a": "De bouwstenen van je merk: het logo, de letters, de kleuren, de vormen, het soort beeld en de toon. Zo blijft alles bij elkaar horen, van drukwerk tot website. Voor het eigen bier van café dé Wieëtsjaf maakte ik een brandboard, voor marketingbureau Pure Minds een compleet brandbook."
 				},
 				{
 					"q": "Lever je drukwerk drukklaar aan?",
@@ -77,11 +76,11 @@
 				},
 				{
 					"q": "Kan mijn huisstijl meegroeien met een nieuw product?",
-					"a": "Ja. Toen het café een tweede bier kreeg, Sanctus Mordax, kreeg dat dezelfde opbouw als Sanctus Fusion, met een eigen krans van vlierbloesem en vlierbes."
+					"a": "Ja. Toen het café een tweede bier kreeg, Sanctus Mordax, kreeg dat dezelfde opbouw als Sanctus Fusion, met een eigen krans van vlierbloesem en vlierbes. Inmiddels is daar met Sanctus Equinox een derde bier bij gekomen."
 				},
 				{
 					"q": "Ontwerp je ook schermen en apps?",
-					"a": "Ja, dat valt onder UI/UX-design. Voor de kunstcollectie van een ziekenhuis ontwierp ik een tabletapp voor herstellende patiënten: eerst kijken en praten op de afdeling, daarna grote knoppen, eenvoudige taal en een route die je zelf samenstelt."
+					"a": "Ja, dat valt onder UI/UX-design. Samen met een medestudent ontwierp ik de Kunstroute Zuyderland, een tabletapp voor herstellende patiënten in het ziekenhuis: eerst kijken en praten op de afdeling, daarna grote knoppen, eenvoudige taal en een route die je zelf samenstelt."
 				}
 			],
 			"ogImage": "case-sanctus-01.jpg",
@@ -122,7 +121,7 @@
 				},
 				{
 					"naam": "Front-end development",
-					"tekst": "Snelle, toegankelijke pagina's in HTML, CSS en JavaScript, met koppelingen zoals een eigen login per klant."
+					"tekst": "Snelle, lichte en toegankelijke pagina's in HTML, CSS en JavaScript, met koppelingen zoals een eigen login per klant of een AI-assistent."
 				},
 				{
 					"naam": "Interactieve verhalen (scrollytelling)",
@@ -155,12 +154,13 @@
 				"rolduc",
 				"heerlen",
 				"wmc",
+				"kunstroute",
 				"codemonster"
 			],
 			"faq": [
 				{
 					"q": "Kan ik zelf producten, prijzen of teksten aanpassen?",
-					"a": "Als je dat wilt, ja. Brouwerij Rolduc past producten, prijzen, foto's en voorraad zelf aan via een eigen beheerpagina, voor de webshop én het horecaportaal."
+					"a": "Als je dat wilt, ja. Brouwerij Rolduc past producten, prijzen, foto's en voorraad zelf aan via een beheerpagina die ik voor ze bouwde, voor de webshop én het horecaportaal."
 				},
 				{
 					"q": "Moet een webshop online betalen hebben?",
@@ -218,7 +218,7 @@
 			"diensten": [
 				{
 					"naam": "3D-ontwerp",
-					"tekst": "Van idee of schets naar een printbaar 3D-model, gemaakt in Blender."
+					"tekst": "Van idee of schets naar een printbaar 3D-model, in Blender of een ander 3D-programma."
 				},
 				{
 					"naam": "3D-printen",
@@ -262,7 +262,7 @@
 			"faq": [
 				{
 					"q": "Kun je mijn idee eerst in 3D ontwerpen?",
-					"a": "Ja. Ik modelleer in Blender en maak de print klaar in Bambu Studio. Zo ontwierp ik D'r Joep in strakke vlakken en een drankenkaarthouder voor een café."
+					"a": "Ja. Ik modelleer in Blender en maak de print klaar in Bambu Studio. Zo ontwierp ik D'r Joep in strakke vlakken en een drankenkaarthouder voor een café. Voor een snel eerste ontwerp kan ik ook AI inzetten."
 				},
 				{
 					"q": "Ik heb al een 3D-bestand. Wat nu?",
@@ -274,7 +274,11 @@
 				},
 				{
 					"q": "Kan een ontwerp op maat meerdere kleuren hebben?",
-					"a": "Vaak wel: de Custom Lightbox kan tot vier kleuren hebben. Het tarief van de 3D-printservice geldt voor één kleur per print."
+					"a": "Vaak wel: met de Bambu Lab H2C kan een ontwerp tot negen kleuren krijgen, zoals de Custom Lightbox. Meer kleuren maken een print wel duurder. Het tarief van de 3D-printservice geldt voor één kleur per print."
+				},
+				{
+					"q": "Voor wie maak je 3D-prints?",
+					"a": "Voor particulieren en voor bedrijven en instellingen, zoals Boekhandel Deurenberg, Brouwerij Rolduc, het Discovery Museum, het Nederlands Mijnmuseum, Hip Tafelen, het Bonnefantenmuseum, WMC Kerkrade, café dé Wieëtsjaf en Visit Zuid-Limburg."
 				}
 			],
 			"serviceType": "3D-ontwerp, 3D-printen en prototyping"

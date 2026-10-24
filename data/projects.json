@@ -13,6 +13,7 @@
 		"urlLabel": "brouwerij-rolduc.nl",
 		"case": {
 			"gemaakt": "2025-08-17",
+			"akkoord": true,
 			"jaar": "2025–2026",
 			"context": "Klantopdracht voor Brouwerij Rolduc",
 			"rol": "Ontwerp, bouw, uitrol en onderhoud",
@@ -40,7 +41,10 @@
 					"titel": "Mijn rol",
 					"alineas": [
 						"Ik maakte de site alleen: ontwerp, bouw, uitrol en onderhoud, en het contact met de brouwerij. De brouwerij leverde de foto's, de productinformatie en feedback.",
-						"Gebouwd met hulp van een AI-codeerassistent. Het ontwerp, de sturing, de tests en het contact met de brouwerij lagen bij mij."
+						"De eerste versie ontwierp en codeerde ik zelf, van de kleuren tot de opbouw. Ik weet precies hoe de site in elkaar zit, zodat ik er altijd zelf iets aan kan toevoegen of weghalen. Ik houd de code schoon en licht. Zo kan Google de site goed lezen en kost elk bezoek weinig energie."
+					],
+					"meer": [
+						"Naast de site ontwierp ik etiketten voor de brouwerij, zoals die van Zondig Genot, Vrome Tinus en de specials, en het eenvoudige ontwerp op de dozen. Ook de Blonde Non in 3D, te koop in de Abdijwinkel, is van mij."
 					]
 				},
 				{
@@ -64,10 +68,10 @@
 					"titel": "Ontwerp en prototype",
 					"alineas": [
 						"De vormgeving volgt de abdij: donkergroen voor de kloostermuur, goud voor het bier en verder veel rust. Het sierlijke lettertype staat alleen bij de naam.",
-						"Ik mat het contrast van alle kleurcombinaties. Goud is daarom nooit tekstkleur op wit."
+						"Ik controleerde het contrast van alle kleurcombinaties. Goud is daarom nooit tekstkleur op wit."
 					],
 					"meer": [
-						"De toon is warm en Limburgs: 'je' voor bezoekers, 'u' voor de horeca. Alles staat in een huisstijl- en socialmediagids voor de brouwerij."
+						"De toon is warm en Limburgs: 'je' voor bezoekers, 'u' voor de horeca. Alles staat in een huisstijlgids voor de brouwerij."
 					],
 					"beelden": [
 						{
@@ -126,6 +130,10 @@
 					}
 				]
 			},
+			"geleerd": [
+				"Goed werken met Supabase, en hoe ik een duidelijke, prettige webshop bouw.",
+				"Een veilige login bouwen, met een optie voor als je je wachtwoord vergeten bent. Die gebruik ik nu ook op andere websites."
+			],
 			"verwant": [
 				"sanctus",
 				"wmc"
@@ -146,6 +154,7 @@
 		"urlLabel": "",
 		"case": {
 			"gemaakt": "2025-02-20",
+			"akkoord": true,
 			"jaar": "2025–2026",
 			"context": "Klantopdracht voor café dé Wieëtsjaf",
 			"rol": "Etiket, huisstijl en drukwerk",
@@ -153,15 +162,14 @@
 			"techniek": [
 				"Illustrator",
 				"Photoshop",
-				"InDesign",
-				"Adobe Firefly (in delen van beelden)"
+				"InDesign"
 			],
 			"cover": "case-sanctus-01.jpg",
-			"coverAlt": "Het etiket van Sanctus Fusion: een witte zon met een W in een citroen, de gebogen naam en een krans van citrus, framboos en hop",
+			"coverAlt": "Het etiket van Sanctus Fusion: een witte zon met een W in een citroen, de gebogen naam en een krans van fruit en hop",
 			"lead": "Het eigen bier van een café, alleen van de tap: van etiket en brandboard tot taplens, tafelkaart en shirt.",
 			"beschrijving": "Case: etiket en huisstijl voor Sanctus Fusion, het eigen bier van café dé Wieëtsjaf, gebrouwen door Brouwerij Rolduc. Van brandboard tot taplens.",
-			"kort": "Café dé Wieëtsjaf wilde na zeventien jaar een eigen bier, gebrouwen door Brouwerij Rolduc en alleen van de tap. Ik ontwierp het etiket en alles eromheen: brandboard, taplens, tafelkaart, poster, shirts en posts voor de lancering. In 2026 kreeg een tweede bier, Sanctus Mordax, dezelfde opbouw.",
-			"noot": "Het blik, de shirts en de taps zijn presentatiemockups: het bier is alleen van de tap. In drie beelden uit 2025 (de poster, het blik met specificaties en een tafelkaart) is Adobe Firefly gebruikt. De uitbreiding naar drie bieren in oktober 2026 is grotendeels door AI gemaakt (Claude en Canva AI), op basis van mijn ontwerp.",
+			"kort": "Café dé Wieëtsjaf wilde na zeventien jaar een eigen bier, gebrouwen door Brouwerij Rolduc en alleen van de tap. Ik ontwierp het etiket en alles eromheen: brandboard, taplens, tafelkaart, poster, shirts en posts voor de lancering. In 2026 volgden Sanctus Mordax en Sanctus Equinox in dezelfde opbouw.",
+			"noot": "Het blik, de taps en de shirts op de beelden zijn presentatiemockups. Het bier is alleen van de tap; de taplenzen en de shirts zijn wel echt gemaakt.",
 			"hoofdstukken": [
 				{
 					"titel": "Aanleiding",
@@ -185,7 +193,8 @@
 				{
 					"titel": "Concept",
 					"alineas": [
-						"Het beeld: een witte zon met de W van het café in een citroen, de gebogen naam erboven en een krans van wat er in het bier zit: citrus, framboos en hop.",
+						"Het beeld bouwt voort op de zon van de bierviltjes van het café. Op het etiket staat een witte zon met de W van dé Wieëtsjaf in een citroen, met de gebogen naam erboven en een krans van fruit en hop.",
+						"Ik dacht mee over de naam. Sanctus betekent heilig, en dat past bij Abdij Rolduc, waar het bier gebrouwen wordt.",
 						"De naam staat in Ohm Bold, met Ohm Light als ondersteunende letter. De toon is feestelijk: 'Eindelijk… ons eigen bier!'"
 					],
 					"beelden": [
@@ -206,6 +215,7 @@
 					"titel": "Ontwerp en prototype",
 					"alineas": [
 						"Binnen een maand stond de huisstijl: etiket en blikmockup op 20 februari 2025, poster en brandboard een paar dagen later en de taplens op 10 maart.",
+						"De krans schetste ik eerst op papier. Daarna bouwde ik hem op in Photoshop, afgestemd op hoe de viltjes van het café eruitzien.",
 						"Het brandboard houdt alles bij elkaar: vormentaal, toepassingen, beeld en toon."
 					],
 					"paar": true,
@@ -213,12 +223,12 @@
 						{
 							"file": "case-sanctus-05.jpg",
 							"alt": "Twee biertaps met de ronde taplens van Sanctus Fusion",
-							"bijschrift": "De taplens (mockup)."
+							"bijschrift": "De taplens, hier als mockup."
 						},
 						{
 							"file": "case-sanctus-06.jpg",
 							"alt": "Twee zwarte shirts aan een hanger: het etiket als rugprint en de W op de borst",
-							"bijschrift": "Shirts met rug- en borstprint (mockup)."
+							"bijschrift": "Shirts met rug- en borstprint, hier als mockup."
 						},
 						{
 							"file": "case-sanctus-04.jpg",
@@ -251,10 +261,14 @@
 			],
 			"resultaat": {
 				"alineas": [
-					"Sanctus Fusion ligt in het café op de tap. Het bier staat ook op de homepage van Brouwerij Rolduc, op de site die ik voor de brouwerij bouwde.",
-					"De huisstijl werkte ook voor een tweede bier. In oktober 2026 is hij uitgebreid tot een serie van drie."
+					"Sanctus Fusion ligt in het café op de tap. De shirts en taplenzen zijn echt gemaakt, de drie tafelkaarten die ik ontwierp staan er op tafel en de posters hingen er en waren te zien op het scherm. Het bier staat ook op de homepage van Brouwerij Rolduc, op de site die ik voor de brouwerij bouwde.",
+					"De huisstijl werkte ook voor een tweede bier, Sanctus Mordax, en in oktober 2026 voor een derde, Sanctus Equinox."
 				]
 			},
+			"geleerd": [
+				"Een strakke huisstijl opzetten, en hoe ik dat in overleg met de klant het best aanpak.",
+				"Ik werk nu een stuk beter in InDesign en Illustrator."
+			],
 			"verwant": [
 				"rolduc",
 				"jelgers3d"
@@ -275,6 +289,7 @@
 		"urlLabel": "",
 		"case": {
 			"gemaakt": "2025-05-28",
+			"akkoord": true,
 			"jaar": "2025–2026",
 			"context": "Eigen merk",
 			"rol": "3D-ontwerp, printen en webshop",
@@ -288,7 +303,7 @@
 			],
 			"lead": "Mijn eigen 3D-printmerk: ontwerpen in versies, printen op eigen printers en verkopen via een webshop.",
 			"beschrijving": "Case: JelgerS3D, mijn eigen 3D-printmerk uit Kerkrade. Ontwerpen in versies, geprint op eigen printers en verkocht via een webshop.",
-			"kort": "JelgerS3D is mijn eigen 3D-printmerk uit Kerkrade. Ik ontwerp objecten met een verhaal, zoals vazen, lampen en Limburgse iconen, en print ze op mijn eigen printers. Een product groeit bij mij in versies; daarnaast maak ik kleine series op maat voor een brouwerij, een café en een vereniging. JelgerS3D heet nu JS Design.",
+			"kort": "JelgerS3D is mijn eigen 3D-printmerk uit Kerkrade. Ik ontwerp objecten met een verhaal, zoals vazen, lampen en Limburgse iconen, en print ze op mijn eigen printers. Een product groeit bij mij in versies; daarnaast maak ik kleine series op maat, onder meer voor Brouwerij Rolduc, café dé Wieëtsjaf en WMC Kerkrade. JelgerS3D heet nu JS Design.",
 			"hoofdstukken": [
 				{
 					"titel": "Aanleiding",
@@ -299,18 +314,19 @@
 				{
 					"titel": "Mijn rol",
 					"alineas": [
-						"Ik ontwerp, modelleer en print zelf: in Blender en Bambu Studio, op mijn eigen Bambu Lab-printers. De webshop bouwde ik ook zelf, met hulp van een AI-codeerassistent.",
-						"Voor een paar basismodellen, kleurvarianten van productfoto's en de reels gebruikte ik AI-hulpmiddelen."
+						"Ik ontwerp, modelleer en print zelf: in Blender en Bambu Studio, op mijn eigen Bambu Lab-printers. Ook de webshop maakte ik zelf. Die is meteen mijn proeftuin: hier test ik wat ik kan, hoe ver ik iets kan uitwerken en wat wel en niet werkt, voordat ik het voor klanten maak.",
+						"De productfoto's maakte ik deels zelf, een deel is van een fotograaf en een paar zijn 3D-weergaven."
 					]
 				},
 				{
 					"titel": "Ontwerp en prototype",
 					"alineas": [
 						"De Kami Vase begon als roze origami-vaas en kreeg via een kleinere versie en versie 2.0 zijn vorm, nu in drie kleuren.",
-						"D'r Joep, het beeld van een mijnwerker op de Markt in Kerkrade, ontwierp ik in Blender: eerst glad, toen in strakke vlakken, toen als lijntekening. Daarna volgden series van vier op één printplaat."
+						"D'r Joep, het beeld van een mijnwerker op de Markt in Kerkrade, ontwierp ik in Blender: eerst glad, toen in strakke vlakken, geïnspireerd op het hoekige van steenkool. Een versie als lijntekening bleef bij een test. Daarna volgden series van vier op één printplaat."
 					],
 					"meer": [
-						"Ik print vooral in PLA, en in PETG of TPU waar dat nodig is. Met de printers van nu kan een ontwerp tot zes kleuren krijgen."
+						"De erven van de maker van het beeld gaven toestemming, en hebben nu zelf ook een exemplaar. Voor carnaval maakte ik een versie in drie kleuren, met een rood-witte jas die bij elk exemplaar net iets anders is: een verzamelstuk in de kleuren van Kerkrade.",
+						"Ik print vooral in PLA, en in PETG of TPU waar dat nodig is. Met de printers van nu kan een ontwerp tot negen kleuren krijgen."
 					],
 					"beelden": [
 						{
@@ -322,7 +338,7 @@
 						{
 							"file": "case-jelgers3d-02.jpg",
 							"alt": "Vier versies van D'r Joep als 3D-model: glad en wit, in zwarte vlakken, als lijntekening en als serie van vier met een rood-witte jas",
-							"bijschrift": "D'r Joep: glad, in vlakken, als lijntekening en als serie van vier op één plaat.",
+							"bijschrift": "D'r Joep: glad, in vlakken, als lijntekening (alleen een test) en als serie van vier op één plaat.",
 							"breed": true
 						}
 					]
@@ -330,7 +346,7 @@
 				{
 					"titel": "Testen en iteraties",
 					"alineas": [
-						"Van de Custom Lightbox maakte ik zeventien proefversies, van juni tot september 2025. Nu kun je hem bestellen met je eigen logo, in maximaal vier kleuren.",
+						"Ik test veel voordat iets in de webshop komt of ik het voor klanten maak. Van de Custom Lightbox maakte ik zeventien proefversies, van juni tot september 2025. Nu kun je hem bestellen met je eigen logo, in maximaal negen kleuren.",
 						"De webshop begon als een eenvoudige site met een winkelwagen en een bestelaanvraag, zonder online betalen. Later kwamen er productpagina's met een galerij en duidelijke afspraken over levertijd en betalen."
 					],
 					"paar": true,
@@ -351,6 +367,7 @@
 			"resultaat": {
 				"alineas": [
 					"De webshop draait, met in de eerste versie zo'n veertien producten. D'r Joep en de Blonde Non zijn ook te koop in de Abdijwinkel van Brouwerij Rolduc.",
+					"Ik verkoop ook aan bedrijven en instellingen, onder meer aan Boekhandel Deurenberg, Brouwerij Rolduc, het Discovery Museum, het Nederlands Mijnmuseum, Hip Tafelen, het Bonnefantenmuseum, WMC Kerkrade, café dé Wieëtsjaf en Visit Zuid-Limburg.",
 					"JelgerS3D heet nu JS Design. Het 3D-werk en de webshop gaan gewoon door, op deze site."
 				],
 				"beelden": [
@@ -365,6 +382,10 @@
 				"href": "webshop.html",
 				"label": "de webshop"
 			},
+			"geleerd": [
+				"Een webshop steeds beter maken: wat komt erbij kijken, wat kan ik al en wat kan ik nog leren?",
+				"Een eigen bedrijf runnen leerde me veel, en 3D-printen heb ik nu helemaal onder de knie."
+			],
 			"verwant": [
 				"sanctus",
 				"rolduc"
@@ -375,20 +396,22 @@
 		"id": "kunstroute",
 		"tier": "A",
 		"title": "Kunstroute Zuyderland",
-		"pillar": "branding",
+		"pillar": "digitaal",
 		"tags": "UI/UX-design · tabletapp",
 		"short": "Tabletapp voor een kunstroute in het ziekenhuis",
-		"text": "Voor de kunstcollectie van Zuyderland onderzocht ik waarom kunst in het ziekenhuis vaak niet opvalt. Dat werd een tabletapp waarmee herstellende patiënten zelf een korte wandelroute langs kunst samenstellen en lopen.",
+		"text": "Voor de kunstcollectie van Zuyderland onderzocht ik met een medestudent waarom kunst in het ziekenhuis vaak niet opvalt. Dat werd een tabletapp waarmee herstellende patiënten zelf een korte wandelroute langs kunst samenstellen en lopen.",
 		"image": "case-kunstroute-01.jpg",
 		"alt": "Het startscherm van de Kunstroute-app: ontdek kunst op jouw tempo, met een kaart per kunstwerk (de kunstwerken zijn onscherp gemaakt)",
 		"url": "",
 		"urlLabel": "",
+		"team": true,
 		"case": {
 			"gemaakt": "2026-06-01",
+			"akkoord": true,
 			"jaar": "2026",
 			"context": "Schoolopdracht voor de kunstcollectie van Zuyderland",
 			"rol": "Onderzoek, concept, interactieontwerp en front-end",
-			"team": "Individueel, met wekelijkse feedback van de opdrachtgever",
+			"team": "Met een medestudent; wekelijks feedback van de opdrachtgever",
 			"techniek": [
 				"HTML, CSS en JavaScript",
 				"Web Speech API",
@@ -398,7 +421,7 @@
 			"kader": "browser",
 			"lead": "Een wandelroute langs kunst voor patiënten die herstellen, zelf samengesteld op de tablet aan het bed.",
 			"beschrijving": "Case: een tabletapp waarmee herstellende patiënten zelf een korte wandelroute langs kunst samenstellen en lopen. Van veldwerk tot werkende app.",
-			"kort": "Voor de kunstcollectie van Zuyderland onderzocht ik waarom kunst in het ziekenhuis vaak niet opvalt. Na veldwerk en gesprekken met een IC-verpleegkundige en een arts werd het een tabletapp waarmee herstellende patiënten zelf een korte wandelroute langs kunst samenstellen en lopen. Onderzoek, concept, ontwerp en front-end, van februari tot en met juni 2026.",
+			"kort": "Voor de kunstcollectie van Zuyderland onderzocht ik met een medestudent waarom kunst in het ziekenhuis vaak niet opvalt. Na veldwerk en gesprekken met een IC-verpleegkundige en een arts werd het een tabletapp waarmee herstellende patiënten zelf een korte wandelroute langs kunst samenstellen en lopen. Onderzoek, concept, ontwerp en front-end, van februari tot en met juni 2026.",
 			"noot": "De kunstwerken en de namen van kunstenaars zijn in de beelden onscherp gemaakt: de werken horen bij de collectie van Zuyderland. Gesprekspartners staan hier alleen met hun rol.",
 			"hoofdstukken": [
 				{
@@ -410,8 +433,7 @@
 				{
 					"titel": "Mijn rol",
 					"alineas": [
-						"Ik werkte individueel: literatuuronderzoek, een short paper, veldwerk, twee gesprekken met zorgmedewerkers, concepten, een presentatie en de app. De contactpersoon van de opdrachtgever gaf wekelijks feedback.",
-						"Voor de presentatie en bij het bouwen van de app gebruikte ik AI-hulpmiddelen."
+						"Ik werkte samen met een medestudent aan literatuuronderzoek, een short paper, veldwerk, twee gesprekken met zorgmedewerkers, concepten, een presentatie en de app. De contactpersoon van de opdrachtgever gaf wekelijks feedback."
 					]
 				},
 				{
@@ -437,7 +459,8 @@
 						"Het kantelpunt kwam in een gesprek met een arts: uit bed komen helpt bij herstel, en een route langs kunst geeft patiënten een reden om de gang op te gaan. Zo verschoof de focus naar patiënten."
 					],
 					"meer": [
-						"Daarna stelde ik vijf ontwerpeisen op en werkte ik twee concepten uit: De Stem, waarin medewerkers stemmen, en De Art-Walk, een route van 5 tot 15 minuten met korte audioverhalen."
+						"Daarna stelde ik vijf ontwerpeisen op en werkte ik twee concepten uit: De Stem, waarin medewerkers stemmen, en De Art-Walk, een route van 5 tot 15 minuten met korte audioverhalen.",
+						"De Stem viel af, omdat stemmen de kunstcollectie nog te weinig een plek gaf in de zorgvisie van Zuyderland."
 					],
 					"beelden": [
 						{
@@ -490,7 +513,7 @@
 			],
 			"resultaat": {
 				"alineas": [
-					"Een werkende webapp die op een tablet als losse app draait. De route in Heerlen telt 32 werken, allemaal met een echte foto, verdeeld over drie verdiepingen.",
+					"Een werkende webapp die op een tablet als losse app draait. De route in Heerlen telt 32 werken, allemaal met een echte foto, verdeeld over drie verdiepingen. Op een expositie in het Zuyderland-ziekenhuis in Sittard werd de app heel positief ontvangen.",
 					"Nog open: de app is niet getest met patiënten, de verhalen worden voorgelezen door de spraakfunctie van de browser, en de route in Sittard is nog niet ingevuld."
 				]
 			},
@@ -520,6 +543,7 @@
 		"team": true,
 		"case": {
 			"gemaakt": "2026-01-08",
+			"akkoord": true,
 			"jaar": "2025–2026",
 			"context": "Schoolopdracht voor CBS",
 			"rol": "Vormgeving, code en het grootste deel van de teksten",
@@ -536,12 +560,12 @@
 			"lead": "Een vraag van CBS werd een interactieve story over de mijnstad, in drie thema's en 31 korte hoofdstukken.",
 			"beschrijving": "Case: een interactieve story over wat de steenkoolwinning met Heerlen deed, gemaakt voor een opdracht van CBS. Drie thema's en 31 korte hoofdstukken.",
 			"kort": "CBS vroeg om een verhaal over de steenkoolwinning, onderbouwd met cijfers. Met mijn team maakte ik een interactieve story: na een introvideo kies je zelf Welvaart, Migratie of Mijncultuur, in 31 korte hoofdstukken van de Romeinse tijd tot na de mijnsluiting. Ik deed de vormgeving, de code en het grootste deel van de teksten.",
-			"noot": "De introvideo is gemaakt door een teamgenoot. De archiefbeelden in de story zijn van derden. De doorontwikkeling van oktober 2026 maakte ik na de oplevering, met hulp van een AI-codeerassistent; de voorleesstem is een AI-stem van ElevenLabs.",
+			"noot": "De introvideo is gemaakt door een teamgenoot. De archiefbeelden in de story zijn van derden.",
 			"hoofdstukken": [
 				{
 					"titel": "Aanleiding",
 					"alineas": [
-						"CBS gaf in november 2025 een keuzemenu voor multimedia-stories. Ons team koos de story van steenkool: over de steenkoolwinning in de mijnstreek, waar mogelijk onderbouwd met cijfers."
+						"CBS gaf in november 2025 een keuzemenu voor multimedia-stories. Ons team koos de story van steenkool: over de steenkoolwinning in de mijnstreek, waar mogelijk onderbouwd met CBS-cijfers."
 					]
 				},
 				{
@@ -554,7 +578,8 @@
 					"titel": "Onderzoek",
 					"alineas": [
 						"Een CBS-document noemt dat er tussen 1802 en 1974 ongeveer 570 miljard kilo steenkool uit de grond kwam. Dat werd onze kernvraag: wat deed al die steenkool met Heerlen?",
-						"De story kreeg drie thema's, Welvaart, Migratie en Mijncultuur, met een proloog over de tijd vóór de mijnen en een slot over de tijd erna."
+						"De story kreeg drie thema's, Welvaart, Migratie en Mijncultuur, met een proloog over de tijd vóór de mijnen en een slot over de tijd erna.",
+						"Tussendoor hadden we een paar keer contact met CBS, over de richting die we kozen en voor extra informatie."
 					],
 					"beelden": [
 						{
@@ -587,12 +612,12 @@
 				{
 					"titel": "Testen en iteraties",
 					"alineas": [
-						"Tussen 8 en 29 januari 2026 bewaarde mijn editor 326 versies van de pagina, verspreid over tien werkdagen. De werktitel 'Stof & Goud' met twaalf hoofdstukken groeide uit tot de story die we opleverden.",
-						"Na de oplevering ontwikkelde ik de story in oktober 2026 zelf verder, met hulp van een AI-codeerassistent: mobiel eerst, lichtere video's, voorlezen en een mijnenkaart."
+						"We kwamen tot deze story door veel te itereren, te testen en te vergelijken met andere stories.",
+						"Sinds de oplevering werk ik er alleen aan verder. Op basis van gebruikerstesten en nieuw onderzoek verbeterde ik de story: mobiel eerst, lichtere video's, voorlezen en een mijnenkaart."
 					],
 					"meer": [
 						"Een teamreview van de eerste ontwerpen leverde een verbeterpunt in de content op, dat een teamgenoot oppakte.",
-						"In de doorontwikkeling gingen de video's van 29 naar 7 MB, kregen alle 31 hoofdstukken een voorleesstem en werd de keuzepagina een doorsnede van de grond."
+						"Na de oplevering gingen de video's van 29 naar 7 MB, kregen alle 31 hoofdstukken een voorleesstem en werd de keuzepagina een doorsnede van de grond."
 					],
 					"paar": true,
 					"beelden": [
@@ -615,8 +640,8 @@
 				]
 			},
 			"geleerd": [
-				"Ik nam veel zelf op me. Volgende keer verdeel ik het werk beter, zodat niet alles bij mij ligt.",
-				"Meer ruimte geven aan wat anderen inbrengen."
+				"Ik nam veel werk op me. Volgende keer maak ik vanaf het begin duidelijke afspraken over wie wat doet.",
+				"Goed contact binnen een team is net zo belangrijk als het werk zelf."
 			],
 			"verwant": [
 				"wmc",
@@ -638,6 +663,7 @@
 		"urlLabel": "de-wmc-story.nl",
 		"case": {
 			"gemaakt": "2026-04-11",
+			"akkoord": true,
 			"jaar": "2026",
 			"context": "Opdracht van WMC Kerkrade",
 			"rol": "Onderzoek, verhaal, ontwerp en bouw",
@@ -654,29 +680,31 @@
 			"lead": "Een tweetalig keuzeverhaal over het eerste Wereld Muziek Concours, waarin de grijze mijnstad per hoofdstuk weer kleur krijgt.",
 			"beschrijving": "Case: Klankstad, een interactief keuzeverhaal over het eerste Wereld Muziek Concours in Kerkrade (1951). Tweetalig, met voorlezen en geluid.",
 			"kort": "Kerkrade, augustus 1951: vierduizend muzikanten komen naar een grijze mijnstad, en er zijn niet genoeg bedden. In Klankstad speel je Zef, die het moet oplossen; jouw keuzes bepalen het verloop. Ik deed het onderzoek, schreef het verhaal en ontwierp en bouwde het, in het Nederlands en Engels, met voorlezen en geluid per scène.",
-			"noot": "De WMC-huisstijl, het logo en de Viva la Vida-illustraties zijn van WMC Kerkrade, gemaakt door de ontwerpers van de WMC 2026-huisstijl. Het geluid komt van Freesound en archive.org.",
+			"noot": "De huisstijl van 75 jaar WMC, met het logo en de Viva la Vida-figuren, is van WMC Kerkrade en ontworpen door Sascha Teschner.",
 			"hoofdstukken": [
 				{
 					"titel": "Aanleiding",
 					"alineas": [
-						"WMC Kerkrade bestaat in 2026 75 jaar. Klankstad gaat terug naar de allereerste editie, in augustus 1951."
+						"In 2026 bestaat WMC Kerkrade 75 jaar. Het WMC vroeg me eerst om een beeld in 3D, als relatiegeschenk voor mensen die veel voor het concours betekenen. Zelf kwam ik met het idee om in het jubileumjaar ook te vertellen hoe het WMC ontstond. Dat presenteerde ik, en zo kreeg ik de opdracht.",
+						"Klankstad gaat terug naar de allereerste editie, in augustus 1951."
 					]
 				},
 				{
 					"titel": "Mijn rol",
 					"alineas": [
-						"Ik deed het onderzoek, schreef het verhaal en ontwierp en bouwde het in HTML, CSS en JavaScript. Bij de grote ronde van oktober 2026 werkte ik met een AI-codeerassistent.",
-						"Niet van mij: de WMC-huisstijl en de Viva la Vida-figuren, het geluid en de voorleesstem, die van je browser komt."
+						"Ik deed het onderzoek, schreef het verhaal en ontwierp en bouwde het in HTML, CSS en JavaScript. Ook na de oplevering bleef ik het verbeteren.",
+						"De huisstijl van 75 jaar WMC bestond al. Die is ontworpen door Sascha Teschner, afgeleid van het Viva la Vida-beeld in Kerkrade. Daarop bouwde ik verder, bijvoorbeeld met de beweging van de figuren."
 					]
 				},
 				{
 					"titel": "Onderzoek",
 					"alineas": [
-						"Ik begon met onderzoek naar het WMC, van 1949 tot nu, samengevat in een document van zo'n 2.400 woorden.",
+						"Ik begon met onderzoek naar het WMC, van 1949 tot nu. Ik sprak mensen van het concours, gebruikte de WMC-website en vergeleek die met andere bronnen online. Dat vatte ik samen in een document van zo'n 2.400 woorden.",
 						"In 1951 kwamen er ongeveer 4.000 muzikanten en 200.000 bezoekers, terwijl er 50.000 waren verwacht. De muzikanten sliepen bij gastgezinnen."
 					],
 					"meer": [
-						"Veel van het verhaal komt hier rechtstreeks uit: de gastgezinnen, een Engelse band, de verwachte 50.000 tegenover 200.000 bezoekers en de keuze tussen traditie en vernieuwing."
+						"Veel van het verhaal komt hier rechtstreeks uit: de gastgezinnen, een Engelse band, de verwachte 50.000 tegenover 200.000 bezoekers en de keuze tussen traditie en vernieuwing.",
+						"Met mensen van het WMC deed ik een reviewronde om alles kloppend te maken. Ik controleerde ook of de muziek op de achtergrond in die tijd al bestond."
 					]
 				},
 				{
@@ -715,7 +743,8 @@
 				{
 					"titel": "Testen en iteraties",
 					"alineas": [
-						"Juni 2026: geluid per scène, een eigen domein en een aantal aangepaste feiten in het verhaal.",
+						"Testers vonden het fijn dat de tekst in kleine stukjes komt in plaats van alles tegelijk. Daarom zit er een knop 'Lees verder' in.",
+						"Juni 2026: na feedback van iemand van het WMC paste ik een aantal feiten aan. Er kwam geluid per scène bij en een eigen domein.",
 						"Oktober 2026: het officiële WMC-lettertype, figuren die per tijdperk mee inkleuren, bediening met het toetsenbord, verder waar je was en een deelbare scorekaart."
 					],
 					"paar": true,
@@ -746,6 +775,10 @@
 					}
 				]
 			},
+			"geleerd": [
+				"Samenwerken met een grote klant, en verder werken binnen een bestaande huisstijl.",
+				"Mijn storytelling is een stuk beter geworden, net als het presenteren van een idee aan de klant."
+			],
 			"verwant": [
 				"heerlen",
 				"kunstroute"
@@ -759,7 +792,7 @@
 		"pillar": "digitaal",
 		"tags": "Concept · schoolproject",
 		"short": "Leren programmeren met kunst",
-		"text": "Concept voor programmeerworkshops op school: leerlingen tekenen een monster en bouwen het daarna na in code. Schoolproject in een team van vier; ik bouwde de website en vernieuwde die in 2026 met hulp van een AI-codeerassistent.",
+		"text": "Concept voor programmeerworkshops op school: leerlingen tekenen een monster en bouwen het daarna na in code. Schoolproject in een team van vier: ik dacht mee over de huisstijl en de toon en bouwde de website. De workshop is twee keer gegeven, op het Bernard Lievegoed College, aan zo'n 40 leerlingen. In 2026 ontwierp ik de site opnieuw in Figma, binnen de bestaande huisstijl, en bouwde ik het nieuwe ontwerp.",
 		"image": "Portfolio-CodeMonster.jpg",
 		"alt": "De homepage van CodeMonster",
 		"url": "https://jelger1.github.io/CodeMonster/",
@@ -771,9 +804,9 @@
 		"tier": "B",
 		"title": "Dekentje.nl",
 		"pillar": "digitaal",
-		"tags": "Homepage · stijlgids",
-		"short": "Homepage voor een webshop in dekens en plaids",
-		"text": "Een nieuwe homepage voor webshop Dekentje.nl, met plaids, bedspreien en picknickkleden: ontworpen binnen de merkrichtlijnen van de klant en vastgelegd in een stijlgids. Gebouwd met hulp van een AI-codeerassistent.",
+		"tags": "Huisstijl · homepage",
+		"short": "Huisstijl en homepage voor een webshop in plaids",
+		"text": "Dekentje.nl is een webshop in plaids, bedspreien en picknickkleden. Via Pure Minds vroeg de eigenaar mij om een nieuwe huisstijl. Ik onderzocht het aanbod, de doelgroep en de concurrenten en maakte een testontwerp. Daarna werkte ik de homepage uit als mockup en in code, zodat de klant echt kon ervaren hoe het eruit zou kunnen zien. Alles is vastgelegd in een stijlgids.",
 		"url": "",
 		"urlLabel": ""
 	},
@@ -783,8 +816,8 @@
 		"title": "Zoekintentie-check",
 		"pillar": "digitaal",
 		"tags": "Interne tool · SEO",
-		"short": "Interne SEO-tool voor een marketingbureau",
-		"text": "Een interne SEO-tool voor een marketingbureau: hij legt een pagina naast de Google-top 10, checkt eerst of de pagina past bij wat zoekers willen en maakt daarna een rapport. AI schrijft mee, de code controleert elk cijfer. Gebouwd met hulp van een AI-codeerassistent.",
+		"short": "Interne SEO-tool voor Pure Minds",
+		"text": "Een interne SEO-tool die marketingbureau Pure Minds nu gebruikt. Een medewerker vroeg me hem te bouwen. De tool legt een pagina naast de Google-top 10, checkt eerst of de pagina past bij wat zoekers willen en maakt daarna een rapport. Ik koppelde daarvoor verschillende API's aan elkaar, waaronder een AI-model dat meeschrijft, en testte de bediening uitgebreid.",
 		"url": "",
 		"urlLabel": ""
 	},
@@ -794,8 +827,8 @@
 		"title": "Generatorhub",
 		"pillar": "digitaal",
 		"tags": "Interne tool · huisstijl",
-		"short": "Interne generatorhub voor een marketingbureau",
-		"text": "Een interne hub voor een marketingbureau: social posts, documenten op briefpapier, presentaties en iconen in de huisstijl, plus checks voor SEO, ads en websites. Alleen voor het team, met een eigen login. Gebouwd met hulp van een AI-codeerassistent.",
+		"short": "Huisstijl en interne hub voor Pure Minds",
+		"text": "Voor marketingbureau Pure Minds ontwierp ik een nieuwe huisstijl met huisstijlgids. Om het team daar makkelijk in te laten werken, bouwde ik deze interne hub: social posts, documenten op briefpapier, presentaties en iconen in de huisstijl, plus checks voor SEO, ads en websites. Zo'n acht mensen gebruiken hem, elk met een eigen login.",
 		"url": "",
 		"urlLabel": ""
 	}

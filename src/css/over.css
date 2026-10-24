@@ -41,3 +41,6 @@ body[data-page="over"]{--section-space:var(--section-space-compact)}
 @media (min-width:760px){
 	.gereedschap div{grid-template-columns:10rem minmax(0, 1fr);align-items:baseline}
 }
+/* Hoe ik AI gebruik: onder het gereedschap, want dat is het */
+.gereedschap-noot{max-width:44rem;margin:var(--space-6) 0 0;color:var(--fg-muted);line-height:var(--leading)}
+.gereedschap-noot strong{color:var(--fg)}
