@@ -35,7 +35,7 @@ const OUD_INDEXEERBAAR = fs.existsSync(REFERENTIE)
 // Nieuwe paginatypes (body data-page): daar is een te lange title of description een fout. De overige komen
 // 1-op-1 uit de oude webshop; daar is het een waarschuwing. De casepagina's (portfolio/<id>.html) zijn nieuw en
 // staan bewust niet in NOINDEX_TOT_FASE_3: in productie zijn ze indexeerbaar.
-const NIEUWE_TYPES = ['pillar', 'placeholder', 'contact', 'portfolio', 'over', 'case'];
+const NIEUWE_TYPES = ['pillar', 'placeholder', 'contact', 'portfolio', 'over', 'case', 'sitemap'];
 // De oude domeinen. Draait de site zelf op een ervan (plan B: jelgers3d.nl), dan is dat domein niet oud.
 const OUDE_DOMEINEN = ['jelgers3d.nl', 'jelgersieler.nl'].filter(function (domein) {
 	return new URL(SITE_URL).hostname.replace(/^www\./, '') !== domein;
@@ -165,14 +165,31 @@ const buildInfo = path.join(DIST, 'build.txt');
 const builtMode = fs.existsSync(buildInfo) ? (fs.readFileSync(buildInfo, 'utf8').match(/^modus=(\S+)/m) || [])[1] : '';
 if (builtMode && builtMode !== MODE) problems.push('dist/ is gebouwd in modus "' + builtMode + '", maar deze controle draait in modus "' + MODE + '": geef build en check dezelfde SITE_MODE');
 
-// Welke pagina's in de sitemap staan (in productie moet dat kloppen met noindex)
+// Welke pagina's in de sitemap staan (in productie moet dat kloppen met noindex). sitemap.xml is een index: de pagina's
+// staan in de delen die hij noemt (sitemap-paginas.xml enzovoort). Of hun foto's bestaan, controleert de lus over de
+// tekstbestanden verderop.
 const sitemapFile = path.join(DIST, 'sitemap.xml');
 const inSitemap = new Set();
 if (fs.existsSync(sitemapFile)) {
-	all(/<loc>([^<]+)<\/loc>/g, fs.readFileSync(sitemapFile, 'utf8')).forEach(function (loc) {
-		const target = toFile(decode(loc), DIST);
-		if (target) inSitemap.add(relative(target));
-		else problems.push('sitemap.xml: "' + loc + '" staat niet op ' + SITE_URL);
+	const index = fs.readFileSync(sitemapFile, 'utf8');
+	const delen = [];
+	(/<sitemapindex[\s>]/.test(index) ? all(/<sitemap>\s*<loc>([^<]+)<\/loc>/g, index) : [SITE_URL + '/sitemap.xml']).forEach(function (loc) {
+		const file = toFile(decode(loc), DIST);
+		if (!file) problems.push('sitemap.xml: "' + loc + '" staat niet op ' + SITE_URL);
+		else if (!fs.existsSync(file)) problems.push('sitemap.xml noemt "' + loc + '", maar dat bestand bestaat niet in dist/');
+		else delen.push(relative(file));
+	});
+	delen.forEach(function (deel) {
+		// Alleen de <loc> van een <url>: een <image:loc> is een foto, geen pagina
+		all(/<url>\s*<loc>([^<]+)<\/loc>/g, fs.readFileSync(path.join(DIST, deel), 'utf8')).forEach(function (loc) {
+			const target = toFile(decode(loc), DIST);
+			if (target) inSitemap.add(relative(target));
+			else problems.push(deel + ': "' + loc + '" staat niet op ' + SITE_URL);
+		});
+	});
+	// Een deel dat niet in de index staat, vindt Google niet
+	files.map(relative).filter(function (rel) { return /^sitemap-.+\.xml$/.test(rel) && delen.indexOf(rel) === -1; }).forEach(function (rel) {
+		problems.push(rel + ' staat niet in de index sitemap.xml');
 	});
 } else if (MODE === 'productie') {
 	problems.push('sitemap.xml ontbreekt');

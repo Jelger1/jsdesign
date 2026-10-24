@@ -18,6 +18,7 @@ const { hubImages } = require('./src/templates/hub');
 const portfolioPage = require('./src/templates/portfolio');
 const { casePage, caseImages, caseCover, caseTitel } = require('./src/templates/case');
 const discovery = require('./src/templates/discovery');
+const sitemap = require('./src/templates/sitemap');
 const h = require('./src/templates/helpers');
 
 const ROOT = __dirname;
@@ -539,6 +540,10 @@ async function build() {
 	['css', 'js', 'producten', 'portfolio', 'ai'].forEach(function (dir) {
 		fs.rmSync(path.join(DIST, dir), { recursive: true, force: true });
 	});
+	// Een deel van de sitemap kan wegvallen of een andere naam krijgen
+	fs.readdirSync(DIST).filter(function (f) { return /^sitemap-.+\.xml$/.test(f); }).forEach(function (f) {
+		fs.rmSync(path.join(DIST, f));
+	});
 
 	// 3. CSS en JS, met een versienummer tegen verouderde browsercache
 	const css = CSS_FILES.map(function (f) { return read('src/css/' + f); }).join('\n');
@@ -628,6 +633,8 @@ async function build() {
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
 		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
+	// De leesbare sitemap: alle pagina's die in Google horen, plus contact (tot fase 3 noindex, maar bezoekers zoeken hem wel)
+	pages.push(sitemap.sitemapPage(ctx, pages.filter(function (p) { return !p.noindex || p.name === 'contact'; })));
 	const seen = new Set();
 	pages.forEach(function (page) {
 		if (seen.has(page.path)) throw new Error('Twee pagina\'s met hetzelfde pad: ' + page.path);
@@ -635,12 +642,29 @@ async function build() {
 		write(page.path, layout(page, ctx));
 	});
 
-	// 6. Voor zoekmachines en AI-assistenten: sitemap.xml, robots.txt, llms.txt en de kennisbank van Jelly-bot
-	write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-		+ pages.filter(function (p) { return !p.noindex; }).map(function (p) {
-			const loc = p.path === 'index.html' ? '' : p.path.replace(/(^|\/)index\.html$/, '$1');
-			return '\t<url><loc>' + site.url + '/' + loc + '</loc><lastmod>' + today + '</lastmod></url>';
-		}).join('\n') + '\n</urlset>\n');
+	// 6. Voor zoekmachines en AI-assistenten: de sitemap (een index met delen), robots.txt, llms.txt en de kennisbank
+	// van Jelly-bot. lastmod komt uit .sitemap-stand.json: per pagina een vingerafdruk van de inhoud en de dag waarop
+	// die veranderde. Op GitHub bewaart de deploy-workflow dat bestand van build tot build, zodat lastmod de dag is
+	// waarop nieuwe inhoud live ging. Zonder het bestand krijgt elke pagina de datum van vandaag.
+	const indexeerbaar = pages.filter(function (p) { return !p.noindex; });
+	const standFile = path.join(ROOT, '.sitemap-stand.json');
+	let vorigeStand = {};
+	try {
+		if (fs.existsSync(standFile)) vorigeStand = JSON.parse(fs.readFileSync(standFile, 'utf8'));
+	} catch (e) {
+		report.warnings.push('.sitemap-stand.json is onleesbaar en begint opnieuw: elke pagina krijgt lastmod ' + today);
+	}
+	const stand = sitemap.stand(indexeerbaar, vorigeStand, today);
+	fs.writeFileSync(standFile, JSON.stringify(stand, null, '\t') + '\n');
+	// Foto's in de sitemap: alle foto's van een product en van een case, in de grootste variant
+	const groot = function (file) { return site.url + '/' + h.imgPath(images, file, Infinity); };
+	const beelden = {};
+	products.forEach(function (p) { beelden[h.productUrl(p)] = p.images.map(function (image) { return groot(image.file); }); });
+	cases.forEach(function (p) {
+		beelden[h.projectUrl(p, '')] = caseImages(p).filter(function (file, i, all) { return all.indexOf(file) === i; }).map(groot);
+	});
+	const sitemapFiles = sitemap.bestanden(site, indexeerbaar, stand, beelden);
+	Object.keys(sitemapFiles).forEach(function (file) { write(file, sitemapFiles[file]); });
 	write('feed.xml', buildFeed(products, images, site, shop));
 	write('robots.txt', discovery.robots(site, MODE));
 	write('llms.txt', discovery.llms(ctx, false));

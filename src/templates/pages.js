@@ -147,6 +147,7 @@ function printServicePage(ctx, template) {
 		name: 'text',
 		title: '3D-printservice vanaf ' + h.euro(ps.pricePerGram) + ' per gram | ' + site.name,
 		ogTitle: '3D-printservice in Limburg',
+		label: '3D-printservice', // in sitemap.html
 		description: 'Stuur je 3D-bestand (' + ps.formats.replace(' en ', ' of ') + ') en ik print het in ' + site.pickupLocation + '. Standaard PLA ' + h.euro(ps.pricePerGram) + ' per gram, minimaal ' + h.euro(ps.minimumOrder) + ' per opdracht.',
 		ogImage: ctx.images[site.homeImages.hero.file].og,
 		jsonLd: [{

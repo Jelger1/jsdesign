@@ -52,21 +52,31 @@ jobs:
       SITE_MODE: ${{ vars.SITE_MODE || 'preview' }}
       BASE_PATH: ${{ vars.BASE_PATH || '/jsdesign/' }}
     steps:
-      # De volledige git-historie, voor echte lastmod-datums in de sitemap (MERGEPLAN §6.4)
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      # Echte lastmod-datums in de sitemap: de build vergelijkt elke pagina met de stand van de vorige publicatie
+      # (.sitemap-stand.json, zie build.js stap 6). Ontbreekt die (eerste keer, of na 7 dagen zonder build), dan
+      # krijgt elke pagina eenmalig de datum van vandaag.
+      - uses: actions/cache/restore@v4
+        with:
+          path: .sitemap-stand.json
+          key: sitemap-stand-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: sitemap-stand-
       - run: npm run build
       # Links, SEO-tags en indexering, in de modus van deze build
       - run: npm run check
       - run: npm test
       # Alles wat de oude webshop leverde (pagina's, mailbestanden, beelden, winkel.json, feed) bestaat nog
       - run: npm run contract
+      # Pas na alle controles: een build die niet live gaat, verschuift geen lastmod
+      - uses: actions/cache/save@v4
+        with:
+          path: .sitemap-stand.json
+          key: sitemap-stand-${{ github.run_id }}-${{ github.run_attempt }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

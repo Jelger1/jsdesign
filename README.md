@@ -24,6 +24,20 @@ Beheer en werkwijze: zie `docs/`. De Supabase-functie deploy je alleen volgens `
 
 **Bewuste afwijking van de oude webshop** (een nieuw product, een andere prijs, een nieuwe sleutel in `winkel.json` zoals `winkel.logo`): `contract` houdt dan elke publicatie tegen, ook de nachtelijke build voor introductieprijzen en deadlines. Zet in dezelfde commit het onderwerp uit de foutmelding met de reden in `AFWIJKINGEN` bovenaan `tools/contract.mjs`; daar staan voorbeelden. Vóór de cutover geldt de content-freeze, dan hoort er niets bij te komen. De referentie zelf pas je niet aan: die maak je alleen opnieuw bij een her-sync met de oude webshop (`tools/contract-referentie.mjs`), en het verschil kijk je dan apart na.
 
+## Sitemap
+
+De build maakt de sitemap zelf. Een nieuwe pagina, case of product staat er bij de volgende build vanzelf in.
+
+- **`sitemap.xml`** is een index met drie delen:
+  - `sitemap-paginas.xml`: studio, diensten en praktische pagina's;
+  - `sitemap-portfolio.xml`: het overzicht en de cases;
+  - `sitemap-webshop.xml`: de webshop, de categorieën en de producten.
+
+  Welk deel een pagina krijgt, volgt uit haar paginatype (`src/templates/sitemap.js`). Pagina's met noindex staan er niet in. Cases en producten noemen ook al hun foto's, voor Google Afbeeldingen.
+- **`lastmod`** is de dag waarop de title, de description of de inhoud van een pagina echt veranderde. De build bewaart per pagina een vingerafdruk in `.sitemap-stand.json` (niet in git). Op GitHub bewaart de deploy-workflow dat bestand van publicatie tot publicatie met `actions/cache`. Ontbreekt het bestand, dan krijgt elke pagina eenmalig de datum van die build.
+- **`sitemap.html`** is dezelfde lijst voor bezoekers, gelinkt in de footer.
+- `robots.txt` noemt in productie `https://jsdesign.nl/sitemap.xml`. In Google Search Console dien je alleen die index in.
+
 ## Ontwerp
 
 - **Het teken in één pijlerkleur** is een goedgekeurde variant op de huisstijlregel "het teken niet herkleuren": in de header van een pagina die bij een pijler hoort (`body data-pillar`) staan alle drie de delen in die pijlerkleur; elders, zoals in de footer, houdt het teken zijn drie kleuren.

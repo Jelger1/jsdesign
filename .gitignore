@@ -7,6 +7,8 @@ server/.env
 # Afhankelijkheden en build-uitvoer (alleen dist/ wordt gepubliceerd, via GitHub Actions)
 node_modules/
 dist/
+# Vingerafdruk en lastmod per pagina voor de sitemap; op GitHub bewaart de deploy-workflow hem tussen builds
+.sitemap-stand.json
 
 # Editor- en AI-tooling
 .history/

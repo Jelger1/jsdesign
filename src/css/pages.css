@@ -25,6 +25,8 @@
 .not-found .text-page-intro{max-width:52ch;margin-left:auto;margin-right:auto}
 .not-found .cta-row,.not-found .chips{justify-content:center}
 .not-found .chips{margin-top:2.5rem}
+/* Sitemap (sitemap.html): lange lijsten in twee kolommen zodra daar ruimte voor is */
+@media (min-width:640px){.sitemap-groep ul{columns:2;column-gap:2.5rem}.sitemap-groep li{break-inside:avoid}}
 
 /* Contactpagina (src/pages/contact.html): de kop zoals op de tekstpagina's, het formulier van de oude homepage (stijl in
    styles.css) en daaronder de directe contactgegevens */
