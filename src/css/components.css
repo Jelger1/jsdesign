@@ -84,7 +84,7 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .cart-header h2::before,.checkout-header h2::before,.modal-content h2::before,.reviews-heading::before{display:none}
 .cart-close{background:transparent;border:0;font-size:1.4rem;cursor:pointer;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--fg-muted)}
 .cart-close:hover{background:var(--dark-secondary);transform:rotate(90deg);color:var(--soft)}
-.cart-added{margin:1rem 1rem 0;padding:0.8rem 1rem;border-radius:var(--radius);background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.35);color:#7be0a4;font-weight:600;font-size:0.92rem;animation:fadeInUp 0.35s ease}
+.cart-added{margin:1rem 1rem 0;padding:0.8rem 1rem;border-radius:var(--radius);background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.35);color:var(--ok);font-weight:600;font-size:0.92rem}
 .cart-items{flex:1;overflow-y:auto;padding:1rem;-webkit-overflow-scrolling:touch}
 .cart-list{display:flex;flex-direction:column;gap:0.75rem}
 .cart-item{display:flex;gap:0.9rem;padding:0.9rem;border-radius:var(--radius);background:var(--dark-secondary);border:1px solid var(--border);align-items:flex-start}
@@ -98,7 +98,7 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .cart-item-row{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;margin-top:0.6rem}
 .cart-item-price{font-weight:700;color:var(--soft);margin:0;font-size:0.95rem}
 .cart-item-remove{background:transparent;border:0;color:var(--fg-muted);cursor:pointer;width:32px;height:32px;border-radius:50%;font-size:0.9rem;flex-shrink:0}
-.cart-item-remove:hover{color:#e74c3c;background:var(--dark)}
+.cart-item-remove:hover{color:var(--danger);background:var(--dark)}
 .qty{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius-full);background:var(--dark)}
 .qty-btn{width:32px;height:32px;border:0;background:transparent;color:var(--soft);font-size:1.1rem;cursor:pointer;border-radius:50%;line-height:1}
 .qty-btn:hover{color:var(--brand)}
@@ -114,8 +114,9 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .modal-content h2{padding:1.25rem 4rem 1rem 1.5rem;margin:0;color:var(--soft);font-size:1.15rem;display:block}
 .modal-nav{display:flex}
 .modal-counter{display:block}
-.form-msg-success{color:#2ecc71}
-.form-msg-error{color:#ff6b6b}
+/* Meldingen bij formulieren: altijd --ok of --danger, ook op een tekstpagina (daar zou .text-page p winnen) */
+.form-msg-success,.text-page .form-msg-success{color:var(--ok)}
+.form-msg-error,.text-page .form-msg-error{color:var(--danger)}
 
 /* Reviews: één keer in de HTML, horizontaal te scrollen */
 .reviews-banner{background:var(--dark-secondary);padding:3rem 0 3.5rem;position:relative;border-top:1px solid var(--border)}

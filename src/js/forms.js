@@ -53,6 +53,8 @@ export function initForms() {
 			if (onderwerp && gekozen) onderwerp.value = gekozen;
 		}).catch(function (error) {
 			say(error.message, false);
+			submitBtn.disabled = false;
+			submitBtn.focus();
 		}).finally(function () {
 			submitBtn.disabled = false;
 			submitBtn.textContent = SUBMIT_LABEL;

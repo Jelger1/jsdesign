@@ -41,6 +41,8 @@ export function initHerroep() {
 		}).catch(function (error) {
 			message.textContent = error.message;
 			message.className = 'form-msg form-msg-error';
+			knop.disabled = false;
+			knop.focus();
 		}).finally(function () {
 			knop.disabled = false;
 			knop.textContent = LABEL;

@@ -110,15 +110,15 @@ em, i{font-style:italic}
 .form-row{display:flex;gap:1rem}
 .form-row .form-group{flex:1}
 .checkout-msg{margin:0.75rem 0;padding:0;font-size:0.9rem;text-align:center;min-height:1.5em}
-.checkout-msg-success{color:#2ecc71;font-weight:600}
-.checkout-msg-error{color:#e74c3c;font-weight:600}
+.checkout-msg-success,.text-page .checkout-msg-success{color:var(--ok);font-weight:600}
+.checkout-msg-error,.text-page .checkout-msg-error{color:var(--danger);font-weight:600}
 .checkout-form button[type="submit"]{margin-top:0.5rem;font-size:1rem;padding:0.85rem 1.5rem}
 .checkout-form button[type="submit"]:disabled{opacity:0.6;cursor:not-allowed;transform:none !important}
 .checkout-disclaimer{font-size:0.8rem;color:var(--fg-muted);text-align:center;margin:0.75rem 0 0.25rem 0;line-height:1.4}
 .cart-shipping-note{font-size:0.8rem;color:var(--fg-muted);text-align:center;margin:0 0 0.75rem 0}
 /* Checkout success screen */
-.success-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#27ae60 0%,#2ecc71 100%);color:white;font-size:2rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;box-shadow:0 4px 20px rgba(39,174,96,0.3);animation:successPop 0.4s ease}
-@keyframes successPop{0%{transform:scale(0.6);opacity:0}100%{transform:scale(1);opacity:1}}
+/* Gelukt (bedankt, bevestigen): het blokje uit het teken, massief in aqua, zoals overal "hier" massief is */
+.success-icon{width:72px;height:45px;clip-path:var(--js-blok);background:var(--brand);color:var(--dark);font-size:1.5rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
 
 /* Buttons */
 .btn{display:inline-block;padding:0.75rem 1.5rem;border-radius:var(--radius-full);text-decoration:none;border:2px solid transparent;cursor:pointer;background:transparent; font-weight:600; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size:0.95rem;position:relative;overflow:hidden}

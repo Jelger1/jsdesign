@@ -109,6 +109,7 @@ export function initCheckout() {
 			submitBtn.textContent = SUBMIT_LABEL;
 			message.textContent = error.message + ' Je gegevens blijven staan.';
 			message.className = 'checkout-msg checkout-msg-error';
+			submitBtn.focus();
 		});
 	});
 }

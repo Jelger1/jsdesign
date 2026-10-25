@@ -34,6 +34,8 @@ export function initNieuwsbrief() {
 				form.reset();
 			}).catch(function (error) {
 				say(error.message, false);
+				button.disabled = false;
+				button.focus();
 			}).finally(function () {
 				button.disabled = false;
 				button.textContent = LABEL;

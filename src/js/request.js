@@ -79,6 +79,7 @@ export function initRequest() {
 			submitBtn.disabled = false;
 			submitBtn.textContent = SUBMIT_LABEL;
 			fout(error.message);
+			submitBtn.focus();
 		});
 	});
 }

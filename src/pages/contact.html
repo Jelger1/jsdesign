@@ -1,5 +1,7 @@
 <!-- Inhoud van de contactpagina. {{...}} wordt door build.js ingevuld (zie contactPage in src/templates/pages.js).
-     Het formulier is dat van de oude homepage, 1-op-1; src/js/forms.js verstuurt het. -->
+     Het formulier is dat van de oude homepage, met een onderwerp erbij; src/js/forms.js verstuurt het. Vanaf 900px staat
+     "Zo gaat het verder" ernaast (de stappen: de bevestigingsmail, mijn reactie, en het voorstel uit artikel 9 van de
+     voorwaarden). -->
 <div class="container contact-page">
 	<header class="section-head">
 		<p class="kicker">Contact</p>
@@ -10,6 +12,7 @@
 		</div>
 	</header>
 
+	<div class="contact-raster">
 	<form id="contact-form" class="contact-form" novalidate>
 		<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
 		<div class="contact-form-card">
@@ -49,5 +52,14 @@
 		</div>
 	</form>
 
-	<p class="contact-direct">Liever direct? Mail naar {{emailLink}} of stuur een bericht via <a href="{{instagram}}" target="_blank" rel="noopener">Instagram<span class="sr-only"> (opent in een nieuw venster)</span></a>.</p>
+	<aside class="contact-verder" aria-labelledby="verder-titel">
+		<h2 id="verder-titel" class="contact-verder-titel">Zo gaat het verder</h2>
+		<ol class="contact-stappen">
+			<li><strong>Je krijgt een bevestiging per mail</strong>, met wat je hebt gestuurd.</li>
+			<li><strong>Ik lees je bericht zelf</strong> en reageer persoonlijk, meestal binnen 3 tot 4 werkdagen.</li>
+			<li><strong>Gaat het om een opdracht?</strong> Dan krijg je eerst een vrijblijvend voorstel: wat ik maak, wat het kost en de planning.</li>
+		</ol>
+		<p class="contact-direct">Liever direct? Mail naar {{emailLink}} of stuur een bericht via <a href="{{instagram}}" target="_blank" rel="noopener">Instagram<span class="sr-only"> (opent in een nieuw venster)</span></a>.</p>
+	</aside>
+	</div>
 </div>

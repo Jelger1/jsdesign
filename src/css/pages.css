@@ -31,6 +31,20 @@
 /* Contactpagina (src/pages/contact.html): de kop zoals op de tekstpagina's, het formulier van de oude homepage (stijl in
    styles.css) en daaronder de directe contactgegevens */
 .contact-page{max-width:760px;padding-top:2.5rem;padding-bottom:4rem}
+/* Zo gaat het verder: drie stappen met het blokje als nummer; vanaf 900px naast het formulier */
+.contact-verder{margin-top:2rem}
+.contact-verder-titel{margin:0 0 1rem;font-size:var(--text-lg)}
+.contact-stappen{list-style:none;margin:0;padding:0;display:grid;gap:1rem;counter-reset:stap}
+.contact-stappen li{position:relative;padding-left:3.25rem;color:var(--fg-muted);line-height:1.6;counter-increment:stap}
+.contact-stappen li::before{content:counter(stap);position:absolute;left:0;top:0.05rem;display:grid;place-items:center;width:40px;height:25px;clip-path:var(--js-blok);background:var(--brand);color:var(--dark);font:800 0.9rem/1 var(--font-display)}
+.contact-stappen strong{color:var(--soft)}
+@media (forced-colors:active){.contact-stappen li::before{forced-color-adjust:none;background:CanvasText;color:Canvas}}
+@media (min-width:900px){
+	.contact-page{max-width:1100px}
+	.contact-raster{display:grid;grid-template-columns:minmax(0, 1.5fr) minmax(0, 1fr);gap:3rem;align-items:start;margin-top:2rem}
+	.contact-raster .contact-form{margin-top:0}
+	.contact-verder{margin-top:0;padding-top:0.5rem}
+}
 .contact-page h1{font-size:var(--kop-m);letter-spacing:-0.01em;margin:0}
 .contact-persoon{display:flex;align-items:center;gap:1rem;margin-top:0.85rem}
 .contact-persoon .section-intro{margin:0}
@@ -82,7 +96,12 @@ body{padding-bottom:var(--cookie-hoogte, 0px)}
 .form-legenda{margin:0 0 1rem 0;color:var(--fg-muted);font-size:var(--text-sm)}
 /* Dubbele klasse: moet winnen van de algemene formulierstijl (.checkout-form label / input) */
 .form-consent .form-consent-label{display:flex;align-items:flex-start;gap:0.7rem;cursor:pointer;margin:0;font-size:0.88rem;line-height:1.5;color:var(--fg-muted);font-weight:400;letter-spacing:0}
-.form-consent .form-consent-label input[type="checkbox"]{appearance:auto;-webkit-appearance:auto;flex:0 0 20px;width:20px;height:20px;margin:0.1rem 0 0 0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;accent-color:var(--brand);cursor:pointer}
+/* Een eigen vinkje: omlijnd, aangevinkt massief aqua met een donker vinkje */
+.form-consent .form-consent-label input[type="checkbox"]{appearance:none;-webkit-appearance:none;flex:0 0 20px;width:20px;height:20px;margin:0.1rem 0 0 0;padding:0;border:2px solid var(--border-strong);border-radius:4px;background:var(--dark-secondary) center / 14px 14px no-repeat;box-shadow:none;cursor:pointer;transition:background-color 0.15s var(--ease), border-color 0.15s var(--ease)}
+.form-consent .form-consent-label input[type="checkbox"]:hover{border-color:var(--brand)}
+.form-consent .form-consent-label input[type="checkbox"]:checked{border-color:var(--brand);background-color:var(--brand);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2.5 7.4 5.6 10.3 11.5 3.8' fill='none' stroke='%23080a0d' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.form-consent .form-consent-label input[type="checkbox"][aria-invalid="true"]{border-color:var(--danger)}
+@media (forced-colors:active){.form-consent .form-consent-label input[type="checkbox"]{appearance:auto;-webkit-appearance:auto;border:0;background:none}}
 .form-consent .form-consent-label input[type="checkbox"]:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 .form-consent-label a,.form-privacy-note a{color:var(--brand)}
 .form-consent .field-error{margin-left:calc(20px + 0.7rem)}

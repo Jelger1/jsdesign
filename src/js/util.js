@@ -18,20 +18,33 @@ export const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: 
 // De invultijd gaat mee (milliseconden sinds het laden van de pagina): robots versturen binnen een seconde, mensen niet.
 const BACKEND = document.documentElement.dataset.backend || '';
 
+// Na zoveel tijd zonder antwoord stopt het versturen, met een melding. Misschien is het wel aangekomen (dan is de
+// bevestiging onderweg), dus eerst in de mail kijken voordat je het opnieuw probeert: anders kan er een dubbele
+// bestelling ontstaan.
+const TIJDSLIMIET = 25000;
+const TE_LANG = 'Het versturen duurt te lang. Kijk eerst in je mail of de bevestiging binnen is; is die er niet, probeer het dan opnieuw.';
+
 export function verstuur(gegevens) {
 	if (!BACKEND) return Promise.reject(new Error('Versturen lukt nu niet. Mail me gerust direct.'));
+	const stop = 'AbortController' in window ? new AbortController() : null;
+	const wekker = stop ? setTimeout(function () { stop.abort(); }, TIJDSLIMIET) : 0;
+	const afgebroken = function () { return Boolean(stop && stop.signal.aborted); };
 	return fetch(BACKEND, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(Object.assign({ pagina: location.href, duur: Math.round(performance.now()) }, gegevens))
+		body: JSON.stringify(Object.assign({ pagina: location.href, duur: Math.round(performance.now()) }, gegevens)),
+		signal: stop ? stop.signal : undefined
 	}).catch(function () {
-		throw new Error('Geen verbinding. Controleer je internet en probeer het opnieuw.');
+		throw new Error(afgebroken() ? TE_LANG : 'Geen verbinding. Controleer je internet en probeer het opnieuw.');
 	}).then(function (response) {
-		return response.json().catch(function () { return {}; }).then(function (antwoord) {
+		return response.json().catch(function () {
+			if (afgebroken()) throw new Error(TE_LANG);
+			return {};
+		}).then(function (antwoord) {
 			if (!response.ok || !antwoord.ok) throw new Error(antwoord.fout || 'Er ging iets mis bij het versturen. Probeer het opnieuw.');
 			return antwoord;
 		});
-	});
+	}).finally(function () { clearTimeout(wekker); });
 }
 
 // Zet een meetmoment klaar in de dataLayer, in de vorm die Google Tag Manager en GA4 verwachten (ecommerce-object).
