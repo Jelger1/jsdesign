@@ -16,6 +16,10 @@ import { initBevestig } from './bevestig.js';
 import { initNieuwsbrief } from './nieuwsbrief.js';
 import { initTransition } from './transition.js';
 import { initHeld } from './held.js';
+import { initRand } from './rand.js';
+import { initTrap } from './trap.js';
+import { initTegel } from './tegel.js';
+import { initWijzer } from './wijzer.js';
 
 const page = document.body.dataset.page;
 
@@ -24,6 +28,8 @@ initUi();
 initMail(); // e-mailadressen leesbaar maken (staan gecodeerd in de HTML, tegen spamrobots)
 initCartUi();
 initLightbox();
+initRand(); // de tekenrand op werktegels (home, pijlerpagina's, cases, portfolio); doet elders niets
+initTrap(); // de werkwijze die zich opbouwt (pijlerpagina's en Over); doet elders niets
 initNieuwsbrief(); // aanmelden onderaan elke pagina en op de bedanktpagina
 
 initRails(); // productrails: op de home en de pijlerpagina Tastbaar; doet elders niets
@@ -35,5 +41,7 @@ initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagin
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();
 if (page === 'confirm') initBevestig(); // links uit mails: nieuwsbrief bevestigen, "Ik heb gereageerd"
-if (page === 'home') initHeld(); // de hero bovenaan de home: aangewezen pijler en het teken in 3D
+if (page === 'home') initHeld();
+if (page === 'pillar') initTegel(); // "Je bent hier" op een smal scherm: de aankomst als de tegel in beeld komt
+if (page === 'pillar' || page === 'case') initWijzer(); // de sectiewijzer en de hoofdstukwijzer // de hero bovenaan de home: aangewezen pijler en het teken in 3D
 initTransition(); // als laatste: andere klik-afhandelingen gaan voor

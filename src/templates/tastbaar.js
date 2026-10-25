@@ -36,7 +36,7 @@ function tastbaarSections(ctx, template, pijlerFaq) {
 	}).join('\n\t\t');
 
 	const faq = vragen.map(function (item) {
-		return '<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + h.esc(item.a) + '</p></details>';
+		return c.vraag(item.q, h.esc(item.a));
 	}).join('\n\t\t');
 
 	// "Maak je eigen sleutelhanger": verschijnt zodra er een product met "personalize" in products.json staat

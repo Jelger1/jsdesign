@@ -111,7 +111,7 @@
 .werk-beeld{display:block;aspect-ratio:4 / 3;overflow:hidden}
 /* Een kaartbeeld met een ander beeld vanaf 900px staat in een <picture>; het beeld erin gedraagt zich als direct kind */
 .werk-beeld picture{display:contents}
-.werk-beeld img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform var(--duration-slow) var(--ease-out)}
+.werk-beeld img{width:100%;height:100%;object-fit:cover;object-position:top center}
 /* De tekst staat op een vrijwel dicht vlak (het verloop zit boven de tekst), zodat hij ook boven lichte foto's leesbaar
    blijft */
 .werk-tekst{position:absolute;left:0;right:0;bottom:0;padding:var(--space-8) var(--space-5) var(--space-4);
@@ -122,10 +122,8 @@
 .werk-tags::before{content:'';flex:none;width:16px;height:10px;background:var(--pillar);clip-path:var(--js-blok)}
 .werk-titel{display:block;margin-top:0.2rem;font-family:var(--font-display);font-size:var(--text-lg);line-height:1.2}
 .werk-open{position:absolute;top:var(--space-4);right:var(--space-4);width:2.25rem;height:2.25rem;display:grid;place-items:center;border-radius:var(--radius-full);
-	background:rgba(8,10,13,0.7);color:var(--fg);transition:transform var(--duration) var(--ease)}
-.werk-kaart a:hover{border-color:var(--pillar)}
-.werk-kaart a:hover .werk-beeld img{transform:scale(1.03)}
-.werk-kaart a:hover .werk-open{transform:translateX(3px)}
+	background:rgba(8,10,13,0.7);color:var(--fg)}
+/* Aanwijzen: de tekenrand (components.css > .rand) */
 @media (min-width:600px){
 	.werk-raster{grid-template-columns:repeat(2, minmax(0, 1fr))}
 }

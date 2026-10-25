@@ -1,5 +1,6 @@
 // Losse pagina's: de privacyverklaring (tekst uit src/pages/privacy.html) en de 404-pagina.
 const h = require('./helpers');
+const c = require('./components');
 
 // datum: wanneer de tekst voor het laatst is bijgewerkt. De privacyverklaring en de voorwaarden hebben elk hun eigen datum
 // (site.json > legal.updated en legal.termsUpdated)
@@ -102,7 +103,7 @@ function printServicePage(ctx, template) {
 	];
 	const faq = '<h2 id="veelgestelde-vragen">Veelgestelde vragen over 3D-printen</h2>\n<div class="faq">\n'
 		+ vragen.map(function (item) {
-			return '\t<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + h.esc(item.a) + '</p></details>';
+			return '\t' + c.vraag(item.q, h.esc(item.a));
 		}).join('\n') + '\n</div>';
 
 	// Zelfde formulier als de maatwerkaanvraag op een productpagina (src/js/request.js)

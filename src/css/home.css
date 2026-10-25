@@ -17,10 +17,8 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 .section-head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;max-width:none}
 .section-head-center{text-align:center;margin-left:auto;margin-right:auto}
 .section-intro{color:var(--fg-muted);font-size:1.05rem;line-height:1.7;margin:0.85rem 0 0 0}
+/* De pijl erachter staat in components.css (de pijl van elke link) */
 .link-arrow{color:var(--brand);text-decoration:none;font-weight:600;font-size:0.95rem;white-space:nowrap;padding-bottom:0.35rem}
-/* De pijl hoort niet bij de linknaam ('→' / '' is de alt-tekst van de pijl: leeg) */
-.link-arrow::after{content:'→';content:'→' / '';display:inline-block;margin-left:0.4rem;transition:transform 0.25s ease}
-.link-arrow:hover::after{transform:translateX(4px)}
 
 /* Hero: aanvullingen */
 .hero-text .kicker{margin-bottom:1rem;font-size:var(--text-xs);color:var(--brand)}
@@ -81,10 +79,56 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 .faq-item[open],.faq-item:hover{border-color:rgba(3,188,202,0.35)}
 .faq-item summary{cursor:pointer;padding:1.1rem 1.25rem;font-weight:600;color:var(--soft);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .faq-item summary::-webkit-details-marker{display:none}
-.faq-item summary::after{content:'+';color:var(--brand);font-size:1.4rem;line-height:1;flex-shrink:0;transition:transform 0.25s ease}
-.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item:not(.uitklap) summary::after{content:'+';color:var(--brand);font-size:1.4rem;line-height:1;flex-shrink:0;transition:transform 0.25s ease}
+.faq-item:not(.uitklap)[open] summary::after{transform:rotate(45deg)}
 .faq-item summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:var(--radius)}
 .faq-item p{margin:0;padding:0 1.25rem 1.25rem;color:var(--fg-muted);line-height:1.7;max-width:70ch}
+
+/* Uitklappen langs de lijn: de vragen hierboven en "Lees meer" op de casepagina's (case.css), met het blokje uit het
+   teken als knop (components.js > blokKnop). Dicht de omtrek met een plus; aanwijzen tilt het vlak 1,5px op met de
+   raspberry laag eronder, zoals de extrude van de knoppen; open is het blokje massief met een min, zoals het deel waar
+   je bent op de pijlertegel. Het vak groeit mee (::details-content met interpolate-size; waar een browser dat niet kan,
+   gaat het gewoon open). De tekst staat stil en komt tevoorschijn doordat het vak groeit: niet vervagen, niet omhoog
+   schuiven. Een lijn loopt van het blokje omlaag langs het antwoord, alleen als het open is. Er mogen meer antwoorden
+   tegelijk open staan (geen name=): anders springt de vraag die je net aantikt omhoog, uit beeld. */
+.uitklap{--blok-b:34px;--blok-h:21px;--uitklap-vlak:var(--dark);interpolate-size:allow-keywords}
+.uitklap-blok{flex:none;display:block;width:var(--blok-b);height:var(--blok-h)}
+.uitklap-blok svg{display:block;width:100%;height:100%;overflow:visible}
+.uitklap-laag{fill:var(--raspberry);opacity:0;transition:opacity var(--duration-fast) var(--ease)}
+.uitklap-vlak{fill:var(--uitklap-vlak);stroke:var(--brand);stroke-width:1.5;transition:fill var(--duration-fast) var(--ease), transform var(--duration-fast) var(--ease)}
+.uitklap-teken{fill:none;stroke:var(--brand);stroke-width:1.75;stroke-linecap:round;transform-box:fill-box;transform-origin:center;
+	transition:stroke var(--duration-fast) var(--ease), transform 0.22s var(--ease), translate var(--duration-fast) var(--ease)}
+@media (hover:hover){
+	.uitklap > summary:hover .uitklap-laag{opacity:1}
+	.uitklap > summary:hover .uitklap-vlak{transform:translate(-1.5px, -1.5px)}
+	.uitklap > summary:hover .uitklap-teken{translate:-1.5px -1.5px}
+}
+.uitklap[open] > summary .uitklap-vlak{fill:var(--brand)}
+.uitklap[open] > summary .uitklap-teken{stroke:var(--dark)}
+.uitklap[open] > summary .uitklap-v{transform:scaleY(0)}
+.uitklap::details-content{block-size:0;overflow-y:clip;transition:block-size 0.26s var(--ease-out), content-visibility 0.26s allow-discrete}
+.uitklap[open]::details-content{block-size:auto}
+.uitklap::after{content:none;position:absolute;width:1.5px;background:var(--brand);pointer-events:none}
+.uitklap[open]::after{content:''}
+/* In de vragenlijst: het blokje links van de vraag, het antwoord lijnt uit met de vraag */
+.faq-item.uitklap{--uitklap-vlak:var(--dark-card);position:relative}
+.faq-item.uitklap > summary{justify-content:flex-start;align-items:flex-start;gap:0.9rem}
+.faq-item.uitklap .uitklap-blok{margin-top:2px}
+.faq-item.uitklap > p{padding-left:calc(1.25rem + var(--blok-b) + 0.9rem)}
+.faq-item.uitklap::after{left:calc(1.25rem + var(--blok-b) / 2 - 0.75px);top:calc(1.1rem + var(--blok-h) + 7px);bottom:1.4rem}
+@media (max-width:599px){
+	.uitklap{--blok-b:28px;--blok-h:17px}
+	.faq-item.uitklap > summary{gap:0.75rem}
+	.faq-item.uitklap > p{padding-left:calc(1.25rem + var(--blok-b) + 0.75rem)}
+}
+@media (forced-colors:active){
+	.uitklap-laag{display:none}
+	.uitklap-vlak{fill:Canvas;stroke:CanvasText}
+	.uitklap-teken{stroke:CanvasText}
+	.uitklap[open] > summary .uitklap-vlak{fill:CanvasText}
+	.uitklap[open] > summary .uitklap-teken{stroke:Canvas}
+	.uitklap::after{forced-color-adjust:none;background:CanvasText}
+}
 
 /* Contact */
 .contact{max-width:760px}

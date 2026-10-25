@@ -125,7 +125,48 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .review-product{font-size:0.75rem;color:var(--fg-muted);background:var(--dark-secondary);padding:0.2rem 0.5rem;border-radius:4px}
 @media (max-width:600px){.review-card{flex-basis:82vw;padding:1.25rem}}
 
-/* Respecteer de systeeminstelling "minder beweging" */
+/* De pijl achter een link ("Alle projecten", "Bekijk het project"): een steel en een punt onder 30°, zoals de lijnen
+   van het teken, als masker over de tekstkleur. Bij aanwijzen of focus tekent de steel door naar de volgende pagina
+   (--steel, gezet door de link of de kaart eromheen). Het vak van de pijl heeft altijd de lange maat, dus er verspringt
+   niets. Alleen beeld: de pijl hoort niet bij de linknaam. */
+:is(.link-arrow, .pijler-case-meer, .pijler-case-alle strong, .pijler-ook-naam)::after{
+	--pijl-punt:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 10'%3E%3Cpath d='M1.6 1.8 7 5 1.6 8.2' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	content:'';flex:none;display:inline-block;width:1.55em;height:0.62em;margin-left:0.4em;vertical-align:-0.04em;background:currentColor;
+	-webkit-mask:var(--pijl-punt) no-repeat, linear-gradient(#000 0 0) no-repeat;mask:var(--pijl-punt) no-repeat, linear-gradient(#000 0 0) no-repeat;
+	-webkit-mask-size:auto 100%, calc(var(--steel, 0.95em) - 0.08em) 0.1em;mask-size:auto 100%, calc(var(--steel, 0.95em) - 0.08em) 0.1em;
+	-webkit-mask-position:calc(var(--steel, 0.95em) - 0.5em) 50%, 0 50%;mask-position:calc(var(--steel, 0.95em) - 0.5em) 50%, 0 50%;
+	transition:-webkit-mask-size 0.22s var(--ease-out), mask-size 0.22s var(--ease-out), -webkit-mask-position 0.22s var(--ease-out), mask-position 0.22s var(--ease-out)}
+@media (hover:hover){
+	.link-arrow:hover{--steel:1.5em}
+}
+.link-arrow:focus-visible{--steel:1.5em}
+@media (forced-colors:active){
+	:is(.link-arrow, .pijler-case-meer, .pijler-case-alle strong, .pijler-ook-naam)::after{forced-color-adjust:none;background:LinkText}
+}
+
+/* De tekenrand op werktegels (src/js/rand.js, data-rand): bij aanwijzen of focus tekent een lijn in de pijlerkleur van
+   het blokje linksonder naar het pijltje rechtsboven, langs twee kanten tegelijk (heen 320 ms, terug 200 ms). Als de lijn
+   aankomt, kleurt het pijltje op. Eén beweging tegelijk: het beeld blijft stil. Op een touchscreen tekent de lijn alleen
+   tijdens het tikken. Zonder JavaScript (geen .rand) kleurt de rand van de kaart zelf. */
+[data-rand]{--aan:0}
+@media (hover:hover){[data-rand]:hover{--aan:1}}
+@media (hover:none){[data-rand]:active{--aan:1}}
+[data-rand]:is(:focus-visible, :has(:focus-visible)){--aan:1}
+.rand{position:absolute;inset:0;z-index:3;width:100%;height:100%;overflow:visible;pointer-events:none}
+.rand path{fill:none;stroke:var(--pillar);stroke-width:2;stroke-dasharray:1 1;stroke-dashoffset:calc(1 - var(--aan));
+	transition:stroke-dashoffset calc(0.2s + var(--aan) * 0.12s) var(--ease-out)}
+[data-rand] .werk-open{transition:background-color 0.15s var(--ease) calc(var(--aan) * 0.16s), color 0.15s var(--ease) calc(var(--aan) * 0.16s)}
+[data-rand]:is(:focus-visible, :has(:focus-visible)) .werk-open{background:var(--pillar);color:var(--dark)}
+@media (hover:hover){[data-rand]:hover .werk-open{background:var(--pillar);color:var(--dark)}}
+@media (hover:none){[data-rand]:active .werk-open{background:var(--pillar);color:var(--dark)}}
+[data-rand]:not(:has(.rand)):hover{border-color:var(--pillar)}
+@media (forced-colors:active){
+	.rand path{stroke:CanvasText}
+}
+
+/* Respecteer de systeeminstelling "minder beweging". Ook de vertragingen gaan op nul, anders speelt een animatie met
+   een delay alsnog na. Let op: dit stopt geen animaties aan een scrolltijdlijn (animation-timeline), want die hebben
+   geen duur in tijd. Die staan daarom altijd binnen @media (prefers-reduced-motion:no-preference). */
 @media (prefers-reduced-motion:reduce){
-	*,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important}
+	*,*::before,*::after{animation-duration:0.01ms !important;animation-delay:0s !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;transition-delay:0s !important;scroll-behavior:auto !important}
 }

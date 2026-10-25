@@ -26,10 +26,12 @@ function project(p, ctx, eerste) {
 		root: ROOT, alt: caseCoverAlt(p), eager: eerste,
 		sizes: staand ? '(max-width: 900px) 75vw, 320px' : '(max-width: 900px) 92vw, (max-width: 1280px) 54vw, 680px'
 	});
-	// Het beeld linkt ook naar de case, maar alleen voor de muis: de kop en de knop zijn de echte links
+	// Het beeld linkt ook naar de case, maar alleen voor de muis: de kop en de knop zijn de echte links. Met de tekenrand
+	// (src/js/rand.js) en het pijltje rechtsboven, zoals de werktegels op de home.
+	const open = '<span class="werk-open">→</span>';
 	const media = staand
-		? '<a class="project-media project-media-staand" href="' + caseLink + '" tabindex="-1" aria-hidden="true">' + img + '</a>'
-		: '<a class="project-media" href="' + caseLink + '" tabindex="-1" aria-hidden="true">' + (p.pillar === 'digitaal' ? c.browserBalk : '') + img + '</a>';
+		? '<a class="project-media project-media-staand" href="' + caseLink + '" tabindex="-1" aria-hidden="true" data-rand>' + img + open + '</a>'
+		: '<a class="project-media" href="' + caseLink + '" tabindex="-1" aria-hidden="true" data-rand>' + (p.pillar === 'digitaal' ? c.browserBalk : '') + img + open + '</a>';
 	return '\t\t<article id="' + h.esc(p.id) + '" class="project" data-pillar="' + h.esc(p.pillar) + '">\n'
 		+ '\t\t\t' + media + '\n'
 		+ '\t\t\t<div class="project-text">\n'

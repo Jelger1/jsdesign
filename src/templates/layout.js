@@ -150,8 +150,9 @@ function layout(page, ctx) {
 		+ '\t<link rel="apple-touch-icon" href="' + root + 'assets/brand/apple-touch-icon.png">\n'
 		+ ctx.fonts.map(function (font) { return '\t<link rel="preload" as="font" type="font/woff2" href="' + root + 'assets/fonts/' + font + '" crossorigin>\n'; }).join('')
 		+ '\t<link rel="stylesheet" href="' + root + 'css/styles.css' + v + '">\n'
-		// Paginaovergang: kwam je hier via een link op de site (src/js/transition.js), dan begint de pagina achter het doek
-		+ '\t<script>try{var pc=+sessionStorage.getItem(\'pc\');sessionStorage.removeItem(\'pc\');if(Date.now()-pc<5000&&!matchMedia(\'(prefers-reduced-motion: reduce)\').matches)document.documentElement.classList.add(\'pc-arriving\')}catch(e){}</script>\n'
+		// Paginaovergang: kwam je hier via een link op de site (src/js/transition.js), dan begint de pagina achter het doek.
+		// pc-kwam blijft staan (pc-arriving niet): daarop wacht de aankomst van de tegel op de pijlerpagina's (pijler.css)
+		+ '\t<script>try{var pc=+sessionStorage.getItem(\'pc\');sessionStorage.removeItem(\'pc\');if(Date.now()-pc<5000&&!matchMedia(\'(prefers-reduced-motion: reduce)\').matches)document.documentElement.classList.add(\'pc-arriving\',\'pc-kwam\')}catch(e){}</script>\n'
 		// Pagina's alvast ophalen als iemand een link aanwijst, zodat doorklikken (en de overgang) snel is.
 		// Niet voor stappen met een eigen werking (afrekenen, bevestigen, gereageerd).
 		+ '\t<script type="speculationrules">{"prefetch":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"*afrekenen*"}},{"not":{"href_matches":"*bedankt*"}},{"not":{"href_matches":"*gereageerd*"}},{"not":{"href_matches":"*nieuwsbrief*"}}]},"eagerness":"moderate"}]}</script>\n'

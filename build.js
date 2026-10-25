@@ -35,7 +35,7 @@ if (!BASE.startsWith('/')) {
 }
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'held.css', 'pages.css', 'pijler.css', 'over.css', 'portfolio.css', 'case.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
+const CSS_FILES = ['fonts.css', 'tokens.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'held.css', 'pages.css', 'pijler.css', 'over.css', 'portfolio.css', 'case.css', 'wijzer.css', 'keychain.css', 'header.css', 'footer.css', 'brand.css'];
 
 // Lettertypen die elke pagina vooraf laadt: de koppen (Saira) en de lopende tekst (DM Sans). De rest staat in fonts.css.
 const PRELOAD_FONTS = ['saira-latin.woff2', 'dm-sans-latin.woff2'];

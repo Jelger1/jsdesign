@@ -30,7 +30,7 @@ function homePage(ctx, template) {
 		const p = ctx.projects.find(function (x) { return x.id === id; });
 		if (!p) throw new Error('Home: onbekend project ' + id);
 		// Een project uit tier A heeft een eigen casepagina (portfolio/rolduc.html)
-		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="' + h.esc(h.projectUrl(p)) + '">'
+		return '<li class="werk-kaart" data-pillar="' + h.esc(p.pillar) + '"><a href="' + h.esc(h.projectUrl(p)) + '" data-rand>'
 			+ '<span class="werk-beeld">' + tegelBeeld(p, i, ctx) + '</span>'
 			// Op de tegels alleen de tags, op één regel, zodat het beeld zichtbaar blijft; de labels Klantopdracht en
 			// Teamproject staan op de pijlerpagina's, het portfolio en de casepagina's
@@ -46,7 +46,7 @@ function homePage(ctx, template) {
 			? '<span class="faq-logos" aria-hidden="true"><img src="assets/js-3D-LOGO.svg" width="56" height="56" alt="" loading="lazy">'
 				+ '<span class="faq-logos-pijl">→</span><img src="assets/brand/js-icon-tegel.svg" width="56" height="56" alt="" loading="lazy"></span>'
 			: '';
-		return '<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + logos + h.esc(item.a) + '</p></details>';
+		return c.vraag(item.q, logos + h.esc(item.a));
 	}).join('\n\t\t');
 
 	const design = ctx.products.filter(function (p) { return p.collection === 'design'; });

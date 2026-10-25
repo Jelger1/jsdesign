@@ -128,8 +128,21 @@ function breadcrumbsLd(items, site) {
 	};
 }
 
+// Het blokje uit het teken als knop voor iets dat uitklapt (home.css > .uitklap): dicht de omtrek met een plus, open
+// massief met een min. De laag eronder is de extrude bij aanwijzen. Alleen beeld: details/summary zegt zelf of het
+// open of dicht is.
+const BLOK_KNOP = '<span class="uitklap-blok" aria-hidden="true"><svg viewBox="0 0 34 21" focusable="false">'
+	+ '<polygon class="uitklap-laag" points="33 9.3 17.1 20 1 11.7 16.9 1" transform="translate(0.75 0.75)"/>'
+	+ '<polygon class="uitklap-vlak" points="33 9.3 17.1 20 1 11.7 16.9 1"/>'
+	+ '<path class="uitklap-teken" d="M12.6 10.5h8.8"/><path class="uitklap-teken uitklap-v" d="M17 6.1v8.8"/></svg></span>';
+
+// Een vraag met antwoord in een veelgestelde-vragenlijst. antwoord is al HTML (ge-escaped door de aanroeper).
+function vraag(q, antwoord) {
+	return '<details class="faq-item uitklap"><summary>' + BLOK_KNOP + '<span>' + h.esc(q) + '</span></summary><p>' + antwoord + '</p></details>';
+}
+
 module.exports = {
 	productCard: productCard, productRail: productRail, reviewsSection: reviewsSection,
 	breadcrumbs: breadcrumbs, breadcrumbsLd: breadcrumbsLd, kicker: kicker, stars: stars, reviewCard: reviewCard,
-	browserBalk: BROWSERBALK
+	browserBalk: BROWSERBALK, blokKnop: BLOK_KNOP, vraag: vraag
 };
