@@ -438,6 +438,132 @@
 		}
 	},
 	{
+		"id": "dekentje",
+		"tier": "A",
+		"title": "Dekentje.nl",
+		"pillar": "branding",
+		"tags": "Huisstijl · brandboard · homepage",
+		"short": "Huisstijl en homepage voor een webshop in plaids",
+		"text": "Voor Pure Minds, dat de webshop Dekentje.nl beheert, maakte ik een nieuwe huisstijl: van onderzoek en conceptvoorstel tot een brandboard, een stijlgids en een homepage als prototype in code.",
+		"image": "Portfolio-Dekentje.jpg",
+		"alt": "Vier pagina's uit het brandboard van Dekentje.nl: het logo van gekruiste lijnen, de letters, de kleuren en tekeningen van een plaid, kussens, een picknickkleed en een bedsprei",
+		"url": "https://jelger1.github.io/dekentje/",
+		"urlLabel": "het prototype",
+		"kaart": {
+			"43": "kaart-dekentje-43.jpg",
+			"1610": "kaart-dekentje-1610.jpg",
+			"alt": "De collectiepagina van de gecodeerde homepage van Dekentje.nl, met tekeningen van een plaid, sierkussens, een bedsprei en een picknickkleed, boven twee pagina's uit het brandboard: de letters en de kleuren"
+		},
+		"case": {
+			"gemaakt": "2026-09-03",
+			"akkoord": true,
+			"jaar": "2026",
+			"context": "Voor Pure Minds, dat Dekentje.nl beheert",
+			"rol": "Onderzoek, huisstijl, homepage en stijlgids",
+			"team": "Solo",
+			"techniek": [
+				"Illustrator",
+				"HTML, CSS en JavaScript"
+			],
+			"cover": "case-dekentje-01.jpg",
+			"coverAlt": "De homepage voor Dekentje.nl bij 'Onze collectie': bovenaan het logo van gekruiste lijnen en het menu, daaronder vier kaarten met lijntekeningen van een plaid, sierkussens, een bedsprei en een picknickkleed.",
+			"kader": "browser",
+			"lead": "Een nieuwe huisstijl voor een webshop in plaids en dekens: van conceptvoorstel en brandboard tot een homepage als prototype.",
+			"beschrijving": "Case: een nieuwe huisstijl voor Dekentje.nl, een webshop in plaids. Van conceptvoorstel en brandboard tot stijlgids en een homepage als prototype.",
+			"kort": "Dekentje.nl is een webshop in plaids, bedspreien en picknickkleden. Voor Pure Minds, dat de webshop beheert, maakte ik een nieuwe huisstijl. Ik onderzocht het aanbod, de doelgroep en de concurrenten, schreef een conceptvoorstel en legde de stijl vast in een brandboard en een stijlgids. De homepage ontwierp en bouwde ik als prototype.",
+			"noot": "Het teken van gekruiste lijnen bestond al in het oude logo van Dekentje.nl. Een deel van de teksten op de homepage, zoals de intro, het menu en 'Ons verhaal', komt van de bestaande webshop. De homepage is een prototype en niet de webshop zelf.",
+			"hoofdstukken": [
+				{
+					"titel": "Aanleiding",
+					"alineas": [
+						"Dekentje.nl is een webshop in plaids, bedspreien en picknickkleden. De eigenaar wilde een nieuwe huisstijl. Ik kreeg de opdracht voor Pure Minds, dat de webshop beheert."
+					]
+				},
+				{
+					"titel": "Onderzoek",
+					"alineas": [
+						"Ik onderzocht wat Dekentje verkoopt, wie de doelgroep is en hoe concurrenten het aanpakken. Mijn conclusie: de huisstijl had geen eigen karakter.",
+						"In een conceptvoorstel, 'Van product naar lifestyle experience', stelde ik een richting voor: van kale productfoto's naar sfeer, met warme aardetinten, de merkkleur als subtiel accent, een kopletter met karakter en lijntekeningen in plaats van foto's bij de categorieën."
+					],
+					"meer": [
+						"Daarna maakte ik een testontwerp en legde dat voor. Op die richting bouwde ik de huisstijl verder."
+					]
+				},
+				{
+					"titel": "Huisstijl",
+					"alineas": [
+						"De nieuwe stijl staat in een brandboard van acht pagina's: logo, letters, kleuren, korte zinnen, lijntekeningen, een moodboard en voorbeelden, van de homepage tot een verzenddoos.",
+						"Het teken van gekruiste lijnen zat al in het oude logo. Ik maakte het moderner, strakker en minder complex. Zo werkt het ook als patroon en past het bij de nieuwe letters."
+					],
+					"meer": [
+						"Koppen staan in Built Titling, gewone tekst in Circular Std. Ook de naam in het logo staat in Built Titling.",
+						"Zes kleuren hebben elk een vaste rol: grijsgroen voor koppen, rood als spaarzaam accent, roestbruin voor de sale, bijna zwart voor tekst, lichtgrijs voor vlakken en gebroken wit als achtergrond."
+					],
+					"paar": true,
+					"beelden": [
+						{
+							"file": "case-dekentje-02.jpg",
+							"alt": "Het logo van Dekentje: een ruit van gekruiste lijnen met daaronder DEKENTJE in hoge, smalle letters. Rechts staat het teken los en groter.",
+							"bijschrift": "Het logo in het brandboard, met en zonder naam: strakker en eenvoudiger dan het oude logo."
+						},
+						{
+							"file": "case-dekentje-03.jpg",
+							"alt": "Pagina met zes kleurvlakken op zwart: lichtgrijs, bijna zwart, rood, roestbruin, gebroken wit en grijsgroen.",
+							"bijschrift": "Zes kleuren, elk met een vaste rol. Het rood is het accent en komt spaarzaam terug."
+						}
+					]
+				},
+				{
+					"titel": "Beeld en toon",
+					"alineas": [
+						"Elke categorie kreeg een eigen lijntekening: plaids, sierkussens, picknickkleden en bedspreien. In het prototype van de homepage staan ze op de kaarten van de collectie, in plaats van productfoto's.",
+						"Ik schreef ook vier korte zinnen voor de huisstijl, zoals 'Comfort met karakter' en 'Jouw stijl. Jouw bank. Jouw dekentje.'"
+					],
+					"beelden": [
+						{
+							"file": "case-dekentje-04.jpg",
+							"alt": "Pagina met vier zwart-witte lijntekeningen: een plaid over een fauteuil, sierkussens op een bank, een picknickkleed met mand en appels, en een bed met een sprei.",
+							"bijschrift": "Lijntekeningen voor de vier categorieën: plaids, sierkussens, picknickkleden en bedspreien.",
+							"breed": true
+						},
+						{
+							"file": "case-dekentje-05.jpg",
+							"alt": "Pagina met vier zinnen in hoge hoofdletters: 'Jouw stijl. Jouw bank. Jouw dekentje.', 'Comfort met karakter', 'Voor interieurs die geleefd mogen worden.' en 'De finishing touch voor je interieur.'",
+							"bijschrift": "Vier korte zinnen in de huisstijl, zoals 'Comfort met karakter'."
+						}
+					]
+				},
+				{
+					"titel": "Homepage",
+					"alineas": [
+						"Daarna ontwierp ik de homepage en bouwde ik hem als prototype in code, zodat de klant kon ervaren hoe de nieuwe stijl zou werken.",
+						"Van boven naar beneden: een balk met logo en menu, een titel met sfeerfoto, de collectie, een sale-balk, de voordelen, 'Ons verhaal' en een nieuwsbrief. Alle knoppen hebben rechte hoeken, een vaste regel uit de huisstijl."
+					],
+					"meer": [
+						"Op een telefoon staat alles onder elkaar en zit het menu achter een knop."
+					],
+					"beelden": [
+						{
+							"file": "case-dekentje-06.jpg",
+							"alt": "Het blok 'Onze collectie' op een telefoon, met de eerste kaart: een lijntekening van een plaid over een stoel.",
+							"bijschrift": "De collectie op een telefoon: één kaart per rij."
+						}
+					]
+				}
+			],
+			"resultaat": {
+				"alineas": [
+					"Alles staat vast in een stijlgids van elf hoofdstukken, van kleuren en letters tot knoppen, onderdelen en animaties.",
+					"Het ontwerp was een voorstel en staat nog niet live. Het prototype van de homepage kun je wel bekijken."
+				]
+			},
+			"verwant": [
+				"sanctus",
+				"rolduc"
+			]
+		}
+	},
+	{
 		"id": "jelgers3d",
 		"tier": "A",
 		"title": "JelgerS3D",
@@ -851,7 +977,7 @@
 		"pillar": "branding",
 		"tags": "Huisstijl · brandbook",
 		"short": "Een brandbook van 18 pagina's voor een marketingbureau",
-		"text": "Voor marketingbureau Pure Minds ontwierp ik een nieuwe huisstijl. Alles staat in een brandbook van 18 pagina's: het logo en de zeshoek, de kleuren, de letters, het beeld, de iconen, de toon en voorbeelden voor posts en documenten.",
+		"text": "Tijdens mijn stage bij marketingbureau Pure Minds (3e jaar CMD) maakte ik een nieuwe huisstijl, vastgelegd in een brandbook van 18 pagina's. Alleen het logo, de zeshoek waar je doorheen kijkt, bestond al. Nieuw zijn de kleuren met vaste rollen, de regels, de sjablonen en Pure Minds Sans: Open Sans onder de naam van het bureau. De toon en de schrijfregels legde ik vast.",
 		"image": "Portfolio-PureMinds.jpg",
 		"alt": "Vier pagina's uit het brandbook van Pure Minds: de cover, het logo in een zeshoek, de kleuren cyaan, magenta en inkt, en de iconen",
 		"url": "",
@@ -860,24 +986,6 @@
 			"43": "kaart-pureminds-huisstijl-43.jpg",
 			"1610": "kaart-pureminds-huisstijl-1610.jpg",
 			"alt": "Drie pagina's uit het brandbook van Pure Minds: de cover met 'Brandbook' en het zeshoekige logo, de kleurenpagina met cyaan, magenta en inkt, en de pagina over het logo op donker en op licht"
-		}
-	},
-	{
-		"id": "dekentje",
-		"tier": "B",
-		"title": "Dekentje.nl",
-		"pillar": "branding",
-		"tags": "Huisstijl · homepage",
-		"short": "Huisstijl en homepage voor een webshop in plaids",
-		"text": "Dekentje.nl is een webshop in plaids, bedspreien en picknickkleden. Via Pure Minds vroeg de eigenaar mij om een nieuwe huisstijl. Ik onderzocht het aanbod, de doelgroep en de concurrenten en maakte een testontwerp. Daarna werkte ik de homepage uit als mockup en in code, zodat de klant echt kon ervaren hoe het eruit zou kunnen zien. Alles is vastgelegd in een stijlgids.",
-		"url": "",
-		"urlLabel": "",
-		"image": "Portfolio-Dekentje.jpg",
-		"alt": "Vier pagina's uit het brandboard van Dekentje.nl: het logo van gekruiste lijnen, de letters, de kleuren en tekeningen van een plaid, kussens, een picknickkleed en een bedsprei",
-		"kaart": {
-			"43": "kaart-dekentje-43.jpg",
-			"1610": "kaart-dekentje-1610.jpg",
-			"alt": "De collectiepagina van de gecodeerde homepage van Dekentje.nl, met tekeningen van een plaid, sierkussens, een bedsprei en een picknickkleed, boven twee pagina's uit het brandboard: de letters en de kleuren"
 		}
 	},
 	{
@@ -902,11 +1010,11 @@
 	{
 		"id": "toolhub",
 		"tier": "B",
-		"title": "Generatorhub",
+		"title": "Generator Hub",
 		"pillar": "digitaal",
 		"tags": "Interne tool · huisstijl",
 		"short": "Interne hub voor het team van Pure Minds",
-		"text": "Om het team van marketingbureau Pure Minds makkelijk in de nieuwe huisstijl te laten werken, bouwde ik deze interne hub: social posts, documenten op briefpapier, presentaties en iconen in de huisstijl, plus checks voor SEO, ads en websites. Zo'n acht mensen gebruiken hem, elk met een eigen login.",
+		"text": "Om het team van Pure Minds makkelijk in de nieuwe huisstijl te laten werken, bouwde ik tijdens mijn stage de Generator Hub. Je maakt er posts, documenten, presentaties, nieuwsbrieven en iconen in de huisstijl, als PDF, Word of PowerPoint die je ook in Canva verder bewerkt. De hub linkt naar vier checks die ik ook bouwde. Zo'n acht mensen gebruiken hem, elk met een eigen login.",
 		"url": "",
 		"urlLabel": "",
 		"image": "Portfolio-Generatorhub.jpg",
@@ -919,18 +1027,19 @@
 	{
 		"id": "focuskeyword",
 		"tier": "B",
-		"title": "Zoekintentie-check",
+		"title": "Keyword Focus & Intent Check",
 		"pillar": "digitaal",
 		"tags": "Interne tool · SEO",
 		"short": "Interne SEO-tool voor Pure Minds",
-		"text": "Een interne SEO-tool die marketingbureau Pure Minds nu gebruikt. Een medewerker vroeg me hem te bouwen. De tool legt een pagina naast de Google-top 10, checkt eerst of de pagina past bij wat zoekers willen en maakt daarna een rapport. Ik koppelde daarvoor verschillende API's aan elkaar, waaronder een AI-model dat meeschrijft, en testte de bediening uitgebreid.",
+		"text": "Een interne SEO-tool die ik tijdens mijn stage bij Pure Minds bouwde, op vraag van een collega die hem nu gebruikt. Hij legt een pagina naast de Google-top 10, checkt of die past bij wat zoekers willen en zoekt anders een beter zoekwoord, met bij elk cijfer de bron. Ik koppelde daarvoor verschillende API's, waaronder een AI-model dat meeschrijft. De bediening verbeterde ik na tests met een collega, met de Laws of UX ernaast.",
 		"url": "",
 		"urlLabel": "",
 		"image": "Portfolio-Zoekintentie.jpg",
-		"alt": "Het startscherm van de Zoekintentie-check, met lege velden voor de pagina en het zoekwoord",
+		"alt": "Het startscherm van de Keyword Focus & Intent Check, met lege velden voor de pagina en het zoekwoord",
 		"kaart": {
 			"43": "kaart-focuskeyword-43.jpg",
-			"alt": "Het startscherm van de Zoekintentie-check: lege velden voor de pagina en het focus zoekwoord, de keuze voor regio en taal, de knop 'analyseer pagina' en rechts de vier stappen van de check"
+			"1610": "kaart-focuskeyword-1610.jpg",
+			"alt": "Het startscherm van de Keyword Focus & Intent Check: lege velden voor de pagina en het focus zoekwoord, de keuze voor regio en taal, de knop 'analyseer pagina' en rechts de vier stappen van de check"
 		}
 	},
 	{
