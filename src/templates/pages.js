@@ -3,12 +3,13 @@ const h = require('./helpers');
 const c = require('./components');
 
 // datum: wanneer de tekst voor het laatst is bijgewerkt. De privacyverklaring en de voorwaarden hebben elk hun eigen datum
-// (site.json > legal.updated en legal.termsUpdated)
-function legalValues(site, datum) {
+// (site.json > legal.updated en legal.termsUpdated). root: de weg naar de hoofdmap, voor de link achter het e-mailadres
+// (de archiefpagina's staan in een submap)
+function legalValues(site, datum, root) {
 	const updated = new Date((datum || (site.legal && site.legal.updated) || '2026-01-01') + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 	return {
 		name: h.esc(site.name), owner: h.esc(site.owner), city: h.esc((site.address && site.address.city) || site.pickupLocation),
-		emailLink: h.mailLink(site.email, ''), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
+		emailLink: h.mailLink(site.email, root || ''), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
 		// Zonder straat op de site: eerlijk zeggen waar de klant het volledige adres wél krijgt
 		addressHtml: h.addressLine(site, '<br>') + (site.address && site.address.onRequest && !site.address.street
 			? ', ' + h.esc(site.address.country || 'Nederland') + '<br><span class="text-page-note">Ik werk vanuit huis. Het volledige adres staat in je orderbevestiging en op je factuur, en krijg je op verzoek per e-mail.</span>'
@@ -196,6 +197,40 @@ function termsPage(ctx, template) {
 	};
 }
 
+// Archief: de juridische teksten van de oude sites, letterlijk zoals ze tot de overstap golden (src/pages/archief/).
+// Wie vóór de overstap bestelde of een bericht stuurde, kan zo nalezen wat toen gold. Niet in Google (noindex) en niet
+// in de sitemap; de huidige voorwaarden en privacyverklaring linken ernaar onder "Eerdere versies".
+const ARCHIEF = [
+	{ slug: 'jelgers3d-voorwaarden-2026-10-21', titel: 'Algemene voorwaarden JelgerS3D (archief)', kicker: 'Archief · jelgers3d.nl',
+		wat: 'de algemene voorwaarden van JelgerS3D zoals ze op jelgers3d.nl stonden', nu: '<a href="../voorwaarden.html">algemene voorwaarden</a>',
+		gold: 'Ze golden tot de overstap naar JS Design, en gelden nog voor bestellingen die je daarvoor plaatste.' },
+	{ slug: 'jelgers3d-privacy-2026-10-21', titel: 'Privacyverklaring JelgerS3D (archief)', kicker: 'Archief · jelgers3d.nl',
+		wat: 'de privacyverklaring van jelgers3d.nl', nu: '<a href="../privacy.html">privacyverklaring</a>',
+		gold: 'Hij gold tot de overstap naar JS Design.' },
+	{ slug: 'jelgersieler-privacy-2026-10-21', titel: 'Privacyverklaring jelgersieler.nl (archief)', kicker: 'Archief · jelgersieler.nl',
+		wat: 'de privacyverklaring van jelgersieler.nl, mijn portfoliosite', nu: '<a href="../privacy.html">privacyverklaring</a>',
+		gold: 'Hij gold tot de overstap naar JS Design.' }
+];
+
+function archivePages(ctx, read) {
+	const site = ctx.site;
+	return ARCHIEF.map(function (a) {
+		const tekst = h.fill(read('src/pages/archief/' + a.slug + '.html').replace(/^<!--[\s\S]*?-->\s*/, ''), legalValues(site, null, '../'));
+		const melding = '<p class="text-page-archief"><strong>Archiefversie.</strong> Dit is ' + a.wat + ', laatst bijgewerkt op 21 oktober 2026. '
+			+ a.gold + ' Wat nu geldt, staat in de ' + a.nu + '.</p>';
+		return {
+			path: 'archief/' + a.slug + '.html',
+			root: '../',
+			name: 'text',
+			noindex: true,
+			title: a.titel + ' | ' + site.name,
+			description: 'Archiefversie van ' + a.wat + ', laatst bijgewerkt op 21 oktober 2026.',
+			ogImage: ctx.images[site.defaultOgImage].og,
+			main: '<div class="container text-page">\n<p class="kicker">' + h.esc(a.kicker) + '</p>\n' + tekst.replace(/(<h1>[^<]*<\/h1>)/, '$1\n' + melding) + '\n</div>'
+		};
+	});
+}
+
 // GitHub Pages toont 404.html voor elk adres dat niet bestaat, ook in submappen.
 // Daarom gebruikt deze pagina adressen vanaf de hoofdmap van de site (ctx.base: "/", of "/jsdesign/" in de preview).
 function notFoundPage(ctx) {
@@ -326,5 +361,5 @@ function repliedPage(ctx) {
 
 module.exports = {
 	privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage, printServicePage: printServicePage,
-	newsletterPage: newsletterPage, repliedPage: repliedPage, contactPage: contactPage
+	newsletterPage: newsletterPage, repliedPage: repliedPage, contactPage: contactPage, archivePages: archivePages
 };

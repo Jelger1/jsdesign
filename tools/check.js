@@ -21,6 +21,8 @@ const SITE_URL = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/site.json'), '
 const ORGANISATIE = SITE_URL + '/#organization';
 // Pagina's die ook in productie niet in Google horen: stappen van een bestelling, de link uit mails en de 404
 const ALTIJD_NOINDEX = ['afrekenen.html', 'bedankt.html', 'gereageerd.html', '404.html'];
+// Plus de archiefversies van de oude juridische teksten (src/pages/archief/): na te lezen, maar niet om in Google te vinden
+const ARCHIEF = /^archief\//;
 // Paginatypes (body data-page) die tot fase 3 bewust noindex zijn: tussenpagina's, de contactpagina en het portfolio.
 // Krijgt een type in fase 3 zijn volledige inhoud, haal het dan hier weg: vanaf dan is noindex daar in productie een
 // fout, net als op elke andere pagina buiten ALTIJD_NOINDEX. De pijlerpagina's (pillar) zijn klaar en indexeerbaar.
@@ -278,11 +280,12 @@ files.filter(function (f) { return f.endsWith('.html'); }).forEach(function (fil
 		// niet. Daarom apart: noindex mag alleen op ALTIJD_NOINDEX en tot fase 3 op de types van NOINDEX_TOT_FASE_3, en
 		// nooit op een pagina die de oude webshop liet indexeren.
 		const oud = OUD_INDEXEERBAAR.indexOf(rel) > -1;
-		const magNoindex = ALTIJD_NOINDEX.indexOf(rel) > -1 || (NOINDEX_TOT_FASE_3.indexOf(type) > -1 && !oud);
+		const altijd = ALTIJD_NOINDEX.indexOf(rel) > -1 || ARCHIEF.test(rel);
+		const magNoindex = altijd || (NOINDEX_TOT_FASE_3.indexOf(type) > -1 && !oud);
 		if (noindex && !magNoindex) problems.push(rel + ': heeft noindex in productie' + (oud ? ', terwijl de oude webshop deze pagina liet indexeren' : '') + ' (noindex mag alleen op ' + ALTIJD_NOINDEX.join(', ') + ' en tot fase 3 op de paginatypes ' + NOINDEX_TOT_FASE_3.join(' en ') + ')');
 		if (noindex && inSitemap.has(rel)) problems.push(rel + ': heeft noindex maar staat in de sitemap');
 		if (!noindex && !inSitemap.has(rel)) (oud ? problems : warnings).push(rel + ': is indexeerbaar maar staat niet in de sitemap' + (oud ? ' (in de oude webshop stond hij er wel in)' : ''));
-		if (ALTIJD_NOINDEX.indexOf(rel) > -1 && !noindex) problems.push(rel + ': moet ook in productie noindex hebben');
+		if (altijd && !noindex) problems.push(rel + ': moet ook in productie noindex hebben');
 	}
 
 	checkOldDomains(rel, html);

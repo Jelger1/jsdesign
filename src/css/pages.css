@@ -56,6 +56,12 @@ body{padding-bottom:var(--cookie-hoogte, 0px)}
 .text-page-meta{font-size:0.85rem;color:var(--fg-muted);margin-top:-0.25rem}
 .text-page-address{font-style:normal;line-height:1.75;color:var(--fg-muted);padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card);margin:0 0 1rem 0}
 .text-page-note{display:inline-block;margin-top:0.35rem;font-size:0.88rem;font-style:italic}
+/* Archiefversie: een gestippelde rand, zoals overal op de site "hier ben je niet" (dit is niet de geldende tekst) */
+.text-page-archief{padding:1rem 1.25rem;border:1.5px dashed var(--border-strong);border-radius:var(--radius);color:var(--fg)}
+/* Het modelformulier voor herroeping: een blok zoals de bedrijfsgegevens, zodat het als formulier herkenbaar is */
+.text-page-formulier{padding:1.1rem 1.25rem 0.25rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card);margin:0 0 1rem 0}
+/* Eerdere versies: onderaan, klein, met een lijn erboven */
+.text-page-eerder{margin-top:2.5rem !important;padding-top:1rem;border-top:1px solid var(--border);font-size:0.9rem}
 .text-page ol{margin:0 0 1rem 0;padding-left:1.35rem;list-style:decimal}
 .table-scroll{overflow-x:auto;margin:0 0 1.25rem 0;border:1px solid var(--border);border-radius:var(--radius)}
 /* Met het toetsenbord te scrollen (tabindex en een naam in de template), dus ook een zichtbare focus */

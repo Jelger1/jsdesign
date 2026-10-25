@@ -11,7 +11,7 @@ const shopPage = require('./src/templates/shop');
 const productPage = require('./src/templates/product');
 const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
-const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage } = require('./src/templates/pages');
+const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage, archivePages } = require('./src/templates/pages');
 const { pillarPage } = require('./src/templates/pillar');
 const overPage = require('./src/templates/over');
 const portfolioPage = require('./src/templates/portfolio');
@@ -642,6 +642,7 @@ async function build() {
 		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
 		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
+		.concat(archivePages(ctx, read))
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	// De leesbare sitemap: alle pagina's die in Google horen
 	pages.push(sitemap.sitemapPage(ctx, pages.filter(function (p) { return !p.noindex; })));
