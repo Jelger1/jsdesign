@@ -26,11 +26,14 @@ const STEPS = [
 	['Betaling & productie', 'Pas na jouw akkoord wordt er betaald en geprint.']
 ];
 
+// De drie stappen als kleine trap, in de taal van de werkwijze (pijler.css > .trap), maar stil (.trap--vast, trap.js
+// laat hem met rust): wat gedaan is en de stap waar je nu bent, staan massief; wat nog komt, is een stippeltekening
+// (.trap-wacht zonder .is-aan). Geen drie gelijke kaarten op een rij.
 function steps(active) {
-	return '<ol class="checkout-steps">\n' + STEPS.map(function (step, i) {
-		return '\t\t<li' + (i === active ? ' class="is-active" aria-current="step"' : (i < active ? ' class="is-done"' : '')) + '>'
-			+ '<span class="step-number" aria-hidden="true">' + (i < active ? '✓' : i + 1) + '</span>'
-			+ '<div><strong>' + h.esc(step[0]) + '</strong><p>' + h.esc(step[1]) + '</p></div></li>';
+	return '<ol class="trap trap-wacht trap--vast checkout-trap" style="--treden:' + STEPS.length + '">\n' + STEPS.map(function (step, i) {
+		return '\t\t<li style="--i:' + i + '"' + (i === active ? ' class="is-aan" aria-current="step"' : (i < active ? ' class="is-aan is-klaar"' : '')) + '>'
+			+ '<span class="trap-nr" aria-hidden="true">' + (i < active ? '✓' : i + 1) + '</span><span class="trap-lijn" aria-hidden="true"></span><span class="trap-schuin" aria-hidden="true"></span>'
+			+ '<strong class="trap-kop">' + (i < active ? '<span class="sr-only">Gedaan: </span>' : '') + h.esc(step[0]) + '</strong><p>' + h.esc(step[1]) + '</p></li>';
 	}).join('\n') + '\n\t</ol>';
 }
 

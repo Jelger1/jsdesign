@@ -6,7 +6,7 @@
 .portfolio-page{padding-top:2.5rem;padding-bottom:clamp(4rem, 8vw, 6rem)}
 .portfolio-page .breadcrumbs ol{margin:0 0 1.75rem 0}
 .portfolio-head{max-width:720px}
-.portfolio-head h1{font-size:var(--text-3xl);letter-spacing:-0.01em;margin:0}
+.portfolio-head h1{font-size:var(--kop-m);letter-spacing:-0.01em;margin:0}
 .portfolio-intro{margin:1rem 0 0 0;max-width:56ch;font-size:var(--text-md);line-height:var(--leading-loose);color:var(--fg-muted)}
 
 /* Elk project: beeld (7 delen) en tekst (5 delen) naast elkaar; bij elk tweede project staat het beeld rechts */

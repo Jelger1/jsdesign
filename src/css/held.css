@@ -8,7 +8,7 @@
 	display:grid;grid-template-columns:minmax(0, 1fr);grid-template-areas:'tekst' 'beeld';gap:var(--space-8)}
 .held-tekst{grid-area:tekst}
 .held .kicker{margin:0 0 var(--space-4)}
-.held h1{font-size:clamp(2.1rem, 1.2rem + 3vw, 3.4rem);line-height:1.06;margin:0 0 var(--space-5);text-wrap:balance}
+.held h1{font-size:var(--kop-l);line-height:1.06;margin:0 0 var(--space-5);text-wrap:balance}
 .held-heel{white-space:nowrap}
 .held-lead{margin:0;max-width:34rem;color:var(--fg-muted);font-size:var(--text-md);line-height:var(--leading);text-wrap:pretty}
 .held-acties{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4) var(--space-8);margin:var(--space-8) 0 0}

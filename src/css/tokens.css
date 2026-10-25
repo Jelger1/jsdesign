@@ -65,6 +65,14 @@
 	--text-2xl:clamp(1.75rem, 3.6vw, 2.5rem); /* h2 */
 	--text-3xl:clamp(2rem, 4vw, 2.75rem); /* h1 op tekst- en pijlerpagina's */
 	--text-4xl:clamp(2.25rem, 4.4vw, 3.75rem); /* h1 in de hero */
+	/* De vier titelmaten (h1), elke pagina één ervan, altijd links uitgelijnd. Op 1440 px 88, 72, 56 en 44 px, op een
+	   telefoon 40, 36, 34 en 32 px:
+	   xl de pijlers; l de home en de cases; m portfolio, over, webshop (ook de categorieën), contact en de nieuwsbrief;
+	   s afrekenen, bedankt, de 404 en de tekstpagina's (voorwaarden, privacy, printservice, herroepen). */
+	--kop-xl:clamp(2.5rem, 1.1rem + 5.2vw, 5.5rem);
+	--kop-l:clamp(2.25rem, 1.35rem + 3.8vw, 4.5rem);
+	--kop-m:clamp(2.125rem, 1.3rem + 2.6vw, 3.5rem);
+	--kop-s:clamp(2rem, 4vw, 2.75rem);
 	--leading-tight:1.1;
 	--leading:1.6;
 	--leading-loose:1.75;

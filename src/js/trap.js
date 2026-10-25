@@ -4,7 +4,7 @@
 // (.is-aan): breed de hele trap na elkaar zodra de helft in beeld is, smal elke stap zodra die grotendeels in beeld is.
 // Bij "minder beweging" doet dit niets: dan staat de trap er meteen.
 export function initTrap() {
-	const trappen = document.querySelectorAll('.trap');
+	const trappen = document.querySelectorAll('.trap:not(.trap--vast)'); // de stappen bij afrekenen staan stil
 	if (!trappen.length || !('IntersectionObserver' in window)) return;
 	const minder = window.matchMedia('(prefers-reduced-motion: reduce)');
 	if (minder.matches) return;

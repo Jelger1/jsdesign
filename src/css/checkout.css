@@ -1,19 +1,28 @@
 /* afrekenen.html, bedankt.html en de aanvraagformulieren op de productpagina. */
 
 .checkout-page{max-width:1100px;padding-top:1.5rem;padding-bottom:4rem}
-.checkout-page h1{font-size:clamp(2rem, 4vw, 2.75rem);letter-spacing:-0.01em;margin:0 0 1.5rem 0;color:var(--soft)}
+.checkout-page h1{font-size:var(--kop-s);letter-spacing:-0.01em;margin:0 0 1.5rem 0;color:var(--soft)}
 .checkout-back{margin:0 0 1rem 0;font-size:0.9rem}
 .checkout-back a{color:var(--fg-muted);text-decoration:none}
 .checkout-back a:hover{color:var(--brand)}
 
-/* De drie stappen: maakt direct duidelijk dat je nu nog niet betaalt */
-.checkout-steps{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:0.75rem;margin:0 0 2.5rem 0}
-.checkout-steps li{display:flex;gap:0.75rem;align-items:flex-start;padding:1rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card)}
-.checkout-steps li.is-active{opacity:1;border-color:rgba(3,188,202,0.5);box-shadow:0 0 0 3px var(--brand-glow)}
-.checkout-steps li.is-done .step-number{background:#2ecc71}
-.checkout-steps li:not(.is-active):not(.is-done) .step-number{background:var(--dark-secondary);color:var(--fg-muted);border:1px solid var(--border)}
-.checkout-steps strong{display:block;font-size:0.92rem;color:var(--soft);margin-bottom:0.15rem}
-.checkout-steps p{margin:0;font-size:0.8rem;color:var(--fg-muted);line-height:1.4}
+/* De drie stappen als kleine trap (pijler.css > .trap, stil): maakt direct duidelijk dat je nu nog niet betaalt. De
+   schuine lijn naar een stap die nog moet komen, is ook gestippeld. Kleiner dan de werkwijze: dit is een wegwijzer. Met .trap ervoor, want pijler.css komt later. */
+.trap.checkout-trap{--trede:1rem;--nr-b:52px;--nr-h:32px;--nr-top:-0.3rem;gap:var(--space-5);margin:0 0 2.5rem 0}
+.trap.checkout-trap .trap-nr{font-size:1rem}
+.trap.checkout-trap .trap-kop{display:block;margin:0 0 0.15rem;font-size:var(--text-base);line-height:1.3;color:var(--soft)}
+.trap.checkout-trap p{font-size:0.88rem;line-height:1.5}
+.trap.checkout-trap li.is-aan:not(:has(+ .is-aan)) .trap-schuin{display:none}
+.trap.checkout-trap li.is-aan:not(:has(+ .is-aan))::after{visibility:visible}
+@media (max-width:1099px){
+	.trap.checkout-trap li:not(:last-child)::before,.trap.checkout-trap .trap-lijn{bottom:calc(4px - var(--nr-top) - var(--space-5))}
+	.trap.checkout-trap li.is-aan:not(:has(+ .is-aan)) .trap-lijn{display:none}
+	.trap.checkout-trap li.is-aan:not(:has(+ .is-aan))::before{visibility:visible}
+}
+@media (min-width:1100px){
+	.trap.checkout-trap{--nr-b:58px;--nr-h:36px;gap:0 calc(var(--trede) * 1.732)}
+	.trap.checkout-trap .trap-nr{font-size:1.125rem;margin-bottom:var(--space-3)}
+}
 
 .checkout-layout{display:grid;grid-template-columns:minmax(0, 1.3fr) minmax(0, 1fr);gap:clamp(1.5rem, 4vw, 3rem);align-items:start}
 .checkout-form fieldset{background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin:0 0 1.25rem 0;min-width:0}
@@ -59,7 +68,7 @@
 .thanks-page .success-icon{margin-top:1rem}
 .thanks-intro{font-size:1.125rem;color:var(--fg-muted);line-height:1.7;max-width:56ch;margin:0 auto 2.5rem}
 .thanks-intro strong{color:var(--soft)}
-.thanks-page .checkout-steps{text-align:left}
+.thanks-page .checkout-trap{text-align:left}
 .thanks-order{position:static;text-align:left;margin-bottom:2rem}
 .thanks-actions{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
 
@@ -74,8 +83,6 @@
 .request-success p{margin:0;color:var(--fg-muted)}
 
 @media (max-width:900px){
-	.checkout-steps{grid-template-columns:minmax(0, 1fr);gap:0.5rem;margin-bottom:1.75rem}
-	.checkout-steps li{padding:0.75rem 1rem}
 	.checkout-layout{grid-template-columns:minmax(0, 1fr)}
 	/* Op mobiel eerst zien wát je bestelt, dan invullen */
 	.checkout-aside{position:static;order:-1}

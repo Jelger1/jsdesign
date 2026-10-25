@@ -17,7 +17,7 @@
 .case-hero[data-surface="branding"] .breadcrumbs ol{font-weight:600}
 .case-hero-grid{display:grid;grid-template-columns:minmax(0, 1fr);gap:clamp(1.75rem, 4vw, 2.5rem)}
 .case-hero .kicker{font-size:var(--text-sm);font-weight:600;letter-spacing:0.1em;margin:0 0 1rem}
-.case-hero h1{font-size:clamp(2.25rem, 1.35rem + 3.8vw, 4.5rem);line-height:1;letter-spacing:-0.015em;margin:0;text-wrap:balance}
+.case-hero h1{font-size:var(--kop-l);line-height:1;letter-spacing:-0.015em;margin:0;text-wrap:balance}
 .case-lead{margin:1.25rem 0 0;max-width:38ch;font-size:clamp(1.125rem, 1rem + 0.55vw, 1.375rem);line-height:1.45;color:var(--fg);text-wrap:pretty}
 
 /* De cover: schermen in een browserkader, staande beelden (etiket, foto) in hun geheel op een donker vlak. Binnen een

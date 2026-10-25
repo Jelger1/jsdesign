@@ -115,6 +115,13 @@ function faqLd(items) {
 }
 
 // tastbaarTemplate: src/pages/tastbaar.html. Alleen de pijler Tastbaar gebruikt het (zie bovenaan)
+// "In het kort" toont één zin: de eerste uit pagina.kort. De hele tekst blijft de beschrijving voor zoekmachines; de
+// rest (werkwijze, voorbeelden) staat verderop op de pagina.
+function eersteZin(tekst) {
+	const m = /^.+?[.!?](?=\s|$)/.exec(tekst);
+	return m ? m[0] : tekst;
+}
+
 function pillarPage(pillar, ctx, tastbaarTemplate) {
 	const site = ctx.site;
 	const pagina = pillar.pagina;
@@ -143,7 +150,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 
 	const kort = '<section id="kort" class="section container pijler-kort" aria-labelledby="kort-titel">\n'
 		+ '\t<h2 id="kort-titel" class="pijler-label">In het kort</h2>\n'
-		+ '\t<p class="pijler-kort-tekst">' + h.esc(pagina.kort) + '</p>\n'
+		+ '\t<p class="pijler-kort-tekst">' + h.esc(eersteZin(pagina.kort)) + '</p>\n'
 		+ '</section>\n';
 
 	// De home linkt naar de diensten (#diensten)
