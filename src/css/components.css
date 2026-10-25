@@ -175,6 +175,11 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 	.rand path{stroke:CanvasText}
 }
 
+/* Sneller op een telefoon: de footer tekent de browser pas als die in de buurt komt (content-visibility); tot dan telt
+   een geschatte hoogte. Dat scheelt werk bij elke stijlwijziging, zoals het menu openen. Bewust niet op de secties zelf:
+   met geschatte hoogtes landen de sprongen van de sectiewijzer en de ankers op de verkeerde plek (getest). */
+.site-footer{content-visibility:auto;contain-intrinsic-size:auto 1200px}
+
 /* Respecteer de systeeminstelling "minder beweging". Ook de vertragingen gaan op nul, anders speelt een animatie met
    een delay alsnog na. Let op: dit stopt geen animaties aan een scrolltijdlijn (animation-timeline), want die hebben
    geen duur in tijd. Die staan daarom altijd binnen @media (prefers-reduced-motion:no-preference). En pseudo-elementen

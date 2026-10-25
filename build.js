@@ -590,7 +590,8 @@ async function build() {
 	hash.update(JSON.parse(read('node_modules/three/package.json')).version);
 	const version = hash.digest('hex').slice(0, 8);
 
-	write('css/styles.css', css);
+	// Geminificeerd: zonder commentaar en witruimte (scheelt ruim 20 kB na gzip); src/css houdt de uitleg
+	write('css/styles.css', require('esbuild').transformSync(css, { loader: 'css', minify: true, legalComments: 'none' }).code);
 	write('js/catalog.js', catalog);
 	write('js/winkel.json', buildWinkel(products, images, site, shop));
 	jsFiles.forEach(function (f) { write('js/' + f, versionImports(read('src/js/' + f), version)); });

@@ -8,8 +8,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const PIPELINE_VERSION = 4; // ophogen forceert het opnieuw verwerken van alle foto's
-const WIDTHS = [400, 800, 1600];
+const PIPELINE_VERSION = 5; // ophogen forceert het opnieuw verwerken van alle foto's
+// 1200 erbij (oktober 2026): een beeld van rond de 1000 px breed (portfolio, cases) laadt anders de versie van 1600
+const WIDTHS = [400, 800, 1200, 1600];
 const CROP_WIDTHS = [400, 800, 1200];
 const OG_SIZE = { width: 1200, height: 630 };
 const SOURCE_EXT = /\.(jpe?g|png)$/i;
