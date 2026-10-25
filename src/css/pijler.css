@@ -181,15 +181,16 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 
 /* ------------------------------------------------------------------ werkwijze: de trap
    Mobiel onder elkaar met een stam langs de blokjes. Vanaf 1100px een trap: elke stap staat een trede (--trede) hoger
-   dan de vorige, met een streep in de pijlerkleur en het blokje erop; een lijn onder 30° verbindt de treden (het vak
-   tussen twee stappen is 1,732 x zo breed als hoog). --treden en --i zet de template.
+   dan de vorige, met een streep in de pijlerkleur en het blokje erop; een lijn onder 30° verbindt de treden (die lijn
+   is twee treden lang, het vak tussen twee stappen 1,732 x zo breed als hoog). --treden en --i zet de template.
    Elk onderdeel bestaat uit een vulling in de pijlerkleur (het blokje: .trap-nr::after, de trede of stam: .trap-lijn,
    de schuine lijn: .trap-schuin) op een stippeltekening (::before van het blokje en van de stap, ::after van de stap).
-   De stippeltekening zie je alleen zolang een stap nog gebouwd moet worden (.trap-wacht, hieronder). */
-.trap{--trede:1.4rem;--stippel:rgba(243,255,253,0.42);list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
-.trap li{position:relative;min-height:35px;padding-left:4.5rem}
+   Het blokje ligt boven de lijnen, zodat er geen lijn door het cijfer loopt; het cijfer is groot en vet genoeg om in
+   één oogopslag te lezen. De stippeltekening zie je alleen zolang een stap nog gebouwd moet worden (.trap-wacht). */
+.trap{--trede:1.4rem;--nr-b:64px;--nr-h:40px;--nr-top:-0.45rem;--stippel:rgba(243,255,253,0.42);list-style:none;margin:0;padding:0;display:grid;gap:var(--space-8)}
+.trap li{position:relative;min-height:var(--nr-h);padding-left:calc(var(--nr-b) + 1rem)}
 /* De vulling van het blokje is een verloop van twee keer de hoogte, onderaan vol: schuiven is vollopen van onder af */
-.trap-nr{position:absolute;left:0;top:-0.15rem;isolation:isolate;display:grid;place-items:center;width:56px;height:35px;color:var(--dark);font:700 1rem/1 var(--font-display);font-stretch:112%}
+.trap-nr{position:absolute;z-index:var(--z-content);left:0;top:var(--nr-top);isolation:isolate;display:grid;place-items:center;width:var(--nr-b);height:var(--nr-h);color:var(--dark);font:800 1.25rem/1 var(--font-display);font-stretch:100%}
 .trap-nr::before,.trap-nr::after{content:'';position:absolute;inset:0;z-index:-1}
 .trap-nr::before{display:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-1 -1 58 37' preserveAspectRatio='none'%3E%3Cpolygon points='56,15.2 28.2,35 0,19.8 27.8,0' fill='none' stroke='%23f3fffd' stroke-opacity='.6' stroke-width='1.3' stroke-dasharray='3.2 2.6'/%3E%3C/svg%3E") center / 100% 100% no-repeat}
 .trap-nr::after{clip-path:var(--js-blok);background:linear-gradient(to top, var(--pillar, var(--brand)) 50%, transparent 50%) 0 100% / 100% 200% no-repeat}
@@ -199,47 +200,52 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 .trap-noot{margin:var(--space-10) 0 0;max-width:62ch;padding-left:var(--space-4);border-left:2px solid var(--pillar, var(--brand));color:var(--fg-muted)}
 .trap-noot a{color:var(--brand);text-underline-offset:3px}
 @media (max-width:1099px){
-	.trap li:not(:last-child)::before,.trap-lijn{content:'';position:absolute;left:27px;top:2.6rem;bottom:calc(0.4rem - var(--space-8));width:1px}
+	/* De stam: van onder het blokje tot boven het volgende */
+	.trap li:not(:last-child)::before,.trap-lijn{content:'';position:absolute;left:calc(var(--nr-b) / 2 - 1px);top:calc(var(--nr-top) + var(--nr-h) + 4px);bottom:calc(4px - var(--nr-top) - var(--space-8));width:2px}
 	.trap li:not(:last-child)::before{display:none;background:repeating-linear-gradient(180deg, var(--stippel) 0 4px, transparent 4px 8px)}
 	.trap-lijn{background:var(--pillar, var(--brand));transform-origin:50% 0}
 	.trap li:last-child .trap-lijn,.trap-schuin{display:none}
 }
 @media (min-width:1100px){
-	.trap{grid-template-columns:repeat(var(--treden), minmax(0, 1fr));gap:0 calc(var(--trede) * 1.732);align-items:start}
+	.trap{--nr-b:72px;--nr-h:45px;grid-template-columns:repeat(var(--treden), minmax(0, 1fr));gap:0 calc(var(--trede) * 1.732);align-items:start}
 	.trap li{min-height:0;padding:0;margin-top:calc((var(--treden) - 1 - var(--i)) * var(--trede));border-top:2px solid transparent}
-	.trap-nr{position:relative;left:auto;top:auto;margin:-18.5px 0 var(--space-4)}
-	/* De trede ligt op de rand van 2px bovenaan */
-	.trap li::before,.trap-lijn{content:'';position:absolute;left:0;right:0;top:-2px;height:2px}
+	.trap-nr{position:relative;left:auto;top:auto;margin:calc(var(--nr-h) / -2 - 1px) 0 var(--space-4);font-size:1.375rem}
+	/* De trede ligt op de rand van 2px bovenaan en begint onder het midden van het blokje */
+	.trap li::before,.trap-lijn{content:'';position:absolute;left:calc(var(--nr-b) / 2);right:0;top:-2px;height:2px}
 	.trap li::before{display:none;background:repeating-linear-gradient(90deg, var(--stippel) 0 6px, transparent 6px 10px)}
 	.trap-lijn{background:var(--pillar, var(--brand));transform-origin:0 50%}
-	/* De lijn onder 30° van het eind van deze trede naar het begin van de volgende */
-	.trap li:not(:last-child)::after,.trap-schuin{content:'';position:absolute;left:100%;top:calc(-1 * var(--trede) - 1px);width:calc(var(--trede) * 1.732);height:var(--trede)}
-	.trap li:not(:last-child)::after{display:none;background:linear-gradient(to bottom right, transparent calc(50% - 0.75px), var(--stippel) calc(50% - 0.75px) calc(50% + 0.75px), transparent calc(50% + 0.75px));
-		-webkit-mask:repeating-linear-gradient(90deg, #000 0 5px, transparent 5px 9px);mask:repeating-linear-gradient(90deg, #000 0 5px, transparent 5px 9px)}
-	.trap-schuin{clip-path:inset(0 0 0 0);background:linear-gradient(to bottom right, transparent calc(50% - 1px), var(--pillar, var(--brand)) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px))}
+	/* De lijn onder 30° van het eind van deze trede naar het blokje van de volgende: een streep van 2px, twee treden
+	   lang, gedraaid om zijn begin (scherper dan een schuin verloop) */
+	.trap li:not(:last-child)::after,.trap-schuin{content:'';position:absolute;left:100%;top:-2px;width:calc(var(--trede) * 2);height:2px;transform-origin:0 50%;rotate:-30deg}
+	.trap li:not(:last-child)::after{display:none;background:repeating-linear-gradient(90deg, var(--stippel) 0 5px, transparent 5px 9px)}
+	.trap-schuin{background:var(--pillar, var(--brand))}
 	.trap li:last-child .trap-schuin{display:none}
 }
 /* De trap bouwt zich op (src/js/trap.js). Staat hij bij het laden nog onder de rand van het venster, dan wordt hij daar
    een stippeltekening (.trap-wacht; pas een beeld later komen de overgangen erbij, .trap-bouw, zodat er niets zichtbaar
-   afgebroken wordt). Komt hij in beeld, dan bouwt hij zich één keer op (.is-aan), in de volgorde waarin je leest: het
-   blokje loopt vol in vier lagen, zoals een 3D-print, dan trekt de trede en daarna de lijn onder 30°. Breed de hele trap
-   na elkaar (samen ongeveer 1 s), smal elke stap zodra hij in beeld is. De tekst staat er steeds in volle kleur. Zonder
-   JavaScript of bij "minder beweging" staat de trap er meteen helemaal. */
+   afgebroken wordt). Komt hij in beeld, dan bouwt hij zich één keer op (.is-aan), stap voor stap in de volgorde waarin
+   je leest: het blokje loopt vol in vier lagen, zoals een 3D-print, dan trekt de trede en daarna de lijn onder 30°, en
+   pas als die lijn bij het volgende blokje is, begint dat blokje (--stap, samen zo'n 2,5 s voor vijf stappen). Smal
+   bouwt elke stap zichzelf zodra hij in beeld is. Is een stap gebouwd, dan verdwijnt zijn stippeltekening (anders
+   schemert die langs de randen van de volle lijnen door). De tekst staat er steeds in volle kleur. Zonder JavaScript
+   of bij "minder beweging" staat de trap er meteen helemaal. */
 .trap-wacht .trap-nr::before,.trap-wacht li::before,.trap-wacht li:not(:last-child)::before,.trap-wacht li:not(:last-child)::after{display:block}
 .trap-wacht li:not(.is-aan) .trap-nr::after{background-position:0 0%}
 .trap-wacht li:not(.is-aan) .trap-nr{color:var(--fg)}
-.trap-wacht li:not(.is-aan) .trap-lijn{transform:scale(0, 1)}
-.trap-wacht li:not(.is-aan) .trap-schuin{clip-path:inset(0 100% 0 0)}
-.trap-wacht li.is-aan .trap-nr::before{visibility:hidden}
+.trap-wacht li:not(.is-aan) .trap-lijn,.trap-wacht li:not(.is-aan) .trap-schuin{scale:0 1}
+.trap-wacht li.is-aan .trap-nr::before,.trap-wacht li.is-aan::before,.trap-wacht li.is-aan::after{visibility:hidden}
 @media (max-width:1099px){
-	.trap-wacht li:not(.is-aan) .trap-lijn{transform:scale(1, 0)}
+	.trap-wacht li:not(.is-aan) .trap-lijn{scale:1 0}
 }
-.trap-bouw li{--t:calc(var(--i) * 0.15s)}
-.trap-bouw .trap-nr::after{transition:background-position 0.24s steps(4, end) var(--t)}
-.trap-bouw .trap-nr{transition:color 0s calc(var(--t) + 0.18s)}
-.trap-bouw .trap-nr::before{transition:visibility 0s calc(var(--t) + 0.24s)}
-.trap-bouw .trap-lijn{transition:transform 0.22s var(--ease-out) calc(var(--t) + 0.2s)}
-.trap-bouw .trap-schuin{transition:clip-path 0.1s linear calc(var(--t) + 0.42s)}
+.trap-bouw{--stap:0.54s}
+.trap-bouw li{--t:calc(var(--i) * var(--stap))}
+.trap-bouw .trap-nr::after{transition:background-position 0.3s steps(4, end) var(--t)}
+.trap-bouw .trap-nr{transition:color 0s calc(var(--t) + 0.22s)}
+.trap-bouw .trap-nr::before{transition:visibility 0s calc(var(--t) + 0.3s)}
+.trap-bouw .trap-lijn{transition:scale 0.26s var(--ease-out) calc(var(--t) + 0.22s)}
+.trap-bouw li::before{transition:visibility 0s calc(var(--t) + 0.48s)}
+.trap-bouw .trap-schuin{transition:scale 0.1s linear calc(var(--t) + 0.48s)}
+.trap-bouw li::after{transition:visibility 0s calc(var(--t) + 0.58s)}
 @media (max-width:1099px){
 	.trap-bouw li{--t:0s}
 }
@@ -391,7 +397,7 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.pijler-band{display:none}
 	/* De trap: vullingen in de tekstkleur, de stippeltekening valt weg (een stap die nog moet komen, toont zijn cijfer) */
 	.trap-nr::after,.trap-lijn{forced-color-adjust:none;background:CanvasText}
-	.trap-schuin{forced-color-adjust:none;background:linear-gradient(to bottom right, transparent calc(50% - 1px), CanvasText calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px))}
+	.trap-schuin{forced-color-adjust:none;background:CanvasText}
 	.trap-nr{forced-color-adjust:none;color:Canvas}
 	.trap-wacht li:not(.is-aan) .trap-nr{color:CanvasText}
 	.trap-nr::before,.trap li::before,.trap li::after{display:none !important}
