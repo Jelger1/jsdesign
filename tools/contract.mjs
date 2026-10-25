@@ -30,6 +30,8 @@ const winkel = JSON.parse(readFileSync(join(DIST, 'js/winkel.json'), 'utf8'));
 // Vóór de cutover geldt de content-freeze: dan hoort hier niets bij te komen. Een regel die niets meer afvangt, meldt
 // de laatste test; de referentie maak je alleen opnieuw bij een her-sync (tools/contract-referentie.mjs).
 const AFWIJKINGEN = {
+	'winkel.logo': 'het logo van JS Design bovenaan de mails, als plaatje (oktober 2026); de oude webshop heeft alleen het teken',
+	'winkel.herroepen': 'de pagina Bestelling herroepen (art. 6:230oa BW), gelinkt onder de bevestiging van een bestelling (oktober 2026)'
 };
 const gebruikt = new Set();
 
