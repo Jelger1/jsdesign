@@ -483,7 +483,8 @@ Deno.serve(async (req) => {
 	// Een bericht via het portfolio krijgt in de mails de naam en het adres van het portfolio.
 	const spam = spamSignaal(invoer, data);
 	const portfolio = data.site === 'portfolio';
-	const merk = portfolio ? { ...w.winkel, ...PORTFOLIO, portfolio: true } : w.winkel;
+	// Het portfolio heeft geen logo-plaatje en geen herroepknop van de winkel (die staan alleen op de site van SITE_URL)
+	const merk = portfolio ? { ...w.winkel, ...PORTFOLIO, portfolio: true, logo: null, herroepen: null } : w.winkel;
 	const van = portfolio ? MAIL_VAN_PORTFOLIO : MAIL_VAN;
 	const { data: rij, error } = await db.from('berichten').insert({
 		...(portfolio ? { site: PORTFOLIO.site } : data.site === 'jsdesign' ? { site: 'jsdesign.nl' } : {}),

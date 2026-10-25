@@ -182,10 +182,12 @@ export function controleer(invoer, catalogus) {
 //  - "honeypot" en "te snel": een robot. De afzender krijgt een nep-"verstuurd", er wordt niets opgeslagen.
 //    De website stuurt altijd de invultijd mee (duur); ontbreekt die, dan kwam het niet van de website.
 //  - "links": waarschijnlijk SEO-spam. Wordt opgeslagen met status spam (te controleren), maar zonder mails.
+//    Niet bij een herroeping: daarvoor moet altijd een ontvangstbevestiging uit (art. 6:230oa BW), ook als iemand de
+//    adressen van producten plakt; in de mail aan de klant zijn links toch niet klikbaar (zonderLinks).
 export function spamSignaal(invoer, data) {
 	if (invoer && invoer.botcheck) return 'honeypot';
 	if (!invoer || typeof invoer.duur !== 'number' || !(invoer.duur >= MIN_DUUR_MS)) return 'te snel';
-	if (data && data.soort !== 'bestelling') {
+	if (data && data.soort !== 'bestelling' && data.soort !== 'herroeping') {
 		const vrij = [data.bericht || ''].concat(Object.keys(data.velden || {}).map(function (k) { return data.velden[k]; })).join(' ');
 		const links = (vrij.match(/https?:\/\/|www\.|\[url/gi) || []).length;
 		if (links > MAX_LINKS) return 'links';
@@ -581,7 +583,8 @@ export function mailKlant(data, extra, winkel) {
 		const bestelling = zonderLinks(data.velden.Bestelling);
 		const producten = zonderLinks(data.velden.Producten);
 		const ontvangen = datum(extra.moment);
-		onderwerp = 'Je herroeping is ontvangen (' + bestelling + ')';
+		// Vrije tekst van de bezoeker komt niet in het onderwerp (de mail kan naar elk adres): alleen een echt bestelnummer
+		onderwerp = 'Je herroeping is ontvangen' + (/^JS3D-[0-9A-Z]+$/i.test(bestelling) ? ' (' + bestelling.toUpperCase() + ')' : '');
 		preheader = 'Ontvangen op ' + ontvangen + '. Hieronder staat wat je hebt verstuurd en hoe het verder gaat.';
 		inhoud = bovenkop('Herroeping ontvangen') + titel('Je herroeping is binnen')
 			+ alinea(hoi + ' hierbij bevestig ik dat ik je herroeping heb ontvangen op <strong>' + esc(ontvangen) + '</strong>.')

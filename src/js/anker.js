@@ -5,7 +5,8 @@
 // ankers worden nooit gekaapt (check.js controleert ook dat geen alias een id op de home is).
 export function initAnker() {
 	const kaartEl = document.getElementById('anker-kaart');
-	const naam = decodeURIComponent(location.hash.slice(1));
+	let naam = '';
+	try { naam = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; } // een kapot anker (#100%): niets doen
 	if (!kaartEl || !naam || document.getElementById(naam)) return;
 	let kaart;
 	try { kaart = JSON.parse(kaartEl.textContent); } catch (e) { return; }

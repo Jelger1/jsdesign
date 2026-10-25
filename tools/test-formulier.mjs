@@ -340,6 +340,12 @@ test('berichten via jsdesign.nl: site en onderwerp', function () {
 	assert.ok(mailKlant(ok(bestelling()), bestelExtra, metKnop).html.includes('https://jsdesign.nl/herroepen.html'));
 	assert.ok(!mailKlant(ok(bestelling()), bestelExtra, WINKEL).html.includes('herroepen.html'), 'de oude webshop heeft hem niet');
 	assert.ok(!mailKlant(d, extra, metKnop).html.includes('herroepen.html'), 'alleen bij een bestelling');
+
+	// Het portfolio krijgt zoals in index.ts geen logo-plaatje en geen herroepknop van de winkel (logo: null)
+	const portfolioMerk = Object.assign({}, metKnop, { site: 'jelgersieler.nl', naam: 'JSdesign', url: 'https://jelgersieler.nl', portfolio: true, logo: null, herroepen: null });
+	const viaPortfolio = ok({ site: 'portfolio', soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'Hoi' });
+	assert.ok(mailKlant(viaPortfolio, extra, portfolioMerk).html.includes('https://jelgersieler.nl/assets/mail/logo.png'));
+	assert.ok(!mailKlant(viaPortfolio, extra, portfolioMerk).html.includes('logo-js-design.png'));
 });
 
 test('herroepen: controle en ontvangstbevestiging', function () {
@@ -367,6 +373,17 @@ test('herroepen: controle en ontvangstbevestiging', function () {
 	assert.equal(herinnering.onderwerp, 'Herinnering: 1 herroeping wacht op je reactie');
 	assert.ok(herinnering.html.includes('>Herroeping<'));
 	assert.equal(telling([{ soort: 'herroeping' }, { soort: 'herroeping' }, { soort: 'contact' }]), '2 herroepingen en 1 bericht');
+
+	// Vrije tekst van de bezoeker komt niet in het onderwerp; een echt bestelnummer wel
+	const vrij = ok({ soort: 'herroeping', naam: 'Jan', email: 'jan@voorbeeld.nl', bestelling: 'Gratis iPhone: bel 0900' });
+	assert.equal(mailKlant(vrij, extra, WINKEL).onderwerp, 'Je herroeping is ontvangen');
+	assert.ok(mailKlant(vrij, extra, WINKEL).html.includes('Gratis iPhone: bel 0900'), 'in de verklaring staat het wel');
+
+	// Productadressen in een herroeping maken er geen spam van: de ontvangstbevestiging moet altijd uit
+	const metLinks = { soort: 'herroeping', naam: 'Jan', email: 'jan@voorbeeld.nl', bestelling: 'JS3D-ABC12', producten: 'https://www.jsdesign.nl/producten/kami-vase.html https://www.jsdesign.nl/producten/wavase.html', duur: 5000 };
+	assert.equal(spamSignaal(metLinks, ok(metLinks)), null);
+	const contactLinks = { soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'https://a.nl https://b.nl https://c.nl', duur: 5000 };
+	assert.equal(spamSignaal(contactLinks, ok(contactLinks)), 'links', 'bij een bericht blijft de linkregel');
 });
 
 const UPLOADS = { maxMB: 50, keepMonths: 6, printservice: { types: ['stl', '3mf'], max: 2 }, offerte: { types: ['svg', 'png', 'jpg', 'jpeg', 'pdf'], max: 3 } };

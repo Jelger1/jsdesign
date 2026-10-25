@@ -31,10 +31,14 @@ export function initHerroep() {
 			producten: form.elements.producten.value.trim(),
 			botcheck: Boolean(form.elements.botcheck && form.elements.botcheck.checked)
 		}).then(function (antwoord) {
-			klaar.querySelector('[data-herroep-tijd]').textContent = new Date().toLocaleString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-			klaar.querySelector('[data-herroep-mail]').textContent = antwoord.mail
-				? 'Je krijgt een ontvangstbevestiging per mail, met wat je hebt verstuurd.'
-				: 'De ontvangstbevestiging per mail lukte niet: bewaar deze pagina of maak een schermafbeelding. Je herroeping is wel binnen.';
+			// Dezelfde tijdzone als de bevestigingsmail (die rekent in Nederlandse tijd)
+			klaar.querySelector('[data-herroep-tijd]').textContent = new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+			// Zonder id is er niets opgeslagen (de functie hield het voor een robot): dan niet beweren dat het binnen is
+			klaar.querySelector('[data-herroep-mail]').textContent = !antwoord.id
+				? 'Krijg je binnen een paar minuten geen ontvangstbevestiging per mail? Mail me dan via het adres hieronder.'
+				: antwoord.mail
+					? 'Je krijgt een ontvangstbevestiging per mail, met wat je hebt verstuurd.'
+					: 'De ontvangstbevestiging per mail lukte niet: bewaar deze pagina of maak een schermafbeelding. Je herroeping is wel binnen.';
 			form.hidden = true;
 			klaar.hidden = false;
 			klaar.focus();

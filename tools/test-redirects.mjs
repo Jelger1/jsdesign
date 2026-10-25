@@ -30,8 +30,13 @@ async function hoofd(url) {
 
 async function verwachtRedirect(url, naar) {
 	getest++;
-	const r = await hoofd(url);
-	const plek = r.headers.get('location');
+	let r = await hoofd(url);
+	let plek = r.headers.get('location');
+	// Over http stuurt Cloudflare eerst naar dezelfde pagina over https (Always Use HTTPS); die tussenstap is goed
+	if (url.startsWith('http://') && plek === url.replace(/^http:/, 'https:')) {
+		r = await hoofd(plek);
+		plek = r.headers.get('location');
+	}
 	if (r.status !== 301 || plek !== naar) { fouten.push(url + ' -> ' + r.status + ' ' + (plek || '') + ' (verwacht 301 ' + naar + ')'); return; }
 	if (DOEL) {
 		const eind = await fetch(naar.replace(data.doel, DOEL), { redirect: 'follow' });

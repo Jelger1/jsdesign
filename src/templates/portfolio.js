@@ -52,11 +52,12 @@ function project(p, ctx, eerste) {
 // korte zin, dan blijft alles zichtbaar.
 const KORT_WOORDEN = 35;
 function inTweeen(tekst) {
-	const zinnen = tekst.match(/[^.!?]+[.!?]+(?=\s|$)|[^.!?]+$/g) || [tekst];
+	// Knippen na een punt, uitroep- of vraagteken met witruimte erachter (niet in jelgers3d.nl of 1.5): er valt niets weg
+	const zinnen = tekst.trim().split(/(?<=[.!?])\s+/);
 	let kort = '';
 	let i = 0;
-	while (i < zinnen.length && (!kort || (kort + zinnen[i]).trim().split(/\s+/).length <= KORT_WOORDEN)) kort += zinnen[i++];
-	const rest = zinnen.slice(i).join('').trim();
+	while (i < zinnen.length && (!kort || (kort + ' ' + zinnen[i]).trim().split(/\s+/).length <= KORT_WOORDEN)) kort += (kort ? ' ' : '') + zinnen[i++];
+	const rest = zinnen.slice(i).join(' ').trim();
 	if (!rest || rest.split(/\s+/).length < 8) return { kort: tekst, rest: '' };
 	return { kort: kort.trim(), rest: rest };
 }
