@@ -13,3 +13,6 @@
 *.mp4 binary
 *.bin binary
 *.glb binary
+
+# De redirectlaag: byte-kopieën van de productie, dus regeleinden niet aanpassen (tools/test-redirects.mjs vergelijkt bytes)
+legacy/** -text
