@@ -29,7 +29,7 @@ function tastbaarSections(ctx, template, pijlerFaq) {
 	}).join('\n\t\t');
 
 	const categories = site.homeCategories.map(function (cat) {
-		return '<li><a class="category-tile" href="' + h.esc(cat.href) + '">'
+		return '<li><a class="category-tile" href="' + h.esc(cat.href) + '" data-rand>'
 			+ h.img(ctx.images, cat.image, { alt: '', sizes: '(max-width: 600px) 45vw, (max-width: 900px) 45vw, 290px', crop: true })
 			+ '<span class="category-tile-text"><strong>' + h.esc(cat.label) + '</strong><span>' + h.esc(cat.text) + '</span></span>'
 			+ '</a></li>';

@@ -52,7 +52,7 @@ function productCard(product, ctx, opts) {
 		+ (product.material ? ' data-material="' + h.esc(product.material) + '"' : '')
 		+ (h.minPrice(product) != null ? ' data-price="' + h.minPrice(product) + '"' : '')
 		// Alleen op de webshop: de volgorde voor "Aanbevolen"
-		+ (opts.index != null ? ' data-index="' + opts.index + '"' : '') + '>\n'
+		+ (opts.index != null ? ' data-index="' + opts.index + '"' : '') + ' data-rand>\n'
 		+ '\t<a class="product-thumb" href="' + url + '" tabindex="-1" aria-hidden="true">' + media
 		+ (product.sale === 'soon' ? '<span class="badge badge-promo">Binnenkort</span>' : (product.badge ? '<span class="badge badge-promo">' + h.esc(product.badge) + '</span>' : ''))
 		+ '</a>\n'

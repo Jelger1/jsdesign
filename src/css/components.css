@@ -20,32 +20,41 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 /* Een korte tik, zonder schaal boven 1 (merkregels) */
 @keyframes cartBump{0%{transform:scale(1)}35%{transform:scale(0.86)}100%{transform:scale(1)}}
 
-/* Productkaart */
+/* Productkaart, in dezelfde kaarttaal als de werktegels: bij aanwijzen tekent de rand in de kleur van Tastbaar (de
+   tekenrand hieronder, data-rand); geen lift, geen beeldzoom en geen gloed. De tweede foto bij aanwijzen blijft. De
+   letters zijn die van de studio: tekst 16, label 12 en knop 15 px. */
 .grid-products{grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:1.5rem}
-.product-card{background:var(--dark-card);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);position:relative;transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease}
-.product-card:hover,.product-card:focus-within{box-shadow:0 10px 40px rgba(0,0,0,0.3), 0 0 24px rgba(241,0,103,0.1);transform:translateY(-4px);border-color:transparent}
-/* Rand in het merkverloop bij aanwijzen: een masker laat van het verloop alleen een rand van 1px over */
-.product-card::after{content:'';position:absolute;inset:0;z-index:3;border-radius:inherit;padding:1px;background:linear-gradient(125deg, var(--raspberry), var(--brand) 55%, rgba(3,188,202,0.25));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.35s ease;pointer-events:none}
-.product-card:hover::after,.product-card:focus-within::after{opacity:1}
+.product-card{--pillar:var(--pillar-tastbaar);background:var(--dark-card);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);position:relative}
 .product-thumb{display:block;position:relative;aspect-ratio:4 / 5;overflow:hidden;background:var(--dark-secondary)}
-.product-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s ease}
+.product-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 0.45s ease}
 .product-thumb-alt{opacity:0}
 @media (hover:hover){
-	.product-card:hover .product-thumb img{transform:scale(1.04)}
 	.product-card:hover .product-thumb-alt{opacity:1}
 }
 /* Zonder muis is er geen hover: laad de tweede foto dan ook niet */
 @media (hover:none){.product-thumb-alt{display:none}}
 .product-info{padding:1.1rem 1.1rem 1.25rem;display:flex;flex-direction:column;flex:1}
-.product-kicker{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted);margin:0 0 0.4rem 0}
+.product-kicker{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted);margin:0 0 0.4rem 0}
 .product-title{font-size:1.1rem;margin:0 0 0.4rem 0;line-height:1.2}
 .product-title a{color:var(--soft);text-decoration:none}
 /* De hele kaart is klikbaar via de titel-link; knoppen liggen erboven */
 .product-title a::after{content:'';position:absolute;inset:0;z-index:1}
-.product-card:hover .product-title a{color:var(--brand)}
-.product-info .muted{margin:0 0 1rem 0}
+.product-info .muted{margin:0 0 1rem 0;font-size:var(--text-base)}
 .product-card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap}
-.product-card-foot .btn{position:relative;z-index:2;padding:0.55rem 1.1rem;font-size:0.85rem}
+.product-card-foot .btn{position:relative;z-index:2;padding:0.55rem 1.1rem;font-size:0.9375rem}
+/* De knop op een kaart is omlijnd; pas als je hem aanwijst (of er met de tab-toets op staat) wordt hij aqua */
+.product-card .btn-add-cart{background:transparent;color:var(--soft);border:2px solid var(--border-strong)}
+.product-card .btn-add-cart:is(:hover, :focus-visible){background:var(--brand);border-color:var(--brand);color:var(--dark);transform:none;box-shadow:none}
+/* Op een telefoon twee producten naast elkaar (de webshop wordt half zo lang): zonder de korte omschrijving, en de
+   knop over de hele breedte onder de prijs */
+@media (max-width:599px){
+	.grid-products{grid-template-columns:repeat(2, minmax(0, 1fr));gap:1.25rem 0.75rem}
+	.grid-products .product-info{padding:0.75rem 0.8rem 0.9rem}
+	.grid-products .product-info .muted{display:none}
+	.grid-products .product-title{font-size:var(--text-base)}
+	.grid-products .product-card-foot{flex-direction:column;align-items:stretch;gap:0.5rem}
+	.grid-products .product-card-foot .btn{width:100%;justify-content:center;text-align:center;padding:0.55rem 0.6rem}
+}
 .product-price{font-size:1.15rem;font-weight:700;color:var(--soft);margin:0;font-family:var(--font-display)}
 .product-price-muted{color:var(--fg-muted);font-size:0.95rem}
 .price-from{display:block;font-family:var(--font-body);font-size:0.68rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--fg-muted);line-height:1.2}
