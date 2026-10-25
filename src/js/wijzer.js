@@ -5,8 +5,12 @@
 // onderdeel waar je bent, met de naam en "2 van 7" in de knop op een telefoon. Bij "minder beweging" loopt er niets
 // vol: eerdere onderdelen zijn vol, het huidige leeg. Zonder dit script blijven het gewone inhoudsopgaven.
 // Het paneel achter "Inhoud" is een popover: het opent onder de balk waar je op tikte, de focus gaat naar waar je bent,
-// en het gaat dicht als je een onderdeel kiest of verder tabt.
+// en het gaat dicht als je een onderdeel kiest of verder tabt. Staat die balk nog onderin beeld, dan schuift de pagina
+// eerst tot de balk onder de header vastzit, zodat het paneel in beeld opent.
+// Op een casepagina loopt de lijn vanaf 900px vol tot het eind van de romp: daar laat de kop los, de brede beelden
+// van het hoofdstuk staan erna.
 const LEESLIJN = 0.35;
+const PLEK = 240;
 
 function paneel(el) {
 	let knop = null;
@@ -15,12 +19,21 @@ function paneel(el) {
 		const k = e.target.closest('[popovertarget="' + el.id + '"]');
 		if (k) knop = k;
 	}, true);
-	el.addEventListener('toggle', function (e) {
+	// Plek en hoogte vóór het tonen (beforetoggle), anders staat het paneel één beeld lang op de oude plek
+	el.addEventListener('beforetoggle', function (e) {
 		if (e.newState !== 'open') return;
 		const balk = knop && knop.closest('.wijzer, .case-stap-kop');
-		const onder = balk ? Math.max(0, balk.getBoundingClientRect().bottom) : 0;
+		if (balk && window.innerHeight - balk.getBoundingClientRect().bottom < PLEK) {
+			const nav = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 60;
+			window.scrollBy({ top: balk.getBoundingClientRect().top - nav, behavior: 'instant' });
+		}
+		// Kan de pagina niet verder (vlak voor het eind), dan valt het paneel over de balk in plaats van onder het scherm
+		const onder = balk ? Math.max(0, Math.min(balk.getBoundingClientRect().bottom, window.innerHeight - PLEK)) : 0;
 		el.style.setProperty('--paneel-top', onder + 'px');
 		el.style.setProperty('--paneel-max', Math.max(160, window.innerHeight - onder - 16) + 'px');
+	});
+	el.addEventListener('toggle', function (e) {
+		if (e.newState !== 'open') return;
 		// Op een casepagina: het hoofdstuk van de balk waar je op tikte
 		const stap = knop && knop.closest('.case-stap');
 		if (stap) {
@@ -54,12 +67,14 @@ export function initWijzer() {
 	} else {
 		// Casepagina: elk hoofdstuk heeft zijn eigen kaart; alleen het stuk na "hier" loopt vol
 		delen = Array.from(document.querySelectorAll('.case-stap[id^="hoofdstuk-"]')).map(function (s) {
-			return { start: s, eigen: true, vul: Array.from(s.querySelectorAll('.hk-stap.is-hier .hk-vul')) };
+			return { start: s, eigen: true, romp: s.querySelector('.case-stap-romp'), vul: Array.from(s.querySelectorAll('.hk-stap.is-hier .hk-vul')) };
 		});
 	}
 	if (!delen.length) return;
 
 	const minder = window.matchMedia('(prefers-reduced-motion: reduce)');
+	// Onder 900px is de romp display:contents (de balk blijft ook boven de brede beelden), dan telt het hele hoofdstuk
+	const breed = window.matchMedia('(min-width: 900px)');
 	const knopNaam = balk && balk.querySelector('.wijzer-knop-naam');
 	const knopTal = balk && balk.querySelector('.wijzer-knop-tal');
 	let vorigeNu = -2;
@@ -71,8 +86,9 @@ export function initWijzer() {
 		const lijn = window.innerHeight * LEESLIJN;
 		// Eerst alles lezen, dan pas schrijven (geen gedwongen herberekening per onderdeel)
 		const vakken = delen.map(function (d) { return d.start.getBoundingClientRect(); });
+		const rompen = delen.map(function (d) { return d.romp && breed.matches ? d.romp.getBoundingClientRect() : null; });
 		const p = vakken.map(function (r, i) {
-			const eind = delen[i].eigen || i === delen.length - 1 ? r.bottom : vakken[i + 1].top;
+			const eind = rompen[i] ? rompen[i].bottom : (delen[i].eigen || i === delen.length - 1 ? r.bottom : vakken[i + 1].top);
 			return Math.min(1, Math.max(0, (lijn - r.top) / Math.max(1, eind - r.top)));
 		});
 		let nu = -1;

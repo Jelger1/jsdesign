@@ -108,6 +108,10 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 .uitklap[open] > summary .uitklap-v{transform:scaleY(0)}
 .uitklap::details-content{block-size:0;overflow-y:clip;transition:block-size 0.26s var(--ease-out), content-visibility 0.26s allow-discrete}
 .uitklap[open]::details-content{block-size:auto}
+/* De algemene regel voor minder beweging (components.css) bereikt ::details-content niet */
+@media (prefers-reduced-motion:reduce){
+	.uitklap::details-content{transition:none}
+}
 .uitklap::after{content:none;position:absolute;width:1.5px;background:var(--brand);pointer-events:none}
 .uitklap[open]::after{content:''}
 /* In de vragenlijst: het blokje links van de vraag, het antwoord lijnt uit met de vraag */

@@ -22,8 +22,7 @@
 .toc-nr{flex:none;font:600 var(--text-sm)/1 var(--font-mono);color:var(--pillar-text)}
 .toc-lijst a:hover .toc-titel,.wijzer-paneel-lijst a:hover .toc-titel{text-decoration:underline;text-underline-offset:4px}
 .toc-lijst a:is(:hover, :focus-visible) .toc-blok,.wijzer-paneel-lijst a:is(:hover, :focus-visible) .toc-blok{fill:var(--pillar)}
-/* Het resultaat valt op: daar springen veel lezers meteen naartoe */
-.is-resultaat .toc-blok{fill:var(--pillar)}
+/* Het resultaat valt op: daar springen veel lezers meteen naartoe (vet, niet massief: massief is eerder of hier) */
 .is-resultaat .toc-titel{font-weight:700}
 @media (min-width:900px){
 	.toc{grid-template-columns:minmax(0, 4fr) minmax(0, 8fr);column-gap:clamp(2rem, 5vw, 4.5rem);align-items:baseline}
@@ -68,17 +67,26 @@
 	.case-stap-kop{position:sticky;top:calc(var(--nav-height) + 1.75rem);align-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:0.65rem}
 }
 /* Smaller: de kop wordt een balk onder de header, met de kaart als onderstreping in stukken. De romp doet dan niet mee,
-   zodat de balk ook boven de brede beelden van het hoofdstuk blijft staan. De balk houdt zijn hoogte. */
+   zodat de balk ook boven de brede beelden van het hoofdstuk blijft staan. De balk houdt zijn hoogte en loopt van
+   rand tot rand (--balk-x is de binnenruimte van .container in styles.css). */
 @media (max-width:899px){
 	.case-stap-romp{display:contents}
-	.case-stap-kop{position:sticky;top:var(--nav-height);z-index:var(--z-sticky);display:grid;grid-template-columns:auto minmax(0, 1fr) auto;align-items:baseline;column-gap:0.75rem;
-		margin:0 calc(-1 * var(--gutter));padding:0.7rem var(--gutter) 1rem;background:rgba(8,10,13,0.985)}
+	.case-stap-kop{--balk-x:1rem;position:sticky;top:var(--nav-height);z-index:var(--z-sticky);display:grid;grid-template-columns:auto minmax(0, 1fr) auto;align-items:baseline;column-gap:0.75rem;
+		margin:0 calc(-1 * var(--balk-x));padding:0.7rem var(--balk-x) 1rem;background:rgba(8,10,13,0.985)}
 	.case-stap-kop h2{font-size:var(--text-lg)}
-	.hk{position:absolute;left:var(--gutter);right:var(--gutter);bottom:0.45rem;margin:0}
+	.hk{position:absolute;left:var(--balk-x);right:var(--balk-x);bottom:0.45rem;width:auto;margin:0}
 	.hk-blok,.hk-hierna,.hk-stap:last-child .hk-seg::after{display:none}
 	.hk-stap,.hk-stap:last-child{flex:1 1 0}
 	.hk-seg{height:3px;margin:0 2px}
 	.hk-inhoud{display:inline-flex;align-self:center}
+}
+@media (max-width:600px){
+	.case-stap-kop{--balk-x:1.25rem}
+}
+/* Wat focus krijgt in een hoofdstuk, landt onder de vaste balk (die tot ruim 130px reikt) en niet erachter; de knoppen in
+   de balk zelf en de hoofdstukken als sprongdoel tellen niet mee */
+@media (max-width:899px) and (min-height:501px){
+	.case-stap :is(a[href], button, summary):not(.case-stap-kop *){scroll-margin-top:6rem}
 }
 @media (max-width:899px) and (max-height:500px){
 	.case-stap-kop{position:relative;top:auto}
@@ -86,7 +94,11 @@
 
 /* ------------------------------------------------------------------ pijlerpagina: de balk met de onderdelen */
 .wijzer{--wijzer-h:46px;position:sticky;top:var(--nav-height);z-index:var(--z-sticky);background:rgba(8,10,13,0.985);border-bottom:1px solid var(--border)}
-html:has(.wijzer){scroll-padding-top:calc(var(--nav-height) + 46px + 1rem)}
+/* Ankers en focus landen onder de balk. Dat staat op wat eronder valt en niet op html: anders telt de vaste balk zelf als
+   "buiten beeld" en springt de pagina bij elke Tab in de balk terug. Letterlijke 46px: --wijzer-h geldt alleen binnen
+   de balk. */
+html:has(.wijzer){scroll-padding-top:var(--nav-height)}
+.pijler-inhoud :is([id], a[href], button, summary, input, select, textarea, [tabindex]):not(.wijzer, .wijzer *){scroll-margin-top:calc(46px + 1rem)}
 .wijzer-in{position:relative;display:flex;align-items:stretch;max-width:var(--max-width);min-height:var(--wijzer-h);margin:0 auto;padding:0 var(--gutter)}
 .wijzer-knop,.wijzer-lijn{display:none}
 .wijzer-lijst{position:relative;display:flex;margin:0;padding:0;list-style:none}
@@ -109,14 +121,21 @@ html:has(.wijzer){scroll-padding-top:calc(var(--nav-height) + 46px + 1rem)}
 @media (min-width:820px){
 	.wijzer .wijzer-paneel{position:static;display:flex;inset:auto;width:auto;height:auto;max-height:none;margin:0;padding:0;border:0;background:none;color:inherit;overflow:visible;box-shadow:none}
 	.wijzer .wijzer-paneel-kop{display:none}
+	/* Binnenruimte aan beide kanten, zodat de focusring niet door de eerste of laatste letter loopt; de lijst schuift even
+	   ver terug, dus woorden en lijn blijven op hun plek */
+	.wijzer-lijst{margin-left:-0.4rem}
+	.wijzer-lijst a{padding:0 1.2rem 0 0.4rem}
+	.wijzer-lijst li:last-child a{padding-right:0.4rem}
+	.wijzer-lijst li:first-child .wijzer-stuk{left:0.4rem}
+	.wijzer-lijst li:last-child .wijzer-stuk{right:0.4rem}
 }
 @media (max-width:999px) and (min-width:820px){
-	.wijzer-lijst a{padding-right:1.15rem}
+	.wijzer-lijst a{padding-right:0.75rem}
 }
 /* Smaller: één knop met het onderdeel waar je bent en "2 van 7"; de lijst opent als paneel */
 @media (max-width:819px){
 	.wijzer{--wijzer-h:48px}
-	html:has(.wijzer){scroll-padding-top:calc(var(--nav-height) + 48px + 1rem)}
+	.pijler-inhoud :is([id], a[href], button, summary, input, select, textarea, [tabindex]):not(.wijzer, .wijzer *){scroll-margin-top:calc(48px + 1rem)}
 	.wijzer-knop{display:flex;align-items:center;gap:0.6rem;width:100%;min-height:44px;margin:auto 0;padding:0;border:0;background:none;color:var(--fg);font:inherit;text-align:left;cursor:pointer;border-radius:4px}
 	.wijzer-knop-naam{min-width:0;overflow:hidden;font-weight:600;text-overflow:ellipsis;white-space:nowrap}
 	.wijzer-knop-tal{flex:none;font:500 var(--text-xs)/1 var(--font-mono);letter-spacing:0.06em;color:var(--fg-muted)}
@@ -133,6 +152,17 @@ html:has(.wijzer){scroll-padding-top:calc(var(--nav-height) + 46px + 1rem)}
 @media (max-height:500px){
 	.wijzer{position:relative;top:auto}
 	html:has(.wijzer){scroll-padding-top:calc(var(--nav-height) + 1rem)}
+	.pijler-inhoud :is([id], a[href], button, summary, input, select, textarea, [tabindex]):not(.wijzer, .wijzer *){scroll-margin-top:0}
+}
+/* Zonder JavaScript scrolt de header tot 56.25em mee (header.css); dan plakken de balken aan de bovenrand, met het
+   paneel van de pijlerpagina direct onder zijn balk en dat van een case bovenaan (de balk is daar niet even hoog) */
+@media (max-width:56.25em) and (scripting:none){
+	.wijzer,.case-stap-kop{top:0}
+	.wijzer-paneel:popover-open{top:var(--paneel-top, 48px)}
+	.hk-paneel:popover-open{top:var(--paneel-top, 0px)}
+}
+@media (min-width:900px) and (max-width:56.25em) and (scripting:none){
+	.case-stap-kop{top:1.75rem}
 }
 /* "Inhoud": het knopje op de balk (telefoon), op beide paginatypes */
 .wijzer-knop-open,.hk-inhoud{flex:none;align-items:center;gap:0.4rem;margin-left:auto;font:600 var(--text-xs)/1 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--brand)}
@@ -147,6 +177,8 @@ html:has(.wijzer){scroll-padding-top:calc(var(--nav-height) + 46px + 1rem)}
 .wijzer-paneel-kop{margin:0.6rem 0 0.25rem;font:600 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
 .wijzer-paneel-lijst{list-style:none;margin:0;padding:0}
 .wijzer-paneel-lijst li:last-child a{border-bottom:0}
+/* De blokjes in het paneel van een case volgen de kaart in de balk: tot en met hier massief, daarna omtrek */
+.wijzer-paneel-lijst li:has(~ li > a[aria-current]) .toc-blok,.wijzer-paneel-lijst a[aria-current] .toc-blok{fill:var(--pillar)}
 /* Waar je bent, zoals in het menu */
 .wijzer-paneel:popover-open a[aria-current]::after{content:'Je bent hier';content:'Je bent hier' / '';margin-left:auto;align-self:center;padding:0.3rem 0.55rem;border-radius:var(--radius-full);background:var(--sage);color:var(--dark);
 	font:600 var(--text-xs)/1 var(--font-mono);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap}
@@ -162,8 +194,12 @@ html:has(.wijzer){scroll-padding-top:calc(var(--nav-height) + 46px + 1rem)}
 }
 @media (forced-colors:active){
 	.hk-blok svg,.toc-blok,.hk-ring{stroke:CanvasText}
-	.is-eerder .hk-blok svg,.hk-kern,.is-resultaat .toc-blok{fill:CanvasText}
+	.is-eerder .hk-blok svg,.hk-kern,.wijzer-paneel-lijst li:has(~ li > a[aria-current]) .toc-blok,.wijzer-paneel-lijst a[aria-current] .toc-blok{fill:CanvasText}
 	.hk-vul,.wijzer-stuk::before,.wijzer-lijn i::before,.wijzer-stuk b,.toc h2::before{forced-color-adjust:none;background:CanvasText}
 	.hk-seg,.wijzer-stuk,.wijzer-lijn i{forced-color-adjust:none;background:repeating-linear-gradient(90deg, GrayText 0 3px, transparent 3px 6px)}
-	.wijzer,.case-stap-kop{border-bottom:1px solid CanvasText}
+	.wijzer{border-bottom:1px solid CanvasText}
+	/* Alleen de balk op een telefoon; de kop links op de desktop heeft geen rand */
+	@media (max-width:899px){
+		.case-stap-kop{border-bottom:1px solid CanvasText}
+	}
 }

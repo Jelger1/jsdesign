@@ -477,7 +477,7 @@
 				{
 					"titel": "Aanleiding",
 					"alineas": [
-						"De eigenaar van Dekentje.nl wilde een nieuwe huisstijl. De opdracht kwam via Pure Minds, dat de webshop beheert."
+						"De eigenaar van Dekentje.nl wilde een nieuwe huisstijl. Via Pure Minds kreeg ik de opdracht."
 					]
 				},
 				{
@@ -524,13 +524,13 @@
 						{
 							"file": "case-dekentje-04.jpg",
 							"alt": "Pagina met vier zwart-witte lijntekeningen: een plaid over een fauteuil, sierkussens op een bank, een picknickkleed met mand en appels, en een bed met een sprei.",
-							"bijschrift": "Lijntekeningen voor de vier categorieën: plaids, sierkussens, picknickkleden en bedspreien.",
+							"bijschrift": "De lijntekeningen in het brandboard.",
 							"breed": true
 						},
 						{
 							"file": "case-dekentje-05.jpg",
 							"alt": "Pagina met vier zinnen in hoge hoofdletters: 'Jouw stijl. Jouw bank. Jouw dekentje.', 'Comfort met karakter', 'Voor interieurs die geleefd mogen worden.' en 'De finishing touch voor je interieur.'",
-							"bijschrift": "Vier korte zinnen in de huisstijl, zoals 'Comfort met karakter'."
+							"bijschrift": "De vier zinnen in het brandboard."
 						}
 					]
 				},
@@ -978,7 +978,7 @@
 		"pillar": "branding",
 		"tags": "Huisstijl · brandbook",
 		"short": "Een brandbook van 18 pagina's voor een marketingbureau",
-		"text": "Tijdens mijn stage bij marketingbureau Pure Minds (3e jaar CMD) maakte ik een nieuwe huisstijl, vastgelegd in een brandbook van 18 pagina's. Het logo, de zeshoek waar je doorheen kijkt, bestond al. Nieuw zijn de kleuren met vaste rollen, de regels, de sjablonen en de letter Pure Minds Sans.",
+		"text": "Tijdens mijn stage bij marketingbureau Pure Minds (3e jaar CMD) maakte ik een nieuwe huisstijl, vastgelegd in een brandbook van 18 pagina's. Het logo, de zeshoek waar je doorheen kijkt, bestond al. Nieuw zijn de kleuren met vaste rollen, de regels, de sjablonen en Pure Minds Sans: Open Sans onder de naam van het bureau.",
 		"image": "Portfolio-PureMinds.jpg",
 		"alt": "Vier pagina's uit het brandbook van Pure Minds: de cover, het logo in een zeshoek, de kleuren cyaan, magenta en inkt, en de iconen",
 		"url": "",
@@ -1032,7 +1032,7 @@
 		"pillar": "digitaal",
 		"tags": "Interne tool · SEO",
 		"short": "Interne SEO-tool voor Pure Minds",
-		"text": "Een interne SEO-tool die ik tijdens mijn stage bij Pure Minds bouwde; een collega gebruikt hem nu. Hij legt een pagina naast de Google-top 10, checkt of die past bij wat zoekers willen en zoekt zo nodig een beter zoekwoord, met in het rapport bij elk cijfer de bron. Daarvoor koppelde ik verschillende API's, waaronder een AI-model dat meeschrijft. De bediening liet ik testen en toetste ik aan de Laws of UX.",
+		"text": "Op verzoek van een collega bouwde ik tijdens mijn stage bij Pure Minds deze SEO-tool, waar die collega nu mee werkt. De tool checkt of een pagina past bij wat zoekers willen en zoekt zo nodig een beter zoekwoord. Daarvoor koppelde ik verschillende API's, waaronder een AI-model dat meeschrijft. In het rapport staat bij elk cijfer de bron. De bediening liet ik testen.",
 		"url": "",
 		"urlLabel": "",
 		"image": "Portfolio-Zoekintentie.jpg",

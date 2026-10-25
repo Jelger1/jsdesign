@@ -10,7 +10,7 @@ function initNav() {
 	const menu = document.getElementById('site-menu');
 	if (!toggle || !menu || typeof menu.showModal !== 'function') return;
 	const sluitKnop = menu.querySelector('.menu-sluit');
-	const mobiel = window.matchMedia('(max-width: 900px)');
+	const mobiel = window.matchMedia('(max-width: 56.25em)') // gelijk aan header.css (900px bij de gewone letter);
 
 	function sluit(direct) {
 		if (!menu.open) return;

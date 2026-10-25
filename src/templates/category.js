@@ -52,7 +52,7 @@ function faqSection(page) {
 		+ '\t\t<h2 id="veelgestelde-vragen">Veelgestelde vragen</h2>\n'
 		+ '\t\t<div class="faq">\n'
 		+ page.faq.map(function (item) {
-			return '\t\t\t<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + h.esc(item.a) + '</p></details>\n';
+			return '\t\t\t' + c.vraag(item.q, h.esc(item.a)) + '\n';
 		}).join('')
 		+ '\t\t</div>\n\t</section>\n';
 }

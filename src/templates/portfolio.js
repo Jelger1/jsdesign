@@ -31,7 +31,7 @@ function project(p, ctx, eerste) {
 	const open = '<span class="werk-open">→</span>';
 	const media = staand
 		? '<a class="project-media project-media-staand" href="' + caseLink + '" tabindex="-1" aria-hidden="true" data-rand>' + img + open + '</a>'
-		: '<a class="project-media" href="' + caseLink + '" tabindex="-1" aria-hidden="true" data-rand>' + (p.pillar === 'digitaal' ? c.browserBalk : '') + img + open + '</a>';
+		: '<a class="project-media" href="' + caseLink + '" tabindex="-1" aria-hidden="true" data-rand>' + (p.case.kader === 'browser' ? c.browserBalk : '') + img + open + '</a>';
 	return '\t\t<article id="' + h.esc(p.id) + '" class="project" data-pillar="' + h.esc(p.pillar) + '">\n'
 		+ '\t\t\t' + media + '\n'
 		+ '\t\t\t<div class="project-text">\n'

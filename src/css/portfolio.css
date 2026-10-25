@@ -18,11 +18,12 @@
 
 .project-media{position:relative;display:block;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark-secondary);box-shadow:var(--shadow-lg);transition:border-color var(--duration) var(--ease)}
 .project-media img{display:block;width:100%;height:auto;aspect-ratio:16 / 10;object-fit:cover;object-position:top center}
-/* Aanwijzen: de tekenrand (components.css > .rand), ook als de kop of de knop van het project focus heeft. Het pijltje
-   staat onder de browserbalk. */
+/* Aanwijzen: de tekenrand (components.css > .rand), ook als de kop of de knop van het project focus heeft. Boven een
+   website staat het pijltje klein in de browserbalk (rechts is die leeg), zodat het niet op een knop in de schermafbeelding
+   valt. */
 .project:has(.project-text a:focus-visible) .project-media{--aan:1}
 .project:has(.project-text a:focus-visible) .project-media .werk-open{background:var(--pillar);color:var(--dark)}
-.project-media:has(.project-browser) .werk-open{top:calc(26px + var(--space-3))}
+.project-media:has(.project-browser) .werk-open{top:3px;right:8px;width:20px;height:20px;font-size:0.75rem}
 /* Browserbalk boven een website, met de drie kleuren van het teken als knopjes */
 .project-browser{display:flex;align-items:center;gap:6px;height:26px;padding:0 12px;background:var(--dark-secondary);border-bottom:1px solid var(--border)}
 .project-browser i{width:9px;height:9px;border-radius:50%;background:var(--raspberry)}
@@ -51,17 +52,19 @@
 .portfolio-ook-intro{margin:0.75rem 0 0;max-width:56ch;color:var(--fg-muted)}
 .ook-lijst{list-style:none;margin:2rem 0 0;padding:0;border-top:1px solid var(--border)}
 .ook-item{display:grid;grid-template-columns:5.5rem minmax(0, 1fr);gap:0.4rem 1rem;padding:1.35rem 0;border-bottom:1px solid var(--border)}
-.ook-media{position:relative;grid-row:1 / span 3;align-self:start;aspect-ratio:4 / 3;overflow:hidden;border-radius:var(--radius);border-bottom:3px solid var(--pillar);background:var(--dark-secondary)}
+.ook-media{position:relative;grid-row:1;align-self:start;aspect-ratio:4 / 3;overflow:hidden;border-radius:var(--radius);border-bottom:3px solid var(--pillar);background:var(--dark-secondary)}
 .ook-media img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 55%}
 .ook-blok{position:absolute;inset:0;margin:auto;width:22px;height:14px;background:var(--pillar);clip-path:var(--js-blok)}
 .ook-kop h3{margin:0;font-size:var(--text-lg);line-height:1.25}
 .ook-tags{margin:0.2rem 0 0;font:500 var(--text-xs)/1.5 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
-.ook-tekst{margin:0;max-width:68ch;color:var(--fg-muted);line-height:var(--leading)}
-.ook-link{margin:0}
+/* Smal: het beeld naast de titel, tekst en link eronder over de volle breedte (geen smalle kolom van tien regels) */
+.ook-tekst{grid-column:1 / -1;margin:0;max-width:68ch;color:var(--fg-muted);line-height:var(--leading)}
+.ook-link{grid-column:1 / -1;margin:0}
 .ook-link .btn-text{padding:0}
 @media (min-width:900px){
 	.ook-item{grid-template-columns:8rem minmax(0, 4fr) minmax(0, 6.5fr) minmax(0, 2.5fr);gap:0 1.5rem;align-items:start}
 	.ook-media{grid-row:auto}
+	.ook-tekst,.ook-link{grid-column:auto}
 	.ook-link{justify-self:end;text-align:right}
 }
 

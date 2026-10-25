@@ -41,7 +41,7 @@ initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagin
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();
 if (page === 'confirm') initBevestig(); // links uit mails: nieuwsbrief bevestigen, "Ik heb gereageerd"
-if (page === 'home') initHeld();
+if (page === 'home') initHeld(); // de hero bovenaan de home: aangewezen pijler en het teken in 3D
 if (page === 'pillar') initTegel(); // "Je bent hier" op een smal scherm: de aankomst als de tegel in beeld komt
-if (page === 'pillar' || page === 'case') initWijzer(); // de sectiewijzer en de hoofdstukwijzer // de hero bovenaan de home: aangewezen pijler en het teken in 3D
+if (page === 'pillar' || page === 'case') initWijzer(); // de sectiewijzer en de hoofdstukwijzer
 initTransition(); // als laatste: andere klik-afhandelingen gaan voor

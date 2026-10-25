@@ -69,6 +69,9 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 .main-nav a[aria-current="page"]:not(.nav-cta){color:var(--dark);font-weight:700;letter-spacing:0.025em}
 .main-nav a[data-ancestor]{font-weight:600;letter-spacing:0.035em}
 .main-nav a[data-ancestor]:not(.nav-cta)::after{clip-path:var(--tag-rand)}
+/* In de omlijning ligt de rand 2px binnen de vorm: de tekst schuift 3px van de schuine linkerlijn af, de marge vangt het op */
+.main-nav a[data-ancestor]:not(.nav-cta){padding-left:calc(var(--tag-x) + 3px);margin-left:calc(-1 * var(--tag-x) - 3px)}
+.main-nav a[data-pillar][data-ancestor]{margin-left:calc(var(--voor) / 2 - var(--tag-x) - 3px)}
 
 /* Contact: een extrude-knop zoals .btn.primary. Op de contactpagina zelf staat hij al een laag omhoog */
 .main-nav .nav-cta{margin-left:0.5rem;padding:0 1.2rem;border:2px solid var(--brand);border-radius:var(--radius-full);background:var(--brand);color:var(--dark);font-size:var(--text-base);font-weight:700;letter-spacing:0.02em;box-shadow:0 0 0 0 var(--extrude-color);transition:transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease)}
@@ -183,6 +186,7 @@ html:has(.menu[open]){overflow:hidden}
 	background:var(--pillar, var(--raspberry));clip-path:var(--tag-vorm)}
 .menu-meer a[aria-current="page"],.menu-meer a[aria-current="page"]:hover{color:var(--dark);font-weight:700}
 .menu-meer a[data-ancestor]::before{clip-path:var(--tag-rand)}
+.menu-meer a[data-ancestor]{padding-left:calc(var(--tag-x) + 3px)}
 
 /* Contact: breed, als extrude-knop; op de contactpagina zelf staat hij al een laag omhoog */
 .menu-cta{display:flex;align-items:center;justify-content:center;min-height:3.25rem;margin-top:var(--space-10);padding:0 var(--space-6);border:2px solid var(--brand);border-radius:var(--radius-full);
@@ -231,9 +235,11 @@ html:has(.menu[open]){overflow:hidden}
    Het logo links, de winkelwagen en de menuknop rechts. Het gewone menu verdwijnt achter de menuknop. Naast het logo
    staat het label van de pagina waar je bent (layout.js > hier); op een pagina eronder is het de omlijning, en een link
    terug naar het overzicht. In de bovenbalk van het menu staat een kopie op exact dezelfde plek, zodat er niets
-   verspringt als het menu opengaat. */
+   verspringt als het menu opengaat. Het omslagpunt staat in em (56,25em is 900px bij de gewone letter van 16px): kiest
+   iemand een grotere standaardletter, dan wordt de rij breder en gaat de kop eerder naar de menuknop, in plaats van de
+   winkelwagen uit beeld te duwen. src/js/ui.js gebruikt dezelfde waarde. */
 .header-hier{display:none}
-@media (max-width:900px){
+@media (max-width:56.25em){
 	.header-inner{gap:0.25rem}
 	.brand{margin-right:auto}
 	.brand:has(+ .header-hier){margin-right:0}
@@ -252,6 +258,7 @@ html:has(.menu[open]){overflow:hidden}
 		background:var(--pillar, var(--raspberry));clip-path:var(--tag-vorm)}
 	.header-hier.is-sectie{color:var(--fg);font-weight:600;letter-spacing:0.035em}
 	.header-hier.is-sectie::before{clip-path:var(--tag-rand)}
+	.header-hier.is-sectie{padding-left:calc(var(--tag-x) + 3px);margin-left:calc(var(--hier-x) - var(--hier-gap) - 2px)}
 	/* Vangnet: past het woord onverwacht niet (grote tekstinstelling), dan wordt het afgekapt in plaats van de knoppen
 	   uit beeld te duwen */
 	.header-hier-naam{min-width:0;overflow:hidden;text-overflow:ellipsis}
@@ -261,7 +268,8 @@ html:has(.menu[open]){overflow:hidden}
    en afstanden, label en woord die meeschalen, zodat ook het langste woord, "Webshop", bij 360px past en het woord MENU
    blijft staan */
 @media (max-width:420px){
-	.header-inner{gap:0}
+	.header-inner,.menu-balk{gap:0}
+	.menu-balk .header-hier{--hier-gap:0px}
 	.header-hier{--hier-gap:0px;--hier-x:clamp(0.375rem, 0.375rem + (100vw - 360px) / 10, 0.75rem);--tag-h:24px;--tag-x:11px;
 		font-size:clamp(0.8125rem, 0.8125rem + (100vw - 360px) / 60, 0.875rem)}
 }
@@ -277,7 +285,7 @@ html:has(.menu[open]){overflow:hidden}
 }
 /* Zonder JavaScript werkt de menuknop niet: dan staat het menu als rij onder het logo, met het label op de huidige link
    (zonder negatieve marge: de rij begint aan de rand). Het label naast het logo is dan dubbel. */
-@media (max-width:900px) and (scripting:none){
+@media (max-width:56.25em) and (scripting:none){
 	.site-header{position:relative;height:auto}
 	.header-inner{flex-wrap:wrap;padding-top:0.5rem;padding-bottom:0.75rem}
 	.nav-toggle{display:none}

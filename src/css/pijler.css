@@ -101,17 +101,19 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
    buiten schuift; als laatste tekent de lijn naar "Je bent hier" zich. Samen 0,85 s; de eindstand is de tegel zelf.
    Op de desktop speelt dit met CSS alleen, vanaf het eerste beeld, en na de paginaovergang (.pc-kwam, layout.js) pas als
    de laatste band weggaat. Op een telefoon staat de tegel onder de tekst: daar speelt hij alleen als hij bij het laden
-   nog buiten beeld stond (src/js/tegel.js: .wacht en daarna .speelt), zodat er niets beweegt terwijl je de kop leest. */
+   nog buiten beeld stond (src/js/tegel.js: .wacht en daarna .speelt), zodat er niets beweegt terwijl je de kop leest.
+   Na afloop krijgt de tegel .klaar: draai je een tablet of maak je het venster smaller en weer breder, dan speelt hij niet
+   opnieuw. */
 @media (prefers-reduced-motion:no-preference){
 	.pijler-tegel{--start:0.15s}
 	.pc-kwam .pijler-tegel{--start:0.95s}
 	.pijler-tegel.speelt{--start:0s}
 }
 @media (prefers-reduced-motion:no-preference) and (min-width:900px){
-	.pijler-tegel .tegel-deel:not(.is-hier) .tegel-vorm{animation:tegel-contour 0.55s var(--ease) var(--start) backwards}
-	.pijler-tegel .tegel-deel.is-hier{animation:tegel-hier 0.6s var(--ease-out) var(--start) backwards}
-	.pijler-tegel .tegel-lijn.is-hier{animation:tegel-lijn 0.35s var(--ease-out) calc(var(--start) + 0.5s) backwards}
-	.pijler-tegel .tegel-punt.is-hier{animation:tegel-punt 0.01s linear calc(var(--start) + 0.5s) backwards}
+	.pijler-tegel:not(.klaar) .tegel-deel:not(.is-hier) .tegel-vorm{animation:tegel-contour 0.55s var(--ease) var(--start) backwards}
+	.pijler-tegel:not(.klaar) .tegel-deel.is-hier{animation:tegel-hier 0.6s var(--ease-out) var(--start) backwards}
+	.pijler-tegel:not(.klaar) .tegel-lijn.is-hier{animation:tegel-lijn 0.35s var(--ease-out) calc(var(--start) + 0.5s) backwards}
+	.pijler-tegel:not(.klaar) .tegel-punt.is-hier{animation:tegel-punt 0.01s linear calc(var(--start) + 0.5s) backwards}
 }
 @media (prefers-reduced-motion:no-preference){
 	.pijler-tegel.speelt .tegel-deel:not(.is-hier) .tegel-vorm{animation:tegel-contour 0.55s var(--ease) backwards}
@@ -223,7 +225,7 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
    blokje loopt vol in vier lagen, zoals een 3D-print, dan trekt de trede en daarna de lijn onder 30°. Breed de hele trap
    na elkaar (samen ongeveer 1 s), smal elke stap zodra hij in beeld is. De tekst staat er steeds in volle kleur. Zonder
    JavaScript of bij "minder beweging" staat de trap er meteen helemaal. */
-.trap-wacht .trap-nr::before,.trap-wacht li::before,.trap-wacht li::after{display:block}
+.trap-wacht .trap-nr::before,.trap-wacht li::before,.trap-wacht li:not(:last-child)::before,.trap-wacht li:not(:last-child)::after{display:block}
 .trap-wacht li:not(.is-aan) .trap-nr::after{background-position:0 0%}
 .trap-wacht li:not(.is-aan) .trap-nr{color:var(--fg)}
 .trap-wacht li:not(.is-aan) .trap-lijn{transform:scale(0, 1)}
