@@ -42,7 +42,9 @@
 .cookie-banner{position:fixed;left:1rem;bottom:1rem;z-index:950;max-width:420px;padding:1.25rem;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);animation:fadeIn 0.35s ease}
 /* Zolang de melding staat, houdt de browser bij scrollen naar een element (ook bij focus) zoveel ruimte onderin vrij
    (consent.js zet --cookie-hoogte), zodat de melding niets afdekt wat de bezoeker met de tab-toets bereikt (WCAG 2.4.11) */
-html{scroll-padding-bottom:var(--cookie-hoogte, 0px)}
+html{scroll-padding-bottom:calc(var(--cookie-hoogte, 0px) + var(--koopbalk-hoogte, 0px))}
+/* Onderaan een pagina kan de browser niet verder scrollen: dan houdt de body zelf die ruimte vrij */
+body{padding-bottom:var(--cookie-hoogte, 0px)}
 .cookie-banner p{margin:0 0 1rem 0;font-size:0.9rem;line-height:1.6;color:var(--fg-muted)}
 .cookie-banner strong{color:var(--soft)}
 .cookie-banner a{color:var(--brand)}
@@ -56,7 +58,10 @@ html{scroll-padding-bottom:var(--cookie-hoogte, 0px)}
 .text-page-note{display:inline-block;margin-top:0.35rem;font-size:0.88rem;font-style:italic}
 .text-page ol{margin:0 0 1rem 0;padding-left:1.35rem;list-style:decimal}
 .table-scroll{overflow-x:auto;margin:0 0 1.25rem 0;border:1px solid var(--border);border-radius:var(--radius)}
+/* Met het toetsenbord te scrollen (tabindex en een naam in de template), dus ook een zichtbare focus */
+.table-scroll:focus-visible{outline:var(--focus-ring);outline-offset:2px}
 .text-table{width:100%;min-width:640px;border-collapse:collapse;font-size:0.88rem;line-height:1.55}
+.text-table--twee{min-width:0}
 .text-table th,.text-table td{padding:0.8rem 0.9rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border);color:var(--fg-muted)}
 .text-table thead th{background:var(--dark-card);color:var(--soft);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:600}
 .text-table tbody th{color:var(--soft);font-weight:600;width:24%}
@@ -77,7 +82,7 @@ html{scroll-padding-bottom:var(--cookie-hoogte, 0px)}
 .cookie-banner-prefs{display:block;width:100%;margin-top:0.6rem;padding:0.4rem;background:none;border:0;font:inherit;font-size:0.88rem;color:var(--soft);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .cookie-banner-prefs:hover{color:var(--brand)}
 .cookie-dialog{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(0,0,0,0.7);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity 0.25s ease, visibility 0s 0.25s}
-.cookie-dialog[aria-hidden="false"]{opacity:1;visibility:visible;transition:opacity 0.25s ease, visibility 0s}
+.cookie-dialog[aria-hidden="false"]{opacity:1;visibility:visible;transition:opacity 0.25s ease}
 .cookie-dialog-panel{width:100%;max-width:520px;max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);display:flex;flex-direction:column;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden}
 .cookie-dialog-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.25rem;border-bottom:1px solid var(--border)}
 .cookie-dialog-head h2{margin:0;font-size:1.2rem;display:block}

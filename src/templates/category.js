@@ -25,7 +25,7 @@ function compareTable(page, products) {
 	}).join('\n');
 	return '\t<section class="category-text" aria-labelledby="vergelijk">\n'
 		+ '\t\t<h2 id="vergelijk">' + h.esc(page.label) + ' vergelijken</h2>\n'
-		+ '\t\t<div class="table-scroll">\n\t\t\t<table class="text-table">\n'
+		+ '\t\t<div class="table-scroll" tabindex="0" role="region" aria-labelledby="vergelijk">\n\t\t\t<table class="text-table">\n'
 		+ '\t\t\t\t<thead><tr><th scope="col">Model</th><th scope="col">Maat of uitvoering</th><th scope="col">Prijs</th></tr></thead>\n'
 		+ '\t\t\t\t<tbody>\n' + rows + '\n\t\t\t\t</tbody>\n'
 		+ '\t\t\t</table>\n\t\t</div>\n'

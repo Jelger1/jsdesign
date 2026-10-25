@@ -83,6 +83,9 @@
 	.request-form .form-row{flex-direction:column;gap:0}
 	.form-group-narrow{flex:1 1 auto !important}
 	.checkout-form .form-row{flex-direction:row;gap:0.75rem}
+	/* Postcode smal, plaats krijgt de rest (anders bleef plaats 44-68px breed en was het label afgebroken) */
+	.checkout-form .form-row .form-group-narrow{flex:0 0 42% !important}
+	.checkout-form .form-row .form-group{min-width:0}
 }
 
 /* Keuze verzenden / ophalen */

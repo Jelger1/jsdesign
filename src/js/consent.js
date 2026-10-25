@@ -121,7 +121,9 @@ function showBanner() {
 		bannerEl.querySelector('[data-consent-reject]').addEventListener('click', rejectAll);
 		bannerEl.querySelector('[data-consent-accept]').addEventListener('click', acceptAll);
 		bannerEl.querySelector('[data-consent-prefs]').addEventListener('click', showPreferences);
-		document.body.appendChild(bannerEl);
+		// Direct na de skiplink, zodat je de melding met de tab-toets meteen bereikt (en niet pas na de hele pagina)
+		const skip = document.querySelector('.skip-link');
+		if (skip) skip.after(bannerEl); else document.body.prepend(bannerEl);
 	}
 	bannerEl.hidden = false;
 	// Ruimte onderin vrijhouden zolang de melding staat (zie pages.css): de hoogte plus de afstand tot de onderrand

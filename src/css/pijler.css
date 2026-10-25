@@ -85,7 +85,7 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 .tegel-deel:not(.is-hier){--uit:calc(5 + 9 * var(--voorbeeld, 0))}
 .tegel-deel:not(.is-hier) .tegel-vorm{fill-opacity:calc(0.22 * var(--voorbeeld, 0));stroke:color-mix(in srgb, var(--kleur) calc(100% * var(--voorbeeld, 0)), rgba(243,255,253,0.5));
 	stroke-dasharray:calc(4px + 8px * var(--voorbeeld, 0)) calc(5px - 5px * var(--voorbeeld, 0))}
-.tegel-lijn:not(.is-hier){stroke-dashoffset:calc(1 - var(--voorbeeld, 0))}
+.tegel-lijn:not(.is-hier){stroke-dashoffset:calc((1 - var(--voorbeeld, 0)) * 1px)}
 .tegel-lijn[data-pillar="branding"]:not(.is-hier){stroke:var(--raspberry-on-dark)}
 .tegel-lijn[data-pillar="digitaal"]:not(.is-hier){stroke:var(--pillar-digitaal)}
 .tegel-punt:not(.is-hier){opacity:var(--voorbeeld, 0);transition-delay:calc(0.15s * var(--voorbeeld, 0))}

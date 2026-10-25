@@ -89,7 +89,7 @@ function printServicePage(ctx, template) {
 		return '\t\t<tr><th scope="row">' + (gram === 1000 ? '1 kilo' : gram + ' gram') + '</th>'
 			+ '<td>' + h.euro(bedrag) + (minimum ? ' <span class="text-page-note">(minimumbedrag)</span>' : '') + '</td></tr>';
 	}).join('\n');
-	const prijstabel = '<div class="table-scroll">\n<table class="text-table">\n'
+	const prijstabel = '<div class="table-scroll" tabindex="0" role="region" aria-label="Prijzen per gewicht">\n<table class="text-table text-table--twee">\n'
 		+ '\t<thead><tr><th scope="col">Gewicht van de print</th><th scope="col">Prijs</th></tr></thead>\n'
 		+ '\t<tbody>\n' + rijen + '\n\t</tbody>\n</table>\n</div>';
 
@@ -302,7 +302,6 @@ function contactPage(ctx, template) {
 		name: 'contact',
 		section: 'contact',
 		schemaType: 'ContactPage',
-		noindex: true, // tot fase 3 (zie NOINDEX_TOT_FASE_3 in tools/check.js)
 		title: 'Contact | ' + site.name,
 		description: 'Neem contact op met ' + site.name + ' in Kerkrade over branding, een website of een 3D-ontwerp.',
 		ogImage: ctx.images[site.defaultOgImage].og,

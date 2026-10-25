@@ -17,7 +17,8 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .cart-toggle svg{width:26px;height:26px}
 .cart-count{background:var(--brand);color:var(--dark);border-radius:var(--radius-full);min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;position:absolute;top:2px;right:0;padding:0 5px}
 .cart-toggle.is-bumped{animation:cartBump 0.45s ease}
-@keyframes cartBump{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+/* Een korte tik, zonder schaal boven 1 (merkregels) */
+@keyframes cartBump{0%{transform:scale(1)}35%{transform:scale(0.86)}100%{transform:scale(1)}}
 
 /* Productkaart */
 .grid-products{grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:1.5rem}
@@ -68,7 +69,7 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;opacity:0;pointer-events:none;transition:opacity 0.3s;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .cart-overlay[aria-hidden="false"]{opacity:1;pointer-events:auto}
 .cart-sidebar{position:fixed;top:0;right:0;width:100%;max-width:420px;height:100vh;height:100dvh;background:var(--dark-card);z-index:1000;transform:translateX(100%);visibility:hidden;transition:transform 0.3s ease, visibility 0s 0.3s;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;border-left:1px solid var(--border)}
-.cart-sidebar[aria-hidden="false"]{transform:translateX(0);visibility:visible;transition:transform 0.3s ease, visibility 0s}
+.cart-sidebar[aria-hidden="false"]{transform:translateX(0);visibility:visible;transition:transform 0.3s ease}
 .cart-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .cart-header h2,.checkout-header h2{margin:0;font-size:1.25rem;display:block;color:var(--soft)}
 .cart-header h2::before,.checkout-header h2::before,.modal-content h2::before,.reviews-heading::before{display:none}
@@ -153,7 +154,7 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 @media (hover:none){[data-rand]:active{--aan:1}}
 [data-rand]:is(:focus-visible, :has(:focus-visible)){--aan:1}
 .rand{position:absolute;inset:0;z-index:3;width:100%;height:100%;overflow:visible;pointer-events:none}
-.rand path{fill:none;stroke:var(--pillar);stroke-width:2;stroke-dasharray:1 1;stroke-dashoffset:calc(1 - var(--aan));
+.rand path{fill:none;stroke:var(--pillar);stroke-width:2;stroke-dasharray:1 1;stroke-dashoffset:calc((1 - var(--aan)) * 1px);
 	transition:stroke-dashoffset calc(0.2s + var(--aan) * 0.12s) var(--ease-out)}
 [data-rand] .werk-open{transition:background-color 0.15s var(--ease) calc(var(--aan) * 0.16s), color 0.15s var(--ease) calc(var(--aan) * 0.16s)}
 [data-rand]:is(:focus-visible, :has(:focus-visible)) .werk-open{background:var(--pillar);color:var(--dark)}

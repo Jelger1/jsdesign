@@ -5,6 +5,8 @@ name: Controles
 
 on:
   pull_request:
+  # Ook met de hand te starten (Actions > Controles > Run workflow), bijvoorbeeld vlak voor de livegang
+  workflow_dispatch:
 
 permissions:
   contents: read

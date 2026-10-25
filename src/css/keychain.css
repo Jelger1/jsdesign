@@ -5,7 +5,8 @@
 .keychain-stage canvas{display:block;width:100%;height:auto;aspect-ratio:2 / 1}
 /* 3D-model: ligt over het hele podium heen; de 2D-tekening eronder houdt de ruimte vast en wordt onzichtbaar */
 .keychain-stage canvas.keychain-3d{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;opacity:0;transition:opacity 0.5s ease;outline:none}
-.keychain-stage.is-3d canvas.keychain-3d{opacity:1}
+.keychain-stage.is-3d canvas.keychain-3d{opacity:1;cursor:grab}
+.keychain-stage.is-3d canvas.keychain-3d:active{cursor:grabbing}
 .keychain-stage.is-3d canvas[data-keychain-canvas]{visibility:hidden}
 .keychain-stage canvas.keychain-3d:focus-visible{box-shadow:inset 0 0 0 2px var(--brand)}
 .keychain-stage-hint{position:absolute;right:1rem;bottom:0.8rem;font-size:0.72rem;letter-spacing:0.04em;color:var(--fg-muted);pointer-events:none}

@@ -16,7 +16,8 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUD = process.argv[2] || 'https://jelgers3d.nl/js/winkel.json';
 const NIEUW = process.argv[3] || join(ROOT, 'dist/js/winkel.json');
-const WINKEL_MAG_VERSCHILLEN = ['naam', 'url', 'mail', 'slogan'];
+// instagram: de handle wisselt bewust mee met de naam (jelgers3d naar jsdesign.nl)
+const WINKEL_MAG_VERSCHILLEN = ['naam', 'url', 'mail', 'slogan', 'instagram'];
 // De overige productvelden: een verschil houdt de poort niet dicht, maar staat er ter info bij (de naam komt ook in
 // de mails, dus kijk die even na)
 const PRODUCT_TER_INFO = ['name', 'url', 'image', 'related'];

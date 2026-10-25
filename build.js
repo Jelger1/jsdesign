@@ -643,8 +643,8 @@ async function build() {
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
 		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
-	// De leesbare sitemap: alle pagina's die in Google horen, plus contact (tot fase 3 noindex, maar bezoekers zoeken hem wel)
-	pages.push(sitemap.sitemapPage(ctx, pages.filter(function (p) { return !p.noindex || p.name === 'contact'; })));
+	// De leesbare sitemap: alle pagina's die in Google horen
+	pages.push(sitemap.sitemapPage(ctx, pages.filter(function (p) { return !p.noindex; })));
 	const seen = new Set();
 	pages.forEach(function (page) {
 		if (seen.has(page.path)) throw new Error('Twee pagina\'s met hetzelfde pad: ' + page.path);

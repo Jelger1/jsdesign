@@ -18,8 +18,17 @@ export function openDialog(el, options) {
 	document.body.classList.add('is-locked');
 
 	const target = options.initialFocus || focusables(el)[0];
-	// Wacht één frame zodat de CSS-transitie de focus niet verstoort
-	requestAnimationFrame(function () { if (target) target.focus({ preventScroll: true }); });
+	// Wacht één frame zodat de CSS-transitie de focus niet verstoort. Bij "minder beweging" krijgt elk element een
+	// overgang van 0,01 ms (components.css), ook de knoppen in het paneel: die zijn dan nog een beeld lang verborgen.
+	// Lukt de focus niet, probeer dan de volgende beelden opnieuw (hooguit tien).
+	let pogingen = 0;
+	(function zetFocus() {
+		requestAnimationFrame(function () {
+			if (!target || !isOpen(el)) return;
+			target.focus({ preventScroll: true });
+			if (document.activeElement !== target && ++pogingen < 10) zetFocus();
+		});
+	})();
 }
 
 export function closeDialog(el) {

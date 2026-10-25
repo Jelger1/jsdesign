@@ -5,9 +5,10 @@
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height) + 1rem);-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden;overflow-x:clip}
 
 /* Scroll Animations */
+/* Alleen vervagen: geen fade+slide-up (merkregels) */
 @keyframes fadeInUp{
-  from{opacity:0;transform:translateY(30px)}
-  to{opacity:1;transform:translateY(0)}
+  from{opacity:0}
+  to{opacity:1}
 }
 
 @keyframes fadeIn{
@@ -117,7 +118,7 @@ em, i{font-style:italic}
 .cart-shipping-note{font-size:0.8rem;color:var(--fg-muted);text-align:center;margin:0 0 0.75rem 0}
 /* Checkout success screen */
 .success-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#27ae60 0%,#2ecc71 100%);color:white;font-size:2rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;box-shadow:0 4px 20px rgba(39,174,96,0.3);animation:successPop 0.4s ease}
-@keyframes successPop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes successPop{0%{transform:scale(0.6);opacity:0}100%{transform:scale(1);opacity:1}}
 .step-number{width:28px;height:28px;border-radius:50%;background:var(--brand);color:var(--dark);font-size:0.85rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
 /* Buttons */

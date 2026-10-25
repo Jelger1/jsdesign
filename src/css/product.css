@@ -74,7 +74,7 @@
 	.pdp-details{grid-template-columns:minmax(0, 1fr);margin-top:3rem;padding-top:2rem}
 	.pdp-sticky:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:1rem;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:0.75rem 1rem;padding-bottom:calc(0.75rem + env(safe-area-inset-bottom));background:rgba(16,19,24,0.96);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--border);box-shadow:0 -8px 24px rgba(0,0,0,0.35);animation:fadeInUp 0.25s ease}
 	/* Ruimte onderaan zodat de balk de footer niet afdekt */
-	body:has(.pdp-sticky){padding-bottom:5rem}
+	body:has(.pdp-sticky){padding-bottom:calc(5rem + var(--cookie-hoogte, 0px))}
 	.pdp-sticky div{display:flex;flex-direction:column;min-width:0}
 	.pdp-sticky strong{font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 	.pdp-sticky span{font-size:0.95rem;color:var(--brand);font-weight:700}
@@ -82,7 +82,7 @@
 }
 
 /* Label boven de titel (alleen als je bij een product "badge" invult, bv. "Nieuw") */
-.pdp-badge{display:inline-block;margin:0 0 0.6rem 0;padding:0.25rem 0.7rem;border-radius:var(--radius-full);background:rgba(241,0,103,0.12);border:1px solid rgba(241,0,103,0.45);color:var(--raspberry);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em}
+.pdp-badge{display:inline-block;margin:0 0 0.6rem 0;padding:0.25rem 0.7rem;border-radius:var(--radius-full);background:rgba(241,0,103,0.12);border:1px solid rgba(241,0,103,0.45);color:var(--raspberry-on-dark);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em}
 
 /* Levering en verzendkosten: uitklapbaar onder de voordelen */
 .pdp-delivery{margin-top:1.25rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card)}

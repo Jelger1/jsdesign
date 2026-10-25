@@ -10,7 +10,9 @@
 
 /* Merk en drie kolommen: vier naast elkaar boven 900px, twee tot 600px, daaronder één */
 .footer-grid{display:grid;grid-template-columns:minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));gap:2.5rem clamp(1.5rem, 4vw, 3.5rem)}
-.footer-brand .brand-logo{width:170px}
+/* De naam als tekst: het logo staat alleen in de header (merkregels) */
+.footer-naam{font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;font-stretch:125%;letter-spacing:-0.01em;line-height:1.1;color:var(--fg);text-decoration:none}
+.footer-naam:hover{color:var(--brand)}
 .footer-about{margin:1.25rem 0 0 0;max-width:36ch;color:var(--fg-muted);font-size:var(--text-base);line-height:1.7}
 .footer-former{margin:1rem 0 0 0;font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
 .footer-col h2{margin:0 0 1.1rem 0;font-family:var(--font-mono);font-size:var(--text-xs);font-weight:500;font-stretch:normal;letter-spacing:var(--tracking-label);line-height:1.4;text-transform:uppercase;color:var(--fg-muted)}

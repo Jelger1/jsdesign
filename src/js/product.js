@@ -90,6 +90,9 @@ function initBuyForm() {
 		});
 		new IntersectionObserver(function (entries) {
 			sticky.hidden = entries[0].isIntersecting;
+			// Ruimte onderin voor focus en ankers zolang de balk staat (pages.css > scroll-padding-bottom)
+			if (sticky.hidden) document.documentElement.style.removeProperty('--koopbalk-hoogte');
+			else document.documentElement.style.setProperty('--koopbalk-hoogte', sticky.offsetHeight + 'px');
 		}).observe(form.querySelector('.pdp-add'));
 	}
 }

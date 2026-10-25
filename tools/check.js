@@ -24,7 +24,7 @@ const ALTIJD_NOINDEX = ['afrekenen.html', 'bedankt.html', 'gereageerd.html', '40
 // Paginatypes (body data-page) die tot fase 3 bewust noindex zijn: tussenpagina's, de contactpagina en het portfolio.
 // Krijgt een type in fase 3 zijn volledige inhoud, haal het dan hier weg: vanaf dan is noindex daar in productie een
 // fout, net als op elke andere pagina buiten ALTIJD_NOINDEX. De pijlerpagina's (pillar) zijn klaar en indexeerbaar.
-const NOINDEX_TOT_FASE_3 = ['placeholder', 'contact'];
+const NOINDEX_TOT_FASE_3 = [];
 // De pagina's die de oude webshop liet indexeren (28): alle pagina's uit de contractreferentie behalve ALTIJD_NOINDEX,
 // precies de vier die daar al noindex waren. In productie blijven ze indexeerbaar en staan ze in de sitemap, welk
 // paginatype ze ook krijgen; anders kost de domeinwissel hun plek in Google. Of ze bestaan, toetst npm run contract.
