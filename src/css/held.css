@@ -167,8 +167,18 @@
 .cta-band .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);margin:0}
 .cta-band-mail{color:var(--fg-muted)}
 .cta-band-mail a{color:var(--brand);text-underline-offset:3px}
+/* Het einde van een pagina: de contactband vol breed in de kleur van de pijler (data-surface), met bovenaan een trede
+   onder 30°, zoals de onderrand van het pijlervlak. De kleur loopt via border-image (outset) door tot de rand van het
+   venster, zonder naad en zonder dat de pagina breder wordt; clip-path snijdt de trede eruit. */
+.cta-band[data-surface]{--trede:clamp(28px, 4vw, 48px);border:0;border-radius:0;background:var(--surface);border-image:linear-gradient(var(--surface), var(--surface)) fill 0 / 0 / 0 100vmax;
+	padding:calc(var(--trede) + clamp(2rem, 5vw, 3.5rem)) 0 clamp(2.5rem, 6vw, 4.5rem);
+	clip-path:polygon(-100vmax var(--trede), 26% var(--trede), calc(26% + var(--trede) * 1.732) 0, calc(100% + 100vmax) 0, calc(100% + 100vmax) 100%, -100vmax 100%)}
+.cta-band[data-surface] h2{font-size:clamp(1.9rem, 4vw, 3rem)}
+.cta-band[data-surface] .cta-band-tekst p{color:var(--fg)}
 @media (max-width:900px){
-	.cta-band{flex-direction:column;align-items:stretch;text-align:center}
-	.cta-band-tekst p{margin-inline:auto}
-	.cta-band .cta-row{flex-direction:column;justify-content:center}
+	.cta-band{flex-direction:column;align-items:flex-start}
+	.cta-band .cta-row{flex-direction:column;align-items:flex-start}
+}
+@media (forced-colors:active){
+	.cta-band[data-surface]{border-image:none;clip-path:none;border:1px solid CanvasText;padding-inline:clamp(1.5rem, 4vw, 2.5rem)}
 }

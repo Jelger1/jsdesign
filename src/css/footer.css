@@ -8,7 +8,7 @@
 .reviews-banner + .site-footer::before{display:none}
 .footer-inner{display:flex;flex-direction:column;gap:var(--footer-gap);max-width:var(--max-width);margin:0 auto;padding:0 var(--gutter)}
 
-/* Merk en drie kolommen: vier naast elkaar boven 900px, twee tot 600px, daaronder één */
+/* Merk en drie kolommen: vier naast elkaar boven 900px, daaronder twee (smal het merk erboven) */
 .footer-grid{display:grid;grid-template-columns:minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));gap:2.5rem clamp(1.5rem, 4vw, 3.5rem)}
 /* De naam als tekst: het logo staat alleen in de header (merkregels) */
 .footer-naam{font-family:var(--font-display);font-size:var(--text-xl);font-weight:800;font-stretch:125%;letter-spacing:-0.01em;line-height:1.1;color:var(--fg);text-decoration:none}
@@ -47,7 +47,9 @@
 	.footer-grid{grid-template-columns:repeat(2, minmax(0, 1fr))}
 }
 @media (max-width:600px){
-	.footer-grid{grid-template-columns:minmax(0, 1fr);gap:2rem}
+	/* Het merk over de hele breedte, de linkkolommen twee naast elkaar (de footer wordt veel korter) */
+	.footer-grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:2rem 1.5rem}
+	.footer-brand{grid-column:1 / -1}
 	.footer-bottom{flex-direction:column;align-items:flex-start}
 	/* Zonder puntjes, want die blijven bij het afbreken aan het eind van een regel hangen */
 	.foot-nav{gap:0.25rem 1.25rem}

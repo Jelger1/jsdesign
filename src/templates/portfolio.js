@@ -146,8 +146,11 @@ function portfolioPage(ctx) {
 				+ ook.map(function (p) { return ookGemaakt(p, ctx); }).join('\n') + '\n'
 				+ '\t\t</ul>\n'
 				+ '\t</section>\n' : '')
-			+ '\t<div class="portfolio-cta">\n'
-			+ '\t\t<h2>Een website, merk of interactief verhaal laten maken?</h2>\n'
+			+ '\t<div class="portfolio-cta cta-band" data-surface="digitaal">\n'
+			+ '\t\t<div class="cta-band-tekst">\n'
+			+ '\t\t\t<h2>Een website, merk of interactief verhaal laten maken?</h2>\n'
+			+ '\t\t\t<p>Vertel me wat je in gedachten hebt. Je krijgt antwoord van mij persoonlijk, meestal binnen 3 tot 4 werkdagen.</p>\n'
+			+ '\t\t</div>\n'
 			+ '\t\t<p class="cta-row"><a class="btn primary" href="' + ROOT + 'contact.html">Neem contact op</a></p>\n'
 			+ '\t</div>\n'
 			+ '</div>'

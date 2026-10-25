@@ -207,7 +207,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		+ '</section>\n';
 
 	const cta = '<section class="section container pijler-cta" aria-labelledby="cta-titel">\n'
-		+ '\t<div class="cta-band">\n'
+		+ '\t<div class="cta-band" data-surface="' + pillar.id + '">\n'
 		+ '\t\t<div class="cta-band-tekst">\n'
 		+ '\t\t\t<h2 id="cta-titel">Iets in gedachten?</h2>\n'
 		+ '\t\t\t<p>Vertel kort wat je zoekt. Je krijgt antwoord van mij persoonlijk, meestal binnen 3 tot 4 werkdagen.</p>\n'

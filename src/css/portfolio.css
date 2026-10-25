@@ -78,9 +78,7 @@
 }
 
 /* Afsluiter: naar de contactpagina */
-.portfolio-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.25rem 2rem;margin-top:clamp(4rem, 9vw, 7.5rem);padding-top:clamp(2rem, 4vw, 3rem);border-top:1px solid var(--border)}
-.portfolio-cta h2{font-size:var(--text-xl);line-height:1.15;margin:0;max-width:26ch}
-.portfolio-cta .cta-row{margin:0}
+.portfolio-cta{margin-top:clamp(4rem, 9vw, 7.5rem)}
 
 @media (max-width:900px){
 	.project,.project:nth-child(even){grid-template-columns:minmax(0, 1fr);gap:1.25rem}

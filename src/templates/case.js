@@ -335,7 +335,7 @@ function casePage(p, ctx) {
 			+ (k.noot ? '<section class="container case-noot" aria-labelledby="noot-titel">\n\t<h2 id="noot-titel">Verantwoording</h2>\n\t<p>' + h.esc(k.noot) + '</p>\n</section>\n' : '')
 			+ verwant(p, ctx) + '\n'
 			+ '<section class="container case-cta" aria-labelledby="cta-titel">\n'
-			+ '\t<div class="cta-band">\n'
+			+ '\t<div class="cta-band" data-surface="' + p.pillar + '">\n'
 			+ '\t\t<div class="cta-band-tekst">\n'
 			+ '\t\t\t<h2 id="cta-titel">' + h.esc(CTA[p.pillar]) + '</h2>\n'
 			+ '\t\t\t<p>Vertel me wat je in gedachten hebt. Je krijgt antwoord van mij persoonlijk, meestal binnen 3 tot 4 werkdagen.</p>\n'

@@ -397,12 +397,10 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 }
 
 /* ------------------------------------------------------------------ afsluiter */
-.pijler-cta .cta-band{background:radial-gradient(60% 120% at 0% 0%, color-mix(in srgb, var(--pillar) 16%, transparent), transparent 70%), var(--dark-card)}
 .pijler-ook{display:grid;gap:var(--space-4);margin-top:var(--space-8)}
 .pijler-ook ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-3)}
-.pijler-ook a{display:flex;flex-direction:column;gap:0.15rem;padding:var(--space-4) var(--space-5);border:1px solid var(--border);border-radius:var(--radius-lg);color:var(--fg);text-decoration:none;
+.pijler-ook a{display:flex;flex-direction:column;gap:0.15rem;padding:var(--space-2) 0;color:var(--fg);text-decoration:none;
 	transition:border-color var(--duration) var(--ease)}
-.pijler-ook a:hover{border-color:var(--pillar)}
 .pijler-ook-naam{display:flex;align-items:center;gap:0.55rem;font-family:var(--font-display);font-weight:700;font-size:var(--text-lg);font-stretch:112%}
 .pijler-ook-naam::before{content:'';flex:none;width:1.4em;height:0.87em;clip-path:var(--js-blok);background:var(--pillar)}
 .pijler-ook-naam::after{margin-left:auto;color:var(--pillar-text)}
