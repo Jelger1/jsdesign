@@ -85,7 +85,8 @@ function homePage(ctx, template) {
 				return { '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } };
 			})
 		}],
-		main: main
+		// De kaart met oude ankers (data/legacy.json > ankers) voor src/js/anker.js
+		main: main + '\n<script type="application/json" id="anker-kaart">' + JSON.stringify(ctx.legacy.ankers).replace(/</g, '\\u003c') + '</script>'
 	};
 }
 

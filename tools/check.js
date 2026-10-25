@@ -291,6 +291,30 @@ files.filter(function (f) { return f.endsWith('.html'); }).forEach(function (fil
 	checkOldDomains(rel, html);
 });
 
+// De redirectlaag voor de oude domeinen (legacy/, tools/legacy.js): _redirects en _headers kloppen met data/legacy.json,
+// en de byte-kopieën van de productie staan er
+require('./legacy').controle().forEach(function (p) { problems.push(p); });
+
+// Oude ankers (data/legacy.json > ankers, src/js/anker.js): elk doel bestaat (de pagina en het id), de home heeft de
+// kaart, en geen alias is een id op de home (dan zou het script dat anker niet doorsturen)
+(function () {
+	const ankers = require('./legacy').lees().ankers;
+	const ids = function (html) { return new Set((html.match(/\sid="[^"]+"/g) || []).map(function (m) { return m.slice(5, -1); })); };
+	const home = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
+	const homeIds = ids(home);
+	if (!/id="anker-kaart"/.test(home)) problems.push('index.html: de kaart met oude ankers (#anker-kaart) ontbreekt');
+	Object.keys(ankers).forEach(function (naam) {
+		if (homeIds.has(naam)) problems.push('data/legacy.json > ankers: "#' + naam + '" is een id op de home, dus het oude anker wordt niet doorgestuurd');
+		const doel = ankers[naam];
+		if (!doel) return;
+		const pad = doel.split('#')[0].split('?')[0];
+		const id = doel.split('#')[1];
+		const bestand = path.join(DIST, !pad || pad.endsWith('/') ? pad + 'index.html' : pad);
+		if (!fs.existsSync(bestand)) { problems.push('data/legacy.json > ankers: "#' + naam + '" gaat naar ' + doel + ', maar die pagina bestaat niet'); return; }
+		if (id && !ids(fs.readFileSync(bestand, 'utf8')).has(id)) problems.push('data/legacy.json > ankers: "#' + naam + '" gaat naar ' + doel + ', maar daar is geen id "' + id + '"');
+	});
+})();
+
 files.filter(function (f) { return f.endsWith('.css'); }).forEach(function (file) {
 	const css = fs.readFileSync(file, 'utf8');
 	const url = /url\((['"]?)([^'")]+)\1\)/g;

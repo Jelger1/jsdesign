@@ -22,6 +22,7 @@ import { initTegel } from './tegel.js';
 import { initWijzer } from './wijzer.js';
 import { initKijk } from './kijk.js';
 import { initHerroep } from './herroep.js';
+import { initAnker } from './anker.js';
 
 const page = document.body.dataset.page;
 
@@ -44,7 +45,7 @@ initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagin
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();
 if (page === 'confirm') initBevestig(); // links uit mails: nieuwsbrief bevestigen, "Ik heb gereageerd"
-if (page === 'home') initHeld(); // de hero bovenaan de home: aangewezen pijler en het teken in 3D
+if (page === 'home') { initAnker(); initHeld(); } // oude #ankers doorsturen, dan de hero // de hero bovenaan de home: aangewezen pijler en het teken in 3D
 if (page === 'pillar') initTegel(); // "Je bent hier" op een smal scherm: de aankomst als de tegel in beeld komt
 if (page === 'pillar' || page === 'case') initWijzer(); // de sectiewijzer en de hoofdstukwijzer
 initKijk(); // het kijklabel bij de muis boven projectbeelden en productfoto's; na de winkel en de rails, die de kaarten neerzetten

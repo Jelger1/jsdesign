@@ -1,0 +1,13 @@
+# Gemaakt door tools/legacy.js uit data/legacy.json: niet met de hand aanpassen.
+# Blijven hier staan, met 200 (oude mails linken ernaar): een proxy naar zichzelf, vóór de catch-all
+/assets/mail/* /assets/mail/:splat 200
+/assets/fonts/* /assets/fonts/:splat 200
+/robots.txt /robots.txt 200
+/sitemap.xml /sitemap.xml 200
+# Verplaatst, en de oude startpagina
+/index.html https://jsdesign.nl/ 301
+/index https://jsdesign.nl/ 301
+# Zonder .html: direct naar de pagina mét .html, zonder tussenstap
+/privacy https://jsdesign.nl/privacy.html 301
+# Al het overige: hetzelfde pad op jsdesign.nl (een #anker neemt de browser mee)
+/* https://jsdesign.nl/:splat 301

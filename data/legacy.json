@@ -1,0 +1,74 @@
+{
+	"toelichting": "De redirectlaag voor de oude domeinen (MERGEPLAN §6.5 en §6.6). tools/legacy.js maakt hieruit legacy/<site>/_redirects en _headers; de bestanden onder legacy/<site>/ zijn byte-kopieën van de productie (oktober 2026, md5 gelijk aan de bronnen). ankers: oude #ankers die op de nieuwe home niet bestaan, met waar ze naartoe gaan (src/js/anker.js; een lege waarde: bovenaan de home blijven). check.js controleert de ankers, tools/test-redirects.mjs de redirects zelf.",
+	"doel": "https://jsdesign.nl",
+	"sites": {
+		"jelgers3d": {
+			"domein": "jelgers3d.nl",
+			"paginas": [
+				"3d-printservice.html", "404.html", "afrekenen.html", "bedankt.html", "beelden-en-modellen.html", "gereageerd.html",
+				"index.html", "lampen.html", "limburgse-cadeaus.html", "nieuwsbrief.html", "privacy.html",
+				"producten/blonde-non.html", "producten/bold-vase.html", "producten/custom-lightbox.html", "producten/dr-joep.html",
+				"producten/helio-lamp.html", "producten/kami-vase.html", "producten/kirchroa-sleutelhanger.html",
+				"producten/koempel-eend.html", "producten/mijnschacht-nulland.html", "producten/mijnwerkerslamp.html",
+				"producten/orbits-lamp.html", "producten/poefel-sleutelhanger.html", "producten/raadhuis-kerkrade.html",
+				"producten/schachtgebouw-oranje-nassau-1.html", "producten/straatnaam-sleutelhanger.html",
+				"producten/vlaai-sleutelhanger.html", "producten/wavase.html", "sleutelhangers.html", "vazen.html",
+				"voorwaarden.html", "webshop.html"
+			],
+			"verplaatst": {
+				"/index.html": "/",
+				"/404.html": "/",
+				"/producten/kami-lamp.html": "/lampen.html"
+			},
+			"bestanden": [
+				"assets/mail/3d-mijnlamp-c-400.jpg", "assets/mail/blonde-non-3d-c-400.jpg", "assets/mail/bold-vase2-c-400.jpg",
+				"assets/mail/dr-joep-zwart-c-400.jpg", "assets/mail/helio-lamp-knop-c-400.jpg", "assets/mail/js3d-lightbox-c-400.jpg",
+				"assets/mail/kami-vase-3kleuren2-c-400.jpg", "assets/mail/kirchroa-sleutelhanger-c-400.jpg",
+				"assets/mail/koempel-eend-c-400.jpg", "assets/mail/logo.png", "assets/mail/oranje-nassau-1-3d-01-voorkant-c-400.jpg",
+				"assets/mail/orbits-lamp-wood-white-c-400.jpg", "assets/mail/poefel-sleutelhanger-c-400.jpg",
+				"assets/mail/raadhuis-kerkrade-3d-01-voorgevel-c-400.jpg", "assets/mail/schacht-nulland1-c-400.jpg",
+				"assets/mail/straatnaam-sleutelhanger-ontwerp-c-400.jpg", "assets/mail/vlaai-sleutelhanger-c-400.jpg",
+				"assets/mail/wavase-keuken-c-400.jpg",
+				"assets/fonts/dm-sans-latin.woff2", "assets/fonts/instrument-serif-italic-latin.woff2",
+				"assets/fonts/jetbrains-mono-latin.woff2", "assets/fonts/saira-latin.woff2", "assets/fonts/space-grotesk-latin.woff2",
+				"assets/fonts/syne-latin.woff2",
+				"robots.txt", "sitemap.xml"
+			]
+		},
+		"jelgersieler": {
+			"domein": "jelgersieler.nl",
+			"paginas": ["index.html", "privacy.html"],
+			"verplaatst": {
+				"/index.html": "/"
+			},
+			"bestanden": [
+				"assets/mail/logo.png",
+				"assets/fonts/dm-sans-latin.woff2", "assets/fonts/instrument-serif-italic-latin.woff2",
+				"assets/fonts/jetbrains-mono-latin.woff2", "assets/fonts/saira-latin.woff2",
+				"robots.txt", "sitemap.xml"
+			]
+		}
+	},
+	"ankers": {
+		"top": "",
+		"services": "over.html",
+		"over": "over.html",
+		"over-mij": "over.html",
+		"diensten": "",
+		"meer-dan-3d": "",
+		"projecten": "portfolio/",
+		"stories": "portfolio/",
+		"project-rolduc": "portfolio/rolduc.html",
+		"project-heerlen": "portfolio/heerlen.html",
+		"project-wmc": "portfolio/wmc.html",
+		"project-sanctus": "portfolio/sanctus.html",
+		"project-codemonster": "portfolio/#codemonster",
+		"work": "webshop.html?collectie=design",
+		"miners": "limburgse-cadeaus.html",
+		"printen": "3d-printen.html#webshop",
+		"3dprint": "3d-printen.html#webshop",
+		"3d-print": "3d-printen.html#webshop",
+		"op-maat": "3d-printen.html#op-maat",
+		"contact": "contact.html"
+	}
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jelgers3d.nl/sitemap.xml

@@ -1,0 +1,46 @@
+# Gemaakt door tools/legacy.js uit data/legacy.json: niet met de hand aanpassen.
+# Blijven hier staan, met 200 (oude mails linken ernaar): een proxy naar zichzelf, vóór de catch-all
+/assets/mail/* /assets/mail/:splat 200
+/assets/fonts/* /assets/fonts/:splat 200
+/robots.txt /robots.txt 200
+/sitemap.xml /sitemap.xml 200
+# Verplaatst, en de oude startpagina
+/index.html https://jsdesign.nl/ 301
+/index https://jsdesign.nl/ 301
+/404.html https://jsdesign.nl/ 301
+/404 https://jsdesign.nl/ 301
+/producten/kami-lamp.html https://jsdesign.nl/lampen.html 301
+/producten/kami-lamp https://jsdesign.nl/lampen.html 301
+# Zonder .html: direct naar de pagina mét .html, zonder tussenstap
+/3d-printservice https://jsdesign.nl/3d-printservice.html 301
+/afrekenen https://jsdesign.nl/afrekenen.html 301
+/bedankt https://jsdesign.nl/bedankt.html 301
+/beelden-en-modellen https://jsdesign.nl/beelden-en-modellen.html 301
+/gereageerd https://jsdesign.nl/gereageerd.html 301
+/lampen https://jsdesign.nl/lampen.html 301
+/limburgse-cadeaus https://jsdesign.nl/limburgse-cadeaus.html 301
+/nieuwsbrief https://jsdesign.nl/nieuwsbrief.html 301
+/privacy https://jsdesign.nl/privacy.html 301
+/producten/blonde-non https://jsdesign.nl/producten/blonde-non.html 301
+/producten/bold-vase https://jsdesign.nl/producten/bold-vase.html 301
+/producten/custom-lightbox https://jsdesign.nl/producten/custom-lightbox.html 301
+/producten/dr-joep https://jsdesign.nl/producten/dr-joep.html 301
+/producten/helio-lamp https://jsdesign.nl/producten/helio-lamp.html 301
+/producten/kami-vase https://jsdesign.nl/producten/kami-vase.html 301
+/producten/kirchroa-sleutelhanger https://jsdesign.nl/producten/kirchroa-sleutelhanger.html 301
+/producten/koempel-eend https://jsdesign.nl/producten/koempel-eend.html 301
+/producten/mijnschacht-nulland https://jsdesign.nl/producten/mijnschacht-nulland.html 301
+/producten/mijnwerkerslamp https://jsdesign.nl/producten/mijnwerkerslamp.html 301
+/producten/orbits-lamp https://jsdesign.nl/producten/orbits-lamp.html 301
+/producten/poefel-sleutelhanger https://jsdesign.nl/producten/poefel-sleutelhanger.html 301
+/producten/raadhuis-kerkrade https://jsdesign.nl/producten/raadhuis-kerkrade.html 301
+/producten/schachtgebouw-oranje-nassau-1 https://jsdesign.nl/producten/schachtgebouw-oranje-nassau-1.html 301
+/producten/straatnaam-sleutelhanger https://jsdesign.nl/producten/straatnaam-sleutelhanger.html 301
+/producten/vlaai-sleutelhanger https://jsdesign.nl/producten/vlaai-sleutelhanger.html 301
+/producten/wavase https://jsdesign.nl/producten/wavase.html 301
+/sleutelhangers https://jsdesign.nl/sleutelhangers.html 301
+/vazen https://jsdesign.nl/vazen.html 301
+/voorwaarden https://jsdesign.nl/voorwaarden.html 301
+/webshop https://jsdesign.nl/webshop.html 301
+# Al het overige: hetzelfde pad op jsdesign.nl (een #anker neemt de browser mee)
+/* https://jsdesign.nl/:splat 301

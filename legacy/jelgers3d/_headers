@@ -1,0 +1,8 @@
+# Gemaakt door tools/legacy.js uit data/legacy.json: niet met de hand aanpassen.
+# Lettertypen en mailplaatjes mogen van elke site geladen worden (mailprogramma's, de nieuwe site)
+/assets/mail/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=86400
+/assets/fonts/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=86400

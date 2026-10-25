@@ -636,6 +636,7 @@ async function build() {
 	const ctx = {
 		site: site, brand: brand, shop: shop, pillars: pillars, projects: projects, products: products, reviews: reviews, images: images, byId: byId,
 		skills: skills,
+		legacy: JSON.parse(read('data/legacy.json')),
 		version: version, year: new Date().getFullYear(), mode: MODE, base: BASE,
 		fonts: PRELOAD_FONTS,
 		partials: {
