@@ -11,7 +11,7 @@ const shopPage = require('./src/templates/shop');
 const productPage = require('./src/templates/product');
 const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
-const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage, archivePages } = require('./src/templates/pages');
+const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage, archivePages, herroepPage } = require('./src/templates/pages');
 const { pillarPage } = require('./src/templates/pillar');
 const overPage = require('./src/templates/over');
 const portfolioPage = require('./src/templates/portfolio');
@@ -392,6 +392,9 @@ function buildCatalog(products, images) {
 // productfoto's voor de mails, zodat de bevestiging precies dezelfde prijzen noemt als de site. Eén bron: data/*.json.
 // Het e-mailadres staat er net als op de pagina's gecodeerd in (zie mailCode in src/templates/helpers.js).
 // De slogan is die van de webshop (shop.json), niet de merkregel van JS Design: de mails gaan over bestellingen.
+// Het logo bovenaan de mails (de functie gebruikt het als winkel.json het noemt; de oude sites hebben alleen het teken)
+const MAIL_LOGO = { beeld: 'assets/mail/logo-js-design.png', breedte: 138, hoogte: 41 };
+
 function buildWinkel(products, images, site, shop) {
 	const a = site.address || {};
 	const catalogus = catalogData(products, images);
@@ -400,7 +403,9 @@ function buildWinkel(products, images, site, shop) {
 		winkel: {
 			naam: site.name, eigenaar: site.owner, mail: h.mailCode(site.email), url: site.url, instagram: site.instagram, slogan: shop.slogan,
 			adres: [a.street, [a.postcode, a.city].filter(Boolean).join(' ')].filter(Boolean).join(', '),
-			kvk: site.kvk, btw: site.btw, ophaalplaats: site.pickupLocation, levertijd: site.delivery.leadTimeLong
+			kvk: site.kvk, btw: site.btw, ophaalplaats: site.pickupLocation, levertijd: site.delivery.leadTimeLong,
+			logo: MAIL_LOGO,
+			herroepen: 'herroepen.html' // de link "Bestelling herroepen" onder de mails
 		},
 		catalogus: catalogus,
 		uploads: site.uploads || null // welke bestanden bij een aanvraag mogen (types, aantal, grootte, bewaartermijn)
@@ -420,6 +425,18 @@ async function buildMailImages(products, images) {
 	const jobs = [{
 		src: path.join(ROOT, 'assets/brand/js-icon.svg'), out: 'logo.png',
 		make: function () { return sharp(this.src, { density: 300 }).resize({ width: 88 }).png({ compressionLevel: 9 }); } // 2x van 44x41
+	}, {
+		// Het hele logo voor bovenaan de mails (zie MAIL_LOGO): het logo uit de header, met de kleuren die header.css het
+		// geeft (de drie delen van het teken in de pijlerkleuren, DESIGN in Misty Sage), want een mail heeft die CSS niet
+		src: path.join(ROOT, 'src/partials/logo.svg'), out: path.basename(MAIL_LOGO.beeld),
+		make: function () {
+			const kleuren = { digitaal: '#03bcca', branding: '#f10067', tastbaar: '#f3fffd' };
+			const svg = fs.readFileSync(this.src, 'utf8')
+				.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ')
+				.replace(/class="logo-deel logo-deel--(\w+)"/g, function (m, deel) { return 'fill="' + kleuren[deel] + '"'; })
+				.replace('fill="currentColor"', 'fill="#f3fffd"');
+			return sharp(Buffer.from(svg), { density: 300 }).resize({ width: MAIL_LOGO.breedte * 2 }).png({ compressionLevel: 9 });
+		}
 	}].concat(products.map(function (p) {
 		return {
 			src: path.join(DIST, h.imgPath(images, p.images[0].file, 400, '', true)), out: mailImageName(p, images),
@@ -641,7 +658,7 @@ async function build() {
 		.concat([contactPage(ctx, read('src/pages/contact.html'))])
 		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
-		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
+		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), herroepPage(ctx, read('src/pages/herroepen.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
 		.concat(archivePages(ctx, read))
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	// De leesbare sitemap: alle pagina's die in Google horen

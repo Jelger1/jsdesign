@@ -314,6 +314,61 @@ test('berichten via het portfolio (jelgersieler.nl)', function () {
 	assert.ok(herinnering.html.includes('Bericht via je portfolio') && herinnering.html.includes(encodeURIComponent('Je bericht bij JSdesign')));
 });
 
+test('berichten via jsdesign.nl: site en onderwerp', function () {
+	const d = ok({ site: 'jsdesign', soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'Een logo graag', onderwerp: 'branding' });
+	assert.equal(d.site, 'jsdesign');
+	assert.deepEqual(d.velden, { Onderwerp: 'Branding' });
+	assert.equal(ok({ soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'x', onderwerp: '__proto__' }).velden, undefined, 'alleen bekende onderwerpen');
+	assert.equal(ok({ site: 'jsdesign', soort: 'offerte', naam: 'Jan', email: 'jan@voorbeeld.nl', product: 'lightbox', velden: { Wens: 'x' } }).site, 'jsdesign');
+	assert.equal(ok(bestelling({ site: 'jsdesign' })).site, undefined, 'bestellingen hebben geen site');
+
+	const extra = { id: 'abc', moment: MOMENT };
+	assert.ok(mailEigenaar(d, extra, WINKEL).html.includes('Onderwerp'), 'Jelger ziet het onderwerp');
+	assert.ok(!mailKlant(d, extra, WINKEL).html.includes('Handgemaakt in Limburg'), 'een bericht krijgt geen winkelslogan');
+	assert.ok(mailKlant(ok(bestelling()), Object.assign({ regels: [], totaal: 0 }, extra), WINKEL).html.includes('Handgemaakt in Limburg'), 'een bestelling wel');
+
+	// Met een logo als plaatje in winkel.json (jsdesign.nl) staat dat bovenaan, zonder de naam als tekst ernaast
+	const JSD = Object.assign({}, WINKEL, { naam: 'JS Design', url: 'https://jsdesign.nl', logo: { beeld: 'assets/mail/logo-js-design.png', breedte: 138, hoogte: 41 } });
+	const html = mailKlant(d, extra, JSD).html;
+	assert.ok(html.includes('<img src="https://jsdesign.nl/assets/mail/logo-js-design.png" width="138" height="41" alt="JS Design"'));
+	assert.ok(!html.includes('/assets/mail/logo.png'));
+	assert.ok(mailKlant(d, extra, WINKEL).html.includes('https://jelgers3d.nl/assets/mail/logo.png'), 'zonder logo in winkel.json het teken met de naam');
+
+	// De herroepingsknop onder de bevestiging van een bestelling, als de site hem heeft
+	const metKnop = Object.assign({}, JSD, { herroepen: 'herroepen.html' });
+	const bestelExtra = Object.assign({ regels: [], totaal: 0 }, extra);
+	assert.ok(mailKlant(ok(bestelling()), bestelExtra, metKnop).html.includes('https://jsdesign.nl/herroepen.html'));
+	assert.ok(!mailKlant(ok(bestelling()), bestelExtra, WINKEL).html.includes('herroepen.html'), 'de oude webshop heeft hem niet');
+	assert.ok(!mailKlant(d, extra, metKnop).html.includes('herroepen.html'), 'alleen bij een bestelling');
+});
+
+test('herroepen: controle en ontvangstbevestiging', function () {
+	assert.equal(fout({ soort: 'herroeping', email: 'jan@voorbeeld.nl', bestelling: 'JS3D-ABC' }), 'Vul je naam in.');
+	assert.match(fout({ soort: 'herroeping', naam: 'Jan', email: 'jan@voorbeeld.nl', bestelling: '  ' }), /bestelnummer/);
+	const d = ok({ site: 'jsdesign', soort: 'herroeping', naam: 'Jan Jansen', email: 'jan@voorbeeld.nl', bestelling: ' JS3D-ABC12 ', producten: '', nieuwsbrief: true });
+	assert.deepEqual(d.velden, { Bestelling: 'JS3D-ABC12', Producten: 'De hele bestelling' });
+	assert.equal(d.nieuwsbrief, false);
+	assert.equal(ok({ soort: 'herroeping', naam: 'Jan', email: 'jan@voorbeeld.nl', bestelling: '12 oktober', producten: '1× Kami Vase' }).velden.Producten, '1× Kami Vase');
+
+	const extra = { id: 'abc', moment: MOMENT, gereageerdLink: 'https://jelgers3d.nl/gereageerd.html#m=abc&k=x' };
+	const klant = mailKlant(d, extra, WINKEL);
+	assert.equal(klant.onderwerp, 'Je herroeping is ontvangen (JS3D-ABC12)');
+	// De wet vraagt de inhoud van de verklaring en de datum en het tijdstip van indiening
+	const tijdstip = new Date(MOMENT).toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+	for (const stuk of ['Jan Jansen', 'jan@voorbeeld.nl', 'JS3D-ABC12', 'De hele bestelling', tijdstip]) {
+		assert.ok(klant.html.includes(stuk) && klant.tekst.includes(stuk), 'in de bevestiging: ' + stuk);
+	}
+	assert.ok(klant.html.includes('Abtenlaan 42, Kerkrade'), 'het retouradres');
+	const jelger = mailEigenaar(d, extra, WINKEL);
+	assert.equal(jelger.onderwerp, 'Herroeping van Jan Jansen: JS3D-ABC12');
+	assert.ok(jelger.html.includes('binnen 14 dagen terug') && jelger.html.includes('Ik heb gereageerd'));
+
+	const herinnering = mailHerinnering([{ soort: 'herroeping', id: 'h1', naam: 'Jan', email: 'jan@voorbeeld.nl', tekst: 'JS3D-ABC12', aangemaakt: '2026-10-21T06:00:00Z', keer: 1, gereageerdLink: 'https://jelgers3d.nl/gereageerd.html#m=h1&k=d' }], WINKEL, new Date('2026-10-23T07:00:00Z').getTime());
+	assert.equal(herinnering.onderwerp, 'Herinnering: 1 herroeping wacht op je reactie');
+	assert.ok(herinnering.html.includes('>Herroeping<'));
+	assert.equal(telling([{ soort: 'herroeping' }, { soort: 'herroeping' }, { soort: 'contact' }]), '2 herroepingen en 1 bericht');
+});
+
 const UPLOADS = { maxMB: 50, keepMonths: 6, printservice: { types: ['stl', '3mf'], max: 2 }, offerte: { types: ['svg', 'png', 'jpg', 'jpeg', 'pdf'], max: 3 } };
 
 test('bestanden: wat mag er geüpload worden', function () {

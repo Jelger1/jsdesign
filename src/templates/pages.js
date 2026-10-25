@@ -231,6 +231,21 @@ function archivePages(ctx, read) {
 	});
 }
 
+// Bestelling herroepen (src/pages/herroepen.html, verstuurd door src/js/herroep.js): de herroepingsknop uit de wet.
+// De link staat in de footer van elke pagina.
+function herroepPage(ctx, template) {
+	const site = ctx.site;
+	return {
+		path: 'herroepen.html',
+		root: '',
+		name: 'text',
+		title: 'Bestelling herroepen | ' + site.name,
+		description: 'Een bestelling uit de webshop van ' + site.name + ' herroepen: binnen 14 dagen na ontvangst, zonder reden. Je krijgt direct een ontvangstbevestiging.',
+		ogImage: ctx.images[site.defaultOgImage].og,
+		main: '<div class="container text-page">\n' + h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), { emailLink: h.mailLink(site.email, '') }) + '\n</div>'
+	};
+}
+
 // GitHub Pages toont 404.html voor elk adres dat niet bestaat, ook in submappen.
 // Daarom gebruikt deze pagina adressen vanaf de hoofdmap van de site (ctx.base: "/", of "/jsdesign/" in de preview).
 function notFoundPage(ctx) {
@@ -361,5 +376,5 @@ function repliedPage(ctx) {
 
 module.exports = {
 	privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage, printServicePage: printServicePage,
-	newsletterPage: newsletterPage, repliedPage: repliedPage, contactPage: contactPage, archivePages: archivePages
+	newsletterPage: newsletterPage, repliedPage: repliedPage, contactPage: contactPage, archivePages: archivePages, herroepPage: herroepPage
 };

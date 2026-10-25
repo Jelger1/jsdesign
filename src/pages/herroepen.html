@@ -1,0 +1,29 @@
+<!-- Bestelling herroepen (herroepen.html): de "herroepingsknop" die de wet sinds juni 2026 van webshops vraagt
+     (art. 6:230oa BW). De link staat in de footer van elke pagina (de functie), de knop onder het formulier bevestigt
+     (de bevestigingsfunctie). Wat erin moet: je naam, welke bestelling, en het e-mailadres voor de ontvangstbevestiging.
+     src/js/herroep.js verstuurt het naar de functie "formulier" (soort herroeping), die de bevestiging direct mailt.
+     {{...}} wordt door build.js ingevuld (zie herroepPage in src/templates/pages.js). Een hint bij een verplicht veld
+     staat in het label: validate.js gebruikt aria-describedby voor de foutmelding. -->
+<h1>Bestelling herroepen</h1>
+<p class="text-page-intro">Wil je een bestelling uit de webshop toch niet? Als consument mag je de koop binnen 14 dagen nadat je het product hebt ontvangen ongedaan maken, zonder reden te geven. Dat heet herroepen.</p>
+<p>Vul hieronder in om welke bestelling het gaat en klik op <strong>Herroeping bevestigen</strong>. Je krijgt meteen een ontvangstbevestiging per mail, met wat je hebt verstuurd en het tijdstip. Daarna stuur je het product binnen 14 dagen terug en krijg je je geld terug. Hoe dat precies gaat, staat in <a href="voorwaarden.html#herroepingsrecht">artikel 6 van de algemene voorwaarden</a>.</p>
+<p class="text-page-note">Is het product speciaal voor jou gemaakt, bijvoorbeeld met een eigen tekst of logo? Dan geldt het herroepingsrecht niet.</p>
+
+<form id="herroep-form" class="request-form herroep-form" novalidate>
+	<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+	<p class="form-legenda">Naam, e-mailadres en bestelling zijn verplicht.</p>
+	<div class="form-row">
+		<div class="form-group"><label for="hr-name">Naam</label><input type="text" id="hr-name" name="name" required autocomplete="name"></div>
+		<div class="form-group"><label for="hr-email">E-mailadres <span class="form-optioneel">(voor de bevestiging)</span></label><input type="email" id="hr-email" name="email" required autocomplete="email"></div>
+	</div>
+	<div class="form-group"><label for="hr-bestelling">Bestelnummer of besteldatum <span class="form-optioneel">(het nummer staat in de mail die je kreeg toen je bestelde)</span></label><input type="text" id="hr-bestelling" name="bestelling" required placeholder="Bijv. JS3D-MH4K2Q7 of 12 oktober"></div>
+	<div class="form-group"><label for="hr-producten">Welke producten? <span class="form-optioneel">(niet verplicht)</span></label><textarea id="hr-producten" name="producten" rows="3" aria-describedby="hr-producten-hint"></textarea><p class="form-hint" id="hr-producten-hint">Laat dit leeg als je de hele bestelling herroept.</p></div>
+	<p class="form-msg" id="herroep-msg" role="alert"></p>
+	<button type="submit" class="btn btn-primary btn-block">Herroeping bevestigen</button>
+</form>
+<div class="request-success" data-herroep-klaar hidden tabindex="-1">
+	<strong>Je herroeping is verstuurd</strong>
+	<p>Ontvangen op <span data-herroep-tijd></span>. <span data-herroep-mail></span></p>
+</div>
+
+<p class="text-page-eerder">Liever per mail? Dat kan ook: stuur een mail naar {{emailLink}}, of gebruik het <a href="voorwaarden.html#modelformulier">modelformulier</a>.</p>

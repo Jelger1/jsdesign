@@ -1,5 +1,5 @@
-// Supabase Edge Function "formulier": ontvangt alle formulieren van jelgers3d.nl (bestellen, contact,
-// maatwerk, printservice, beschikbaarheid, nieuwsbrief). Controleert de invoer, houdt bots tegen, slaat alles op in de
+// Supabase Edge Function "formulier": ontvangt alle formulieren van jelgers3d.nl en jsdesign.nl (bestellen, contact,
+// maatwerk, printservice, beschikbaarheid, nieuwsbrief, herroepen). Controleert de invoer, houdt bots tegen, slaat alles op in de
 // database en stuurt mails via Resend: een bevestiging naar de klant en een overzicht naar Jelger.
 //
 // Wat de functie verder doet (veld "actie" in de aanvraag):
@@ -15,6 +15,9 @@
 // Het portfolio van Jelger (jelgersieler.nl, JSdesign) gebruikt deze functie ook, alleen voor het contactformulier
 // (veld "site": "portfolio"). Die berichten staan in dezelfde tabel met site = jelgersieler.nl, en de mails erover
 // krijgen de naam, het adres en het logo van het portfolio (het logo en de lettertypen staan daar ook op de site).
+// De nieuwe site (jsdesign.nl en de preview) stuurt "site": "jsdesign"; die berichten krijgen site = jsdesign.nl.
+// Daar staat ook de knop "Bestelling herroepen" (soort "herroeping", art. 6:230oa BW): de klant krijgt meteen een
+// ontvangstbevestiging met de inhoud en het tijdstip, Jelger een overzicht.
 //
 // Instellingen (Supabase > Edge Functions > Secrets):
 //   RESEND_API_KEY   verplicht, de sleutel van resend.com (voor de nieuwsbrief met toegang tot contacten)
@@ -308,7 +311,7 @@ async function gereageerd(invoer: any, headers: Record<string, string>) {
 	if (tabel === 'm' && rij.status === 'nieuw') wijziging.status = 'beantwoord';
 	const { error } = await db.from(naam).update(wijziging).eq('id', id);
 	if (error) { console.error('Gereageerd opslaan mislukt', error); return antwoord({ ok: false, fout: 'Opslaan lukte niet. Probeer het zo opnieuw.' }, 500, headers); }
-	const soortNaam: Record<string, string> = { contact: 'Bericht', offerte: 'Aanvraag', printservice: 'Printaanvraag' };
+	const soortNaam: Record<string, string> = { contact: 'Bericht', offerte: 'Aanvraag', printservice: 'Printaanvraag', herroeping: 'Herroeping' };
 	const wat = tabel === 'b' ? 'Bestelling ' + rij.id + ' van ' + rij.naam : (soortNaam[rij.soort] ?? 'Aanvraag') + ' van ' + (rij.naam || rij.email);
 	return antwoord({ ok: true, wat, al: Boolean(rij.gereageerd_op), dashboard }, 200, headers);
 }
@@ -483,7 +486,7 @@ Deno.serve(async (req) => {
 	const merk = portfolio ? { ...w.winkel, ...PORTFOLIO, portfolio: true } : w.winkel;
 	const van = portfolio ? MAIL_VAN_PORTFOLIO : MAIL_VAN;
 	const { data: rij, error } = await db.from('berichten').insert({
-		...(portfolio ? { site: PORTFOLIO.site } : {}),
+		...(portfolio ? { site: PORTFOLIO.site } : data.site === 'jsdesign' ? { site: 'jsdesign.nl' } : {}),
 		soort: data.soort, naam: data.naam || null, email: data.email, product: data.product || null,
 		velden: data.velden ?? {}, bericht: data.bericht ?? null, akkoord_op: akkoordOp,
 		status: spam ? 'spam' : 'nieuw', spam_reden: spam

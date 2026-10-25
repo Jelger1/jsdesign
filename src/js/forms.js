@@ -12,6 +12,11 @@ export function initForms() {
 
 	watchForm(form);
 
+	// contact.html?onderwerp=branding (de knoppen op de pijlerpagina's): het onderwerp staat dan al goed
+	const gekozen = new URLSearchParams(location.search).get('onderwerp');
+	const onderwerp = form.elements.onderwerp;
+	if (onderwerp && gekozen && Array.prototype.some.call(onderwerp.options, function (o) { return o.value === gekozen; })) onderwerp.value = gekozen;
+
 	function say(text, ok) {
 		message.textContent = text;
 		message.className = 'form-msg ' + (ok ? 'form-msg-success' : 'form-msg-error');
@@ -31,7 +36,9 @@ export function initForms() {
 		submitBtn.textContent = 'Verzenden...';
 
 		verstuur({
+			site: 'jsdesign',
 			soort: 'contact',
+			onderwerp: onderwerp ? onderwerp.value : '',
 			naam: name,
 			email: email,
 			bericht: text,
@@ -43,6 +50,7 @@ export function initForms() {
 			const nieuwsbrief = antwoord.mail && form.elements.nieuwsbrief && form.elements.nieuwsbrief.checked;
 			say('Bedankt! Je bericht is verstuurd.' + (antwoord.mail ? ' Je krijgt een bevestiging per mail' + (nieuwsbrief ? ', met daarin de knop om je aanmelding voor de nieuwsbrief te bevestigen.' : '.') : '') + ' Je hoort meestal binnen 3 tot 4 werkdagen van me.', true);
 			form.reset();
+			if (onderwerp && gekozen) onderwerp.value = gekozen;
 		}).catch(function (error) {
 			say(error.message, false);
 		}).finally(function () {

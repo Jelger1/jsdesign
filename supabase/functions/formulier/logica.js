@@ -3,12 +3,16 @@
 // Node-specifieke dingen, zodat dit bestand ook buiten Supabase te testen is. index.ts doet de rest (database,
 // mail versturen, limieten).
 
-export const SOORTEN = ['bestelling', 'contact', 'offerte', 'printservice', 'beschikbaarheid', 'nieuwsbrief'];
+// herroeping: de knop "Bestelling herroepen" op jsdesign.nl (art. 6:230oa BW, sinds juni 2026 verplicht voor webshops)
+export const SOORTEN = ['bestelling', 'contact', 'offerte', 'printservice', 'beschikbaarheid', 'nieuwsbrief', 'herroeping'];
 export const MIN_DUUR_MS = 2000;   // sneller dan dit kan een mens geen formulier invullen
 export const MAX_LINKS = 2;        // meer links in een bericht: vrijwel altijd SEO-spam
 // Waar iemand zich voor de nieuwsbrief aanmeldde: onderaan een pagina, op de bedanktpagina, op de aanmeldpagina
 // (jelgers3d.nl/nieuwsbrief, om te delen op social media) of met het vinkje in een formulier
 export const BRONNEN = ['footer', 'bedankt', 'pagina', 'bestelling', 'contact', 'offerte', 'printservice'];
+
+// Waar een contactbericht over gaat (contact.html, ook als contact.html?onderwerp=branding vanaf een pijlerpagina)
+export const ONDERWERPEN = { branding: 'Branding', digitaal: 'Digitaal', tastbaar: 'Tastbaar', anders: 'Iets anders' };
 
 const EMAIL = /^[^\s@<>()",;]+@[^\s@<>()",;]+\.[a-z]{2,}$/i;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -112,10 +116,23 @@ export function controleer(invoer, catalogus) {
 		data.site = 'portfolio';
 		data.nieuwsbrief = false;
 	}
+	// De nieuwe site (jsdesign.nl en de preview): de berichten krijgen in de database site = jsdesign.nl. De mails
+	// volgen gewoon de gegevens van SITE_URL; die gaan bij de overstap naar jsdesign.nl.
+	if (invoer.site === 'jsdesign' && data.soort !== 'bestelling') data.site = 'jsdesign';
 
 	if (data.soort === 'contact') {
 		data.bericht = tekst(invoer.bericht, 5000);
 		if (!data.bericht) return fout('Vul je bericht in.');
+		if (heeft(ONDERWERPEN, invoer.onderwerp)) data.velden = { Onderwerp: ONDERWERPEN[invoer.onderwerp] };
+	}
+
+	// Herroepen: naam, e-mailadres (daar gaat de ontvangstbevestiging heen) en welke bestelling; dat vraagt de wet.
+	// Welke producten mag leeg blijven: dan de hele bestelling.
+	if (data.soort === 'herroeping') {
+		data.nieuwsbrief = false;
+		const bestelling = regel(invoer.bestelling, 80);
+		if (!bestelling) return fout('Vul je bestelnummer in, of de datum waarop je bestelde.');
+		data.velden = { Bestelling: bestelling, Producten: tekst(invoer.producten, 1000) || 'De hele bestelling' };
 	}
 
 	if (data.soort === 'offerte' || data.soort === 'printservice' || data.soort === 'beschikbaarheid') {
@@ -283,8 +300,12 @@ const TITELS = {
 	contact: 'bericht',
 	offerte: 'aanvraag',
 	printservice: 'printaanvraag',
-	beschikbaarheid: 'aanmelding'
+	beschikbaarheid: 'aanmelding',
+	herroeping: 'herroeping'
 };
+// Mails over iets uit de webshop krijgen "Handgemaakt in Limburg" in de voet; een bericht (vaak over ontwerp- of
+// webwerk) niet
+const WINKELMAILS = ['bestelling', 'beschikbaarheid', 'offerte', 'printservice', 'herroeping', 'nieuwsbrief'];
 
 // De bevestiging gaat naar het adres dat iemand invult, en dat kan ook dat van een ander zijn. Spammers
 // misbruiken dat door een webadres in het naam- of berichtveld te zetten. Daarom in mails aan de klant:
@@ -298,6 +319,20 @@ function zonderLinks(waarde) { return String(waarde == null ? '' : waarde).repla
 
 function datum(moment) {
 	return new Date(moment).toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+// Bovenaan de mail: het teken met de naam ernaast in Stevie Sans (JelgerS3D, het portfolio), of, als winkel.json een
+// logo als plaatje noemt (jsdesign.nl: het teken met DESIGN in Saira Regular), dat plaatje. Saira Regular kan niet als
+// letter in de mail (het lettertype van de site loopt van 600 tot 900, en Gmail laadt geen lettertypen).
+function logoKop(winkel) {
+	const url = winkel.url;
+	const l = winkel.logo;
+	if (l && l.beeld && l.breedte && l.hoogte) {
+		return '<img src="' + esc(url + '/' + l.beeld) + '" width="' + Number(l.breedte) + '" height="' + Number(l.hoogte) + '" alt="' + esc(winkel.naam) + '" style="display:block;border:0;outline:none">';
+	}
+	return '<table role="presentation" cellpadding="0" cellspacing="0"><tr>'
+		+ '<td style="padding:0 12px 0 0"><img src="' + esc(url) + '/assets/mail/logo.png" width="44" height="41" alt="" style="display:block;border:0;outline:none"></td>'
+		+ '<td style="font:500 20px/1 ' + LOGO + ';letter-spacing:0.06em;text-transform:uppercase;color:' + KLEUR.licht + '">' + esc(winkel.naam) + '</td></tr></table>';
 }
 
 // preheader: de regel die mailprogramma's in de inbox naast het onderwerp tonen
@@ -314,9 +349,7 @@ function omhulsel(titel, preheader, inhoud, voet, winkel) {
 		+ '<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:' + KLEUR.donker + '">' + esc(preheader) + '&#847;&zwnj;&nbsp;'.repeat(30) + '</div>'
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="' + KLEUR.donker + '" style="background:' + KLEUR.donker + '"><tr><td align="center" style="padding:28px 12px 36px 12px">'
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px">'
-		+ '<tr><td style="padding:0 4px 20px 4px"><a href="' + esc(url) + '" style="text-decoration:none"><table role="presentation" cellpadding="0" cellspacing="0"><tr>'
-		+ '<td style="padding:0 12px 0 0"><img src="' + esc(url) + '/assets/mail/logo.png" width="44" height="41" alt="" style="display:block;border:0;outline:none"></td>'
-		+ '<td style="font:500 20px/1 ' + LOGO + ';letter-spacing:0.06em;text-transform:uppercase;color:' + KLEUR.licht + '">' + esc(winkel.naam) + '</td></tr></table></a></td></tr>'
+		+ '<tr><td style="padding:0 4px 20px 4px"><a href="' + esc(url) + '" style="text-decoration:none">' + logoKop(winkel) + '</a></td></tr>'
 		+ '<tr><td bgcolor="' + KLEUR.kaart + '" style="background:' + KLEUR.kaart + ';border-radius:16px;overflow:hidden">'
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">'
 		+ '<tr><td height="4" bgcolor="' + KLEUR.merk + '" style="height:4px;line-height:4px;font-size:0;background:' + KLEUR.merk + ';background-image:linear-gradient(90deg,' + KLEUR.roze + ',' + KLEUR.merk + ')">&nbsp;</td></tr>'
@@ -417,11 +450,14 @@ function adresRegel(d) {
 function voetLink(href, t) { return '<a href="' + esc(href) + '" style="color:' + KLEUR.merk + ';text-decoration:none">' + esc(t) + '</a>'; }
 
 // w.portfolio: een mail over een bericht via het portfolio (JSdesign). Dat is geen winkel: geen voorwaarden of KvK-regel.
-function winkelVoet(w) {
-	return '<strong style="color:' + KLEUR.licht + '">' + esc(w.naam) + '</strong>' + (w.slogan ? ' · ' + esc(w.slogan) : '') + (w.portfolio ? '' : ' · Handgemaakt in Limburg') + '<br>'
+// soort: waar de mail over gaat; zie WINKELMAILS
+function winkelVoet(w, soort) {
+	return '<strong style="color:' + KLEUR.licht + '">' + esc(w.naam) + '</strong>' + (w.slogan ? ' · ' + esc(w.slogan) : '') + (w.portfolio || WINKELMAILS.indexOf(soort) === -1 ? '' : ' · Handgemaakt in Limburg') + '<br>'
 		+ (w.portfolio ? '' : esc(w.adres) + ' · KvK ' + esc(w.kvk) + ' · Btw ' + esc(w.btw) + '<br>')
 		+ [voetLink(w.url, w.url.replace(/^https?:\/\//, '')), w.instagram ? voetLink(w.instagram, 'Instagram') : '',
-			w.portfolio ? '' : voetLink(w.url + '/voorwaarden.html', 'Algemene voorwaarden'), voetLink(w.url + '/privacy.html', 'Privacyverklaring')].filter(Boolean).join(' · ');
+			w.portfolio ? '' : voetLink(w.url + '/voorwaarden.html', 'Algemene voorwaarden'), voetLink(w.url + '/privacy.html', 'Privacyverklaring'),
+			// Na een bestelling: de herroepingsknop (alleen als de site er een heeft; winkel.json noemt dan de pagina)
+			w.herroepen && soort === 'bestelling' ? voetLink(w.url + '/' + w.herroepen, 'Bestelling herroepen') : ''].filter(Boolean).join(' · ');
 }
 
 function voetTekst(w) {
@@ -469,13 +505,15 @@ export function mailEigenaar(data, extra, winkel) {
 		const viaPortfolio = data.site === 'portfolio';
 		onderwerp = data.soort === 'contact' ? 'Nieuw bericht van ' + data.naam + (viaPortfolio ? ' via ' + winkel.url.replace(/^https?:\/\//, '') : '')
 			: data.soort === 'beschikbaarheid' ? data.email + ' wil een seintje over de ' + data.product
+			: data.soort === 'herroeping' ? 'Herroeping van ' + data.naam + ': ' + data.velden.Bestelling
 			: 'Nieuwe ' + soortNaam + (data.soort === 'offerte' && data.product ? ' ' + data.product : '') + ' van ' + data.naam;
 		preheader = data.bericht ? data.bericht.slice(0, 120) : Object.keys(data.velden || {}).map(function (l) { return data.velden[l]; }).join(' · ').slice(0, 120) || onderwerp;
 		const velden = Object.keys(data.velden || {}).map(function (label) { return [label, esc(data.velden[label]).replace(/\n/g, '<br>')]; });
-		inhoud = bovenkop({ contact: viaPortfolio ? 'Nieuw bericht via je portfolio' : 'Nieuw bericht', offerte: 'Nieuwe aanvraag', printservice: 'Nieuwe printaanvraag', beschikbaarheid: 'Seintje gevraagd' }[data.soort])
+		inhoud = bovenkop({ contact: viaPortfolio ? 'Nieuw bericht via je portfolio' : 'Nieuw bericht', offerte: 'Nieuwe aanvraag', printservice: 'Nieuwe printaanvraag', beschikbaarheid: 'Seintje gevraagd', herroeping: 'Herroeping' }[data.soort])
 			+ titel(esc(data.naam || data.email))
 			+ alinea(gedempt(esc(moment) + (data.product ? ' · ' + esc(data.product) : '')))
 			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Re: ' + onderwerp), 'Beantwoorden'], gereageerd])
+			+ (data.soort === 'herroeping' ? notitie('<strong>De klant herroept de koop.</strong> De ontvangstbevestiging is al automatisch verstuurd. Het aankoopbedrag, met de standaard verzendkosten van de heenzending, moet binnen 14 dagen terug; je mag wachten tot het product terug is of de klant laat zien dat het is verstuurd. Is het maatwerk (artikel 6 van de voorwaarden), laat de klant dat dan weten.') : '')
 			+ (data.bericht ? citaat(data.bericht) : '')
 			+ (velden.length ? gegevens(velden) : '')
 			+ (bestanden.length
@@ -537,6 +575,31 @@ export function mailKlant(data, extra, winkel) {
 			+ (data.levering === 'Verzenden' ? '\n(exclusief verzendkosten)\nBezorgadres: ' + adres : '\nJe haalt het op in ' + winkel.ophaalplaats + '.')
 			+ '\n\nHoe nu verder: ik neem persoonlijk contact met je op. Pas als alles klopt, betaal je en ga ik printen. ' + winkel.levertijd
 			+ '\n\nDit is een ontvangstbevestiging: je hoeft nu nog niets te betalen. Na ons contact krijg je de definitieve bevestiging met de totaalprijs en de levertijd.';
+	} else if (data.soort === 'herroeping') {
+		// De ontvangstbevestiging die de wet vraagt (art. 6:230oa lid 4 BW): op een duurzame gegevensdrager (deze mail),
+		// met de inhoud van de verklaring en de datum en het tijdstip waarop die is ingediend
+		const bestelling = zonderLinks(data.velden.Bestelling);
+		const producten = zonderLinks(data.velden.Producten);
+		const ontvangen = datum(extra.moment);
+		onderwerp = 'Je herroeping is ontvangen (' + bestelling + ')';
+		preheader = 'Ontvangen op ' + ontvangen + '. Hieronder staat wat je hebt verstuurd en hoe het verder gaat.';
+		inhoud = bovenkop('Herroeping ontvangen') + titel('Je herroeping is binnen')
+			+ alinea(hoi + ' hierbij bevestig ik dat ik je herroeping heb ontvangen op <strong>' + esc(ontvangen) + '</strong>.')
+			+ kop('Je verklaring')
+			+ gegevens([['Naam', esc(zonderLinks(data.naam))], ['E-mail', esc(data.email)], ['Bestelling', esc(bestelling)],
+				['Producten', esc(producten).replace(/\n/g, '<br>')], ['Ontvangen op', esc(ontvangen)]])
+			+ kop('Hoe gaat het nu verder?')
+			+ stappen([
+				'Stuur het product binnen 14 dagen onbeschadigd terug' + (winkel.adres ? ' naar ' + esc(winkel.naam) + ', ' + esc(winkel.adres) : '') + '. De kosten van het terugsturen zijn voor jou.',
+				'Je krijgt het aankoopbedrag binnen 14 dagen na je herroeping terug, met de standaard verzendkosten van de heenzending. Ik mag daarmee wachten tot ik het product terug heb, of tot je laat zien dat het is verstuurd.'
+			])
+			+ notitie('Is je bestelling speciaal voor jou gemaakt, bijvoorbeeld met een eigen tekst of logo? Dan geldt het herroepingsrecht niet (artikel 6 van de algemene voorwaarden). Dan laat ik je dat zo snel mogelijk weten.')
+			+ afsluiting;
+		tekstversie = (naam ? 'Hoi ' + naam + ',' : 'Hoi,') + '\n\nHierbij bevestig ik dat ik je herroeping heb ontvangen op ' + ontvangen + '.'
+			+ '\n\nJE VERKLARING\nNaam: ' + zonderLinks(data.naam) + '\nE-mail: ' + data.email + '\nBestelling: ' + bestelling + '\nProducten: ' + producten + '\nOntvangen op: ' + ontvangen
+			+ '\n\nHoe nu verder: stuur het product binnen 14 dagen onbeschadigd terug' + (winkel.adres ? ' naar ' + winkel.naam + ', ' + winkel.adres : '') + '; de kosten daarvan zijn voor jou.'
+			+ ' Je krijgt het aankoopbedrag binnen 14 dagen na je herroeping terug, met de standaard verzendkosten van de heenzending. Ik mag wachten tot ik het product terug heb of tot je laat zien dat het is verstuurd.'
+			+ '\n\nIs je bestelling speciaal voor jou gemaakt? Dan geldt het herroepingsrecht niet (artikel 6 van de algemene voorwaarden); dat laat ik je dan weten.';
 	} else if (data.soort === 'beschikbaarheid') {
 		onderwerp = 'Je hoort het zodra de ' + data.product + ' er weer is';
 		preheader = 'Eén mail zodra hij weer te bestellen is. Verder niets.';
@@ -565,7 +628,7 @@ export function mailKlant(data, extra, winkel) {
 	if (extra.nieuwsbriefLink) tekstversie += '\n\nJe vinkte aan dat je op de hoogte wilt blijven van nieuwe ontwerpen. Bevestig dat met deze link: ' + extra.nieuwsbriefLink;
 	return {
 		onderwerp: onderwerp,
-		html: omhulsel(onderwerp, preheader, inhoud, winkelVoet(winkel), winkel),
+		html: omhulsel(onderwerp, preheader, inhoud, winkelVoet(winkel, data.soort), winkel),
 		tekst: tekstversie + '\n\n' + voetTekst(winkel)
 	};
 }
@@ -581,7 +644,7 @@ export function mailNieuwsbrief(href, winkel) {
 		+ alinea('Groet,<br><strong>' + esc(winkel.eigenaar.split(' ')[0]) + '</strong><br>' + gedempt(esc(winkel.naam)));
 	return {
 		onderwerp: onderwerp,
-		html: omhulsel(onderwerp, 'Nog één klik: bevestig dat je mails over nieuwe ontwerpen wilt ontvangen.', inhoud, winkelVoet(winkel), winkel),
+		html: omhulsel(onderwerp, 'Nog één klik: bevestig dat je mails over nieuwe ontwerpen wilt ontvangen.', inhoud, winkelVoet(winkel, 'nieuwsbrief'), winkel),
 		tekst: 'Leuk dat je als eerste wilt horen over nieuwe ontwerpen van ' + winkel.naam + '! Bevestig je aanmelding met deze link:\n' + href
 			+ '\n\nHeb je je niet aangemeld? Dan hoef je niets te doen: zonder bevestiging sta je niet op de lijst.'
 			+ '\n\n' + voetTekst(winkel)
@@ -590,8 +653,8 @@ export function mailNieuwsbrief(href, winkel) {
 
 // ---------------------------------------------------------------------------------------------- herinnering
 
-const WOORDEN = { bestelling: ['bestelling', 'bestellingen'], aanvraag: ['aanvraag', 'aanvragen'], bericht: ['bericht', 'berichten'] };
-function woord(soort) { return soort === 'bestelling' ? 'bestelling' : soort === 'contact' ? 'bericht' : 'aanvraag'; }
+const WOORDEN = { bestelling: ['bestelling', 'bestellingen'], herroeping: ['herroeping', 'herroepingen'], aanvraag: ['aanvraag', 'aanvragen'], bericht: ['bericht', 'berichten'] };
+function woord(soort) { return soort === 'bestelling' || soort === 'herroeping' ? soort : soort === 'contact' ? 'bericht' : 'aanvraag'; }
 
 // "2 bestellingen en 1 bericht"
 export function telling(items) {
@@ -608,7 +671,7 @@ export function mailHerinnering(items, winkel, nu, dashboard) {
 	const onderwerp = 'Herinnering: ' + telling(items) + ' ' + (items.length === 1 ? 'wacht' : 'wachten') + ' op je reactie';
 	const regels = items.map(function (it) {
 		const dagen = Math.max(1, Math.floor((nu - new Date(it.aangemaakt).getTime()) / 86400000));
-		const kop = it.soort === 'bestelling' ? 'Bestelling ' + it.id : it.soort === 'contact' ? 'Bericht' + (it.merk ? ' via je portfolio' : '') : it.soort === 'printservice' ? 'Printaanvraag' : 'Aanvraag' + (it.product ? ' ' + it.product : '');
+		const kop = it.soort === 'bestelling' ? 'Bestelling ' + it.id : it.soort === 'contact' ? 'Bericht' + (it.merk ? ' via je portfolio' : '') : it.soort === 'printservice' ? 'Printaanvraag' : it.soort === 'herroeping' ? 'Herroeping' : 'Aanvraag' + (it.product ? ' ' + it.product : '');
 		const vol = it.soort === 'bestelling' ? euro(it.totaal) + ' · ' + String(it.levering || '').toLowerCase() : String(it.tekst || '').replace(/\s+/g, ' ').trim();
 		const samenvatting = vol.length > 160 ? vol.slice(0, 157) + '…' : vol;
 		const wie = (it.naam || it.email) + ' · ' + dagen + (dagen === 1 ? ' dag' : ' dagen') + ' geleden' + (it.keer > 1 ? ' · tweede herinnering' : '');

@@ -60,6 +60,10 @@ body{padding-bottom:var(--cookie-hoogte, 0px)}
 .text-page-archief{padding:1rem 1.25rem;border:1.5px dashed var(--border-strong);border-radius:var(--radius);color:var(--fg)}
 /* Het modelformulier voor herroeping: een blok zoals de bedrijfsgegevens, zodat het als formulier herkenbaar is */
 .text-page-formulier{padding:1.1rem 1.25rem 0.25rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card);margin:0 0 1rem 0}
+/* Bestelling herroepen: het formulier onder de uitleg, met een hint onder een veld */
+.herroep-form{margin-top:2rem}
+.form-hint{margin:0.35rem 0 0 0 !important;font-size:0.85rem;color:var(--fg-muted)}
+.form-optioneel{font-weight:400;color:var(--fg-muted)}
 /* Eerdere versies: onderaan, klein, met een lijn erboven */
 .text-page-eerder{margin-top:2.5rem !important;padding-top:1rem;border-top:1px solid var(--border);font-size:0.9rem}
 .text-page ol{margin:0 0 1rem 0;padding-left:1.35rem;list-style:decimal}

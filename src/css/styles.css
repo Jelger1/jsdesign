@@ -150,8 +150,8 @@ em, i{font-style:italic}
 .input-wrap{position:relative;display:flex;align-items:center}
 .input-icon{position:absolute;left:0.85rem;width:18px;height:18px;color:var(--fg-muted);pointer-events:none;flex-shrink:0}
 .input-wrap input{padding-left:2.75rem !important}
-.contact-form input,.contact-form textarea{width:100%;padding:0.8rem 1rem;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--dark-secondary);color:var(--soft);margin-top:0;transition:border-color 0.2s, background 0.2s, box-shadow 0.2s;font-size:0.95rem;font-family:inherit;box-sizing:border-box}
-.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--brand);background:var(--dark);box-shadow:0 0 0 4px var(--brand-glow)}
+.contact-form input,.contact-form textarea,.contact-form select{width:100%;padding:0.8rem 1rem;border-radius:var(--radius);border:1px solid var(--border-strong);background:var(--dark-secondary);color:var(--soft);margin-top:0;transition:border-color 0.2s, background 0.2s, box-shadow 0.2s;font-size:0.95rem;font-family:inherit;box-sizing:border-box}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{outline:none;border-color:var(--brand);background:var(--dark);box-shadow:0 0 0 4px var(--brand-glow)}
 .contact-form input::placeholder,.contact-form textarea::placeholder{color:var(--fg-muted)}
 .contact-form textarea{resize:vertical;min-height:120px}
 .contact-form .btn{margin-top:0.5rem;font-size:1rem;padding:0.85rem 1.5rem}

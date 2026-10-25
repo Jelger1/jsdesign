@@ -21,6 +21,7 @@ import { initTrap } from './trap.js';
 import { initTegel } from './tegel.js';
 import { initWijzer } from './wijzer.js';
 import { initKijk } from './kijk.js';
+import { initHerroep } from './herroep.js';
 
 const page = document.body.dataset.page;
 
@@ -35,6 +36,7 @@ initNieuwsbrief(); // aanmelden onderaan elke pagina en op de bedanktpagina
 
 initRails(); // productrails: op de home en de pijlerpagina Tastbaar; doet elders niets
 initForms(); // contactformulier: op de contactpagina; doet elders niets
+initHerroep(); // bestelling herroepen: op herroepen.html; doet elders niets
 if (page === 'shop') initShop();
 if (page === 'product') initProduct();
 initRequest(); // aanvraagformulier: op productpagina's met maatwerk en op de printservicepagina

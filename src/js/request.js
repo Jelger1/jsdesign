@@ -50,6 +50,7 @@ export function initRequest() {
 		(upload ? upload.upload(function (procent) { submitBtn.textContent = 'Uploaden... ' + procent + '%'; }) : Promise.resolve([])).then(function (bestanden) {
 			submitBtn.textContent = 'Verzenden...';
 			return verstuur({
+				site: 'jsdesign',
 				soort: form.dataset.request,
 				naam: values.name || '',
 				email: values.email,
