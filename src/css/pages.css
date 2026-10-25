@@ -2,8 +2,7 @@
    staan in pijler.css. */
 
 /* Categoriepagina */
-.category-header{text-align:left;max-width:760px;margin:1.5rem 0 2.5rem 0}
-.category-header::after{left:0;transform:none}
+.category-header{margin-top:1.5rem}
 .category-header h1{margin-bottom:1rem}
 .category-more{margin:3.5rem 0 1rem;padding-top:2rem;border-top:1px solid var(--border)}
 .category-more p{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted);margin:0 0 0.85rem 0}
@@ -21,10 +20,12 @@
 .text-page li:not(.upload-item){margin-bottom:0.5rem}
 .text-page strong{color:var(--soft)}
 .text-page a:not(.btn):not(.chip-link){color:var(--brand)}
-.not-found{text-align:center;padding-top:clamp(3rem, 8vw, 6rem)}
-.not-found .text-page-intro{max-width:52ch;margin-left:auto;margin-right:auto}
-.not-found .cta-row,.not-found .chips{justify-content:center}
+/* 404: een pagina voor de hele studio, links uitgelijnd zoals de andere tekstpagina's; de pijlers met hun blokje */
+.not-found{padding-top:clamp(3rem, 8vw, 6rem)}
+.not-found .text-page-intro{max-width:52ch}
 .not-found .chips{margin-top:2.5rem}
+.chip-link--pijler{gap:0.5rem}
+.chip-link--pijler::before{content:'';flex:none;width:16px;height:10px;clip-path:var(--js-blok);background:var(--pillar)}
 /* Sitemap (sitemap.html): lange lijsten in twee kolommen zodra daar ruimte voor is */
 @media (min-width:640px){.sitemap-groep ul{columns:2;column-gap:2.5rem}.sitemap-groep li{break-inside:avoid}}
 

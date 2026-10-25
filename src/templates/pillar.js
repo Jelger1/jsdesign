@@ -285,16 +285,16 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		ogImage: ((pillar.pagina && pillar.pagina.ogImage && ctx.images[pillar.pagina.ogImage]) || ctx.images[site.defaultOgImage]).og,
 		jsonLd: [c.breadcrumbsLd(crumbs, site), dienstLd].concat(shop ? shop.jsonLd : [faqLd(pagina.faq)]),
 		// De hero staat in zijn eigen .pijler; de rest (met de sectiewijzer en op Tastbaar de webshop) in .pijler-inhoud,
-		// waarbinnen de wijzer blijft staan. De webshopsecties horen niet in een .pijler (hun koppen houden hun eigen kleur).
+		// waarbinnen de wijzer blijft staan. Op Tastbaar staan de webshopsecties ook in de .pijler (.pijler-winkel): de
+		// kickers krijgen zo de kleur van de pijler, zoals elders op de pagina.
 		main: '<div class="pijler" data-pillar="' + pillar.id + '">\n'
 			+ hero
 			+ '</div>\n'
 			+ '<div class="pijler-inhoud" data-pillar="' + pillar.id + '">\n'
 			+ wijzer
 			+ '<div class="pijler" data-pillar="' + pillar.id + '">\n'
-			+ kort + diensten + aanpak + werk + kunde + (shop ? '' : faq)
+			+ kort + diensten + aanpak + werk + kunde + (shop ? '<div class="pijler-winkel">\n' + shop.html + '\n</div>\n' : faq)
 			+ '</div>\n'
-			+ (shop ? shop.html + '\n' : '')
 			+ '</div>\n'
 			+ cta
 	};

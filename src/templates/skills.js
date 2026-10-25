@@ -15,8 +15,8 @@ function caseUrl(project, root) {
 }
 
 // Waar een kaart van een project naartoe linkt, en wat er op de knop staat. Een case: "Lees de case". Kleiner werk
-// zonder eigen case (tier B) met een vervolg (projects.json > vervolg): het product ("Bekijk het product") of het
-// hoofdstuk van een case waarin het staat ("Lees de case"). Zonder vervolg de korte vermelding op het portfolio
+// zonder eigen case (tier B) met een vervolg (projects.json > vervolg): het product ("Bekijk het product"), het
+// hoofdstuk van een case waarin het staat ("Lees de case") of een pagina van de site (met een eigen label). Zonder vervolg de korte vermelding op het portfolio
 // ("Kort bekijken"), zodat niemand op "Bekijk het project" klikt en bij twee zinnen uitkomt.
 function vervolg(p, ctx, root) {
 	if (p.tier === 'A') return { href: caseUrl(p, root), label: 'Lees de case' };
@@ -25,6 +25,7 @@ function vervolg(p, ctx, root) {
 		const product = ctx.products.find(function (x) { return x.id === v.product; });
 		if (product) return { href: h.productUrl(product, root), label: 'Bekijk het product' };
 	}
+	if (v && v.pagina) return { href: (root || '') + v.pagina, label: v.label || 'Bekijk het' };
 	if (v && v.project) {
 		const doel = ctx.projects.find(function (x) { return x.id === v.project; });
 		if (doel) return { href: caseUrl(doel, root) + (v.hoofdstuk ? hoofdstukAnker(doel, v.hoofdstuk) : ''), label: 'Lees de case' };

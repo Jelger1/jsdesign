@@ -250,9 +250,12 @@ function herroepPage(ctx, template) {
 // Daarom gebruikt deze pagina adressen vanaf de hoofdmap van de site (ctx.base: "/", of "/jsdesign/" in de preview).
 function notFoundPage(ctx) {
 	const site = ctx.site;
-	const links = site.categoryPages.map(function (page) {
-		return '<li><a class="chip-link" href="' + ctx.base + page.slug + '.html">' + h.esc(page.label) + '</a></li>';
-	}).join('\n\t\t');
+	// De drie pijlers met hun blokje, dan het portfolio, de webshop en contact
+	const links = ctx.pillars.map(function (p) {
+		return '<li data-pillar="' + p.id + '"><a class="chip-link chip-link--pijler" href="' + ctx.base + p.path + '">' + h.esc(p.label) + '</a></li>';
+	}).concat([['portfolio/', 'Portfolio'], ['webshop.html', 'Webshop'], ['contact.html', 'Contact']].map(function (l) {
+		return '<li><a class="chip-link" href="' + ctx.base + l[0] + '">' + l[1] + '</a></li>';
+	})).join('\n\t\t');
 
 	return {
 		path: '404.html',
@@ -260,14 +263,14 @@ function notFoundPage(ctx) {
 		name: 'text',
 		noindex: true,
 		title: 'Pagina niet gevonden | ' + site.name,
-		description: 'Deze pagina bestaat niet (meer). Bekijk de webshop van ' + site.name + ' of ga terug naar de homepage.',
+		description: 'Deze pagina bestaat niet (meer). Ga naar de homepage van ' + site.name + ', of kijk bij branding, websites, 3D-printen en het portfolio.',
 		ogImage: ctx.images[site.defaultOgImage].og,
 		main: '<div class="container text-page not-found">\n'
 			+ '\t<p class="kicker">Foutcode 404</p>\n'
-			+ '\t<h1>Deze pagina is <span class="highlight">niet gevonden</span></h1>\n'
-			+ '\t<p class="text-page-intro">Misschien is het product uit de collectie gehaald of klopt de link niet meer. Geen zorgen, de rest staat er nog.</p>\n'
-			+ '\t<p class="cta-row"><a class="btn primary" href="' + ctx.base + 'webshop.html">Naar de webshop</a> <a class="btn outline" href="' + ctx.base + '">Naar de homepage</a></p>\n'
-			+ '\t<ul class="chips">\n\t\t' + links + '\n\t</ul>\n'
+			+ '\t<h1>Deze pagina bestaat niet (meer)</h1>\n'
+			+ '\t<p class="text-page-intro">Misschien is de link oud, of zit er een typfout in. De rest van de studio staat er gewoon.</p>\n'
+			+ '\t<p class="cta-row"><a class="btn primary" href="' + ctx.base + '">Naar de homepage</a></p>\n'
+			+ '\t<ul class="chips not-found-links">\n\t\t' + links + '\n\t</ul>\n'
 			+ '</div>'
 	};
 }

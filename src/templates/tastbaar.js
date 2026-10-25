@@ -13,10 +13,10 @@ const USP_ICONS = [
 ];
 
 // Geeft de HTML van de secties en de gestructureerde gegevens die erbij horen (de FAQ). pijlerFaq: de vragen over de
-// pijler (pillars.json > pagina.faq), zodat de pagina één FAQ heeft
+// pijler (pillars.json > pagina.faq). De vragen over bestellen (shop.json > faq) staan op de webshop (shop.js).
 function tastbaarSections(ctx, template, pijlerFaq) {
 	const site = ctx.site;
-	const vragen = (pijlerFaq || []).concat(site.faq);
+	const vragen = pijlerFaq || [];
 
 	function rail(collection) {
 		const items = ctx.products.filter(function (p) { return p.collection === collection; });

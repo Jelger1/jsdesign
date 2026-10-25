@@ -179,6 +179,20 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.dienst-tekst{font-size:var(--text-md)}
 }
 
+/* Het winkeldeel van Tastbaar (src/pages/tastbaar.html in .pijler-winkel): compacter dan de rest van de pagina, zodat
+   Tastbaar op een telefoon niet twee keer zo lang is als de andere pijlers. Smal: twee kaarten naast elkaar in de rails
+   (zonder omschrijving, net als in de webshop) en geen foto naast "Op maat". */
+.pijler-winkel{--section-space:var(--section-space-compact)}
+@media (max-width:599px){
+	.pijler-winkel .rail-card{flex-basis:46vw}
+	.pijler-winkel .rail .product-info{padding:0.75rem 0.8rem 0.9rem}
+	.pijler-winkel .rail .product-title{font-size:var(--text-base)}
+	.pijler-winkel .rail .product-card-foot{flex-direction:column;align-items:stretch;gap:0.5rem}
+	.pijler-winkel .rail .product-card-foot .btn{width:100%;justify-content:center;text-align:center;padding:0.55rem 0.6rem}
+	.pijler-winkel .rail .product-info .muted{display:none}
+	.pijler-winkel .custom-cta-art{display:none}
+}
+
 /* ------------------------------------------------------------------ werkwijze: de trap
    Mobiel onder elkaar met een stam langs de blokjes. Vanaf 1100px een trap: elke stap staat een trede (--trede) hoger
    dan de vorige, met een streep in de pijlerkleur en het blokje erop; een lijn onder 30° verbindt de treden (die lijn
@@ -221,6 +235,21 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.trap-schuin{background:var(--pillar, var(--brand))}
 	.trap li:last-child .trap-schuin{display:none}
 }
+/* Een staande trap (.trap--staand, de printservice): ook breed onder elkaar, zoals op een telefoon. Op een tekstpagina
+   zonder de lijstopmaak van .text-page ol. */
+.text-page .trap{padding:0;list-style:none}
+.text-page .trap h3{margin:0 0 var(--space-1);font-size:var(--text-lg)}
+@media (min-width:1100px){
+	.trap.trap--staand{--nr-b:64px;--nr-h:40px;grid-template-columns:none;gap:var(--space-8)}
+	.trap--staand li{min-height:var(--nr-h);margin-top:0;padding-left:calc(var(--nr-b) + 1rem);border-top:0}
+	.trap--staand .trap-nr{position:absolute;left:0;top:var(--nr-top);margin:0;font-size:1.25rem}
+	.trap--staand li::before,.trap--staand .trap-lijn{left:calc(var(--nr-b) / 2 - 1px);right:auto;top:calc(var(--nr-top) + var(--nr-h) + 4px);bottom:calc(4px - var(--nr-top) - var(--space-8));width:2px;height:auto}
+	.trap--staand li::before{background:repeating-linear-gradient(180deg, var(--stippel) 0 4px, transparent 4px 8px)}
+	.trap--staand .trap-lijn{transform-origin:50% 0}
+	.trap--staand li:last-child::before,.trap--staand li:last-child .trap-lijn,.trap--staand .trap-schuin,.trap--staand li::after{display:none}
+	.trap-wacht.trap--staand li:not(.is-aan) .trap-lijn{scale:1 0}
+}
+
 /* De trap bouwt zich op (src/js/trap.js). Staat hij bij het laden nog onder de rand van het venster, dan wordt hij daar
    een stippeltekening (.trap-wacht; pas een beeld later komen de overgangen erbij, .trap-bouw, zodat er niets zichtbaar
    afgebroken wordt). Komt hij in beeld, dan bouwt hij zich één keer op (.is-aan), stap voor stap in de volgorde waarin

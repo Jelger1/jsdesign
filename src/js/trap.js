@@ -10,6 +10,7 @@ export function initTrap() {
 	if (minder.matches) return;
 	const breed = window.matchMedia('(min-width: 1100px)').matches;
 	trappen.forEach(function (trap) {
+		const naastElkaar = breed && !trap.classList.contains('trap--staand'); // een staande trap bouwt per stap
 		if (trap.getBoundingClientRect().top < window.innerHeight) return;
 		const stappen = Array.from(trap.children);
 		const bouw = function (li) { li.classList.add('is-aan'); };
@@ -27,8 +28,8 @@ export function initTrap() {
 					kijker.unobserve(e.target);
 				}
 			});
-		}, { threshold: breed ? 0.5 : 0.6 });
-		if (breed) kijker.observe(trap);
+		}, { threshold: naastElkaar ? 0.5 : 0.6 });
+		if (naastElkaar) kijker.observe(trap);
 		else stappen.forEach(function (li) { kijker.observe(li); });
 		// Kies je onderweg alsnog voor minder beweging, dan staat alles meteen
 		minder.addEventListener('change', function () {

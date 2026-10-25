@@ -1015,6 +1015,20 @@
 		}
 	},
 	{
+		"id": "limburgse-gebouwen",
+		"tier": "B",
+		"vervolg": { "pagina": "beelden-en-modellen.html", "label": "Bekijk de modellen" },
+		"title": "Limburgse gebouwen op schaal",
+		"pillar": "tastbaar",
+		"tags": "3D-ontwerp · 3D-printen",
+		"short": "Zelf ontworpen, op de echte maten van het gebouw",
+		"text": "Het Raadhuis Kerkrade en het schachtgebouw Oranje-Nassau I ontwierp ik zelf, op de echte maten van de gebouwen. Ik legde ze naast oude en nieuwe foto's tot elk detail klopte. In de sokkel staat de naam van het gebouw gegraveerd.",
+		"image": "raadhuis-kerkrade-3d-01-voorgevel.jpg",
+		"alt": "3D-weergave van het model van het Raadhuis Kerkrade in mat zwart, schuin van voren: de gevel met banden en blokken in reliëf, de trapgevel, het klokkentorentje en de bordestrap",
+		"url": "",
+		"urlLabel": ""
+	},
+	{
 		"id": "toolhub",
 		"tier": "B",
 		"title": "Generator Hub",

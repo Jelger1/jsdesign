@@ -78,6 +78,7 @@ function categoryPage(page, ctx) {
 	const main = '<div class="container">\n'
 		+ '\t' + c.breadcrumbs(crumbs) + '\n'
 		+ '\t<header class="page-header category-header">\n'
+		+ '\t\t<p class="kicker">Webshop</p>\n'
 		+ '\t\t<h1>' + highlight(page.heading) + '</h1>\n'
 		+ '\t\t<p class="page-description">' + h.esc(page.intro) + '</p>\n'
 		+ '\t</header>\n'

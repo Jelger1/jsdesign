@@ -80,8 +80,11 @@ function shopPage(ctx) {
 		return c.productCard(product, ctx, { eager: i < 4, index: i, heading: 'h2' });
 	}).join('\n');
 
+	const crumbs = [{ label: 'Home', path: '', url: './' }, { label: 'Webshop', path: 'webshop.html' }];
 	const main = '<div class="container">\n'
+		+ '\t' + c.breadcrumbs(crumbs) + '\n'
 		+ '\t<header class="page-header">\n'
+		+ '\t\t<p class="kicker">Webshop</p>\n'
 		+ '\t\t<h1 data-shop-heading>Vind jouw <span class="highlight">unieke stuk</span></h1>\n'
 		+ '\t\t<p class="page-subtitle">Handgemaakt in Limburg, met liefde voor detail</p>\n'
 		+ '\t\t<p class="page-description">Elk ontwerp vertelt een verhaal. Of je nu zoekt naar een statement voor je interieur, een cadeau met <span class="highlight">betekenis</span> of een stukje Limburgse trots, hier vind je het.</p>\n'
@@ -115,7 +118,14 @@ function shopPage(ctx) {
 		+ '</div>\n'
 		+ c.reviewsSection(ctx.reviews, 'Wat klanten zeggen');
 
-	const crumbs = [{ label: 'Home', path: '' }, { label: 'Webshop', path: 'webshop.html' }];
+	// De vragen over bestellen, betalen en leveren (shop.json > faq); ze stonden eerst op Tastbaar
+	const vragen = site.faq || [];
+	const faq = vragen.length
+		? '<section class="section container shop-vragen" aria-labelledby="shop-vragen-titel">\n'
+			+ '\t<header class="section-head"><p class="kicker">Goed om te weten</p><h2 id="shop-vragen-titel">Vragen over bestellen</h2></header>\n'
+			+ '\t<div class="faq">\n' + vragen.map(function (item) { return '\t\t' + c.vraag(item.q, h.esc(item.a)); }).join('\n') + '\n\t</div>\n'
+			+ '</section>\n'
+		: '';
 
 	return {
 		path: 'webshop.html',
@@ -135,8 +145,14 @@ function shopPage(ctx) {
 					return { '@type': 'ListItem', position: i + 1, url: site.url + '/' + h.productUrl(product), name: product.name };
 				})
 			}
-		],
-		main: main
+		].concat(vragen.length ? [{
+			'@context': 'https://schema.org',
+			'@type': 'FAQPage',
+			mainEntity: vragen.map(function (item) {
+				return { '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } };
+			})
+		}] : []),
+		main: main + faq
 	};
 }
 
