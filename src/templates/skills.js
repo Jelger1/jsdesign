@@ -14,6 +14,24 @@ function caseUrl(project, root) {
 	return h.projectUrl(project, root);
 }
 
+// Waar een kaart van een project naartoe linkt, en wat er op de knop staat. Een case: "Lees de case". Kleiner werk
+// zonder eigen case (tier B) met een vervolg (projects.json > vervolg): het product ("Bekijk het product") of het
+// hoofdstuk van een case waarin het staat ("Lees de case"). Zonder vervolg de korte vermelding op het portfolio
+// ("Kort bekijken"), zodat niemand op "Bekijk het project" klikt en bij twee zinnen uitkomt.
+function vervolg(p, ctx, root) {
+	if (p.tier === 'A') return { href: caseUrl(p, root), label: 'Lees de case' };
+	const v = p.vervolg;
+	if (v && v.product) {
+		const product = ctx.products.find(function (x) { return x.id === v.product; });
+		if (product) return { href: h.productUrl(product, root), label: 'Bekijk het product' };
+	}
+	if (v && v.project) {
+		const doel = ctx.projects.find(function (x) { return x.id === v.project; });
+		if (doel) return { href: caseUrl(doel, root) + (v.hoofdstuk ? hoofdstukAnker(doel, v.hoofdstuk) : ''), label: 'Lees de case' };
+	}
+	return { href: caseUrl(p, root), label: 'Kort bekijken' };
+}
+
 // Alle groepen in de volgorde van skills.json (de pijler null: in elk vak, zoals onderzoek en testen)
 function groepen(ctx) {
 	return (ctx.skills && ctx.skills.groepen) || [];
@@ -100,4 +118,4 @@ function index(ctx, opts) {
 		}).filter(Boolean).join('\n') + '\n</div>';
 }
 
-module.exports = { caseUrl: caseUrl, groepen: groepen, bewijsLijst: bewijsLijst, index: index };
+module.exports = { caseUrl: caseUrl, vervolg: vervolg, groepen: groepen, bewijsLijst: bewijsLijst, index: index };

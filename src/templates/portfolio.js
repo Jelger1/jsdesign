@@ -7,6 +7,7 @@ const h = require('./helpers');
 const c = require('./components');
 const seo = require('./seo');
 const { caseCover, caseCoverAlt } = require('./case');
+const skills = require('./skills');
 
 const ROOT = '../';
 
@@ -47,8 +48,24 @@ function project(p, ctx, eerste) {
 		+ '\t\t</article>';
 }
 
-// Tier B: een klein beeld (of zonder beeld het blokje van de pijler), titel, één zin en eventueel een live link
+// Een tekst in twee delen: hele zinnen tot ongeveer 35 woorden, en de rest (voor achter "Meer"). Is de rest maar één
+// korte zin, dan blijft alles zichtbaar.
+const KORT_WOORDEN = 35;
+function inTweeen(tekst) {
+	const zinnen = tekst.match(/[^.!?]+[.!?]+(?=\s|$)|[^.!?]+$/g) || [tekst];
+	let kort = '';
+	let i = 0;
+	while (i < zinnen.length && (!kort || (kort + zinnen[i]).trim().split(/\s+/).length <= KORT_WOORDEN)) kort += zinnen[i++];
+	const rest = zinnen.slice(i).join('').trim();
+	if (!rest || rest.split(/\s+/).length < 8) return { kort: tekst, rest: '' };
+	return { kort: kort.trim(), rest: rest };
+}
+
+// Tier B: een klein beeld (of zonder beeld het blokje van de pijler), titel, een korte tekst (met "Meer" voor de rest),
+// een vervolglink als die er is (het product, het hoofdstuk van een case) en eventueel een live link
 function ookGemaakt(p, ctx) {
+	const tekst = inTweeen(p.text);
+	const naar = p.vervolg ? skills.vervolg(p, ctx, ROOT) : null;
 	const pillar = ctx.pillars.find(function (x) { return x.id === p.pillar; });
 	// Het kaartbeeld (projects.json > kaart > 43) als dat er is, anders de gewone afbeelding
 	const kaart = p.kaart && p.kaart['43'];
@@ -59,8 +76,13 @@ function ookGemaakt(p, ctx) {
 		+ '\t\t\t\t<span class="ook-media">' + media + '</span>\n'
 		+ '\t\t\t\t<div class="ook-kop"><h3>' + h.esc(p.title) + '</h3><p class="ook-tags"><span class="sr-only">' + h.esc(pillar.label) + ': </span>' + h.esc(p.tags)
 		+ (p.klantopdracht ? ' · klantopdracht' : '') + (p.team ? ' · teamproject' : '') + '</p></div>\n'
-		+ '\t\t\t\t<p class="ook-tekst">' + h.esc(p.text) + '</p>\n'
-		+ (p.url ? '\t\t\t\t<p class="ook-link"><a class="btn-text" href="' + h.esc(p.url) + '" target="_blank" rel="noopener">' + nieuwVenster('Bekijk ' + h.esc(p.urlLabel || 'het project')) + '</a></p>\n' : '')
+		+ '\t\t\t\t<div class="ook-tekst"><p>' + h.esc(tekst.kort) + '</p>'
+		+ (tekst.rest ? '<details class="ook-meer"><summary>Meer<span class="sr-only"> over ' + h.esc(p.title) + '</span></summary><p>' + h.esc(tekst.rest) + '</p></details>' : '') + '</div>\n'
+		+ (naar || p.url ? '\t\t\t\t<p class="ook-link">'
+			+ (naar ? '<a class="link-arrow" href="' + naar.href + '">' + naar.label + '<span class="sr-only">: ' + h.esc(p.title) + '</span></a>' : '')
+			+ (naar && p.url ? ' ' : '')
+			+ (p.url ? '<a class="btn-text" href="' + h.esc(p.url) + '" target="_blank" rel="noopener">' + nieuwVenster('Bekijk ' + h.esc(p.urlLabel || 'het project')) + '</a>' : '')
+			+ '</p>\n' : '')
 		+ '\t\t\t</li>';
 }
 

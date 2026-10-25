@@ -88,6 +88,7 @@ function caseKaart(p, i, ctx) {
 	const file = kaart || p.image;
 	const entry = ctx.images[file];
 	const staand = entry.height > entry.width;
+	const naar = skills.vervolg(p, ctx);
 	// Eigen klassenamen (pijler-case-...): de casepagina's gebruiken case-... al voor iets anders
 	return '\t\t<li class="pijler-case' + (staand ? ' pijler-case--staand' : '') + '" data-pillar="' + h.esc(p.pillar) + '" data-rand>\n'
 		+ '\t\t\t<div class="pijler-case-beeld">' + h.img(ctx.images, file, {
@@ -96,9 +97,9 @@ function caseKaart(p, i, ctx) {
 		}) + '</div>\n'
 		+ '\t\t\t<div class="pijler-case-tekst">\n'
 		+ '\t\t\t\t<p class="pijler-case-tags"><span class="pijler-case-nr" aria-hidden="true">0' + (i + 1) + '</span>' + h.esc(p.tags) + (p.klantopdracht ? ' · klantopdracht' : '') + (p.team ? ' · teamproject' : '') + '</p>\n'
-		+ '\t\t\t\t<h3 class="pijler-case-titel"><a href="' + skills.caseUrl(p) + '">' + h.esc(p.title) + '</a></h3>\n'
+		+ '\t\t\t\t<h3 class="pijler-case-titel"><a href="' + naar.href + '">' + h.esc(p.title) + '</a></h3>\n'
 		+ '\t\t\t\t<p class="pijler-case-kort">' + h.esc(p.short) + '</p>\n'
-		+ '\t\t\t\t<span class="pijler-case-meer" aria-hidden="true">Bekijk het project</span>\n'
+		+ '\t\t\t\t<span class="pijler-case-meer" aria-hidden="true">' + naar.label + '</span>\n'
 		+ '\t\t\t</div>\n'
 		+ '\t\t\t<span class="werk-open" aria-hidden="true">→</span>\n'
 		+ '\t\t</li>';

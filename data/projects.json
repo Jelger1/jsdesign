@@ -959,6 +959,7 @@
 	{
 		"id": "rolduc-etiketten",
 		"tier": "B",
+		"vervolg": { "project": "rolduc", "hoofdstuk": "Mijn rol" },
 		"title": "Etiketten voor Brouwerij Rolduc",
 		"pillar": "branding",
 		"tags": "Etiketten · verpakking",
@@ -996,6 +997,7 @@
 	{
 		"id": "blonde-non",
 		"tier": "B",
+		"vervolg": { "product": "blonde-non" },
 		"title": "Blonde Non",
 		"pillar": "tastbaar",
 		"tags": "3D-ontwerp · 3D-printen",

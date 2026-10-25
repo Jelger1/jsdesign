@@ -59,6 +59,15 @@
 .ook-tags{margin:0.2rem 0 0;font:500 var(--text-xs)/1.5 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
 /* Smal: het beeld naast de titel, tekst en link eronder over de volle breedte (geen smalle kolom van tien regels) */
 .ook-tekst{grid-column:1 / -1;margin:0;max-width:68ch;color:var(--fg-muted);line-height:var(--leading)}
+.ook-tekst p{margin:0}
+/* De rest van een lange tekst achter "Meer": een tekstknop met een plus, open een min */
+.ook-meer summary{display:inline-flex;align-items:center;gap:0.4rem;min-height:24px;margin-top:0.35rem;cursor:pointer;list-style:none;color:var(--brand);font-weight:600}
+.ook-meer summary::-webkit-details-marker{display:none}
+.ook-meer summary::after{content:'+';font-weight:700}
+.ook-meer[open] summary::after{content:'−'}
+.ook-meer summary:focus-visible{outline:var(--focus-ring);outline-offset:var(--focus-offset);border-radius:4px}
+.ook-meer p{margin:0.5rem 0 0}
+.ook-link .link-arrow{margin-right:1rem}
 .ook-link{grid-column:1 / -1;margin:0}
 .ook-link .btn-text{padding:0}
 @media (min-width:900px){
