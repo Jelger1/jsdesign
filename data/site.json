@@ -39,7 +39,7 @@
 		"termsUpdated": "2026-10-24"
 	},
 	"forms": {
-		"privacyCheckbox": true
+		"privacyCheckbox": false
 	},
 	"homeFaq": [
 		{

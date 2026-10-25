@@ -1,9 +1,10 @@
 // Cookietoestemming (AVG + ePrivacy/Telecommunicatiewet) voor Google Tag Manager.
 //
 // Uitgangspunten:
-//   - Alle tags, ook Google Analytics, zitten in Tag Manager. Tag Manager staat bovenaan elke pagina
-//     (src/templates/layout.js), met direct daarvóór de standaardtoestemming (Consent Mode v2): alles geweigerd,
-//     of de keuze die de bezoeker eerder maakte. Deze module toont de banner en geeft nieuwe keuzes door.
+//   - Alle tags, ook Google Analytics, zitten in Tag Manager. Tag Manager laadt pas als de bezoeker toestemming gaf
+//     voor statistieken of marketing (besluit 13): deze module laadt hem dan (laadTagManager). In de head staat al de
+//     standaardtoestemming (Consent Mode v2, src/templates/layout.js): alles geweigerd, of de eerdere keuze. Deze
+//     module toont de banner en geeft nieuwe keuzes door.
 //   - Tags in Tag Manager moeten die toestemming respecteren. Tags van Google doen dat zelf; bij andere tags stel je
 //     het in bij de tag. Na elke keuze komt er een dataLayer-event "cookie_consent_update".
 //   - De categorieën volgen uit data/site.json > analytics (ga4 = Statistieken, googleAds = Marketing). Zonder die
@@ -18,6 +19,7 @@ const MAX_AGE_DAYS = 365;
 const html = document.documentElement;
 const ga4 = html.dataset.ga4 || '';
 const ads = html.dataset.ads || '';
+const gtm = html.dataset.gtm || '';
 const root = document.body.dataset.root || '';
 // De cookies die Google per categorie plaatst; bij weigeren of intrekken ruimt de site ze op
 const GOOGLE_COOKIES = { statistics: /^_ga(_|$)/, marketing: /^_(gcl|gac)_/ };
@@ -34,6 +36,19 @@ let bannerEl = null;
 let dialogEl = null;
 
 function gtag() { window.dataLayer.push(arguments); }
+
+// Tag Manager één keer laden, en alleen met toestemming (de standaardtoestemming staat al in de dataLayer)
+let tagManagerGeladen = false;
+function laadTagManager(choice) {
+	if (!gtm || tagManagerGeladen || !choice || !(choice.statistics || choice.marketing)) return;
+	tagManagerGeladen = true;
+	window.dataLayer = window.dataLayer || [];
+	window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+	const script = document.createElement('script');
+	script.async = true;
+	script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(gtm);
+	document.head.appendChild(script);
+}
 
 function readChoice() {
 	try {
@@ -96,6 +111,7 @@ function apply(choice) {
 	if (!record.marketing) removeCookies(GOOGLE_COOKIES.marketing);
 	// Tags die al draaien zijn niet netjes te stoppen: herladen is de enige manier
 	if (revoked) { location.reload(); return; }
+	laadTagManager(record);
 	// Voor tags in Tag Manager die pas na een keuze mogen starten (trigger: aangepaste gebeurtenis)
 	window.dataLayer.push({ event: 'cookie_consent_update', consent_statistics: record.statistics, consent_marketing: record.marketing });
 }
@@ -188,5 +204,6 @@ export function initConsent() {
 
 	window.dataLayer = window.dataLayer || [];
 	// De standaardtoestemming en een eerder gemaakte keuze staan al in de dataLayer (inline script in de <head>)
-	if (!readChoice()) showBanner();
+	const eerder = readChoice();
+	if (eerder) laadTagManager(eerder); else showBanner();
 }

@@ -92,9 +92,10 @@ function layout(page, ctx) {
 		shippingNote: h.esc(site.shipping.note)
 	});
 
-	// Google Tag Manager alleen in productie. Daarvóór staat de standaardtoestemming (Consent Mode v2), anders kan een
-	// tag starten voordat de cookiebanner iets heeft doorgegeven. Opslagnaam en termijn (12 maanden) moeten gelijk
-	// blijven aan src/js/consent.js. In de preview laadt er geen analytics en vraagt de banner dus ook niets.
+	// Google Tag Manager alleen in productie, en pas na toestemming voor statistieken of marketing (besluit 13):
+	// src/js/consent.js laadt hem dan (data-gtm op <html>). In de head staat alleen de standaardtoestemming (Consent Mode
+	// v2, met een eerder gemaakte keuze), zodat Tag Manager die meteen kent. Opslagnaam en termijn (12 maanden) moeten
+	// gelijk blijven aan src/js/consent.js. In de preview laadt er geen analytics en vraagt de banner dus ook niets.
 	const analytics = productie ? (site.analytics || {}) : {};
 	const gtm = /^GTM-[A-Z0-9]+$/.test(analytics.gtm || '') ? analytics.gtm : '';
 	const gtmHead = gtm
@@ -104,16 +105,10 @@ function layout(page, ctx) {
 			+ 'if(c&&c.date&&Date.now()-new Date(c.date).getTime()<=365*864e5){var a=c.marketing?"granted":"denied";'
 			+ 'gtag("consent","update",{analytics_storage:c.statistics?"granted":"denied",ad_storage:a,ad_user_data:a,ad_personalization:a});}'
 			+ '}catch(e){}})();</script>\n'
-			+ '\t<!-- Google Tag Manager -->\n'
-			+ "\t<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n"
-			+ "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n"
-			+ "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n"
-			+ "'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n"
-			+ "})(window,document,'script','dataLayer','" + gtm + "');</script>\n"
-			+ '\t<!-- End Google Tag Manager -->\n'
 		: '';
 	// Welke toestemmingscategorieën er zijn, leest consent.js hieruit (ga4 = Statistieken, googleAds = Marketing)
 	const analyticsAttrs = (site.backend && site.backend.url ? ' data-backend="' + h.esc(site.backend.url) + '"' : '') // waar formulieren heen gaan (src/js/util.js)
+		+ (gtm ? ' data-gtm="' + gtm + '"' : '') // Tag Manager, geladen door consent.js na toestemming
 		+ (analytics.ga4 ? ' data-ga4="' + h.esc(analytics.ga4) + '"' : '')
 		+ (analytics.googleAds ? ' data-ads="' + h.esc(analytics.googleAds) + '"' : '');
 

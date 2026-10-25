@@ -41,15 +41,15 @@ function privacyPage(ctx, template) {
 		: '';
 
 	const googleSharing = gtm
-		? '<p>Daarnaast laadt de website op elke pagina <strong>Google Tag Manager</strong>' + (services.length ? ', met daarin ' + joinDutch(services) : '')
-			+ '. Daarbij ontvangt Google gegevens over je bezoek' + (services.length ? '; cookies worden alleen met jouw toestemming geplaatst' : '') + '. Meer daarover lees je bij <a href="#cookies">cookies</a>.</p>'
+		? '<p>Geef je toestemming voor statistieken' + (ads ? ' of marketing' : '') + ', dan laadt de website <strong>Google Tag Manager</strong>' + (services.length ? ', met daarin ' + joinDutch(services) : '')
+			+ '. Daarbij ontvangt Google gegevens over je bezoek. Zonder toestemming laadt de website niets van Google. Meer daarover lees je bij <a href="#cookies">cookies</a>.</p>'
 		: '';
 
 	const cookieText = gtm
-		? '<p>Op elke pagina laadt de website <strong>Google Tag Manager</strong>, een hulpmiddel van Google om meetcodes te beheren. Tag Manager plaatst zelf geen cookies, maar Google ontvangt daarbij wel technische gegevens, zoals je IP-adres en welke pagina je bekijkt.</p>\n'
+		? '<p>Pas als je toestemming geeft, laadt de website <strong>Google Tag Manager</strong>, een hulpmiddel van Google om meetcodes te beheren. Tag Manager plaatst zelf geen cookies, maar Google ontvangt daarbij wel technische gegevens, zoals je IP-adres en welke pagina je bekijkt. Zonder toestemming laadt de website niets van Google.</p>\n'
 			+ (services.length
 				? '<p>Via Tag Manager gebruik ik de volgende diensten van Google. Cookies plaatsen ze <strong>alleen met jouw toestemming</strong>:</p>\n<ul>\n'
-					+ (ga4 ? '\t<li><strong>Statistieken (Google Analytics):</strong> meet hoe de website wordt gebruikt, zodat ik hem kan verbeteren. Met je toestemming plaatst Google hiervoor de cookies <code>_ga</code> en <code>_ga_' + h.esc(analytics.ga4.replace(/^G-/, '')) + '</code>, die maximaal 2 jaar na je laatste bezoek bewaard blijven. Zonder toestemming plaatst Google Analytics geen cookies, maar kan het wel een melding zonder cookies en zonder ID sturen (bijvoorbeeld dat er een pagina is bekeken), waarmee Google bezoekersaantallen schat.</li>\n' : '')
+					+ (ga4 ? '\t<li><strong>Statistieken (Google Analytics):</strong> meet hoe de website wordt gebruikt, zodat ik hem kan verbeteren. Met je toestemming plaatst Google hiervoor de cookies <code>_ga</code> en <code>_ga_' + h.esc(analytics.ga4.replace(/^G-/, '')) + '</code>, die maximaal 2 jaar na je laatste bezoek bewaard blijven.</li>\n' : '')
 					+ (ads ? '\t<li><strong>Marketing (Google Ads):</strong> meet of een advertentie tot een bestelling heeft geleid. Met je toestemming plaatst Google hiervoor cookies.</li>\n' : '')
 					+ '</ul>\n'
 					+ '<p>Je kiest per categorie en kunt je keuze altijd aanpassen of intrekken via "Cookie-instellingen" onderaan elke pagina. Trek je je toestemming in, dan verwijdert de website ook de cookies die Google al had geplaatst. Google kan je gegevens ook buiten de EER verwerken, met de waarborgen die hierboven staan. Je keuze wordt maximaal 12 maanden onthouden; daarna vraag ik het opnieuw.</p>'

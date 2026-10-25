@@ -171,6 +171,14 @@ function stap(ctx, hs, i, teller, titels, slot, extra, na) {
 		+ '\t</section>';
 }
 
+// Een uitspraak van de opdrachtgever bij het resultaat (projects.json > case.citaat): letterlijk, met hun eigen
+// ondertekening en alleen met hun akkoord. Een rustig citaat, geen sterren of beoordeling.
+function citaat(k) {
+	if (!k.citaat || !k.citaat.tekst) return '';
+	return '<figure class="case-citaat"><blockquote><p>' + h.esc(k.citaat.tekst) + '</p></blockquote>'
+		+ '<figcaption>' + h.esc(k.citaat.bron) + '</figcaption></figure>';
+}
+
 // De live link (nieuw venster) en een eventuele pagina op deze site (bijvoorbeeld de webshop)
 function links(p) {
 	const out = [];
@@ -291,7 +299,7 @@ function casePage(p, ctx) {
 	const slot = k.noot ? { doel: '#noot-titel', naam: 'Verantwoording' } : { doel: '#verwant-titel', naam: 'Meer werk' };
 	const stappen = lijst.map(function (hs, i) {
 		const resultaat = hs.titel === 'Resultaat';
-		return stap(ctx, hs, i, teller, titels, slot, resultaat ? links(p) : '', resultaat ? vraag : '');
+		return stap(ctx, hs, i, teller, titels, slot, resultaat ? citaat(k) + links(p) : '', resultaat ? vraag : '');
 	});
 
 	return {

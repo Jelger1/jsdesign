@@ -10,6 +10,9 @@ body[data-page="over"]{--section-space:var(--section-space-compact)}
 .over-lead{max-width:40rem;margin:0 0 var(--space-4);font-size:clamp(1.125rem, 1rem + 0.45vw, 1.375rem);line-height:1.55;color:var(--fg)}
 .over-hero-tekst > p:not(.kicker):not(.over-lead):not(.cta-row){max-width:40rem;margin:0;color:var(--fg-muted)}
 .over-hero .cta-row{flex-wrap:wrap;margin-top:var(--space-8)}
+/* Hoe het begon: een korte alinea onder de intro, met een vette aanloop */
+.over-hero-tekst > p.over-begin:not(.kicker):not(.over-lead):not(.cta-row){margin-top:0.85rem}
+.over-begin strong{color:var(--fg);font-weight:600}
 .over-hero .cta-row .btn{text-align:center}
 
 /* Specificatielijst: waar, wat en voor wie */

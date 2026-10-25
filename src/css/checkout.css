@@ -20,6 +20,8 @@
 .checkout-form legend{font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:var(--soft);padding:0 0.5rem;margin-left:-0.5rem}
 .checkout-form .form-group:last-child{margin-bottom:0}
 .form-group-narrow{flex:0 0 38% !important}
+/* Alleen levering in Nederland: een korte regel onder het adres in plaats van een landkeuze */
+.checkout-land{margin:0.25rem 0 0;color:var(--fg-muted);font-size:0.9rem}
 .optional{font-weight:400;color:var(--fg-muted);font-size:0.8rem}
 .checkout-form select,.request-form input,.request-form textarea{width:100%;padding:0.75rem 0.95rem;border:1px solid var(--border);border-radius:var(--radius);font-size:0.95rem;font-family:inherit;box-sizing:border-box;background:var(--dark-secondary);color:var(--soft)}
 .checkout-form select:focus,.request-form input:focus,.request-form textarea:focus{outline:none;border-color:var(--brand);background:var(--dark);box-shadow:0 0 0 4px var(--brand-glow)}

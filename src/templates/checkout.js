@@ -66,14 +66,10 @@ function checkoutPage(ctx) {
 		+ '\t\t\t\t' + field({ name: 'postcode', label: 'Postcode', autocomplete: 'postal-code', placeholder: '1234 AB', className: 'form-group-narrow' }) + '\n'
 		+ '\t\t\t\t' + field({ name: 'city', label: 'Plaats', autocomplete: 'address-level2', placeholder: 'Woonplaats' }) + '\n'
 		+ '\t\t\t\t</div>\n'
-		+ '\t\t\t\t<div class="form-group">\n'
-		+ '\t\t\t\t\t<label for="co-country">Land</label>\n'
-		+ '\t\t\t\t\t<select id="co-country" name="country" autocomplete="country-name">\n'
-		+ '\t\t\t\t\t\t<option value="Nederland" selected>Nederland</option>\n'
-		+ '\t\t\t\t\t\t<option value="België">België</option>\n'
-		+ '\t\t\t\t\t\t<option value="Duitsland">Duitsland</option>\n'
-		+ '\t\t\t\t\t</select>\n'
-		+ '\t\t\t\t</div>\n'
+		// Jelger levert alleen in Nederland (keuzepagina, 25-10-2026): geen landkeuze, wel de controle op een Nederlandse
+		// postcode (validate.js leest country)
+		+ '\t\t\t\t<input type="hidden" name="country" value="Nederland">\n'
+		+ '\t\t\t\t<p class="checkout-land">Ik lever alleen in Nederland. Zelf ophalen in Kerkrade kan ook.</p>\n'
 		+ '\t\t\t</fieldset>\n'
 		+ '\t\t\t<fieldset>\n'
 		+ '\t\t\t\t<legend>Wensen</legend>\n'
