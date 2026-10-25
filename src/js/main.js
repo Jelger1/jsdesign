@@ -20,6 +20,7 @@ import { initRand } from './rand.js';
 import { initTrap } from './trap.js';
 import { initTegel } from './tegel.js';
 import { initWijzer } from './wijzer.js';
+import { initKijk } from './kijk.js';
 
 const page = document.body.dataset.page;
 
@@ -44,4 +45,5 @@ if (page === 'confirm') initBevestig(); // links uit mails: nieuwsbrief bevestig
 if (page === 'home') initHeld(); // de hero bovenaan de home: aangewezen pijler en het teken in 3D
 if (page === 'pillar') initTegel(); // "Je bent hier" op een smal scherm: de aankomst als de tegel in beeld komt
 if (page === 'pillar' || page === 'case') initWijzer(); // de sectiewijzer en de hoofdstukwijzer
+initKijk(); // het kijklabel bij de muis boven projectbeelden en productfoto's; na de winkel en de rails, die de kaarten neerzetten
 initTransition(); // als laatste: andere klik-afhandelingen gaan voor

@@ -1,0 +1,99 @@
+/* Het kijklabel (src/js/kijk.js): bij de muis boven een projectbeeld of productfoto een klein label met wat een klik
+   doet. De labels maakt kijk.js aan, dus zonder JavaScript verandert er niets.
+   Het label heeft de vorm van het label uit de header (header.css > --tag-vorm): het blokje uit het teken, in de breedte
+   uitgerekt. Het volgt de beeldtaal van de site: omlijnd is "daar ben je nog niet", massief is "hier". Dus:
+   - naar een andere pagina: donker vlak, rand in de pijlerkleur, tekst in sage, de pijl van elke link (onder 0 graden);
+   - naar een andere site (nieuw venster): dezelfde pijl onder 30 graden omhoog;
+   - iets op deze pagina (de fotoviewer): massief in de pijlerkleur, met een plus;
+   - indrukken maakt het label massief: daar ga je nu heen. Een stille toestand, geen animatie.
+   Geen schaduw op het label: een filter op een laag die met de muis meegaat, kost bij elke beweging een nieuwe tekening.
+   Het donkere vlak geeft het label ook boven een lichte foto een rand. */
+
+.kijk{display:none}
+
+@media (hover:hover) and (pointer:fine){
+	.kijk{
+		--tag-h:1.75rem; /* 28px bij de gewone letter, zoals het label in de header; groeit mee met een grotere standaardletter */
+		--tag-s:1.5px;
+		--tl:calc(var(--tag-h) * 0.808);
+		--bl:calc(var(--tag-h) * 0.818);
+		--tag-vorm:polygon(0 56.5%, var(--tl) 0, calc(100% - var(--bl)) 0, 100% 43.5%, calc(100% - var(--tl)) 100%, var(--bl) 100%);
+		--tag-rand:polygon(evenodd,
+			0 56.5%, var(--tl) 0, calc(100% - var(--bl)) 0, 100% 43.5%, calc(100% - var(--tl)) 100%, var(--bl) 100%, 0 56.5%,
+			calc(var(--tag-s) * 1.911) calc(56.5% - var(--tag-s) * 0.116),
+			calc(var(--tl) + var(--tag-s) * 0.315) var(--tag-s),
+			calc(100% - var(--bl) - var(--tag-s) * 0.25) var(--tag-s),
+			calc(100% - var(--tag-s) * 1.911) calc(43.5% + var(--tag-s) * 0.116),
+			calc(100% - var(--tl) - var(--tag-s) * 0.315) calc(100% - var(--tag-s)),
+			calc(var(--bl) + var(--tag-s) * 0.25) calc(100% - var(--tag-s)),
+			calc(var(--tag-s) * 1.911) calc(56.5% - var(--tag-s) * 0.116));
+		display:block;position:absolute;left:0;top:0;z-index:4;pointer-events:none;
+		visibility:hidden;opacity:0;
+		transition:opacity 0.1s var(--ease), visibility 0s linear 0.16s
+	}
+	.kijk.is-aan{visibility:visible;opacity:1;will-change:transform;transition:opacity 0.06s var(--ease), visibility 0s}
+	.kijk-in{
+		position:relative;isolation:isolate;display:flex;align-items:center;gap:0.6em;height:var(--tag-h);padding:0 19px 0 20px;
+		white-space:nowrap;color:var(--sage);font:600 0.75rem/1 var(--font-mono);letter-spacing:0.12em;text-transform:uppercase;
+		/* Verschijnen: het label tekent zich in leesrichting vanaf zijn linkerpunt, zoals de lijnen op de site */
+		clip-path:inset(0 100% 0 0);transition:clip-path 0.16s var(--ease-out)
+	}
+	.kijk.is-aan .kijk-in{clip-path:inset(0 0 0 0)}
+	/* Het vlak en de rand: twee keer dezelfde vorm, de rand 1,5px breed (de omlijning uit de header) in de pijlerkleur.
+	   De tekst blijft altijd sage: 16:1 of meer op het vlak, ook boven een witte foto. */
+	.kijk-in::before,.kijk-in::after{content:'';position:absolute;inset:0;z-index:-1}
+	.kijk-in::before{background:rgba(8,10,13,0.94);clip-path:var(--tag-vorm)}
+	.kijk-in::after{background:var(--pillar);clip-path:var(--tag-rand)}
+
+	/* De pijl van elke link op de site (components.css > .link-arrow): een steel en een punt onder 30 graden. Als het label
+	   verschijnt, tekent de steel door, zoals bij elke link die je aanwijst. */
+	.kijk-teken{
+		--pijl-punt:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 10'%3E%3Cpath d='M1.6 1.8 7 5 1.6 8.2' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+		--steel:0.95em;
+		flex:none;display:block;width:1.55em;height:0.62em;margin-right:-0.12em;background:currentColor;
+		-webkit-mask:var(--pijl-punt) no-repeat, linear-gradient(#000 0 0) no-repeat;mask:var(--pijl-punt) no-repeat, linear-gradient(#000 0 0) no-repeat;
+		-webkit-mask-size:auto 100%, calc(var(--steel) - 0.08em) 0.1em;mask-size:auto 100%, calc(var(--steel) - 0.08em) 0.1em;
+		-webkit-mask-position:calc(var(--steel) - 0.5em) 50%, 0 50%;mask-position:calc(var(--steel) - 0.5em) 50%, 0 50%;
+		transition:-webkit-mask-size 0.22s var(--ease-out) 0.08s, mask-size 0.22s var(--ease-out) 0.08s, -webkit-mask-position 0.22s var(--ease-out) 0.08s, mask-position 0.22s var(--ease-out) 0.08s
+	}
+	.kijk.is-aan .kijk-teken{--steel:1.5em}
+	/* Naar een andere site: dezelfde pijl, onder 30 graden omhoog (de lijnen van het teken), in plaats van het pijltje ↗ */
+	.kijk--uit .kijk-teken{transform:rotate(-30deg) translateY(-0.05em)}
+	/* Iets op deze pagina: massief, met een plus (zoals het blokje van de uitklap) */
+	.kijk--hier .kijk-in{color:var(--dark)}
+	.kijk--hier .kijk-in::before{background:var(--pillar)}
+	.kijk--hier .kijk-in::after{background:rgba(8,10,13,0.94)}
+	.kijk--hier .kijk-teken{width:0.72em;height:0.72em;margin-right:0;transition:none;
+		-webkit-mask:linear-gradient(#000 0 0) center / 100% 0.13em no-repeat, linear-gradient(#000 0 0) center / 0.13em 100% no-repeat;
+		mask:linear-gradient(#000 0 0) center / 100% 0.13em no-repeat, linear-gradient(#000 0 0) center / 0.13em 100% no-repeat}
+	/* Indrukken: massief, daar ga je nu heen */
+	.kijk.is-druk .kijk-in{color:var(--dark)}
+	.kijk.is-druk .kijk-in::before{background:var(--pillar)}
+
+	/* ------------------------------------------------------------ de stille stand: vast in de hoek
+	   Bij toetsenbordfocus, bij "minder beweging", op de productfoto en als er bij de muis geen plek is, staat het label op
+	   de plek van het pijltje (dat zolang wegvalt): het pijltje krijgt woorden. Er beweegt niets; het label staat er
+	   direct. .kijk-veld is het blok met de links die hetzelfde doen als een klik op het beeld (.kijk-link); na Escape
+	   krijgt het .kijk-weg tot de focus verder gaat. */
+	.kijk-doel{--vast-t:20px;--vast-r:16px}
+	.kijk-doel--browser{--vast-t:38px;--vast-r:12px}
+	.kijk-doel--hoek{--vast-t:12px;--vast-r:12px}
+	.kijk.is-vast,
+	.kijk-veld:not(.kijk-weg):is(.kijk-link:focus-visible, :has(.kijk-link:focus-visible)) .kijk{left:auto;right:var(--vast-r);top:var(--vast-t);transform:none !important}
+	.kijk-veld:not(.kijk-weg):is(.kijk-link:focus-visible, :has(.kijk-link:focus-visible)) .kijk{visibility:visible;opacity:1;transition:none}
+	.kijk.is-vast .kijk-in,
+	.kijk-veld:not(.kijk-weg):is(.kijk-link:focus-visible, :has(.kijk-link:focus-visible)) .kijk-in{clip-path:none;transition:none}
+	.kijk.is-vast .kijk-teken,
+	.kijk-veld:not(.kijk-weg):is(.kijk-link:focus-visible, :has(.kijk-link:focus-visible)) .kijk-teken{--steel:1.5em;transition:none}
+	.kijk-doel.kijk-vast-aan .werk-open,
+	.kijk-veld:not(.kijk-weg):is(.kijk-link:focus-visible, :has(.kijk-link:focus-visible)) .werk-open{opacity:0}
+}
+/* De galerij op de productpagina staat onder 900px niet meer sticky (product.css); het label moet er wel binnen blijven */
+@media (hover:hover) and (pointer:fine) and (max-width:900px){
+	.pdp-gallery.kijk-doel{position:relative}
+}
+
+/* Hoog contrast: uit (de browser zou het label anders als los vlak tekenen) */
+@media (forced-colors:active){
+	.kijk{display:none !important}
+}
