@@ -47,8 +47,10 @@ function paneel(el) {
 	el.addEventListener('click', function (e) {
 		if (e.target.closest('a')) el.hidePopover();
 	});
-	el.addEventListener('focusout', function (e) {
-		if (el.matches(':popover-open') && e.relatedTarget && !el.contains(e.relatedTarget) && e.relatedTarget !== knop) el.hidePopover();
+	// Dicht zodra de focus buiten paneel en knop komt, ook als hij via de knop vertrekt (Shift+Tab vanaf het eerste
+	// onderdeel); anders bleef het paneel open en lag het over het element met focus
+	document.addEventListener('focusin', function (e) {
+		if (el.matches(':popover-open') && !el.contains(e.target) && e.target !== knop) el.hidePopover();
 	});
 }
 

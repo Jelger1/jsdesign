@@ -23,9 +23,10 @@ function groepen(ctx) {
 // pijlerpagina's)
 const OPEN_BLOK = '<svg class="bewijs-blok" viewBox="-1 -1 58 37" aria-hidden="true" focusable="false"><polygon points="56,15.2 28.2,35 0,19.8 27.8,0"/></svg>';
 
-// Waar een bewijs naartoe linkt: het hoofdstuk in de case waar het staat, of de productpagina
+// Waar een bewijs naartoe linkt: het hoofdstuk in de case waar het staat, of "Het verhaal" op de productpagina (daar
+// staat het bewijs; bovenaan staan foto, prijs en aanvraag)
 function bewijsUrl(b, ctx, root) {
-	if (b.product) return h.productUrl(ctx.products.find(function (x) { return x.id === b.product; }), root);
+	if (b.product) return h.productUrl(ctx.products.find(function (x) { return x.id === b.product; }), root) + '#story-heading';
 	const p = ctx.projects.find(function (x) { return x.id === b.project; });
 	return caseUrl(p, root) + (b.hoofdstuk ? hoofdstukAnker(p, b.hoofdstuk) : '');
 }

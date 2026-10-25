@@ -135,6 +135,8 @@
 .maker-kop h2{margin:0}
 .maker-kop h2 .highlight{white-space:nowrap}
 .maker-kort .bewijs-lijst{grid-area:lijst}
+/* De projectnaam niet vet: die projecten staan net als tegel bij het werk, en de bewering draagt de rij (geen rij namen) */
+.maker-kort .bewijs-tekst strong{font-weight:inherit;color:inherit}
 @media (min-width:760px){
 	.maker-kort{grid-template-columns:minmax(0, 280px) minmax(0, 1fr);grid-template-areas:'beeld kop' 'beeld lijst';column-gap:var(--space-12);row-gap:var(--space-8);align-items:start}
 	.maker-kort-beeld img{aspect-ratio:4 / 5;border-radius:var(--radius-lg)}

@@ -153,6 +153,14 @@
 			"product": "custom-lightbox"
 		},
 		{
+			"id": "bestaand",
+			"label": "Visueel ontwerp",
+			"kop": "Binnen een bestaande huisstijl",
+			"tekst": "Voor {Klankstad} bouwde ik verder op de bestaande huisstijl van 75 jaar WMC.",
+			"project": "wmc",
+			"hoofdstuk": "Mijn rol"
+		},
+		{
 			"id": "dekentje",
 			"label": "Onderzoek",
 			"kop": "Eerst onderzoek, dan ontwerp",
@@ -164,7 +172,7 @@
 			"id": "kunstroute",
 			"label": "UX-ontwerp",
 			"kop": "Schermen voor wie moe is",
-			"tekst": "In mijn ontwerp voor {Kunstroute Zuyderland} zijn knoppen minstens 56 pixels.",
+			"tekst": "Voor {Kunstroute Zuyderland} kozen een medestudent en ik knoppen van minstens 56 pixels.",
 			"project": "kunstroute",
 			"hoofdstuk": "Ontwerp en prototype"
 		},
@@ -180,7 +188,7 @@
 			"id": "licht",
 			"label": "Snelheid",
 			"kop": "Licht en snel",
-			"tekst": "De homepage van {Brouwerij Rolduc} laadt nu 1,8 MB in plaats van 9,2 MB.",
+			"tekst": "De homepage van {Brouwerij Rolduc} laadt nu 1,8 MB in plaats van 9,2 MB.",
 			"project": "rolduc",
 			"hoofdstuk": "Resultaat"
 		},
@@ -188,7 +196,7 @@
 			"id": "voorlezen",
 			"label": "Na oplevering",
 			"kop": "Ook om te beluisteren",
-			"tekst": "Na de oplevering kregen alle 31 hoofdstukken van {Heerlen} een voorleesstem.",
+			"tekst": "Na de oplevering kregen alle 31 hoofdstukken van {Heerlen} een voorleesstem.",
 			"project": "heerlen",
 			"hoofdstuk": "Testen en iteraties"
 		},
@@ -208,7 +216,7 @@
 	},
 	"bewijsPijler": {
 		"branding": [
-			"meegroeien",
+			"bestaand",
 			"dekentje",
 			"kunstroute"
 		],

@@ -319,7 +319,7 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 .bewijs-tekst strong{color:var(--fg);font-weight:600}
 /* De pijl van elke link (components.css), in de linkkleur */
 .bewijs-pijl{grid-area:pijl;align-self:center;font-size:1.25rem;line-height:1;color:var(--brand)}
-.bewijs-pijl::after{margin-left:0;vertical-align:middle}
+.bewijs .bewijs-pijl::after{margin-left:0;vertical-align:middle}
 @media (max-width:600px){
 	.bewijs-kop{font-stretch:100%}
 }

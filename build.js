@@ -323,7 +323,8 @@ function validateBewijs(skills, pillars, projects, products, report) {
 			const project = projects.find(function (p) { return p.id === b.project; });
 			if (!project) report.errors.push(where + ': onbekend project "' + b.project + '" (of geef een product)');
 			else if (project.tier !== 'A') report.errors.push(where + ': project "' + b.project + '" heeft geen casepagina (tier A)');
-			else if (b.hoofdstuk && !hoofdstukAnker(project, b.hoofdstuk)) report.errors.push(where + ': project "' + b.project + '" heeft geen hoofdstuk "' + b.hoofdstuk + '"');
+			// Zonder hoofdstukken meldt validateCase het al; dan hier niet verder (anders crasht de build vóór de foutenlijst)
+			else if (b.hoofdstuk && Array.isArray(project.case && project.case.hoofdstukken) && !hoofdstukAnker(project, b.hoofdstuk)) report.errors.push(where + ': project "' + b.project + '" heeft geen hoofdstuk "' + b.hoofdstuk + '"');
 		}
 		if (b.kop && b.kop.length > 32) report.warnings.push(where + ': kop is ' + b.kop.length + ' tekens (richtlijn: hooguit 32)');
 		if (b.tekst && b.tekst.replace(/[{}]/g, '').length > 90) report.warnings.push(where + ': tekst is ' + b.tekst.replace(/[{}]/g, '').length + ' tekens (richtlijn: hooguit 90)');
