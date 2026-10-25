@@ -1,10 +1,10 @@
 /* Header: logo, menu (Branding · Digitaal · Tastbaar · Portfolio · Webshop · Over), de Contact-knop en de winkelwagen
-   (die knop staat in components.css). De pagina waar je bent (aria-current) krijgt een tab: een vetter woord, een getint
-   vlak in de pijlerkleur (--pillar, buiten de pijlers raspberry) en een balkje van 4px met schuine einden onder 30° op
-   de onderrand van de header, als een tabblad dat de pagina eronder opent. De sectie erboven (data-ancestor) krijgt
-   alleen een balkje van 3px. Onder 900px staat waar je bent als label naast het logo, en opent de menuknop het menu als
-   modale dialog over het hele scherm (src/js/ui.js), in de beeldtaal van het teken: de drie pijlers als genummerde
-   blokjes aan één lijn, met de huidige rij in een getinte band en "Je bent hier". */
+   (die knop staat in components.css). De pagina waar je bent (aria-current) staat op een label: het blokje uit het teken,
+   in de breedte uitgerekt, vol in de pijlerkleur (--pillar, buiten de pijlers raspberry) met donkere tekst. De sectie
+   erboven (data-ancestor: Portfolio bij een case, Webshop bij een product) krijgt hetzelfde label als omlijning. Vol is
+   hier, omlijnd is de sectie erboven, niets is elders. Onder 900px staat het label naast het logo, en opent de menuknop
+   het menu als modale dialog over het hele scherm (src/js/ui.js), in de beeldtaal van het teken: de drie pijlers als
+   genummerde blokjes aan één lijn. Daar rekt het blokje van de huidige pijler uit tot het label onder zijn naam. */
 
 /* Skip-link voor toetsenbordgebruikers */
 .skip-link{position:absolute;left:1rem;top:-4rem;z-index:var(--z-skiplink);background:var(--brand);color:var(--dark);padding:0.6rem 1rem;border-radius:var(--radius);font-weight:700;text-decoration:none}
@@ -30,30 +30,45 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 .main-nav{display:flex;align-items:center;gap:clamp(1rem, 2.2vw, 2rem);margin-left:auto}
 .main-nav a{position:relative;display:inline-flex;align-items:center;min-height:2.5rem;color:var(--fg-muted);font-size:var(--text-sm);font-weight:500;letter-spacing:0.05em;text-decoration:none;white-space:nowrap;border-radius:4px}
 .main-nav a:hover,.main-nav a:is([aria-current="page"], [data-ancestor]){color:var(--fg)}
-/* De huidige pagina: vet. Met 0,025em letterafstand blijft het woord even breed als in 500, dus het menu verspringt
-   niet tussen pagina's */
-.main-nav a[aria-current="page"]:not(.nav-cta){font-weight:700;letter-spacing:0.025em}
-/* Focus is een ring om de link, los van de tab: met 2px afstand blijft er donker tussen de ring en de tab, ook op
-   Digitaal waar beide aqua zijn. De Contact-knop houdt 4px. */
-.main-nav a:focus-visible{outline-offset:var(--focus-offset)}
-.main-nav .nav-cta:focus-visible{outline-offset:4px}
+/* Focus is een ring om de link, 4px erbuiten: zo blijft er donker tussen de ring en de punten van het label, ook op
+   Digitaal waar beide aqua zijn */
+.main-nav a:focus-visible{outline-offset:4px}
 /* De pijlers hebben een klein blokje in hun eigen kleur voor de naam (kleur is nooit het enige kenmerk: het label staat
-   ernaast) */
+   ernaast). --voor is de ruimte die het inneemt. */
+.main-nav a[data-pillar]{--voor:calc(13px + 0.45rem)}
 .main-nav a[data-pillar]::before{content:'';flex:none;width:13px;height:8px;margin-right:0.45rem;background:var(--pillar);clip-path:var(--js-blok)}
-/* De tab staat precies op de rand van 1px onderaan de header: de link (2,5rem) staat midden in de header, dus de
-   bovenkant van die rand ligt (64 - 1 - 40) / 2 = 11,5px onder de link (--tab-onder is negatief). Die rand scheidt de tab
-   van een vlak in dezelfde kleur eronder. --tab-schuin is de lengte van een schuin eind onder 30°: hoogte x √3. */
-.site-header{--tab-onder:calc((2.5rem - var(--nav-height) + 1px) / 2)}
-.main-nav{--tab-h:4px}
-.main-nav a:is([aria-current="page"], [data-ancestor]){isolation:isolate}
-.main-nav a::after{--tab-schuin:calc(var(--tab-h) * 1.732);content:'';position:absolute;z-index:-1;left:calc(-1 * var(--tab-schuin));right:calc(-1 * var(--tab-schuin));bottom:var(--tab-onder);height:var(--tab-h);
-	clip-path:polygon(var(--tab-schuin) 0, calc(100% - var(--tab-schuin)) 0, 100% 100%, 0 100%)}
-/* De huidige pagina: het balkje met erboven een getint vlak tot de bovenkant van de link, als een tabblad. Zo valt hij
-   ook op waar de pagina eronder dezelfde kleur heeft. De sectie erboven: alleen een balkje van 3px. */
-.main-nav a[aria-current="page"]:not(.nav-cta)::after{height:calc(2.5rem - var(--tab-onder));
-	background:linear-gradient(to top, var(--pillar, var(--raspberry)) 0 var(--tab-h), color-mix(in srgb, var(--pillar, var(--raspberry)) 13%, transparent) var(--tab-h));
-	clip-path:polygon(var(--tab-schuin) 0, calc(100% - var(--tab-schuin)) 0, calc(100% - var(--tab-schuin)) calc(100% - var(--tab-h)), 100% 100%, 0 100%, var(--tab-schuin) calc(100% - var(--tab-h)))}
-.main-nav a[data-ancestor]::after{--tab-h:3px;background:var(--pillar, var(--raspberry))}
+
+/* Het label. --tag-h is de hoogte. De punten zijn de linker- en rechterhelft van het blokje (--js-blok) op die hoogte:
+   0,808 en 0,818 keer de hoogte, links op 56,5% en rechts op 43,5%, dus met de lichte draai van het blokje in het logo.
+   --tag-rand is dezelfde vorm als rand van --tag-s breed (evenodd: een binnenvorm die op elke zijde --tag-s naar binnen
+   ligt). Deze variabelen staan op de elementen zelf en niet op :root, omdat --tag-h per element verschilt. */
+.main-nav a,.header-hier,.menu-naam,.menu-meer a{
+	--tag-s:2px;
+	--tl:calc(var(--tag-h, 28px) * 0.808);
+	--bl:calc(var(--tag-h, 28px) * 0.818);
+	--tag-vorm:polygon(0 56.5%, var(--tl) 0, calc(100% - var(--bl)) 0, 100% 43.5%, calc(100% - var(--tl)) 100%, var(--bl) 100%);
+	--tag-rand:polygon(evenodd,
+		0 56.5%, var(--tl) 0, calc(100% - var(--bl)) 0, 100% 43.5%, calc(100% - var(--tl)) 100%, var(--bl) 100%, 0 56.5%,
+		calc(var(--tag-s) * 1.911) calc(56.5% - var(--tag-s) * 0.116),
+		calc(var(--tl) + var(--tag-s) * 0.315) var(--tag-s),
+		calc(100% - var(--bl) - var(--tag-s) * 0.25) var(--tag-s),
+		calc(100% - var(--tag-s) * 1.911) calc(43.5% + var(--tag-s) * 0.116),
+		calc(100% - var(--tl) - var(--tag-s) * 0.315) calc(100% - var(--tag-s)),
+		calc(var(--bl) + var(--tag-s) * 0.25) calc(100% - var(--tag-s)),
+		calc(var(--tag-s) * 1.911) calc(56.5% - var(--tag-s) * 0.116))
+}
+/* Op de desktop is het label even breed als de link plus --tag-x aan elke kant. Die ruimte komt uit een negatieve marge,
+   zodat geen enkele link verschuift als je van pagina wisselt. Bij een pijler valt het vaste blokje weg en schuift het
+   label in zijn ruimte. Vet met iets minder letterafstand is precies even breed als de gewone link. */
+.main-nav a{--tag-h:28px;--tag-x:14px}
+.main-nav a:is([aria-current="page"], [data-ancestor]):not(.nav-cta){isolation:isolate;padding-inline:var(--tag-x);margin-inline:calc(-1 * var(--tag-x))}
+.main-nav a[data-pillar]:is([aria-current="page"], [data-ancestor]){margin-inline:calc(var(--voor) / 2 - var(--tag-x))}
+.main-nav a[data-pillar]:is([aria-current="page"], [data-ancestor])::before{display:none}
+.main-nav a:is([aria-current="page"], [data-ancestor]):not(.nav-cta)::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:50%;height:var(--tag-h);
+	transform:translateY(-50%);background:var(--pillar, var(--raspberry));clip-path:var(--tag-vorm)}
+.main-nav a[aria-current="page"]:not(.nav-cta){color:var(--dark);font-weight:700;letter-spacing:0.025em}
+.main-nav a[data-ancestor]{font-weight:600;letter-spacing:0.035em}
+.main-nav a[data-ancestor]:not(.nav-cta)::after{clip-path:var(--tag-rand)}
 
 /* Contact: een extrude-knop zoals .btn.primary. Op de contactpagina zelf staat hij al een laag omhoog */
 .main-nav .nav-cta{margin-left:0.5rem;padding:0 1.2rem;border:2px solid var(--brand);border-radius:var(--radius-full);background:var(--brand);color:var(--dark);font-size:var(--text-base);font-weight:700;letter-spacing:0.02em;box-shadow:0 0 0 0 var(--extrude-color);transition:transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease)}
@@ -61,11 +76,18 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 .main-nav .nav-cta:hover,.main-nav .nav-cta[aria-current="page"]{color:var(--dark);transform:translate(-3px, -3px);box-shadow:4px 4px 0 0 var(--extrude-color)}
 .main-nav .nav-cta:active{transform:translate(-1px, -1px);box-shadow:2px 2px 0 0 var(--extrude-color)}
 
-/* Op een smaller scherm passen zeven onderdelen alleen met minder ruimte ertussen */
+/* Op een smaller scherm passen zeven onderdelen alleen met minder ruimte ertussen. Tot 1100px staat er vast 1,5rem
+   tussen de links (daarboven 2,2vw, dus dat sluit aan): genoeg voor de punten van het label, dat 14px buiten zijn link
+   steekt. Onder 960px past dat alleen zonder de vaste blokjes voor de pijlernamen (het label van de huidige pijler
+   blijft). */
 @media (max-width:1100px){
 	.header-inner{gap:1rem}
-	.main-nav{gap:clamp(0.85rem, 1.8vw, 2rem)}
+	.main-nav{gap:1.5rem}
 	.main-nav .nav-cta{margin-left:0.25rem;padding:0 1rem}
+}
+@media (max-width:960px){
+	.main-nav a[data-pillar]{--voor:0px}
+	.main-nav a[data-pillar]::before{display:none}
 }
 
 /* ---------------------------------------------------------------- menuknop en sluitknop
@@ -141,22 +163,26 @@ html:has(.menu[open]){overflow:hidden}
 .menu-pijlers a:hover .menu-naam{color:var(--pillar-text)}
 .menu-meer a:hover{color:var(--brand)}
 
-/* De pagina waar je bent. Een pijler: een band in de pijlerkleur (14%) over de hele breedte, links een balk van 4px (een
-   rand, zodat hij ook in hoog contrast blijft staan) en achter de naam "Je bent hier", zoals op de tegel van de
-   pijlerpagina. De sectie erboven (bijvoorbeeld Tastbaar op de printservice): een band van 10% en een balk van 3px. */
-.menu-pijlers a{isolation:isolate}
-.menu-pijlers a:is([aria-current="page"], [data-ancestor])::before{content:'';position:absolute;z-index:-1;inset:calc(-1 * var(--space-3)) calc(-1 * var(--gutter));
-	border-left:4px solid var(--pillar);background:color-mix(in srgb, var(--pillar) 14%, transparent)}
-.menu-pijlers a[data-ancestor]::before{border-left-width:3px;background:color-mix(in srgb, var(--pillar) 10%, transparent)}
-.menu-pijlers a[aria-current="page"] .menu-naam::after{content:'Je bent hier';content:'Je bent hier' / '';flex:none;padding:0.4rem 0.6rem;border-radius:var(--radius-full);background:var(--sage);color:var(--dark);
-	font:600 var(--text-xs)/1 var(--font-mono);letter-spacing:0.1em;text-transform:uppercase}
-/* Portfolio · Webshop · Over: de huidige wordt een tab, een getint vlak met bovenaan ronde hoeken en onderaan een rand in
-   de pijlerkleur van de pagina. Een rand en geen balkje: deze rij staat op halve pixels, een rand blijft scherp en ook in
-   hoog contrast staan. De negatieve marge houdt de woorden op dezelfde plek als op andere pagina's. */
-.menu-meer a:is([aria-current="page"], [data-ancestor]){margin-inline:-0.6rem;padding:4px 0.6rem 0;border-bottom:4px solid var(--pillar, var(--raspberry));border-radius:6px 6px 0 0;
-	background:color-mix(in srgb, var(--pillar, var(--raspberry)) 14%, transparent)}
-.menu-meer a[aria-current="page"]{font-weight:700}
-.menu-meer a[data-ancestor]{padding-top:3px;border-bottom-width:3px;background:color-mix(in srgb, var(--pillar, var(--raspberry)) 10%, transparent)}
+/* De pagina waar je bent. Bij een pijler rekt het genummerde blokje uit tot het label onder de naam: het label begint op
+   de linkerpunt van het blokje en heeft dezelfde hellingen, dus het blokje valt er precies in en de rij leest als één
+   vorm, "01 Branding". Het schuift 0,065 x (32px - --tag-h) omhoog, zodat zijn linkerpunt op die van het blokje valt. De
+   omschrijving schuift iets omlaag, uit de punt van het label. De andere twee pijlers blijven zoals ze zijn. */
+.menu-naam{--tag-h:44px;--tag-x:30px}
+.menu-pijlers a:is([aria-current="page"], [data-ancestor]){isolation:isolate}
+.menu-pijlers a:is([aria-current="page"], [data-ancestor]) .menu-naam{position:relative;width:fit-content}
+.menu-pijlers a:is([aria-current="page"], [data-ancestor]) .menu-naam::before{content:'';position:absolute;z-index:-1;
+	left:calc(-1 * (var(--blok-b) + var(--space-4)));right:calc(-1 * var(--tag-x));top:50%;height:var(--tag-h);
+	transform:translateY(calc(-50% + (32px - var(--tag-h)) * 0.065));background:var(--pillar);clip-path:var(--tag-vorm)}
+.menu-pijlers a:is([aria-current="page"], [data-ancestor]) .menu-wat{margin-top:0.5rem}
+.menu-pijlers a[aria-current="page"] .menu-naam,.menu-pijlers a[aria-current="page"]:hover .menu-naam{color:var(--dark)}
+.menu-pijlers a[data-ancestor] .menu-naam::before{clip-path:var(--tag-rand)}
+/* Portfolio · Webshop · Over krijgen hetzelfde label op hun eigen maat, de sectie erboven de omlijning */
+.menu-meer a{--tag-h:32px;--tag-x:15px}
+.menu-meer a:is([aria-current="page"], [data-ancestor]){isolation:isolate;padding-inline:var(--tag-x)}
+.menu-meer a:is([aria-current="page"], [data-ancestor])::before{content:'';position:absolute;z-index:-1;left:0;right:0;top:50%;height:var(--tag-h);transform:translateY(-50%);
+	background:var(--pillar, var(--raspberry));clip-path:var(--tag-vorm)}
+.menu-meer a[aria-current="page"],.menu-meer a[aria-current="page"]:hover{color:var(--dark);font-weight:700}
+.menu-meer a[data-ancestor]::before{clip-path:var(--tag-rand)}
 
 /* Contact: breed, als extrude-knop; op de contactpagina zelf staat hij al een laag omhoog */
 .menu-cta{display:flex;align-items:center;justify-content:center;min-height:3.25rem;margin-top:var(--space-10);padding:0 var(--space-6);border:2px solid var(--brand);border-radius:var(--radius-full);
@@ -199,14 +225,13 @@ html:has(.menu[open]){overflow:hidden}
 }
 @media (prefers-reduced-motion:reduce){
 	.menu-icoon span{transition:none}
-	.main-nav a::after{transition:none}
 }
 
 /* ---------------------------------------------------------------- onder 900px
    Het logo links, de winkelwagen en de menuknop rechts. Het gewone menu verdwijnt achter de menuknop. Naast het logo
-   staat waar je bent (layout.js > hier): na een haarlijn de naam van de sectie, met dezelfde tab eronder op de rand van
-   de header; op een pagina eronder is het een link terug naar het overzicht. In de bovenbalk van het menu staat een
-   kopie op exact dezelfde plek, zodat er niets verspringt als het menu opengaat. */
+   staat het label van de pagina waar je bent (layout.js > hier); op een pagina eronder is het de omlijning, en een link
+   terug naar het overzicht. In de bovenbalk van het menu staat een kopie op exact dezelfde plek, zodat er niets
+   verspringt als het menu opengaat. */
 .header-hier{display:none}
 @media (max-width:900px){
 	.header-inner{gap:0.25rem}
@@ -216,46 +241,49 @@ html:has(.menu[open]){overflow:hidden}
 	.nav-toggle{display:inline-flex;margin-right:-0.5rem}
 	/* Het label geeft als eerste ruimte prijs (flex-shrink 20); de winkelwagen blijft altijd 44px */
 	.cart-toggle{flex:none}
-	/* --hier-x: van het logo tot de haarlijn; --hier-pad: van de haarlijn tot het woord; --hier-gap: de ruimte tussen de
-	   onderdelen van de balk, die de marge aanvult (.header-inner 0,25rem, .menu-balk --space-4) */
-	.header-hier{--tab-h:4px;--tab-schuin:calc(var(--tab-h) * 1.732);--hier-x:0.875rem;--hier-pad:0.65rem;--hier-gap:0.25rem;
-		position:relative;display:flex;align-items:center;flex:0 20 auto;min-width:0;min-height:2.5rem;
-		margin-left:calc(var(--hier-x) - var(--hier-gap));margin-right:auto;padding-left:calc(var(--hier-pad) + 1px);
-		color:var(--fg);font:600 0.9375rem/1 var(--font-body);letter-spacing:0.01em;white-space:nowrap;text-decoration:none}
+	/* Het vak is 44px hoog (tikdoel), het label erin 26px. --hier-x: van het logo tot de punt van het label; --hier-gap:
+	   de ruimte tussen de onderdelen van de balk, die de marge aanvult (.header-inner 0,25rem, .menu-balk --space-4) */
+	.header-hier{--tag-h:26px;--tag-x:12px;--hier-x:0.75rem;--hier-gap:0.25rem;
+		position:relative;isolation:isolate;display:flex;align-items:center;flex:0 20 auto;min-width:0;height:44px;
+		margin-left:calc(var(--hier-x) - var(--hier-gap));margin-right:auto;padding-inline:var(--tag-x);
+		color:var(--dark);font:700 var(--text-sm)/1 var(--font-body);letter-spacing:0.025em;white-space:nowrap;text-decoration:none;border-radius:4px}
 	.menu-balk .header-hier{--hier-gap:var(--space-4)}
-	/* Vangnet: past het woord onverwacht niet, dan wordt het afgekapt in plaats van de knoppen uit beeld te duwen */
+	.header-hier::before{content:'';position:absolute;z-index:-1;left:0;right:0;top:50%;height:var(--tag-h);transform:translateY(-50%);
+		background:var(--pillar, var(--raspberry));clip-path:var(--tag-vorm)}
+	.header-hier.is-sectie{color:var(--fg);font-weight:600;letter-spacing:0.035em}
+	.header-hier.is-sectie::before{clip-path:var(--tag-rand)}
+	/* Vangnet: past het woord onverwacht niet (grote tekstinstelling), dan wordt het afgekapt in plaats van de knoppen
+	   uit beeld te duwen */
 	.header-hier-naam{min-width:0;overflow:hidden;text-overflow:ellipsis}
-	.header-hier.is-sectie{--tab-h:3px}
-	a.header-hier{min-height:44px}
 	a.header-hier:hover .header-hier-naam,a.header-hier:focus-visible .header-hier-naam{text-decoration:underline;text-underline-offset:0.25em}
-	.header-hier::before{content:'';position:absolute;left:0;top:calc(50% - 0.625rem);width:1px;height:1.25rem;background:var(--border-strong)}
-	/* z-index: in de menubalk ligt de verlooplijn (::after) anders over de tab */
-	.header-hier::after{content:'';position:absolute;z-index:1;left:calc(var(--hier-pad) + 1px - var(--tab-schuin));right:calc(-1 * var(--tab-schuin));bottom:var(--tab-onder);height:var(--tab-h);
-		background:var(--pillar, var(--raspberry));clip-path:polygon(var(--tab-schuin) 0, calc(100% - var(--tab-schuin)) 0, 100% 100%, 0 100%)}
-	/* De link is 44px hoog in plaats van 40px; hij staat ook in het midden, dus zijn onderkant ligt 2px dichter bij de rand */
-	a.header-hier::after{bottom:calc(var(--tab-onder) + 2px)}
 }
 /* Telefoons tot 420px: geen ruimte tussen de onderdelen (de winkelwagen en de menuknop hebben elk hun eigen binnenruimte)
-   en afstanden en woord die meeschalen, zodat ook het langste woord, "Webshop", bij 360px past */
+   en afstanden, label en woord die meeschalen, zodat ook het langste woord, "Webshop", bij 360px past en het woord MENU
+   blijft staan */
 @media (max-width:420px){
 	.header-inner{gap:0}
-	.header-hier{--hier-x:clamp(0.5rem, 0.5rem + (100vw - 360px) / 15, 0.75rem);--hier-pad:var(--hier-x);--hier-gap:0px;font-size:clamp(0.8125rem, 0.8125rem + (100vw - 360px) / 30, 0.9375rem)}
+	.header-hier{--hier-gap:0px;--hier-x:clamp(0.375rem, 0.375rem + (100vw - 360px) / 10, 0.75rem);--tag-h:24px;--tag-x:11px;
+		font-size:clamp(0.8125rem, 0.8125rem + (100vw - 360px) / 60, 0.875rem)}
 }
-/* Smaller dan 360px past het woord niet meer naast logo, winkelwagen en menuknop; het menu zelf toont dan waar je bent */
+/* Van 360 tot 375px nog iets krapper: een kleiner woord, minder label om het woord en minder ruimte in de menuknop */
+@media (max-width:374px){
+	.header-hier{--tag-x:10px;font-size:0.78125rem}
+	.nav-toggle{gap:0.5rem;padding-left:0.25rem}
+}
+/* Smaller dan 360px past het label niet meer naast logo, winkelwagen en menuknop; het menu zelf toont dan waar je bent */
 @media (max-width:359px){
 	.header-hier{display:none}
 	.brand:has(+ .header-hier){margin-right:auto}
 }
-/* Zonder JavaScript werkt de menuknop niet: dan staat het menu als rij onder het logo, met de tab onder de link; het label
-   naast het logo is dan dubbel */
+/* Zonder JavaScript werkt de menuknop niet: dan staat het menu als rij onder het logo, met het label op de huidige link
+   (zonder negatieve marge: de rij begint aan de rand). Het label naast het logo is dan dubbel. */
 @media (max-width:900px) and (scripting:none){
 	.site-header{position:relative;height:auto}
 	.header-inner{flex-wrap:wrap;padding-top:0.5rem;padding-bottom:0.75rem}
 	.nav-toggle{display:none}
 	.main-nav{display:flex;flex-wrap:wrap;order:1;width:100%;gap:0 1.25rem;margin:0}
 	.main-nav a{min-height:44px}
-	.main-nav a::after{bottom:0}
-	.main-nav a[aria-current="page"]:not(.nav-cta)::after{height:44px}
+	.main-nav a:is([aria-current="page"], [data-ancestor]):not(.nav-cta),.main-nav a[data-pillar]:is([aria-current="page"], [data-ancestor]){margin-inline:0}
 	.main-nav .nav-cta{margin-left:0}
 	.header-hier{display:none}
 	.brand:has(+ .header-hier){margin-right:auto}
@@ -264,19 +292,23 @@ html:has(.menu[open]){overflow:hidden}
 	.brand-logo{width:120px}
 }
 
-/* Hoog contrast (Windows): de browser maakt achtergronden doorzichtig. De tab blijft daarom als balk in de tekstkleur
-   staan, een stukje boven de systeemrand van de header, en het huidige woord krijgt een onderstreping; het getinte vlak
-   en de band vallen weg, hun randen kleurt de browser zelf in. Zo ook het teken in het logo, de blokjes van de menuknop
-   en de genummerde blokjes en lijnen in het menu. */
+/* Hoog contrast (Windows): de browser maakt achtergronden doorzichtig. Het label wordt daarom Highlight met
+   HighlightText, de omlijning CanvasText, en de focusring houdt de systeemkleur (forced-color-adjust:none zou hem anders
+   aqua laten). Zo ook het teken in het logo, de blokjes van de menuknop en de genummerde blokjes en lijnen in het menu;
+   het blokje van de huidige pijler versmelt met zijn label. */
 @media (forced-colors:active){
-	.main-nav a:is([aria-current="page"], [data-ancestor])::after,.header-hier::after,
 	.menu-icoon span,.menu-blok,.menu-pijlers li::before{forced-color-adjust:none;background:CanvasText}
-	.main-nav a:is([aria-current="page"], [data-ancestor])::after{bottom:calc(var(--tab-onder) + 3px)}
-	.main-nav a[aria-current="page"]:not(.nav-cta)::after{height:var(--tab-h);clip-path:polygon(var(--tab-schuin) 0, calc(100% - var(--tab-schuin)) 0, 100% 100%, 0 100%)}
-	.main-nav a[aria-current="page"]:not(.nav-cta){text-decoration:underline 2px;text-underline-offset:0.4em}
-	.menu-pijlers a[aria-current="page"] .menu-naam::after{background:Canvas;color:CanvasText;border:1px solid CanvasText}
-	.menu-meer a:is([aria-current="page"], [data-ancestor]){border-style:solid;border-width:1px 1px 4px}
-	.menu-meer a[data-ancestor]{border-bottom-width:3px}
-	.logo-deel{forced-color-adjust:none;fill:CanvasText}
+	.main-nav a:is([aria-current="page"], [data-ancestor]):not(.nav-cta)::after,.header-hier::before,
+	.menu-pijlers a:is([aria-current="page"], [data-ancestor]) .menu-naam::before,
+	.menu-meer a:is([aria-current="page"], [data-ancestor])::before{forced-color-adjust:none;background:Highlight}
+	.main-nav a[aria-current="page"]:not(.nav-cta),.header-hier:not(.is-sectie),
+	.menu-pijlers a[aria-current="page"] .menu-naam,.menu-meer a[aria-current="page"]{forced-color-adjust:none;color:HighlightText}
+	.main-nav a[data-ancestor]:not(.nav-cta)::after,.header-hier.is-sectie::before,
+	.menu-pijlers a[data-ancestor] .menu-naam::before,.menu-meer a[data-ancestor]::before{forced-color-adjust:none;background:CanvasText}
+	/* Achter tekst tekent de browser een vlak in Canvas, dat de omlijning anders deels afdekt */
+	.main-nav a[data-ancestor]:not(.nav-cta),.header-hier.is-sectie,.menu-pijlers a[data-ancestor] .menu-naam,.menu-meer a[data-ancestor]{forced-color-adjust:none;color:LinkText}
+	.main-nav a:is([aria-current="page"], [data-ancestor]):focus-visible,.header-hier:focus-visible,.menu-meer a:is([aria-current="page"], [data-ancestor]):focus-visible{outline-color:CanvasText}
+	.logo-deel,body[data-pillar] .site-header .logo-deel{forced-color-adjust:none;fill:CanvasText}
 	.menu-blok{color:Canvas}
+	.menu-pijlers a[aria-current="page"] .menu-blok{background:Highlight;color:HighlightText}
 }
