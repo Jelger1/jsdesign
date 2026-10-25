@@ -1,6 +1,7 @@
 /* Over (over.html, src/templates/over.js): een korte intro in de ik-vorm met een specificatielijst en het portret, met
-   twee delen van het JS-teken als lagen erachter; daarna wat ik kan (met projecten als bewijs), de werkwijze als trap in
-   de drie merkkleuren, het gereedschap en een afsluiter. De chips (.kunde-*) en de trap (.trap) staan in pijler.css. */
+   twee delen van het JS-teken als lagen erachter; daarna wat ik kan (alles, als index per vak), de werkwijze als trap in
+   de drie merkkleuren, het gereedschap en een afsluiter. De trap (.trap) staat in pijler.css, de uitklap (.uitklap) in
+   home.css. */
 body[data-page="over"]{--section-space:var(--section-space-compact)}
 
 .over-hero{display:grid;gap:var(--space-12);align-items:center;padding-top:2.5rem;padding-bottom:var(--space-4)}
@@ -28,16 +29,78 @@ body[data-page="over"]{--section-space:var(--section-space-compact)}
 	.over-portret{justify-self:end;width:100%;margin:0}
 }
 
+/* ------------------------------------------------------------------ wat ik kan: alles, als rustige index per vak
+   (src/templates/skills.js > index). Per vak een kop met het blokje in zijn kleur; per groep het blokje als knop
+   (dicht een omtrek met een plus, open massief met een min, in de kleur van het vak), met de onderdelen achter de
+   uitklap en één voorbeeld uit mijn werk. De groepen die in elk vak terugkomen, krijgen de drie kleuren (#kunde-drie). */
+.kunde-defs{position:absolute;width:0;height:0;overflow:hidden}
+.kunde-index{border-top:1px solid var(--border)}
+/* Kopregel boven de kolommen, alleen breed; smal staat "Bijvoorbeeld" bij elk voorbeeld */
+.kunde-index-kop{display:none}
+.kunde-vak{display:grid;gap:var(--space-2) var(--space-8);padding:var(--space-5) 0 var(--space-4);border-bottom:1px solid var(--border)}
+.kunde-vak-naam{display:flex;align-items:center;gap:0.6rem;margin:0;font-size:var(--text-lg);line-height:1.25;color:var(--fg)}
+.kunde-vak-naam::before{content:'';flex:none;width:1.4em;height:0.87em;clip-path:var(--js-blok);background:var(--pillar)}
+.kunde-vak:not([data-pillar]) .kunde-vak-naam::before{background:linear-gradient(90deg, var(--raspberry) 0 34%, var(--brand) 34% 67%, var(--sage) 67%)}
+.kunde-groepen{list-style:none;margin:0;padding:0}
+/* De maat van het blokje (zoals .uitklap in home.css), ook voor het voorbeeld onder de uitklap */
+.kunde-groep{--blok-b:34px;--blok-h:21px;display:grid;column-gap:var(--space-6)}
+.kunde-open{position:relative}
+.kunde-open > summary{display:flex;align-items:center;gap:0.75rem;min-height:2.75rem;padding:0.4rem 0;cursor:pointer;list-style:none;color:var(--fg)}
+.kunde-open > summary::-webkit-details-marker{display:none}
+.kunde-open > summary:focus-visible{outline:var(--focus-ring);outline-offset:var(--focus-offset);border-radius:4px}
+.kunde-groep-naam{font-weight:600;line-height:1.35}
+/* Open: de onderdelen onder elkaar, met de lijn van het blokje omlaag, net als bij de vragen */
+.kunde-items{list-style:none;margin:0;padding:0.1rem 0 var(--space-3) calc(var(--blok-b) + 0.75rem);display:grid;gap:0.2rem;color:var(--fg-muted);line-height:1.5}
+.kunde-open::after{left:calc(var(--blok-b) / 2 - 0.75px);top:calc(1.375rem + var(--blok-h) / 2 + 4px);bottom:var(--space-3)}
+.kunde-voorbeeld{margin:0 0 var(--space-3);padding-left:calc(var(--blok-b) + 0.75rem);color:var(--fg-muted);line-height:1.5}
+.kunde-voorbeeld-label{margin-right:0.35rem;font:500 var(--text-xs)/1 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase}
+/* Minstens 24px hoog als doel, zonder de regel hoger te maken */
+.kunde-voorbeeld a{display:inline-block;padding-block:0.15rem;color:var(--fg);text-decoration-color:var(--border-strong);text-underline-offset:3px}
+.kunde-voorbeeld a:hover{color:var(--brand);text-decoration-color:currentColor}
+/* Het blokje in de kleur van het vak (de algemene groepen: het verloop). Niet in hoog contrast: daar gelden de
+   systeemkleuren uit home.css. */
+@media (forced-colors:none){
+	.kunde-vak[data-pillar] .uitklap-vlak,.kunde-vak[data-pillar] .uitklap-teken{stroke:var(--pillar)}
+	.kunde-vak[data-pillar] .uitklap[open] > summary .uitklap-vlak{fill:var(--pillar)}
+	.kunde-vak[data-pillar] .uitklap::after{background:var(--pillar)}
+	.kunde-vak:not([data-pillar]) .uitklap-vlak{stroke:url(#kunde-drie) var(--brand)}
+	.kunde-vak:not([data-pillar]) .uitklap-teken{stroke:var(--fg)}
+	.kunde-vak:not([data-pillar]) .uitklap[open] > summary .uitklap-vlak{fill:url(#kunde-drie) var(--brand)}
+	.kunde-vak:not([data-pillar]) .uitklap[open] > summary .uitklap-teken{stroke:var(--dark)}
+	.kunde-vak:not([data-pillar]) .uitklap::after{background:var(--fg)}
+}
+@media (max-width:599px){
+	.kunde-groep{--blok-b:28px;--blok-h:17px}
+}
+@media (min-width:760px){
+	.kunde-groep{grid-template-columns:minmax(0, 24rem) minmax(0, 1fr);align-items:start}
+	.kunde-voorbeeld{margin:0;padding:0.6rem 0 0.4rem}
+	.kunde-voorbeeld-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+	.kunde-index-kop{display:grid;grid-template-columns:minmax(0, 24rem) minmax(0, 1fr);column-gap:var(--space-6);margin:0;padding:var(--space-3) 0;
+		font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted);border-bottom:1px solid var(--border)}
+}
+@media (min-width:900px){
+	.kunde-vak{grid-template-columns:11rem minmax(0, 1fr);align-items:start;padding:var(--space-4) 0}
+	.kunde-vak-naam{padding-top:0.55rem}
+	.kunde-index-kop{padding-left:calc(11rem + var(--space-8))}
+}
+@media (forced-colors:active){
+	.kunde-vak-naam::before,.kunde-vak:not([data-pillar]) .kunde-vak-naam::before{forced-color-adjust:none;background:CanvasText}
+}
+
 /* De trap in de drie merkkleuren: de Over-pagina gaat over alle pijlers */
 .over-aanpak .trap li:nth-child(3n+1){--pillar:var(--raspberry)}
 .over-aanpak .trap li:nth-child(3n+2){--pillar:var(--brand)}
 .over-aanpak .trap li:nth-child(3n){--pillar:var(--sage)}
 
-/* Gereedschap als specificatielijst: per groep de programma's als chips */
+/* Gereedschap als specificatielijst: per groep de programma's als gewone tekst, met dunne streepjes ertussen */
 .gereedschap{margin:0;border-top:1px solid var(--border)}
 .gereedschap div{display:grid;gap:var(--space-2) var(--space-6);padding:var(--space-4) 0;border-bottom:1px solid var(--border)}
 .gereedschap dt{font:500 var(--text-xs)/1.6 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
 .gereedschap dd{margin:0}
+.gereedschap-lijst{display:flex;flex-wrap:wrap;gap:0.15rem 0;margin:0;padding:0;list-style:none}
+.gereedschap-lijst li{display:inline-flex;align-items:center;color:var(--fg);line-height:1.5}
+.gereedschap-lijst li + li::before{content:'';width:1px;height:0.9em;margin:0 0.75rem;background:var(--border-strong)}
 @media (min-width:760px){
 	.gereedschap div{grid-template-columns:10rem minmax(0, 1fr);align-items:baseline}
 }

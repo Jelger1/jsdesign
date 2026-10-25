@@ -1,6 +1,6 @@
 // De hero op de home (src/pages/index.html): links in gewone woorden wat JS Design maakt, rechts het JS-teken als enige
-// beeld. De drie delen van het teken zijn de drie pijlers; het bijschrift eronder noemt ze en linkt erheen. Onderaan
-// een rij "Gemaakt voor" met opdrachtgevers uit site.json > homeBewijs.
+// beeld. De drie delen van het teken zijn de drie pijlers; het bijschrift eronder noemt ze en linkt erheen. Geen rij
+// opdrachtgevers eronder: het uitgelichte werk staat er direct onder en zegt het met beeld.
 // Het teken is eerst een SVG; src/js/held.js zet er de 3D-versie (src/3d/held-3d.js) overheen zodra die kan.
 const h = require('./helpers');
 const { DELEN, MIDDEN, RICHTING } = require('./teken');
@@ -30,17 +30,8 @@ function legenda(pillars) {
 	}).join('\n\t\t\t\t\t');
 }
 
-// Een opdrachtgever met wat ik voor ze maakte; de link gaat naar de case. De komma is er alleen voor schermlezers.
-function bewijs(ctx) {
-	return ctx.site.homeBewijs.map(function (b) {
-		const p = ctx.projects.find(function (x) { return x.id === b.project; });
-		return '<li data-pillar="' + h.esc(p.pillar) + '"><a href="' + h.esc(h.projectUrl(p)) + '"><strong>' + h.esc(b.naam) + '</strong>'
-			+ '<span class="sr-only">,</span> <span>' + h.esc(b.wat) + '</span></a></li>';
-	}).join('\n\t\t\t\t');
-}
-
 function held(ctx) {
-	return { teken: teken(ctx.pillars), legenda: legenda(ctx.pillars), bewijs: bewijs(ctx) };
+	return { teken: teken(ctx.pillars), legenda: legenda(ctx.pillars) };
 }
 
 module.exports = { held: held, VAK: VAK };

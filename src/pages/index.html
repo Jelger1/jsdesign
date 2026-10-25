@@ -7,12 +7,6 @@
 			<p class="held-lead">Ik ben Jelger Sieler en werk voor particulieren, ondernemers en organisaties. Van eerste schets tot eindproduct praat je direct met mij.</p>
 			<p class="held-acties"><a class="btn primary" href="contact.html">Vertel over je project</a> <a class="link-arrow held-shop" href="webshop.html">Naar de webshop</a></p>
 		</div>
-		<div class="held-bewijs">
-			<p class="held-bewijs-label" id="bewijs-label">Gemaakt voor</p>
-			<ul aria-labelledby="bewijs-label">
-				{{bewijs}}
-			</ul>
-		</div>
 		<div class="held-beeld">
 			<div class="held-teken">
 				{{teken}}
@@ -38,15 +32,15 @@
 	</ul>
 </section>
 
-<section class="section container kunde-kort" aria-labelledby="kunde-titel">
-	<header class="section-head section-head-row">
-		<div>
-			<p class="kicker">Wat ik kan</p>
-			<h2 id="kunde-titel">Van eerste vraag tot eindproduct</h2>
-		</div>
-		<a class="link-arrow" href="over.html">Meer over mij</a>
+<section class="section container maker-kort" aria-labelledby="maker-titel">
+	<div class="maker-kort-beeld">
+		{{aboutImage}}
+	</div>
+	<header class="maker-kop">
+		<p class="kicker">Over</p>
+		<h2 id="maker-titel">Eén maker, <span class="highlight">drie vakken</span></h2>
 	</header>
-	{{kunde}}
+	{{bewijs}}
 </section>
 
 <section class="section container winkel" aria-labelledby="winkel-titel" data-pillar="tastbaar">
@@ -59,18 +53,6 @@
 	</header>
 	{{rail:design}}
 	<p class="winkel-ook">Ook: <a href="3d-printservice.html">je eigen 3D-bestand laten printen</a><span aria-hidden="true"> · </span> <a href="producten/custom-lightbox.html">Custom Lightbox met je logo</a><span aria-hidden="true"> · </span> <a href="limburgse-cadeaus.html">Limburgse cadeaus</a></p>
-</section>
-
-<section class="section container maker-kort" aria-labelledby="maker-titel">
-	<div class="maker-kort-beeld">
-		{{aboutImage}}
-	</div>
-	<div class="maker-kort-tekst">
-		<p class="kicker">Over</p>
-		<h2 id="maker-titel">Eén maker, <span class="highlight">drie vakken</span></h2>
-		<p>Ik werk in stappen en laat tussendoor zien hoe het wordt, zodat we vroeg kunnen bijsturen. Waar het kan, test ik met echte gebruikers.</p>
-		<p class="cta-row"><a class="btn outline" href="over.html">Meer over mij</a></p>
-	</div>
 </section>
 
 <section class="section container home-faq" aria-labelledby="faq-titel">

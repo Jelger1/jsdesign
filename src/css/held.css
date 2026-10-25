@@ -1,11 +1,11 @@
 /* De hero op de home (src/templates/held.js): links in gewone woorden wat JS Design maakt en de volgende stap, rechts
-   het JS-teken met de drie pijlers als bijschrift, onderaan "Gemaakt voor". Mobiel staat alles onder elkaar en komt het
-   teken als laatste, zodat kop, knop en opdrachtgevers boven de cookiemelding blijven. Daaronder de andere secties van
-   de home: uitgelicht werk, de maker, de logo's bij de FAQ en de contactband. */
+   het JS-teken met de drie pijlers als bijschrift. Mobiel staat alles onder elkaar en komt het teken als laatste, zodat
+   kop en knop boven de cookiemelding blijven. Daaronder de andere secties van de home: uitgelicht werk, de maker met
+   per vak één bewijs, de logo's bij de FAQ en de contactband. */
 .held{position:relative;isolation:isolate;overflow:hidden;
 	background:radial-gradient(40% 55% at 78% 45%, rgba(3,188,202,0.1), transparent 70%), var(--dark)}
 .held-in{max-width:var(--max-width);margin:0 auto;padding:2rem var(--gutter) clamp(2rem, 5vh, 3rem);
-	display:grid;grid-template-columns:minmax(0, 1fr);grid-template-areas:'tekst' 'bewijs' 'beeld';gap:var(--space-8)}
+	display:grid;grid-template-columns:minmax(0, 1fr);grid-template-areas:'tekst' 'beeld';gap:var(--space-8)}
 .held-tekst{grid-area:tekst}
 .held .kicker{margin:0 0 var(--space-4)}
 .held h1{font-size:clamp(2.1rem, 1.2rem + 3vw, 3.4rem);line-height:1.06;margin:0 0 var(--space-5);text-wrap:balance}
@@ -15,16 +15,6 @@
 /* Het blokje in de Tastbaar-kleur ervoor; de pijl erachter is die van elke .link-arrow (home.css) */
 .held-shop{display:inline-flex;align-items:center;font-size:1rem;padding:0.6rem 0}
 .held-shop::before{content:'';flex:none;width:13px;height:8px;margin-right:0.5rem;background:var(--sage);clip-path:var(--js-blok)}
-
-/* ------------------------------------------------------------------ gemaakt voor */
-.held-bewijs{grid-area:bewijs;border-top:1px solid var(--border);padding-top:var(--space-5);display:grid;gap:var(--space-3)}
-.held-bewijs-label{margin:0;font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
-.held-bewijs ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-2)}
-.held-bewijs a{display:inline-flex;align-items:baseline;flex-wrap:wrap;column-gap:0.5rem;padding:0.15rem 0;color:var(--fg);text-decoration:none;font-size:0.98rem}
-.held-bewijs a::before{content:'';flex:none;width:13px;height:8px;background:var(--pillar);clip-path:var(--js-blok);align-self:center}
-.held-bewijs strong{font-weight:600}
-.held-bewijs a span:not(.sr-only){color:var(--fg-muted)}
-.held-bewijs a:hover strong,.held-bewijs a:focus-visible strong{text-decoration:underline;text-underline-offset:3px}
 
 /* ------------------------------------------------------------------ het teken met zijn bijschrift */
 .held-beeld{grid-area:beeld;display:grid;justify-items:center;gap:var(--space-4);position:relative}
@@ -67,22 +57,14 @@
 .held[data-actief="digitaal"] .held-legenda a[data-pillar="digitaal"]::before,
 .held[data-actief="tastbaar"] .held-legenda a[data-pillar="tastbaar"]::before{transform:scale(1.3)}
 
-/* Vanaf 900px: tekst links, teken rechts, "Gemaakt voor" over de volle breedte eronder */
+/* Vanaf 900px: tekst links, teken rechts */
 @media (min-width:900px){
-	.held-in{grid-template-columns:minmax(0, 7fr) minmax(0, 5fr);grid-template-areas:'tekst beeld' 'bewijs bewijs';align-items:center;
-		column-gap:var(--space-12);row-gap:clamp(2rem, 6vh, 3.5rem);padding-top:clamp(2.5rem, 9vh, 5.5rem)}
+	.held-in{grid-template-columns:minmax(0, 7fr) minmax(0, 5fr);grid-template-areas:'tekst beeld';align-items:center;
+		column-gap:var(--space-12);padding-top:clamp(2.5rem, 9vh, 5.5rem)}
 	.held-teken{width:min(30vw, 46vh, 400px)}
-	/* Het label staat op de hoogte van de eerste regel, ook als de lijst toch over twee regels loopt */
-	.held-bewijs{grid-template-columns:auto minmax(0, 1fr);align-items:baseline;column-gap:var(--space-8)}
-	.held-bewijs ul{display:flex;flex-wrap:wrap;gap:var(--space-3) var(--space-10)}
 }
-/* Tot 1200px past het label niet naast de drie opdrachtgevers: dan staat het erboven en blijft de lijst één regel */
-@media (min-width:900px) and (max-width:1199px){
-	.held-bewijs{grid-template-columns:minmax(0, 1fr)}
-	.held-bewijs ul{gap:var(--space-3) var(--space-6)}
-}
-/* Het werk eronder begint direct onder de hero, niet een hele sectieafstand lager */
-.held + .werk{padding-top:clamp(2.5rem, 6vh, 4rem)}
+/* Het werk eronder begint direct onder de hero, zodat de tegels al boven de vouw beginnen */
+.held + .werk{padding-top:clamp(1.5rem, 4vh, 2.5rem)}
 
 /* Het teken komt bij het laden in elkaar, net als in de paginaovergang */
 @media (prefers-reduced-motion:no-preference){
@@ -101,7 +83,7 @@
 	.held-deel :is(path, polygon){fill:CanvasText}
 	.held-3d{display:none}
 	.held.is-3d .held-svg{opacity:1}
-	.held-shop::before,.held-bewijs a::before,.held-legenda a::before{forced-color-adjust:none;background:CanvasText}
+	.held-shop::before,.held-legenda a::before{forced-color-adjust:none;background:CanvasText}
 }
 
 /* ------------------------------------------------------------------ uitgelicht werk */
@@ -142,12 +124,28 @@
 .winkel-ook a{color:var(--fg);text-underline-offset:3px}
 .winkel-ook a:hover{color:var(--brand)}
 
-/* ------------------------------------------------------------------ de maker, kort */
-.maker-kort{display:grid;gap:var(--space-8);align-items:center}
-.maker-kort-beeld img{width:100%;max-width:340px;aspect-ratio:1;object-fit:cover;border-radius:var(--radius-lg);border:1px solid var(--border)}
-.maker-kort-tekst p{max-width:36rem;color:var(--fg-muted)}
+/* ------------------------------------------------------------------ de maker, met per vak één bewijs
+   Direct na het werk. De rijen zijn het onderdeel .bewijs (pijler.css), met de pijler als label. Telefoon: een klein
+   portret naast de kop en de rijen eronder over de hele breedte; vanaf 760px het portret links naast kop en rijen. */
+.maker-kort{display:grid;grid-template-columns:5.5rem minmax(0, 1fr);grid-template-areas:'beeld kop' 'lijst lijst';column-gap:var(--space-5);row-gap:var(--space-6);align-items:center}
+.maker-kort-beeld{grid-area:beeld}
+.maker-kort-beeld img{display:block;width:100%;aspect-ratio:1;object-fit:cover;object-position:center 20%;border-radius:var(--radius);border:1px solid var(--border)}
+.maker-kop{grid-area:kop}
+.maker-kop .kicker{margin-bottom:var(--space-3)}
+.maker-kop h2{margin:0}
+.maker-kop h2 .highlight{white-space:nowrap}
+.maker-kort .bewijs-lijst{grid-area:lijst}
 @media (min-width:760px){
-	.maker-kort{grid-template-columns:minmax(0, 340px) minmax(0, 1fr);gap:var(--space-12)}
+	.maker-kort{grid-template-columns:minmax(0, 280px) minmax(0, 1fr);grid-template-areas:'beeld kop' 'beeld lijst';column-gap:var(--space-12);row-gap:var(--space-8);align-items:start}
+	.maker-kort-beeld img{aspect-ratio:4 / 5;border-radius:var(--radius-lg)}
+}
+/* Breed: het label in een eigen kolom naast bewering en bewijs */
+@media (min-width:1100px){
+	.maker-kort{grid-template-columns:minmax(0, 340px) minmax(0, 1fr)}
+	.maker-kort .bewijs{grid-template-columns:8.5rem minmax(0, 1fr) auto;grid-template-areas:'label kop pijl' 'label tekst pijl';column-gap:var(--space-6)}
+	.maker-kort .bewijs-label{align-self:start;margin:0;padding-top:0.3rem}
+	.maker-kort .bewijs--open{grid-template-areas:'label kop pijl'}
+	.maker-kort .bewijs--open .bewijs-label{padding-top:0.15rem}
 }
 
 /* ------------------------------------------------------------------ FAQ: het oude en het nieuwe logo */

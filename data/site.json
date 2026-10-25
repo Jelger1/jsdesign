@@ -41,23 +41,6 @@
 	"forms": {
 		"privacyCheckbox": true
 	},
-	"homeBewijs": [
-		{
-			"project": "rolduc",
-			"naam": "Brouwerij Rolduc",
-			"wat": "website en webshop"
-		},
-		{
-			"project": "wmc",
-			"naam": "WMC Kerkrade",
-			"wat": "interactief verhaal"
-		},
-		{
-			"project": "sanctus",
-			"naam": "café dé Wieëtsjaf",
-			"wat": "huisstijl voor hun bier"
-		}
-	],
 	"homeFaq": [
 		{
 			"q": "Wat doet JS Design?",

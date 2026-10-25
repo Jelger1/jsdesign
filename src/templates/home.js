@@ -1,5 +1,5 @@
-// De homepage: de hero (src/templates/held.js) en daaronder uitgelicht werk, wat ik kan, de webshop, de maker, de FAQ
-// en contact.
+// De homepage: de hero (src/templates/held.js) en daaronder uitgelicht werk, de maker met per vak één bewijs uit een
+// case (src/templates/skills.js), de webshop, de FAQ en contact.
 // De inhoud van de oude webshophome (categorieën, rails, stappen, op maat, winkel-FAQ, reviews) staat nu op de
 // Tastbaar-pagina (3d-printen.html).
 const h = require('./helpers');
@@ -55,14 +55,16 @@ function homePage(ctx, template) {
 	const main = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
 		teken: hero.teken,
 		legenda: hero.legenda,
-		bewijs: hero.bewijs,
 		werk: werk,
 		'rail:design': c.productRail(design, ctx, { root: '' }),
-		// Wat ik kan: alle groepen uit data/skills.json, kort (drie chips per groep)
-		kunde: skills.lijst(skills.groepen(ctx), ctx, { max: 3 }),
+		// Eén maker, drie vakken: per pijler één bewering met bewijs (skills.json > bewijsHome), het label is de pijler
+		bewijs: skills.bewijsLijst(ctx.pillars.map(function (p) {
+			return { id: ctx.skills.bewijsHome[p.id], pijler: p.id, label: p.label };
+		}), ctx, { open: 'Alles wat ik kan en hoe ik werk' }),
+		// Telefoon: klein naast de kop; vanaf 760px links van de rijen (held.css > .maker-bewijs)
 		aboutImage: h.img(ctx.images, site.homeImages.about.file, {
 			alt: site.homeImages.about.alt,
-			sizes: '(max-width: 900px) 280px, 360px'
+			sizes: '(max-width: 759px) 88px, (max-width: 1099px) 280px, 340px'
 		}),
 		faq: faq,
 		mail: h.mailLink(site.email, '')

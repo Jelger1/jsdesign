@@ -258,6 +258,19 @@ function creativeWork(p, ctx, url) {
 	return werk;
 }
 
+// De hoofdstukken in de volgorde van de pagina: het proces, het resultaat en (als die er is) wat ik leerde. Het anker
+// van een hoofdstuk is zijn plek in die lijst (#hoofdstuk-3), zodat links van elders (skills.js: het bewijs bij Wat ik
+// kan) op één manier tellen; build.js controleert dat de titel bestaat.
+function hoofdstukTitels(p) {
+	const k = p.case;
+	return k.hoofdstukken.map(function (hs) { return hs.titel; })
+		.concat(['Resultaat'], k.geleerd && k.geleerd.length ? ['Wat ik leerde'] : []);
+}
+function hoofdstukAnker(p, titel) {
+	const i = hoofdstukTitels(p).indexOf(titel);
+	return i === -1 ? '' : '#hoofdstuk-' + (i + 1);
+}
+
 function casePage(p, ctx) {
 	const site = ctx.site;
 	const k = p.case;
@@ -273,7 +286,7 @@ function casePage(p, ctx) {
 	const teller = { n: 0 };
 	const lijst = k.hoofdstukken.concat([{ titel: 'Resultaat', alineas: k.resultaat.alineas, beelden: k.resultaat.beelden, paar: k.resultaat.paar }]);
 	if (k.geleerd && k.geleerd.length) lijst.push({ titel: 'Wat ik leerde', lijst: k.geleerd });
-	const titels = lijst.map(function (hs) { return hs.titel; });
+	const titels = hoofdstukTitels(p);
 	const vraag = '<p class="case-vraag">Iets vergelijkbaars nodig? <a class="link-arrow" href="' + ROOT + 'contact.html">Vertel over je project</a></p>';
 	const slot = k.noot ? { doel: '#noot-titel', naam: 'Verantwoording' } : { doel: '#verwant-titel', naam: 'Meer werk' };
 	const stappen = lijst.map(function (hs, i) {
@@ -326,4 +339,4 @@ function casePage(p, ctx) {
 	};
 }
 
-module.exports = { casePage: casePage, caseImages: images, caseCover: cover, caseCoverAlt: coverAlt, caseTitel: titel };
+module.exports = { casePage: casePage, caseImages: images, caseCover: cover, caseCoverAlt: coverAlt, caseTitel: titel, hoofdstukAnker: hoofdstukAnker };

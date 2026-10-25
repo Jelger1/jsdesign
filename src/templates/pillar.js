@@ -1,6 +1,7 @@
 // De drie pijlers van JS Design (data/pillars.json), elk een volledige hoofdpagina in de eigen kleurwereld: een hero in
-// het pijlervlak met "Je bent hier", in het kort, diensten, werkwijze, uitgelicht werk, wat ik kan, veelgestelde vragen
-// en een afsluiter (src/css/pijler.css). De teksten staan in pillars.json > pagina, de vaardigheden in data/skills.json.
+// het pijlervlak met "Je bent hier", in het kort, diensten, werkwijze, uitgelicht werk, wat ik kan (bewijs uit dit vak),
+// veelgestelde vragen en een afsluiter (src/css/pijler.css). De teksten staan in pillars.json > pagina, het bewijs in
+// data/skills.json.
 // Tastbaar (3d-printen.html) krijgt daarna de webshopsecties (src/templates/tastbaar.js); de vragen over de pijler staan
 // daar in één FAQ met die over de webshop.
 const h = require('./helpers');
@@ -181,12 +182,11 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		+ '\t</ul>\n'
 		+ '</section>\n';
 
-	const kunde = '<section id="kunde" class="section container pijler-kunde" aria-labelledby="kunde-titel">\n'
-		+ '\t<header class="section-head section-head-row">\n'
-		+ '\t\t<div>\n\t\t\t<p class="kicker">Vaardigheden</p>\n\t\t\t<h2 id="kunde-titel">Wat ik kan</h2>\n\t\t</div>\n'
-		+ '\t\t<a class="link-arrow" href="over.html">Meer over mij</a>\n'
-		+ '\t</header>\n'
-		+ skills.lijst(skills.groepen(ctx, pillar.id), ctx, { max: 6 }) + '\n'
+	// Wat ik kan: geen opsomming (Diensten en Werkwijze zeggen het al), maar bewijs uit dit vak, elk met een link naar het
+	// hoofdstuk of product waar het staat (skills.json > bewijsPijler); de laatste rij gaat naar alles op Over
+	const kunde = '<section id="kunde" class="section container pijler-kunde bewijs-sectie" aria-labelledby="kunde-titel">\n'
+		+ sectieKop('Wat ik kan', 'Uit de praktijk', 'kunde-titel')
+		+ skills.bewijsLijst(ctx.skills.bewijsPijler[pillar.id].map(function (id) { return { id: id, pijler: pillar.id }; }), ctx, { open: 'Alles wat ik kan' }) + '\n'
 		+ '</section>\n';
 
 	const faq = '<section id="vragen" class="section container pijler-faq" aria-labelledby="faq-titel">\n'

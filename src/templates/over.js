@@ -1,5 +1,6 @@
-// De Over-pagina (over.html): wie ik ben, wat ik kan (data/skills.json, elke groep met projecten als bewijs), hoe ik werk
-// en waarmee. De vaste tekst staat in src/pages/over.html, de stijl in src/css/over.css.
+// De Over-pagina (over.html): wie ik ben, wat ik kan (data/skills.json: alles, als index per vak met per groep een
+// voorbeeld; de "Alles wat ik kan"-rijen op de home en de pijlerpagina's landen op #kunde), hoe ik werk en waarmee.
+// De vaste tekst staat in src/pages/over.html, de stijl in src/css/over.css.
 const h = require('./helpers');
 const c = require('./components');
 const seo = require('./seo');
@@ -11,15 +12,16 @@ function overPage(ctx, template) {
 	const portret = site.homeImages.about;
 	const id = seo.ids(site);
 
-	// Gereedschap als specificatielijst: per groep de programma's
+	// Gereedschap als specificatielijst: per groep de programma's als gewone tekst (geen pillen die op knoppen lijken)
 	const gereedschap = '<dl class="gereedschap">\n' + ((ctx.skills && ctx.skills.gereedschap) || []).map(function (g) {
-		return '\t\t<div><dt>' + h.esc(g.groep) + '</dt><dd>' + skills.chips(g.items) + '</dd></div>';
+		return '\t\t<div><dt>' + h.esc(g.groep) + '</dt><dd><ul class="gereedschap-lijst">'
+			+ g.items.map(function (item) { return '<li>' + h.esc(item) + '</li>'; }).join('') + '</ul></dd></div>';
 	}).join('\n') + '\n\t</dl>';
 
 	const main = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
 		breadcrumbs: c.breadcrumbs(crumbs),
 		portret: h.img(ctx.images, portret.file, { alt: portret.alt, sizes: '(max-width: 900px) 70vw, 440px', eager: true }),
-		kunde: skills.lijst(skills.groepen(ctx), ctx, { bewijs: true }),
+		kunde: skills.index(ctx),
 		gereedschap: gereedschap,
 		mail: h.mailLink(site.email, '')
 	});

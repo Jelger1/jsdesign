@@ -2,8 +2,8 @@
    pijlervlak (data-surface, zie tokens.css en brand.css), met rechts "Je bent hier": het JS-teken op de tegel, het deel
    van deze pijler massief en de andere twee als stippelcontour. De onderrand van het vlak is een trede onder 30° met een
    streep in een tweede merkkleur. Daarna op donker: in het kort, de diensten als index, de werkwijze als trap, de cases
-   als grote beeldkaarten, wat ik kan, de FAQ en de afsluiter. Eén gekleurd vlak per pagina.
-   Wat ik kan (.kunde-*) en de trap (.trap) gebruiken ook de Over-pagina en de home. */
+   als grote beeldkaarten, wat ik kan (bewijs uit dit vak), de FAQ en de afsluiter. Eén gekleurd vlak per pagina.
+   Het bewijs (.bewijs-*) staat ook op de home, de trap (.trap) ook op de Over-pagina. */
 body[data-page="pillar"]{--section-space:var(--section-space-compact)}
 /* Hoogte van de trede onderaan het vlak, en waar hij begint (gemeten vanaf rechts) */
 .pijler{--trede:clamp(2.25rem, 5vw, 4.5rem);--rechts:26%}
@@ -292,25 +292,73 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.pijler-case:first-child .pijler-case-titel{font-size:var(--text-2xl)}
 }
 
-/* ------------------------------------------------------------------ wat ik kan (ook Over en home)
-   Per groep een kopje met het blokje van zijn pijler; een groep voor elk project (zonder pijler) krijgt de drie kleuren */
-.kunde-lijst{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill, minmax(min(100%, 16.5rem), 1fr));gap:var(--space-8) var(--space-6)}
-.kunde{padding-top:var(--space-4);border-top:1px solid var(--border)}
-/* Een losse laatste groep op een eigen rij krijgt de hele breedte */
-@media (min-width:75rem){
-	.kunde-lijst > .kunde:last-child:nth-child(4n+1){grid-column:1 / -1}
-}
-.kunde-naam{display:flex;align-items:center;gap:0.6rem;margin:0 0 var(--space-3);font-size:var(--text-md);line-height:1.25}
-.kunde-naam::before{content:'';flex:none;width:1.4em;height:0.87em;clip-path:var(--js-blok);background:linear-gradient(90deg, var(--raspberry) 0 34%, var(--brand) 34% 67%, var(--sage) 67%)}
-.kunde[data-pillar] .kunde-naam::before{background:var(--pillar)}
-.kunde-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0;padding:0;list-style:none}
-.kunde-chips li{padding:0.3rem 0.7rem;border:1px solid var(--border-strong);border-radius:var(--radius-full);color:var(--fg);font-size:var(--text-sm);line-height:1.35}
-.kunde-bewijs{margin:var(--space-3) 0 0;color:var(--fg-muted)}
-.kunde-bewijs a{color:var(--brand);text-underline-offset:3px}
-/* Op een telefoon korter: op de home twee chips per groep, op een pijlerpagina vier (de Over-pagina toont alles) */
+/* ------------------------------------------------------------------ wat ik kan: bewijs (ook de maker op de home)
+   Een paar korte beweringen, elk met één zin bewijs uit een echte case (src/templates/skills.js > bewijsLijst): mono-
+   label, bewering in Saira, gedempt bewijs met de projectnaam vet. De bewering is de link en dekt de hele rij. Het
+   blokje is massief in de kleur van het vak (gedaan: hier is het bewijs); de laatste rij heeft een gestippeld blokje
+   (niet hier: alles staat op de Over-pagina) dat zich sluit als je hem aanwijst. Aanwijzen en focus tekenen de lijn
+   boven de rij in de kleur van het vak, onder 0° en in leesrichting, en de pijl trekt door; verder beweegt er niets. */
+.bewijs-lijst{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
+.bewijs{position:relative;display:grid;grid-template-columns:minmax(0, 1fr) auto;grid-template-areas:'label pijl' 'kop pijl' 'tekst pijl';
+	column-gap:var(--space-4);padding:var(--space-5) 0;border-bottom:1px solid var(--border)}
+.bewijs::before{content:'';position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--pillar, var(--fg));
+	transform:scaleX(0);transform-origin:0 50%;transition:transform 0.32s var(--ease-out)}
+.bewijs-label{grid-area:label;display:flex;align-items:center;gap:0.6rem;margin:0 0 var(--space-2);
+	font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--pillar-text, var(--fg-muted))}
+.bewijs-label::before{content:'';flex:none;width:1.65em;height:1.02em;clip-path:var(--js-blok);background:var(--pillar);transition:transform var(--duration) var(--ease-out)}
+.bewijs-kop{grid-area:kop;margin:0;font-family:var(--font-display);font-weight:700;font-stretch:112%;font-size:var(--text-lg);line-height:1.2}
+.bewijs-link{color:var(--fg);text-decoration:none}
+.bewijs-link::after{content:'';position:absolute;inset:0;z-index:1}
+.bewijs-tekst{grid-area:tekst;margin:var(--space-1) 0 0;max-width:58ch;color:var(--fg-muted);line-height:1.55;text-wrap:pretty}
+.bewijs-tekst strong{color:var(--fg);font-weight:600}
+/* De pijl van elke link (components.css), in de linkkleur */
+.bewijs-pijl{grid-area:pijl;align-self:center;font-size:1.25rem;line-height:1;color:var(--brand)}
+.bewijs-pijl::after{margin-left:0;vertical-align:middle}
 @media (max-width:600px){
-	.kunde-lijst{gap:var(--space-6)}
-	.kunde-kort .kunde-chips li:nth-child(n+3),.pijler-kunde .kunde-chips li:nth-child(n+5){display:none}
+	.bewijs-kop{font-stretch:100%}
+}
+@media (hover:hover){
+	.bewijs:hover::before{transform:scaleX(1)}
+	.bewijs:hover .bewijs-pijl{--steel:1.5em}
+	.bewijs:hover .bewijs-label::before{transform:scale(1.2)}
+	.bewijs:hover .bewijs-link{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+}
+/* Focus: de ring om de hele rij, met dezelfde lijn en pijl als bij aanwijzen. Zonder :has() blijft de gewone ring om
+   de link staan. */
+@supports selector(:has(*)){
+	.bewijs-link:focus-visible{outline:none}
+	.bewijs:has(.bewijs-link:focus-visible){outline:var(--focus-ring);outline-offset:4px}
+	.bewijs:has(.bewijs-link:focus-visible)::before{transform:scaleX(1)}
+	.bewijs:has(.bewijs-link:focus-visible) .bewijs-pijl{--steel:1.5em}
+}
+/* De open rij: het gestippelde blokje, de kop is de link, geen bewijsregel */
+.bewijs--open::before{background:var(--fg)}
+.bewijs--open .bewijs-label::before{display:none}
+.bewijs-blok{flex:none;width:1.65em;height:1.02em;overflow:visible;color:var(--fg)}
+.bewijs-blok polygon{fill:transparent;stroke:currentColor;stroke-width:1.4;stroke-dasharray:2.6 2.2;vector-effect:non-scaling-stroke;
+	transition:fill var(--duration) var(--ease), stroke-dasharray var(--duration) var(--ease)}
+.bewijs-lijst .bewijs--open .bewijs-kop{font-size:var(--text-md);line-height:1.3}
+@media (hover:hover){
+	.bewijs--open:hover .bewijs-blok polygon{fill:var(--fg);stroke-dasharray:12 0}
+}
+@supports selector(:has(*)){
+	.bewijs--open:has(.bewijs-link:focus-visible) .bewijs-blok polygon{fill:var(--fg);stroke-dasharray:12 0}
+}
+
+/* Op de pijlerpagina: vanaf 900px het label in een eigen kolom, vanaf 1200px ook bewering en bewijs naast elkaar */
+.bewijs-sectie .bewijs-kop{font-size:clamp(1.2rem, 1rem + 0.4vw, 1.4rem)}
+@media (min-width:900px){
+	.bewijs-sectie .bewijs{grid-template-columns:10rem minmax(0, 1fr) auto;grid-template-areas:'label kop pijl' 'label tekst pijl';column-gap:var(--space-8)}
+	.bewijs-sectie .bewijs-label{align-self:start;margin:0;padding-top:0.4rem}
+	.bewijs-sectie .bewijs--open{grid-template-areas:'label kop pijl'}
+	.bewijs-sectie .bewijs--open .bewijs-label{padding-top:0.2rem}
+}
+@media (min-width:1200px){
+	.bewijs-sectie .bewijs{grid-template-columns:10rem minmax(0, 4fr) minmax(0, 6fr) auto;grid-template-areas:'label kop tekst pijl';align-items:baseline;padding:var(--space-6) 0}
+	.bewijs-sectie .bewijs-label{align-self:auto;padding-top:0}
+	.bewijs-sectie .bewijs-tekst{margin:0}
+	.bewijs-sectie .bewijs--open{grid-template-areas:'label kop kop pijl';padding:var(--space-5) 0}
+	.bewijs-sectie .bewijs--open .bewijs-label{padding-top:0}
 }
 
 /* ------------------------------------------------------------------ afsluiter */
@@ -335,7 +383,11 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.tegel-deel.is-hier .tegel-vorm,.tegel-punt{fill:CanvasText}
 	.tegel-deel:not(.is-hier) .tegel-vorm{fill:CanvasText;stroke:CanvasText}
 	a.pijler-hier-label{border-color:CanvasText}
-	.pijler-nr,.pijler-label::before,.kunde-naam::before,.pijler-case-tags::before,.pijler-ook-naam::before{forced-color-adjust:none;background:CanvasText;color:Canvas}
+	.pijler-nr,.pijler-label::before,.bewijs-label::before,.pijler-case-tags::before,.pijler-ook-naam::before{forced-color-adjust:none;background:CanvasText;color:Canvas}
+	.bewijs::before{forced-color-adjust:none;background:CanvasText}
+	.bewijs-blok polygon{stroke:CanvasText}
+	.bewijs--open:hover .bewijs-blok polygon{fill:CanvasText}
+	.bewijs--open:has(.bewijs-link:focus-visible) .bewijs-blok polygon{fill:CanvasText}
 	.pijler-band{display:none}
 	/* De trap: vullingen in de tekstkleur, de stippeltekening valt weg (een stap die nog moet komen, toont zijn cijfer) */
 	.trap-nr::after,.trap-lijn{forced-color-adjust:none;background:CanvasText}

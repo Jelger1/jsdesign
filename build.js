@@ -15,7 +15,7 @@ const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, 
 const { pillarPage } = require('./src/templates/pillar');
 const overPage = require('./src/templates/over');
 const portfolioPage = require('./src/templates/portfolio');
-const { casePage, caseImages, caseCover, caseTitel } = require('./src/templates/case');
+const { casePage, caseImages, caseCover, caseTitel, hoofdstukAnker } = require('./src/templates/case');
 const discovery = require('./src/templates/discovery');
 const sitemap = require('./src/templates/sitemap');
 const h = require('./src/templates/helpers');
@@ -303,20 +303,41 @@ function validateCase(p, where, cases, site, assets, report) {
 	});
 }
 
-// "Gemaakt voor" in de hero van de home (site.json > homeBewijs): een opdrachtgever, wat ik maakte en de case waar de
-// link naartoe gaat. Alleen echte opdrachtgevers met toestemming; een schoolopdracht of mijn eigen merk hoort hier niet.
-function validateHome(site, projects, report) {
-	const lijst = site.homeBewijs;
-	if (!Array.isArray(lijst) || !lijst.length) {
-		report.errors.push('site.json > homeBewijs: minstens één opdrachtgever is verplicht ({ "project", "naam", "wat" })');
-		return;
-	}
-	lijst.forEach(function (b, i) {
-		const where = 'site.json > homeBewijs[' + i + ']';
-		const project = projects.find(function (p) { return p.id === b.project; });
-		if (!project) report.errors.push(where + ': onbekend project "' + b.project + '" (moet een id uit projects.json zijn)');
-		else if (project.tier !== 'A') report.errors.push(where + ': project "' + b.project + '" heeft geen casepagina (tier A)');
-		if (!b.naam || !b.wat) report.errors.push(where + ': naam en wat zijn verplicht');
+// Wat ik kan, als bewijs (data/skills.json > bewijzen): een bewering (kop) met één zin bewijs uit een echte case of een
+// product. {…} in de tekst is de naam van het project, die vet staat. De link gaat naar het hoofdstuk van de case waar
+// het bewijs staat (de titel moet bestaan, het anker volgt uit de volgorde; zie hoofdstukAnker in case.js) of naar de
+// productpagina. bewijsHome kiest per pijler één bewijs voor de home, bewijsPijler twee tot vier voor de pijlerpagina.
+// Een lange kop of tekst past niet meer op één regel: dat is een waarschuwing.
+function validateBewijs(skills, pillars, projects, products, report) {
+	const bewijzen = (skills && skills.bewijzen) || [];
+	const ids = bewijzen.map(function (b) { return b.id; });
+	if (!bewijzen.length) report.errors.push('skills.json: bewijzen ontbreekt of is leeg');
+	bewijzen.forEach(function (b, i) {
+		const where = 'skills.json > bewijzen > "' + (b.id || '#' + (i + 1)) + '"';
+		if (!b.id || !b.label || !b.kop || !b.tekst) report.errors.push(where + ': id, label, kop en tekst zijn verplicht');
+		if (ids.indexOf(b.id) !== i) report.errors.push(where + ': dit id staat er twee keer in');
+		if ((String(b.tekst).match(/\{[^}]+\}/g) || []).length !== 1) report.errors.push(where + ': de tekst moet precies één {projectnaam} hebben');
+		if (b.product) {
+			if (!products.some(function (p) { return p.id === b.product; })) report.errors.push(where + ': onbekend product "' + b.product + '"');
+		} else {
+			const project = projects.find(function (p) { return p.id === b.project; });
+			if (!project) report.errors.push(where + ': onbekend project "' + b.project + '" (of geef een product)');
+			else if (project.tier !== 'A') report.errors.push(where + ': project "' + b.project + '" heeft geen casepagina (tier A)');
+			else if (b.hoofdstuk && !hoofdstukAnker(project, b.hoofdstuk)) report.errors.push(where + ': project "' + b.project + '" heeft geen hoofdstuk "' + b.hoofdstuk + '"');
+		}
+		if (b.kop && b.kop.length > 32) report.warnings.push(where + ': kop is ' + b.kop.length + ' tekens (richtlijn: hooguit 32)');
+		if (b.tekst && b.tekst.replace(/[{}]/g, '').length > 90) report.warnings.push(where + ': tekst is ' + b.tekst.replace(/[{}]/g, '').length + ' tekens (richtlijn: hooguit 90)');
+	});
+	const home = (skills && skills.bewijsHome) || {};
+	const pijler = (skills && skills.bewijsPijler) || {};
+	pillars.forEach(function (p) {
+		if (ids.indexOf(home[p.id]) === -1) report.errors.push('skills.json > bewijsHome > ' + p.id + ': kies één bestaand bewijs');
+		const lijst = pijler[p.id];
+		if (!Array.isArray(lijst) || lijst.length < 2 || lijst.length > 4) report.errors.push('skills.json > bewijsPijler > ' + p.id + ': twee tot vier bewijzen');
+		else lijst.forEach(function (id, i) {
+			if (ids.indexOf(id) === -1) report.errors.push('skills.json > bewijsPijler > ' + p.id + ': onbekend bewijs "' + id + '"');
+			if (lijst.indexOf(id) !== i) report.errors.push('skills.json > bewijsPijler > ' + p.id + ': "' + id + '" staat er twee keer in');
+		});
 	});
 }
 
@@ -485,8 +506,8 @@ async function build() {
 	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
 	validatePillars(pillars, site, report);
 	validateProjects(projects, pillars, site, report);
-	validateHome(site, projects, report);
 	validatePagina(pillars, projects, site, skills, report);
+	validateBewijs(skills, pillars, projects, products, report);
 	if (report.errors.length) {
 		console.error('\nBuild gestopt, los eerst deze fouten op:\n - ' + report.errors.join('\n - ') + '\n');
 		process.exit(1);
