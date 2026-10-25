@@ -449,6 +449,7 @@
 		"alt": "Vier pagina's uit het brandboard van Dekentje.nl: het logo van gekruiste lijnen, de letters, de kleuren en tekeningen van een plaid, kussens, een picknickkleed en een bedsprei",
 		"url": "https://jelger1.github.io/dekentje/",
 		"urlLabel": "het prototype",
+		"urlSoort": "prototype",
 		"kaart": {
 			"43": "kaart-dekentje-43.jpg",
 			"1610": "kaart-dekentje-1610.jpg",
@@ -471,29 +472,29 @@
 			"lead": "Een nieuwe huisstijl voor een webshop in plaids en dekens: van conceptvoorstel en brandboard tot een homepage als prototype.",
 			"beschrijving": "Case: een nieuwe huisstijl voor Dekentje.nl, een webshop in plaids. Van conceptvoorstel en brandboard tot stijlgids en een homepage als prototype.",
 			"kort": "Dekentje.nl is een webshop in plaids, bedspreien en picknickkleden. Voor Pure Minds, dat de webshop beheert, maakte ik een nieuwe huisstijl. Ik onderzocht het aanbod, de doelgroep en de concurrenten, schreef een conceptvoorstel en legde de stijl vast in een brandboard en een stijlgids. De homepage ontwierp en bouwde ik als prototype.",
-			"noot": "Het teken van gekruiste lijnen bestond al in het oude logo van Dekentje.nl. Een deel van de teksten op de homepage, zoals de intro, het menu en 'Ons verhaal', komt van de bestaande webshop. De homepage is een prototype en niet de webshop zelf.",
+			"noot": "Het teken van gekruiste lijnen bestond al in het logo van Dekentje.nl. Een deel van de teksten op de homepage, zoals de intro, het menu en 'Ons verhaal', komt van de bestaande webshop. De homepage is een prototype en niet de webshop zelf.",
 			"hoofdstukken": [
 				{
 					"titel": "Aanleiding",
 					"alineas": [
-						"Dekentje.nl is een webshop in plaids, bedspreien en picknickkleden. De eigenaar wilde een nieuwe huisstijl. Ik kreeg de opdracht voor Pure Minds, dat de webshop beheert."
+						"De eigenaar van Dekentje.nl wilde een nieuwe huisstijl. De opdracht kwam via Pure Minds, dat de webshop beheert."
 					]
 				},
 				{
 					"titel": "Onderzoek",
 					"alineas": [
-						"Ik onderzocht wat Dekentje verkoopt, wie de doelgroep is en hoe concurrenten het aanpakken. Mijn conclusie: de huisstijl had geen eigen karakter.",
+						"Ik onderzocht wat Dekentje verkoopt, wie de doelgroep is en hoe concurrenten het aanpakken. Mijn conclusie: de huisstijl kon meer eigen karakter krijgen.",
 						"In een conceptvoorstel, 'Van product naar lifestyle experience', stelde ik een richting voor: van kale productfoto's naar sfeer, met warme aardetinten, de merkkleur als subtiel accent, een kopletter met karakter en lijntekeningen in plaats van foto's bij de categorieën."
 					],
 					"meer": [
-						"Daarna maakte ik een testontwerp en legde dat voor. Op die richting bouwde ik de huisstijl verder."
+						"Daarna maakte ik een testontwerp en legde dat voor. Op die richting bouwde ik verder."
 					]
 				},
 				{
 					"titel": "Huisstijl",
 					"alineas": [
 						"De nieuwe stijl staat in een brandboard van acht pagina's: logo, letters, kleuren, korte zinnen, lijntekeningen, een moodboard en voorbeelden, van de homepage tot een verzenddoos.",
-						"Het teken van gekruiste lijnen zat al in het oude logo. Ik maakte het moderner, strakker en minder complex. Zo werkt het ook als patroon en past het bij de nieuwe letters."
+						"Het bestaande teken van gekruiste lijnen maakte ik moderner, strakker en minder complex. Zo kan het ook als patroon dienen en past het bij de nieuwe letters."
 					],
 					"meer": [
 						"Koppen staan in Built Titling, gewone tekst in Circular Std. Ook de naam in het logo staat in Built Titling.",
@@ -504,7 +505,7 @@
 						{
 							"file": "case-dekentje-02.jpg",
 							"alt": "Het logo van Dekentje: een ruit van gekruiste lijnen met daaronder DEKENTJE in hoge, smalle letters. Rechts staat het teken los en groter.",
-							"bijschrift": "Het logo in het brandboard, met en zonder naam: strakker en eenvoudiger dan het oude logo."
+							"bijschrift": "Het logo in het brandboard, met en zonder naam."
 						},
 						{
 							"file": "case-dekentje-03.jpg",
@@ -516,8 +517,8 @@
 				{
 					"titel": "Beeld en toon",
 					"alineas": [
-						"Elke categorie kreeg een eigen lijntekening: plaids, sierkussens, picknickkleden en bedspreien. In het prototype van de homepage staan ze op de kaarten van de collectie, in plaats van productfoto's.",
-						"Ik schreef ook vier korte zinnen voor de huisstijl, zoals 'Comfort met karakter' en 'Jouw stijl. Jouw bank. Jouw dekentje.'"
+						"Ik schreef vier korte zinnen voor de huisstijl, zoals 'Comfort met karakter' en 'Jouw stijl. Jouw bank. Jouw dekentje.'",
+						"Elke categorie kreeg ook een eigen lijntekening: plaids, sierkussens, picknickkleden en bedspreien. In het prototype van de homepage staan ze op de kaarten van de collectie, in plaats van productfoto's."
 					],
 					"beelden": [
 						{
@@ -536,7 +537,7 @@
 				{
 					"titel": "Homepage",
 					"alineas": [
-						"Daarna ontwierp ik de homepage en bouwde ik hem als prototype in code, zodat de klant kon ervaren hoe de nieuwe stijl zou werken.",
+						"Ik ontwierp de homepage en bouwde hem als prototype in code, zodat de klant kon ervaren hoe de nieuwe stijl zou werken.",
 						"Van boven naar beneden: een balk met logo en menu, een titel met sfeerfoto, de collectie, een sale-balk, de voordelen, 'Ons verhaal' en een nieuwsbrief. Alle knoppen hebben rechte hoeken, een vaste regel uit de huisstijl."
 					],
 					"meer": [
@@ -553,7 +554,7 @@
 			],
 			"resultaat": {
 				"alineas": [
-					"Alles staat vast in een stijlgids van elf hoofdstukken, van kleuren en letters tot knoppen, onderdelen en animaties.",
+					"Alles ligt vast in een stijlgids van elf hoofdstukken, van kleuren en letters tot knoppen, onderdelen en animaties.",
 					"Het ontwerp was een voorstel en staat nog niet live. Het prototype van de homepage kun je wel bekijken."
 				]
 			},
@@ -977,7 +978,7 @@
 		"pillar": "branding",
 		"tags": "Huisstijl · brandbook",
 		"short": "Een brandbook van 18 pagina's voor een marketingbureau",
-		"text": "Tijdens mijn stage bij marketingbureau Pure Minds (3e jaar CMD) maakte ik een nieuwe huisstijl, vastgelegd in een brandbook van 18 pagina's. Alleen het logo, de zeshoek waar je doorheen kijkt, bestond al. Nieuw zijn de kleuren met vaste rollen, de regels, de sjablonen en Pure Minds Sans: Open Sans onder de naam van het bureau. De toon en de schrijfregels legde ik vast.",
+		"text": "Tijdens mijn stage bij marketingbureau Pure Minds (3e jaar CMD) maakte ik een nieuwe huisstijl, vastgelegd in een brandbook van 18 pagina's. Het logo, de zeshoek waar je doorheen kijkt, bestond al. Nieuw zijn de kleuren met vaste rollen, de regels, de sjablonen en de letter Pure Minds Sans.",
 		"image": "Portfolio-PureMinds.jpg",
 		"alt": "Vier pagina's uit het brandbook van Pure Minds: de cover, het logo in een zeshoek, de kleuren cyaan, magenta en inkt, en de iconen",
 		"url": "",
@@ -1014,7 +1015,7 @@
 		"pillar": "digitaal",
 		"tags": "Interne tool · huisstijl",
 		"short": "Interne hub voor het team van Pure Minds",
-		"text": "Om het team van Pure Minds makkelijk in de nieuwe huisstijl te laten werken, bouwde ik tijdens mijn stage de Generator Hub. Je maakt er posts, documenten, presentaties, nieuwsbrieven en iconen in de huisstijl, als PDF, Word of PowerPoint die je ook in Canva verder bewerkt. De hub linkt naar vier checks die ik ook bouwde. Zo'n acht mensen gebruiken hem, elk met een eigen login.",
+		"text": "Om het team van Pure Minds makkelijk in de nieuwe huisstijl te laten werken, bouwde ik tijdens mijn stage de Generator Hub. Je maakt er posts, documenten, presentaties, nieuwsbrieven en iconen in de huisstijl. De hub linkt naar vier checks die ik ook bouwde. Zo'n acht mensen gebruiken hem, elk met een eigen login.",
 		"url": "",
 		"urlLabel": "",
 		"image": "Portfolio-Generatorhub.jpg",
@@ -1031,7 +1032,7 @@
 		"pillar": "digitaal",
 		"tags": "Interne tool · SEO",
 		"short": "Interne SEO-tool voor Pure Minds",
-		"text": "Een interne SEO-tool die ik tijdens mijn stage bij Pure Minds bouwde, op vraag van een collega die hem nu gebruikt. Hij legt een pagina naast de Google-top 10, checkt of die past bij wat zoekers willen en zoekt anders een beter zoekwoord, met bij elk cijfer de bron. Ik koppelde daarvoor verschillende API's, waaronder een AI-model dat meeschrijft. De bediening verbeterde ik na tests met een collega, met de Laws of UX ernaast.",
+		"text": "Een interne SEO-tool die ik tijdens mijn stage bij Pure Minds bouwde; een collega gebruikt hem nu. Hij legt een pagina naast de Google-top 10, checkt of die past bij wat zoekers willen en zoekt zo nodig een beter zoekwoord, met in het rapport bij elk cijfer de bron. Daarvoor koppelde ik verschillende API's, waaronder een AI-model dat meeschrijft. De bediening liet ik testen en toetste ik aan de Laws of UX.",
 		"url": "",
 		"urlLabel": "",
 		"image": "Portfolio-Zoekintentie.jpg",

@@ -126,6 +126,9 @@ html:has(.wijzer){scroll-padding-top:calc(var(--nav-height) + 46px + 1rem)}
 	.wijzer-paneel .wijzer-lijst a{flex:1 1 auto;min-height:48px;padding:0;color:var(--fg);font-size:var(--text-base);border-bottom:1px solid var(--border)}
 	.wijzer-paneel .wijzer-lijst li:last-child a{border-bottom:0}
 	.wijzer-paneel .wijzer-stuk{display:none}
+	/* De knop zegt al waar je bent ("4 van 6"); een aantal naast hetzelfde woord in het paneel ("Werk 6") zou dat
+	   tegenspreken, dus hier geen aantallen */
+	.wijzer-paneel .wijzer-tal{display:none}
 }
 @media (max-height:500px){
 	.wijzer{position:relative;top:auto}

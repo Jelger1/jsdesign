@@ -53,16 +53,18 @@ function llms(ctx, full) {
 	ctx.pillars.forEach(function (p) {
 		lines.push('- ' + link(site, p.path, p.h1) + ': ' + p.summary + ' Diensten: ' + p.services.map(inZin).join(', ') + '.');
 	});
+	// De link van een project: de live site, of een prototype dat (nog) niet live staat (projects.json > urlSoort)
+	const bekijk = function (p) { return p.url ? (p.urlSoort === 'prototype' ? ' Prototype (niet live): ' : ' Live: ') + p.url : ''; };
 	// Werk: de cases (tier A) met een link naar hun casepagina, daarna kort wat er verder gemaakt is (tier B)
 	const projects = ctx.projects || [];
 	lines.push('', '## Werk', '');
 	projects.filter(function (p) { return p.tier === 'A'; }).forEach(function (p) {
-		lines.push('- ' + link(site, h.projectUrl(p), p.title) + ' (' + p.case.jaar + ', ' + inZin(p.case.context) + '): ' + (full ? p.case.kort : p.text) + (p.url ? ' Live: ' + p.url : ''));
+		lines.push('- ' + link(site, h.projectUrl(p), p.title) + ' (' + p.case.jaar + ', ' + inZin(p.case.context) + '): ' + (full ? p.case.kort : p.text) + bekijk(p));
 	});
 	const ook = projects.filter(function (p) { return p.tier === 'B'; });
 	if (ook.length) {
 		lines.push('', '### Ook gemaakt', '');
-		ook.forEach(function (p) { lines.push('- ' + p.title + ': ' + p.text + (p.url ? ' Live: ' + p.url : '')); });
+		ook.forEach(function (p) { lines.push('- ' + p.title + ': ' + p.text + bekijk(p)); });
 	}
 	lines.push('', '## Webshop', '', '- ' + link(site, 'webshop.html', 'Webshop') + ': eigen 3D-geprinte ontwerpen, gemaakt in Limburg.');
 	(site.categoryPages || []).forEach(function (cat) {
@@ -114,7 +116,10 @@ function kennis(ctx) {
 		},
 		// Cases (tier A) met hun casepagina en de kern van de case; tier B kort, met een anker op het portfolio
 		projecten: (ctx.projects || []).map(function (p) {
-			const project = { titel: p.title, pijler: p.pillar, soort: p.tags, omschrijving: p.text, url: site.url + '/' + h.projectUrl(p), live: p.url || null, teamproject: Boolean(p.team), case: p.tier === 'A' };
+			const prototype = p.urlSoort === 'prototype';
+			const project = { titel: p.title, pijler: p.pillar, soort: p.tags, omschrijving: p.text, url: site.url + '/' + h.projectUrl(p), live: prototype ? null : (p.url || null), teamproject: Boolean(p.team), case: p.tier === 'A' };
+			// Een prototype staat (nog) niet live: dan geen "live", wel de link naar het prototype
+			if (prototype) project.prototype = p.url;
 			if (p.tier === 'A') Object.assign(project, { jaar: p.case.jaar, context: p.case.context, rol: p.case.rol, inHetKort: p.case.kort });
 			return project;
 		}),

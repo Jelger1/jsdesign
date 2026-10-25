@@ -221,8 +221,9 @@ function kaartBeelden(p) {
 // De projecten (data/projects.json). Tier A krijgt een eigen casepagina (portfolio/<id>.html, src/templates/case.js),
 // tier B staat kort in "Ook gemaakt" op het portfolio, met zijn id als anker (portfolio/#dekentje) en een klein beeld als
 // image is ingevuld. De pijler is een id uit pillars.json. "klantopdracht": true zet het label Klantopdracht op de
-// kaarten (alleen voor echt opdrachtwerk). Beelden moeten in assets/ staan, met de juiste hoofdletters (de online build
-// draait op Linux).
+// kaarten (alleen voor echt opdrachtwerk). "urlSoort": "prototype" zegt dat url naar een prototype gaat en niet naar een
+// live site (llms.txt en de kennisbank van de chatbot noemen hem dan geen "Live"). Beelden moeten in assets/ staan, met
+// de juiste hoofdletters (de online build draait op Linux).
 function validateProjects(projects, pillars, site, report) {
 	const ids = new Set();
 	const pillarIds = pillars.map(function (p) { return p.id; });
@@ -240,6 +241,7 @@ function validateProjects(projects, pillars, site, report) {
 		if (p.image && !p.alt) report.warnings.push(where + ': alt-tekst ontbreekt bij ' + p.image);
 		if (p.url && !/^https:\/\//.test(p.url)) report.errors.push(where + ': url moet met https:// beginnen');
 		if (p.klantopdracht !== undefined && typeof p.klantopdracht !== 'boolean') report.errors.push(where + ': klantopdracht moet true of false zijn');
+		if (p.urlSoort !== undefined && (p.urlSoort !== 'prototype' || !p.url)) report.errors.push(where + ': urlSoort kan alleen "prototype" zijn, en alleen bij een url');
 		if (p.kaart) {
 			const beelden = kaartBeelden(p);
 			if (!beelden.length) report.errors.push(where + ' > kaart: geef minstens één beeld (' + KAART_VORMEN.join(', ') + ')');

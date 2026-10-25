@@ -108,10 +108,11 @@ function kaart(titels, n) {
 		+ '</ol></div>';
 }
 
-// Wat er na hoofdstuk n komt; na het laatste hoofdstuk het andere werk onderaan
-function hierna(titels, n) {
-	const doel = n < titels.length ? '#hoofdstuk-' + (n + 1) : '#verwant-titel';
-	const naam = n < titels.length ? nummer(n + 1) + ' ' + h.esc(titels[n]) : 'Meer werk';
+// Wat er na hoofdstuk n komt; na het laatste hoofdstuk wat er onder de hoofdstukken staat (slot: de verantwoording, of
+// zonder verantwoording het andere werk)
+function hierna(titels, n, slot) {
+	const doel = n < titels.length ? '#hoofdstuk-' + (n + 1) : slot.doel;
+	const naam = n < titels.length ? nummer(n + 1) + ' ' + h.esc(titels[n]) : slot.naam;
 	return '<a class="hk-hierna" href="' + doel + '"><span class="hk-hierna-label">Hierna</span> <span class="hk-hierna-titel">' + naam + '</span>'
 		+ '<span class="hk-hierna-pijl" aria-hidden="true">↓</span></a>';
 }
@@ -133,8 +134,9 @@ function inhoud(titels, klasse) {
 // "Lees meer" en de beelden in de tekstkolom. Brede beelden (en voor/na-paren van schermen) komen daarna over de volle
 // breedte: zo blijft de kop staan tot het einde van de tekstkolom.
 // extra: wat er nog onder de tekst hoort (de links bij het resultaat); na: wat de tekstkolom afsluit (de vraag naar
-// contact bij het resultaat). titels: alle hoofdstukken, voor de kaart.
-function stap(ctx, hs, i, teller, titels, extra, na) {
+// contact bij het resultaat). titels: alle hoofdstukken, voor de kaart; slot: waar "Hierna" na het laatste hoofdstuk
+// heen gaat.
+function stap(ctx, hs, i, teller, titels, slot, extra, na) {
 	const n = i + 1;
 	const id = 'stap-' + n;
 	const beelden = hs.beelden || [];
@@ -160,7 +162,7 @@ function stap(ctx, hs, i, teller, titels, extra, na) {
 		+ '\t\t\t<div class="case-stap-kop">'
 		+ '<span class="case-stap-nr" aria-hidden="true">' + nummer(n) + '<span class="hk-van"> / ' + nummer(titels.length) + '</span></span>'
 		+ '<h2 id="' + id + '">' + h.esc(hs.titel) + '</h2>'
-		+ kaart(titels, n) + hierna(titels, n)
+		+ kaart(titels, n) + hierna(titels, n, slot)
 		+ '<button class="hk-inhoud" type="button" popovertarget="hoofdstukken" aria-label="Inhoud: alle hoofdstukken">Inhoud</button>'
 		+ '</div>\n'
 		+ '\t\t\t<div class="case-stap-lijf">\n' + lijf + '\t\t\t</div>\n'
@@ -273,9 +275,10 @@ function casePage(p, ctx) {
 	if (k.geleerd && k.geleerd.length) lijst.push({ titel: 'Wat ik leerde', lijst: k.geleerd });
 	const titels = lijst.map(function (hs) { return hs.titel; });
 	const vraag = '<p class="case-vraag">Iets vergelijkbaars nodig? <a class="link-arrow" href="' + ROOT + 'contact.html">Vertel over je project</a></p>';
+	const slot = k.noot ? { doel: '#noot-titel', naam: 'Verantwoording' } : { doel: '#verwant-titel', naam: 'Meer werk' };
 	const stappen = lijst.map(function (hs, i) {
 		const resultaat = hs.titel === 'Resultaat';
-		return stap(ctx, hs, i, teller, titels, resultaat ? links(p) : '', resultaat ? vraag : '');
+		return stap(ctx, hs, i, teller, titels, slot, resultaat ? links(p) : '', resultaat ? vraag : '');
 	});
 
 	return {
