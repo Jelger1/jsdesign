@@ -6,16 +6,16 @@
 #   bij een nieuwe build;
 # - handmatig: Actions > "Site bouwen en publiceren" > Run workflow.
 #
-# Preview of productie bepalen twee repo-variabelen (Settings > Secrets and variables > Actions > Variables):
-# - SITE_MODE: niet gezet = "preview": overal noindex, geen analytics en geen sitemap in robots.txt;
-# - BASE_PATH: niet gezet = "/jsdesign/": de preview op https://jelger1.github.io/jsdesign/.
-# Naar productie (livegang, MERGEPLAN §10.3 stap 2): stel eerst bij Settings > Pages het custom domain jelgersdesign.nl in
-# (een CNAME-bestand telt bij Actions niet), zet dan SITE_MODE op "productie" en BASE_PATH op "/" en start deze
-# workflow met Run workflow.
-# Terug naar de preview (terugvalmatrix §10.3, na stap 2–3), in deze volgorde: haal eerst bij Settings > Pages het
-# custom domain jelgersdesign.nl weg (of zet de DNS terug), verwijder daarna SITE_MODE en BASE_PATH en start de workflow
-# opnieuw. Andersom bouwt hij met BASE_PATH /jsdesign/ terwijl de site nog op de hoofdmap van jelgersdesign.nl draait; dan
-# wijzen onder meer de paden in 404.html naar jelgersdesign.nl/jsdesign/... en breken ze.
+# Productie is de standaard sinds de livegang op jelgersdesign.nl (27 oktober 2026; het custom domain staat bij
+# Settings > Pages, een CNAME-bestand telt bij Actions niet): indexeerbaar, analytics na toestemming, de sitemap in
+# robots.txt en de site op de hoofdmap. Twee repo-variabelen (Settings > Secrets and variables > Actions > Variables)
+# kunnen dat overschrijven:
+# - SITE_MODE: "preview" = overal noindex, geen analytics en geen sitemap in robots.txt;
+# - BASE_PATH: "/jsdesign/" = de site in een submap, zoals de oude preview op https://jelger1.github.io/jsdesign/.
+# Terug naar een preview (terugvalmatrix §10.3), in deze volgorde: haal eerst bij Settings > Pages het custom domain
+# jelgersdesign.nl weg (of zet de DNS terug), zet daarna SITE_MODE op "preview" en BASE_PATH op "/jsdesign/" en start de
+# workflow opnieuw. Andersom bouwt hij met BASE_PATH /jsdesign/ terwijl de site nog op de hoofdmap van jelgersdesign.nl
+# draait; dan wijzen onder meer de paden in 404.html naar jelgersdesign.nl/jsdesign/... en breken ze.
 #
 # In productiemodus moet npm run check hier zonder uitzondering slagen: er mag niets meer naar jelgers3d.nl of
 # jelgersieler.nl linken.
@@ -49,8 +49,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_MODE: ${{ vars.SITE_MODE || 'preview' }}
-      BASE_PATH: ${{ vars.BASE_PATH || '/jsdesign/' }}
+      SITE_MODE: ${{ vars.SITE_MODE || 'productie' }}
+      BASE_PATH: ${{ vars.BASE_PATH || '/' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
