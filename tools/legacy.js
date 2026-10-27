@@ -8,7 +8,7 @@
 // Let op Cloudflare Pages: een redirect gaat altijd voor, ook als het bestand bestaat ("Redirects are always followed,
 // regardless of whether or not an asset matches the incoming request"). Daarom staan de bestanden eerst, als proxy naar
 // zichzelf (200), en pas daarna de catch-all. Een 404 of 410 kan Cloudflare Pages in _redirects niet geven: wat weg is
-// (zoals betaling-status.html), gaat met de catch-all door en eindigt als 404 op jsdesign.nl.
+// (zoals betaling-status.html), gaat met de catch-all door en eindigt als 404 op jelgersdesign.nl.
 const fs = require('fs');
 const path = require('path');
 

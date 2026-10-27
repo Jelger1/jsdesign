@@ -85,7 +85,7 @@ function consentState(choice) {
 	};
 }
 
-// Verwijdert cookies waarvan de naam op het patroon past. Google zet ze op het hoofddomein (bijv. .jsdesign.nl) en een
+// Verwijdert cookies waarvan de naam op het patroon past. Google zet ze op het hoofddomein (bijv. .jelgersdesign.nl) en een
 // cookie verdwijnt alleen met hetzelfde domein erbij, dus probeer elk niveau van de hostnaam (en zonder domein).
 function removeCookies(pattern) {
 	const parts = location.hostname.split('.');

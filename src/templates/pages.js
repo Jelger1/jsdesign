@@ -298,7 +298,7 @@ function confirmPage(ctx, opts) {
 	};
 }
 
-// jsdesign.nl/nieuwsbrief: aanmeldpagina om te delen op social media. Met de code uit de bevestigingsmail
+// jelgersdesign.nl/nieuwsbrief: aanmeldpagina om te delen op social media. Met de code uit de bevestigingsmail
 // (#t=...) is dezelfde pagina de bevestiging; src/js/bevestig.js verbergt dan het aanmeldgedeelte.
 // De foto's komen uit data/site.json > newsletterPage.products.
 function newsletterPage(ctx) {

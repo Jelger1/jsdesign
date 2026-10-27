@@ -1,6 +1,6 @@
 # Draaiboek: de redirectlaag voor jelgers3d.nl en jelgersieler.nl
 
-Na de verhuizing naar jsdesign.nl moeten de oude adressen blijven werken: links in Google, op social media en in oude
+Na de verhuizing naar jelgersdesign.nl moeten de oude adressen blijven werken: links in Google, op social media en in oude
 mails. Dat doen twee kleine sites op **Cloudflare Pages** (besluit van Jelger, oktober 2026), elk met een eigen project.
 Het ontwerp staat in het merge-plan, §6.5 en §6.6.
 
@@ -23,8 +23,8 @@ Het ontwerp staat in het merge-plan, §6.5 en §6.6.
 
 Plaatjes en lettertypen krijgen `Access-Control-Allow-Origin: *` (`_headers`).
 
-**Gaat met een 301 naar jsdesign.nl:**
-- elke oude pagina naar hetzelfde pad (`/webshop.html` → `https://jsdesign.nl/webshop.html`);
+**Gaat met een 301 naar jelgersdesign.nl:**
+- elke oude pagina naar hetzelfde pad (`/webshop.html` → `https://jelgersdesign.nl/webshop.html`);
 - zonder `.html` direct naar de pagina mét `.html`, zonder tussenstap;
 - `/index.html` en `/404.html` naar de home, `/producten/kami-lamp.html` naar `/lampen.html` (besluit 32);
 - al het overige padbehoudend (catch-all), nooit naar de home. Een query blijft staan; een `#anker` neemt de browser
@@ -42,7 +42,7 @@ Bestaat het anker daar niet, dan stuurt `src/js/anker.js` door naar waar die sec
    Sans) geeft zo gewoon een 404.
 2. **Een 410 (of 404) kan Cloudflare Pages in `_redirects` niet geven.** Wat echt weg is (`/betaling-status.html`, en op
    jelgersieler.nl de bronbestanden zoals `STYLEGUIDE.*`, `server/*` en `*.otf`), gaat met de catch-all door en eindigt
-   als 404 op jsdesign.nl. Voor Google is dat hetzelfde als weg. Geen van die bestanden staat in `legacy/`, dus er wordt
+   als 404 op jelgersdesign.nl. Voor Google is dat hetzelfde als weg. Geen van die bestanden staat in `legacy/`, dus er wordt
    niets van geserveerd.
 
 ## Eenmalig: de twee projecten aanmaken (Jelger, in het dashboard van Cloudflare)
@@ -63,7 +63,7 @@ cutover-stappen in het merge-plan (§10.3).
 
 ## Testen
 
-Op het platformsubdomein, vóór de DNS-wissel (de eindstatus op de preview controleren, want jsdesign.nl draait dan nog
+Op het platformsubdomein, vóór de DNS-wissel (de eindstatus op de preview controleren, want jelgersdesign.nl draait dan nog
 niet):
 
 ```bash

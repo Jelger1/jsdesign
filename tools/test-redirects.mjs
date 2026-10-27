@@ -1,9 +1,9 @@
 // Test van de redirectlaag (MERGEPLAN §6.5, docs/redirectlaag.md): loopt alle oude adressen uit data/legacy.json af
 // tegen de twee Cloudflare Pages-sites en controleert:
-// - een pagina: 301 met de juiste Location (zelfde pad op jsdesign.nl, zonder .html met .html, de query blijft);
+// - een pagina: 301 met de juiste Location (zelfde pad op jelgersdesign.nl, zonder .html met .html, de query blijft);
 // - een bestand dat blijft (mailplaatjes, lettertypen, robots.txt, sitemap.xml): 200, dezelfde bytes als in legacy/,
 //   en bij plaatjes en lettertypen Access-Control-Allow-Origin: *;
-// - met --doel: dat elk doel met 200 antwoordt (jsdesign.nl in Location vervangen door dit adres, bv. de preview).
+// - met --doel: dat elk doel met 200 antwoordt (jelgersdesign.nl in Location vervangen door dit adres, bv. de preview).
 //
 // Gebruik:
 //   node tools/test-redirects.mjs --jelgers3d https://jelgers3d-redirect.pages.dev --jelgersieler https://jelgersieler-redirect.pages.dev

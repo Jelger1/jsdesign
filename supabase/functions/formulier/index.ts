@@ -1,4 +1,4 @@
-// Supabase Edge Function "formulier": ontvangt alle formulieren van jelgers3d.nl en jsdesign.nl (bestellen, contact,
+// Supabase Edge Function "formulier": ontvangt alle formulieren van jelgers3d.nl en jelgersdesign.nl (bestellen, contact,
 // maatwerk, printservice, beschikbaarheid, nieuwsbrief, herroepen). Controleert de invoer, houdt bots tegen, slaat alles op in de
 // database en stuurt mails via Resend: een bevestiging naar de klant en een overzicht naar Jelger.
 //
@@ -15,7 +15,7 @@
 // Het portfolio van Jelger (jelgersieler.nl, JSdesign) gebruikt deze functie ook, alleen voor het contactformulier
 // (veld "site": "portfolio"). Die berichten staan in dezelfde tabel met site = jelgersieler.nl, en de mails erover
 // krijgen de naam, het adres en het logo van het portfolio (het logo en de lettertypen staan daar ook op de site).
-// De nieuwe site (jsdesign.nl en de preview) stuurt "site": "jsdesign"; die berichten krijgen site = jsdesign.nl.
+// De nieuwe site (jelgersdesign.nl en de preview) stuurt "site": "jsdesign"; die berichten krijgen site = jelgersdesign.nl.
 // Daar staat ook de knop "Bestelling herroepen" (soort "herroeping", art. 6:230oa BW): de klant krijgt meteen een
 // ontvangstbevestiging met de inhoud en het tijdstip, Jelger een overzicht.
 //
@@ -27,7 +27,7 @@
 //   RESEND_SEGMENT   optioneel: id van het segment voor de nieuwsbrief (anders zoekt of maakt de functie "Nieuwsbrief")
 //   SITE_URL         standaard https://jelgers3d.nl
 //   ALLOWED_ORIGINS  optioneel: de websites die de functie mogen aanroepen (CORS), kommagescheiden. Vervangt de
-//                    standaardlijst (jsdesign.nl, jelgers3d.nl en jelgersieler.nl, elk ook met www, en de preview op
+//                    standaardlijst (jelgersdesign.nl, jelgers3d.nl en jelgersieler.nl, elk ook met www, en de preview op
 //                    jelger1.github.io). SITE_URL en lokaal ontwikkelen (localhost, 127.0.0.1) mogen altijd; zie
 //                    herkomstLijst in logica.js.
 // SUPABASE_URL en de sleutel voor de database (SUPABASE_SECRET_KEYS of SUPABASE_SERVICE_ROLE_KEY) zet Supabase zelf.
@@ -487,7 +487,7 @@ Deno.serve(async (req) => {
 	const merk = portfolio ? { ...w.winkel, ...PORTFOLIO, portfolio: true, logo: null, herroepen: null } : w.winkel;
 	const van = portfolio ? MAIL_VAN_PORTFOLIO : MAIL_VAN;
 	const { data: rij, error } = await db.from('berichten').insert({
-		...(portfolio ? { site: PORTFOLIO.site } : data.site === 'jsdesign' ? { site: 'jsdesign.nl' } : {}),
+		...(portfolio ? { site: PORTFOLIO.site } : data.site === 'jsdesign' ? { site: 'jelgersdesign.nl' } : {}),
 		soort: data.soort, naam: data.naam || null, email: data.email, product: data.product || null,
 		velden: data.velden ?? {}, bericht: data.bericht ?? null, akkoord_op: akkoordOp,
 		status: spam ? 'spam' : 'nieuw', spam_reden: spam

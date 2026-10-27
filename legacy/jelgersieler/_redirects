@@ -5,9 +5,9 @@
 /robots.txt /robots.txt 200
 /sitemap.xml /sitemap.xml 200
 # Verplaatst, en de oude startpagina
-/index.html https://jsdesign.nl/ 301
-/index https://jsdesign.nl/ 301
+/index.html https://jelgersdesign.nl/ 301
+/index https://jelgersdesign.nl/ 301
 # Zonder .html: direct naar de pagina mét .html, zonder tussenstap
-/privacy https://jsdesign.nl/privacy.html 301
-# Al het overige: hetzelfde pad op jsdesign.nl (een #anker neemt de browser mee)
-/* https://jsdesign.nl/:splat 301
+/privacy https://jelgersdesign.nl/privacy.html 301
+# Al het overige: hetzelfde pad op jelgersdesign.nl (een #anker neemt de browser mee)
+/* https://jelgersdesign.nl/:splat 301

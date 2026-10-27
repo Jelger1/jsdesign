@@ -18,7 +18,7 @@ Dit draaiboek geldt voor elke deploy, en volgt het merge-plan (§3 B5 en §10). 
   - de GitHub-integratie;
   - de MCP (die hoort op `read_only` te staan);
   - de editor in het dashboard;
-  - de oude repo `Jelger1/JelgerS3d`. Die is bevroren, en de code daar laat jsdesign.nl en de preview niet toe.
+  - de oude repo `Jelger1/JelgerS3d`. Die is bevroren, en de code daar laat jelgersdesign.nl en de preview niet toe.
 - **Altijd `--no-verify-jwt`.** Ook `verify_jwt = false` in `config.toml` moet blijven. Staat de JWT-controle aan, dan
   geeft de functie een 401 aan de site én aan pg_cron.
 - **De secret key "default" nooit roteren of verwijderen.** Alle ondertekende links zijn ervan afgeleid: "Ik heb
@@ -135,11 +135,11 @@ curl -s -w '\n%{http_code}\n' https://kgxhefdzufhmigbmchhk.supabase.co/functions
 **b. De preflights slagen vanaf alle herkomsten.**
 
 Elke herkomst krijgt status 204 en zichzelf terug in `access-control-allow-origin`. Een vreemde herkomst
-(`voorbeeld.invalid`) krijgt `https://jsdesign.nl` terug. Daarop blokkeert de browser, en dat is de bedoeling.
+(`voorbeeld.invalid`) krijgt `https://jelgersdesign.nl` terug. Daarop blokkeert de browser, en dat is de bedoeling.
 
 ```bash
 F=https://kgxhefdzufhmigbmchhk.supabase.co/functions/v1/formulier
-for o in https://jsdesign.nl https://jelger1.github.io https://jelgers3d.nl https://jelgersieler.nl https://voorbeeld.invalid; do
+for o in https://jelgersdesign.nl https://jelger1.github.io https://jelgers3d.nl https://jelgersieler.nl https://voorbeeld.invalid; do
   echo "== $o"
   curl -s -o /dev/null -D - -X OPTIONS "$F" -H "Origin: $o" \
     -H 'Access-Control-Request-Method: POST' -H 'Access-Control-Request-Headers: content-type' \
@@ -151,7 +151,7 @@ PowerShell:
 
 ```powershell
 $F = 'https://kgxhefdzufhmigbmchhk.supabase.co/functions/v1/formulier'
-foreach ($o in 'https://jsdesign.nl', 'https://jelger1.github.io', 'https://jelgers3d.nl', 'https://jelgersieler.nl', 'https://voorbeeld.invalid') {
+foreach ($o in 'https://jelgersdesign.nl', 'https://jelger1.github.io', 'https://jelgers3d.nl', 'https://jelgersieler.nl', 'https://voorbeeld.invalid') {
   "== $o"
   curl.exe -s -o NUL -D - -X OPTIONS $F -H "Origin: $o" -H 'Access-Control-Request-Method: POST' -H 'Access-Control-Request-Headers: content-type' |
     Select-String '^(HTTP/|access-control-allow-origin)'
@@ -204,7 +204,7 @@ npx supabase@2 functions deploy formulier --project-ref kgxhefdzufhmigbmchhk --u
 ```
 
 - **Bij de eerste deploy is `formulier-basis` (v15) de vorige tag.**
-  - Daarmee verdwijnen jsdesign.nl, de preview en 127.0.0.1 weer uit de CORS-lijst. De oude sites blijven werken.
+  - Daarmee verdwijnen jelgersdesign.nl, de preview en 127.0.0.1 weer uit de CORS-lijst. De oude sites blijven werken.
   - Doe dat dus alleen vóór de cutover (stap 4, `SITE_URL`). Daarna nooit meer terug naar code zonder deze CORS-lijst.
 - **Nooit terugdraaien met code uit `Jelger1/JelgerS3d`.**
 - **Een verkeerde `ALLOWED_ORIGINS`?**
@@ -219,7 +219,7 @@ npx supabase@2 functions deploy formulier --project-ref kgxhefdzufhmigbmchhk --u
 De lijst staat in `herkomstLijst` en `toegestaneHerkomst` (`logica.js`), met tests in `tools/test-formulier.mjs`.
 
 **De standaardlijst** (zonder secret):
-- `https://jsdesign.nl` en `https://www.jsdesign.nl`;
+- `https://jelgersdesign.nl` en `https://www.jelgersdesign.nl`;
 - `https://jelgers3d.nl` en `https://www.jelgers3d.nl`;
 - `https://jelgersieler.nl` en `https://www.jelgersieler.nl`;
 - `https://jelger1.github.io`. Dat is de preview, maar het geldt ook voor de andere Pages-sites van jelger1.
@@ -245,18 +245,18 @@ De lijst staat in `herkomstLijst` en `toegestaneHerkomst` (`logica.js`), met tes
 ## Eerste deploy: fase 2, CORS los van SITE_URL
 
 **Wat er verandert:** alleen CORS. De rest van de functie is gelijk aan v15.
-- **Erbij:** `https://jsdesign.nl`, `https://www.jsdesign.nl`, `https://jelger1.github.io` (de preview) en
+- **Erbij:** `https://jelgersdesign.nl`, `https://www.jelgersdesign.nl`, `https://jelger1.github.io` (de preview) en
   `http://127.0.0.1` (met poort).
 - **Eraf:** niets. De lijst hangt niet meer af van `SITE_URL`.
-- Een vreemde herkomst krijgt nu `https://jsdesign.nl` terug in plaats van `https://jelgers3d.nl`. Geblokkeerd wordt hij
+- Een vreemde herkomst krijgt nu `https://jelgersdesign.nl` terug in plaats van `https://jelgers3d.nl`. Geblokkeerd wordt hij
   hoe dan ook.
 
 **Volgorde**
 1. De GitHub-integratie losmaken en `formulier-basis` taggen (zie [Eenmalig](#eenmalig-vóór-de-eerste-deploy)).
-2. **Nulmeting:** de preflight vanaf `https://jsdesign.nl` en `https://jelger1.github.io` geeft nu nog
+2. **Nulmeting:** de preflight vanaf `https://jelgersdesign.nl` en `https://jelger1.github.io` geeft nu nog
    `https://jelgers3d.nl` terug. Die herkomsten worden dus nog geweigerd.
 3. De commit met deze wijziging taggen, en deployen volgens [Elke deploy](#elke-deploy).
-4. **Controles a t/m d.** Daarna geven jsdesign.nl en jelger1.github.io zichzelf terug, en jelgers3d.nl en
+4. **Controles a t/m d.** Daarna geven jelgersdesign.nl en jelger1.github.io zichzelf terug, en jelgers3d.nl en
    jelgersieler.nl nog steeds ook.
 5. **Acceptatie fase 2** (plan §11): een nieuwsbriefaanmelding vanaf de preview komt aan, volgens het testprotocol.
 
@@ -267,7 +267,7 @@ De lijst staat in `herkomstLijst` en `toegestaneHerkomst` (`logica.js`), met tes
   om 16:13 automatisch gedeployd, 40 seconden na de push. Die functiecode is gelijk aan `formulier-basis`, dus
   terugdraaien naar die tag blijft correct.
 - **De integratie is dus nog actief:** een push naar `Jelger1/JelgerS3d` zet binnen een minuut de oude functie terug,
-  zonder jsdesign.nl en de preview in de CORS-lijst. Push daar niet meer, of maak eerst de koppeling los (stap 1 van
+  zonder jelgersdesign.nl en de preview in de CORS-lijst. Push daar niet meer, of maak eerst de koppeling los (stap 1 van
   [Eenmalig](#eenmalig-vóór-de-eerste-deploy)). Losmaken kon niet via de API; dat blijft een klik in het dashboard.
 - **Resultaat:** controles a t/m d groen (de cronrun van 22:05 gaf `200 {"ok":true,…}`, de logs tonen alleen het
   opstarten). De acceptatie is ook gedaan: een nieuwsbriefaanmelding vanaf de preview kwam binnen, de bevestigingsmail is
@@ -275,3 +275,15 @@ De lijst staat in `herkomstLijst` en `toegestaneHerkomst` (`logica.js`), met tes
 - **Logs lezen via de API:** het oude endpoint `analytics/endpoints/logs.all` is weg. Het nieuwe is
   `analytics/endpoints/logs` (ClickHouse): één tabel `logs`, de bron in de kolom `source` (bijvoorbeeld
   `function_logs`), de velden in `log_attributes`, en alleen SELECT zonder `*`.
+
+## Hotfix 27 oktober 2026: CORS voor jelgersdesign.nl
+
+**Uitgevoerd:** tag `formulier-2026-10-27` (branch `formulier-hotfix`), versie 19.
+- **Waarom:** de site ging live op jelgersdesign.nl (jsdesign.nl is niet van Jelger). De functie kende dat domein niet,
+  dus de browser blokkeerde alle formulieren en bestellingen op de nieuwe site.
+- **Wat:** alleen de standaardlijst van herkomsten. jelgersdesign.nl en www.jelgersdesign.nl erin, jsdesign.nl eruit.
+  De rest is gelijk aan `formulier-2026-10-25` (v18). De code op `main` (herroepen, site "jsdesign", logo in de mails)
+  zit er bewust níet in: die wacht op migratie `20261025220000`.
+- **Controles:** a (405 "Alleen POST.") en b (elke herkomst krijgt zichzelf terug, een vreemde krijgt
+  https://jelgersdesign.nl) zijn groen.
+- **Terugdraaien:** naar `formulier-2026-10-25`. Dan werken de formulieren op jelgersdesign.nl niet meer.

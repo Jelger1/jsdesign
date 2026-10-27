@@ -37,14 +37,14 @@ const fout = function (invoer) { const r = controleer(invoer, CATALOGUS); assert
 
 // De standaardlijst, hier bewust nog een keer uitgeschreven: verdwijnt er een domein uit logica.js, dan valt dat op
 const HERKOMSTEN = [
-	'https://jsdesign.nl', 'https://www.jsdesign.nl', 'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
+	'https://jelgersdesign.nl', 'https://www.jelgersdesign.nl', 'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
 	'https://jelgersieler.nl', 'https://www.jelgersieler.nl', 'https://jelger1.github.io'
 ];
 
 test('herkomstLijst: standaardlijst, ALLOWED_ORIGINS en SITE_URL', function () {
 	assert.deepEqual(herkomstLijst(undefined, 'https://jelgers3d.nl'), HERKOMSTEN, 'zonder ALLOWED_ORIGINS de standaardlijst');
-	assert.deepEqual(herkomstLijst(undefined, 'https://jsdesign.nl'), HERKOMSTEN, 'SITE_URL omzetten sluit de oude domeinen niet uit');
-	assert.equal(herkomstLijst(undefined, 'https://jelgers3d.nl')[0], 'https://jsdesign.nl', 'een vreemde herkomst krijgt de eerste terug');
+	assert.deepEqual(herkomstLijst(undefined, 'https://jelgersdesign.nl'), HERKOMSTEN, 'SITE_URL omzetten sluit de oude domeinen niet uit');
+	assert.equal(herkomstLijst(undefined, 'https://jelgers3d.nl')[0], 'https://jelgersdesign.nl', 'een vreemde herkomst krijgt de eerste terug');
 	for (const leeg of ['', '  ', ' , ,', '*', 'null', null]) {
 		assert.deepEqual(herkomstLijst(leeg, 'https://jelgers3d.nl'), HERKOMSTEN, 'niets bruikbaars telt als niet gezet: ' + JSON.stringify(leeg));
 	}
@@ -52,14 +52,14 @@ test('herkomstLijst: standaardlijst, ALLOWED_ORIGINS en SITE_URL', function () {
 	// ALLOWED_ORIGINS vervangt de standaardlijst: getrimd, zonder slash aan het eind, en SITE_URL met www komt erbij
 	assert.deepEqual(herkomstLijst(' https://a.voorbeeld.nl/ ,https://b.voorbeeld.nl:8443', 'https://jelgers3d.nl'),
 		['https://a.voorbeeld.nl', 'https://b.voorbeeld.nl:8443', 'https://jelgers3d.nl', 'https://www.jelgers3d.nl']);
-	assert.deepEqual(herkomstLijst('https://jsdesign.nl,https://jsdesign.nl/', 'https://jsdesign.nl/'), ['https://jsdesign.nl', 'https://www.jsdesign.nl'], 'niets dubbel');
-	assert.deepEqual(herkomstLijst(' HTTPS://JSdesign.NL/ , https://jelger1.github.io/jsdesign/, jsdesign.nl, *', undefined),
-		['https://jsdesign.nl', 'https://jelger1.github.io'], 'alleen schema en domein; wat geen adres is, valt weg');
+	assert.deepEqual(herkomstLijst('https://jelgersdesign.nl,https://jelgersdesign.nl/', 'https://jelgersdesign.nl/'), ['https://jelgersdesign.nl', 'https://www.jelgersdesign.nl'], 'niets dubbel');
+	assert.deepEqual(herkomstLijst(' HTTPS://JelgersDesign.NL/ , https://jelger1.github.io/jsdesign/, jelgersdesign.nl, *', undefined),
+		['https://jelgersdesign.nl', 'https://jelger1.github.io'], 'alleen schema en domein; wat geen adres is, valt weg');
 
 	// SITE_URL komt er altijd bij als hij ontbreekt, ook bij de standaardlijst
 	assert.deepEqual(herkomstLijst(undefined, 'https://nieuw.voorbeeld.nl'), HERKOMSTEN.concat(['https://nieuw.voorbeeld.nl', 'https://www.nieuw.voorbeeld.nl']));
 	assert.deepEqual(herkomstLijst(undefined, 'https://jelgers3d.nl'), HERKOMSTEN, 'de standaardlijst zelf verandert daarbij niet');
-	assert.deepEqual(herkomstLijst('https://a.voorbeeld.nl', 'https://www.jsdesign.nl'), ['https://a.voorbeeld.nl', 'https://www.jsdesign.nl'], 'geen www.www.');
+	assert.deepEqual(herkomstLijst('https://a.voorbeeld.nl', 'https://www.jelgersdesign.nl'), ['https://a.voorbeeld.nl', 'https://www.jelgersdesign.nl'], 'geen www.www.');
 	assert.deepEqual(herkomstLijst('https://a.voorbeeld.nl', ''), ['https://a.voorbeeld.nl'], 'zonder SITE_URL niets erbij');
 });
 
@@ -70,15 +70,15 @@ test('toegestaneHerkomst: precies de lijst, plus lokaal ontwikkelen', function (
 		assert.equal(toegestaneHerkomst(lokaal, lijst), true, lokaal);
 	}
 	for (const vreemd of [
-		'https://voorbeeld.nl', 'http://jsdesign.nl', 'https://jsdesign.nl/', 'https://jsdesign.nl.voorbeeld.nl', 'https://nepjsdesign.nl',
+		'https://voorbeeld.nl', 'http://jelgersdesign.nl', 'https://jelgersdesign.nl/', 'https://jelgersdesign.nl.voorbeeld.nl', 'https://nepjsdesign.nl',
 		'https://iemand-anders.github.io', 'https://localhost:3000', 'http://localhost.voorbeeld.nl', 'http://127.0.0.1.voorbeeld.nl',
 		'http://localhost:3000/pad', 'null', '', null, undefined
 	]) {
 		assert.equal(toegestaneHerkomst(vreemd, lijst), false, String(vreemd));
 	}
-	const eigen = herkomstLijst('https://a.voorbeeld.nl', 'https://jsdesign.nl');
+	const eigen = herkomstLijst('https://a.voorbeeld.nl', 'https://jelgersdesign.nl');
 	assert.equal(toegestaneHerkomst('https://a.voorbeeld.nl', eigen), true, 'uit ALLOWED_ORIGINS');
-	assert.equal(toegestaneHerkomst('https://www.jsdesign.nl', eigen), true, 'SITE_URL met www');
+	assert.equal(toegestaneHerkomst('https://www.jelgersdesign.nl', eigen), true, 'SITE_URL met www');
 	assert.equal(toegestaneHerkomst('https://jelgersieler.nl', eigen), false, 'ALLOWED_ORIGINS vervangt de standaardlijst');
 	assert.equal(toegestaneHerkomst('http://localhost:3000', eigen), true, 'lokaal mag altijd');
 });
@@ -314,7 +314,7 @@ test('berichten via het portfolio (jelgersieler.nl)', function () {
 	assert.ok(herinnering.html.includes('Bericht via je portfolio') && herinnering.html.includes(encodeURIComponent('Je bericht bij JSdesign')));
 });
 
-test('berichten via jsdesign.nl: site en onderwerp', function () {
+test('berichten via jelgersdesign.nl: site en onderwerp', function () {
 	const d = ok({ site: 'jsdesign', soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'Een logo graag', onderwerp: 'branding' });
 	assert.equal(d.site, 'jsdesign');
 	assert.deepEqual(d.velden, { Onderwerp: 'Branding' });
@@ -327,17 +327,17 @@ test('berichten via jsdesign.nl: site en onderwerp', function () {
 	assert.ok(!mailKlant(d, extra, WINKEL).html.includes('Handgemaakt in Limburg'), 'een bericht krijgt geen winkelslogan');
 	assert.ok(mailKlant(ok(bestelling()), Object.assign({ regels: [], totaal: 0 }, extra), WINKEL).html.includes('Handgemaakt in Limburg'), 'een bestelling wel');
 
-	// Met een logo als plaatje in winkel.json (jsdesign.nl) staat dat bovenaan, zonder de naam als tekst ernaast
-	const JSD = Object.assign({}, WINKEL, { naam: 'JS Design', url: 'https://jsdesign.nl', logo: { beeld: 'assets/mail/logo-js-design.png', breedte: 138, hoogte: 41 } });
+	// Met een logo als plaatje in winkel.json (jelgersdesign.nl) staat dat bovenaan, zonder de naam als tekst ernaast
+	const JSD = Object.assign({}, WINKEL, { naam: 'JS Design', url: 'https://jelgersdesign.nl', logo: { beeld: 'assets/mail/logo-js-design.png', breedte: 138, hoogte: 41 } });
 	const html = mailKlant(d, extra, JSD).html;
-	assert.ok(html.includes('<img src="https://jsdesign.nl/assets/mail/logo-js-design.png" width="138" height="41" alt="JS Design"'));
+	assert.ok(html.includes('<img src="https://jelgersdesign.nl/assets/mail/logo-js-design.png" width="138" height="41" alt="JS Design"'));
 	assert.ok(!html.includes('/assets/mail/logo.png'));
 	assert.ok(mailKlant(d, extra, WINKEL).html.includes('https://jelgers3d.nl/assets/mail/logo.png'), 'zonder logo in winkel.json het teken met de naam');
 
 	// De herroepingsknop onder de bevestiging van een bestelling, als de site hem heeft
 	const metKnop = Object.assign({}, JSD, { herroepen: 'herroepen.html' });
 	const bestelExtra = Object.assign({ regels: [], totaal: 0 }, extra);
-	assert.ok(mailKlant(ok(bestelling()), bestelExtra, metKnop).html.includes('https://jsdesign.nl/herroepen.html'));
+	assert.ok(mailKlant(ok(bestelling()), bestelExtra, metKnop).html.includes('https://jelgersdesign.nl/herroepen.html'));
 	assert.ok(!mailKlant(ok(bestelling()), bestelExtra, WINKEL).html.includes('herroepen.html'), 'de oude webshop heeft hem niet');
 	assert.ok(!mailKlant(d, extra, metKnop).html.includes('herroepen.html'), 'alleen bij een bestelling');
 
@@ -380,7 +380,7 @@ test('herroepen: controle en ontvangstbevestiging', function () {
 	assert.ok(mailKlant(vrij, extra, WINKEL).html.includes('Gratis iPhone: bel 0900'), 'in de verklaring staat het wel');
 
 	// Productadressen in een herroeping maken er geen spam van: de ontvangstbevestiging moet altijd uit
-	const metLinks = { soort: 'herroeping', naam: 'Jan', email: 'jan@voorbeeld.nl', bestelling: 'JS3D-ABC12', producten: 'https://www.jsdesign.nl/producten/kami-vase.html https://www.jsdesign.nl/producten/wavase.html', duur: 5000 };
+	const metLinks = { soort: 'herroeping', naam: 'Jan', email: 'jan@voorbeeld.nl', bestelling: 'JS3D-ABC12', producten: 'https://www.jelgersdesign.nl/producten/kami-vase.html https://www.jelgersdesign.nl/producten/wavase.html', duur: 5000 };
 	assert.equal(spamSignaal(metLinks, ok(metLinks)), null);
 	const contactLinks = { soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'https://a.nl https://b.nl https://c.nl', duur: 5000 };
 	assert.equal(spamSignaal(contactLinks, ok(contactLinks)), 'links', 'bij een bericht blijft de linkregel');

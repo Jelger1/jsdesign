@@ -3,7 +3,7 @@
 // Node-specifieke dingen, zodat dit bestand ook buiten Supabase te testen is. index.ts doet de rest (database,
 // mail versturen, limieten).
 
-// herroeping: de knop "Bestelling herroepen" op jsdesign.nl (art. 6:230oa BW, sinds juni 2026 verplicht voor webshops)
+// herroeping: de knop "Bestelling herroepen" op jelgersdesign.nl (art. 6:230oa BW, sinds juni 2026 verplicht voor webshops)
 export const SOORTEN = ['bestelling', 'contact', 'offerte', 'printservice', 'beschikbaarheid', 'nieuwsbrief', 'herroeping'];
 export const MIN_DUUR_MS = 2000;   // sneller dan dit kan een mens geen formulier invullen
 export const MAX_LINKS = 2;        // meer links in een bericht: vrijwel altijd SEO-spam
@@ -42,17 +42,17 @@ function regel(waarde, max) { return tekst(waarde, max).replace(/\s+/g, ' '); }
 
 // ---------------------------------------------------------------------------------------------- herkomst (CORS)
 
-// Waar de formulieren staan: jsdesign.nl, de oude webshop en het oude portfolio (die blijven tijdens de overgang
+// Waar de formulieren staan: jelgersdesign.nl, de oude webshop en het oude portfolio (die blijven tijdens de overgang
 // gewoon werken) en de preview op GitHub Pages (jelger1.github.io/jsdesign). Bewust los van SITE_URL: als die
-// straks naar jsdesign.nl gaat, blijven de formulieren op de oude domeinen werken.
+// straks naar jelgersdesign.nl gaat, blijven de formulieren op de oude domeinen werken.
 export const HERKOMST_STANDAARD = [
-	'https://jsdesign.nl', 'https://www.jsdesign.nl',
+	'https://jelgersdesign.nl', 'https://www.jelgersdesign.nl',
 	'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
 	'https://jelgersieler.nl', 'https://www.jelgersieler.nl',
 	'https://jelger1.github.io'
 ];
 
-// Een herkomst is alleen schema, domein en eventueel poort: " https://JSdesign.nl/ " wordt "https://jsdesign.nl",
+// Een herkomst is alleen schema, domein en eventueel poort: " https://JSdesign.nl/ " wordt "https://jelgersdesign.nl",
 // en van "https://jelger1.github.io/jsdesign" blijft "https://jelger1.github.io" over. Geen http(s)-adres (een
 // typfout, "*" of "null"): een lege tekst.
 function herkomstVan(waarde) {
@@ -74,7 +74,7 @@ export function herkomstLijst(envWaarde, siteUrl) {
 
 // Mag een pagina van deze herkomst (de Origin-header van de browser) de antwoorden van de functie lezen? Ja als hij
 // in de lijst staat, en voor http://localhost en http://127.0.0.1, met of zonder poort (lokaal ontwikkelen: npm run
-// dev draait op poort 3000). Precies vergelijken, dus http://jsdesign.nl of jsdesign.nl.voorbeeld.nl mag niet.
+// dev draait op poort 3000). Precies vergelijken, dus http://jelgersdesign.nl of jelgersdesign.nl.voorbeeld.nl mag niet.
 export function toegestaneHerkomst(herkomst, lijst) {
 	if (typeof herkomst !== 'string' || !herkomst) return false;
 	return (Array.isArray(lijst) && lijst.indexOf(herkomst) !== -1) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(herkomst);
@@ -116,8 +116,8 @@ export function controleer(invoer, catalogus) {
 		data.site = 'portfolio';
 		data.nieuwsbrief = false;
 	}
-	// De nieuwe site (jsdesign.nl en de preview): de berichten krijgen in de database site = jsdesign.nl. De mails
-	// volgen gewoon de gegevens van SITE_URL; die gaan bij de overstap naar jsdesign.nl.
+	// De nieuwe site (jelgersdesign.nl en de preview): de berichten krijgen in de database site = jelgersdesign.nl. De mails
+	// volgen gewoon de gegevens van SITE_URL; die gaan bij de overstap naar jelgersdesign.nl.
 	if (invoer.site === 'jsdesign' && data.soort !== 'bestelling') data.site = 'jsdesign';
 
 	if (data.soort === 'contact') {
@@ -324,7 +324,7 @@ function datum(moment) {
 }
 
 // Bovenaan de mail: het teken met de naam ernaast in Stevie Sans (JelgerS3D, het portfolio), of, als winkel.json een
-// logo als plaatje noemt (jsdesign.nl: het teken met DESIGN in Saira Regular), dat plaatje. Saira Regular kan niet als
+// logo als plaatje noemt (jelgersdesign.nl: het teken met DESIGN in Saira Regular), dat plaatje. Saira Regular kan niet als
 // letter in de mail (het lettertype van de site loopt van 600 tot 900, en Gmail laadt geen lettertypen).
 function logoKop(winkel) {
 	const url = winkel.url;

@@ -1,12 +1,12 @@
 // Catalogusdiff: de poort van cutover-stap 4 (MERGEPLAN §10.2 V7 en §10.3). Vergelijkt de catalogus die de
 // Supabase-functie "formulier" nu leest (https://jelgers3d.nl/js/winkel.json, live, alleen lezen) met die van de
-// nieuwe site (dist/js/winkel.json). Pas als ze gelijk zijn, mag SITE_URL naar https://jsdesign.nl: vanaf dat moment
+// nieuwe site (dist/js/winkel.json). Pas als ze gelijk zijn, mag SITE_URL naar https://jelgersdesign.nl: vanaf dat moment
 // rekent de functie elke bestelling na met de nieuwe winkel.json.
 // Gelijk moeten zijn: de product-id's, de varianten (id, label en prijs), sale, personalize, wish, mailImage en de
 // uploadregels. In "winkel" mogen alleen naam, url, mail en slogan verschillen.
 // Gebruik: npm run catalogus-diff [-- <oud> [<nieuw>]]   (een adres of een bestand)
 //   oud    standaard https://jelgers3d.nl/js/winkel.json
-//   nieuw  standaard dist/js/winkel.json (na stap 2 kan ook https://jsdesign.nl/js/winkel.json)
+//   nieuw  standaard dist/js/winkel.json (na stap 2 kan ook https://jelgersdesign.nl/js/winkel.json)
 // Exitcode: 0 = gelijk (poort open), 1 = verschil (poort dicht), 2 = vergelijken lukte niet (poort dicht).
 // Niet in CI: de live webshop kan tijdens de overgang nog legitiem wijzigen; dit draai je bewust, vlak voor stap 4.
 import { readFileSync } from 'node:fs';
@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUD = process.argv[2] || 'https://jelgers3d.nl/js/winkel.json';
 const NIEUW = process.argv[3] || join(ROOT, 'dist/js/winkel.json');
-// instagram: de handle wisselt bewust mee met de naam (jelgers3d naar jsdesign.nl)
+// instagram: de handle wisselt bewust mee met de naam (jelgers3d naar jelgersdesign.nl)
 const WINKEL_MAG_VERSCHILLEN = ['naam', 'url', 'mail', 'slogan', 'instagram'];
 // De overige productvelden: een verschil houdt de poort niet dicht, maar staat er ter info bij (de naam komt ook in
 // de mails, dus kijk die even na)

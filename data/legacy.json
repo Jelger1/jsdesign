@@ -1,6 +1,6 @@
 {
 	"toelichting": "De redirectlaag voor de oude domeinen (MERGEPLAN §6.5 en §6.6). tools/legacy.js maakt hieruit legacy/<site>/_redirects en _headers; de bestanden onder legacy/<site>/ zijn byte-kopieën van de productie (oktober 2026, md5 gelijk aan de bronnen). ankers: oude #ankers die op de nieuwe home niet bestaan, met waar ze naartoe gaan (src/js/anker.js; een lege waarde: bovenaan de home blijven). check.js controleert de ankers, tools/test-redirects.mjs de redirects zelf.",
-	"doel": "https://jsdesign.nl",
+	"doel": "https://jelgersdesign.nl",
 	"sites": {
 		"jelgers3d": {
 			"domein": "jelgers3d.nl",

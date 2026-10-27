@@ -2,7 +2,7 @@
   "name": "jsdesign",
   "version": "3.0.0",
   "private": true,
-  "description": "jsdesign.nl: site en webshop van JS Design (voorheen JelgerS3D), gegenereerd uit data/*.json",
+  "description": "jelgersdesign.nl: site en webshop van JS Design (voorheen JelgerS3D), gegenereerd uit data/*.json",
   "scripts": {
     "build": "node build.js",
     "dev": "node tools/dev.js",

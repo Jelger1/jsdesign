@@ -23,9 +23,9 @@ const h = require('./src/templates/helpers');
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 // Bouwmodus. "preview" (standaard, ook lokaal): niets wordt geïndexeerd en er laadt geen analytics.
-// "productie": alleen voor jsdesign.nl zelf, gezet door de deploy-workflow (repo-variabele SITE_MODE).
+// "productie": alleen voor jelgersdesign.nl zelf, gezet door de deploy-workflow (repo-variabele SITE_MODE).
 const MODE = process.env.SITE_MODE === 'productie' ? 'productie' : 'preview';
-// De map waarin de site staat: "/" op jsdesign.nl, "/jsdesign/" in de preview op jelger1.github.io (alleen nodig
+// De map waarin de site staat: "/" op jelgersdesign.nl, "/jsdesign/" in de preview op jelger1.github.io (alleen nodig
 // voor 404.html, de enige pagina met adressen vanaf de hoofdmap)
 const BASE = (process.env.BASE_PATH || '/').replace(/\/?$/, '/');
 // Git Bash op Windows maakt van "/jsdesign/" ongemerkt "C:/Program Files/Git/jsdesign/"
@@ -700,7 +700,7 @@ async function build() {
 	write('llms.txt', discovery.llms(ctx, false));
 	write('llms-full.txt', discovery.llms(ctx, true));
 	write('ai/kennis.json', JSON.stringify(discovery.kennis(ctx), null, '\t') + '\n');
-	// Bouwmarker: bij de livegang is hiermee te controleren dat jsdesign.nl echt de juiste build serveert
+	// Bouwmarker: bij de livegang is hiermee te controleren dat jelgersdesign.nl echt de juiste build serveert
 	write('build.txt', 'versie=' + version + '\nmodus=' + MODE + '\ncommit=' + (process.env.GITHUB_SHA || 'lokaal') + '\ngebouwd=' + new Date().toISOString() + '\n');
 
 	// 7. Verslag

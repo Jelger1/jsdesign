@@ -6,7 +6,7 @@
 //   tussenpagina's, de contactpagina en het portfolio; wat noindex is staat niet in de sitemap en de pagina's die de
 //   oude webshop liet indexeren staan er wel in; robots.txt noemt de sitemap; nergens in dist/ staan nog links naar de
 //   oude domeinen.
-// Basisbewust: adressen op site.url (https://jsdesign.nl/...) en vanaf de hoofdmap (/... in 404.html, met BASE_PATH
+// Basisbewust: adressen op site.url (https://jelgersdesign.nl/...) en vanaf de hoofdmap (/... in 404.html, met BASE_PATH
 // ervoor) worden bestanden in dist/. Zo worden ook canonical, og:image, JSON-LD, sitemap, feed, llms.txt en de
 // kennisbank nagelopen.
 // Gebruik: npm run check   (na npm run build, met dezelfde SITE_MODE en BASE_PATH als de build)
@@ -331,7 +331,7 @@ files.filter(function (f) { return f.endsWith('.css'); }).forEach(function (file
 // en in productie staan ook hier geen oude domeinen
 files.map(relative).filter(function (rel) { return TEKSTBESTANDEN.test(rel); }).forEach(function (rel) {
 	const text = fs.readFileSync(path.join(DIST, rel), 'utf8');
-	// Een leesteken direct achter een adres in lopende tekst ("zie https://jsdesign.nl/over.html.") hoort er niet bij
+	// Een leesteken direct achter een adres in lopende tekst ("zie https://jelgersdesign.nl/over.html.") hoort er niet bij
 	(text.match(SITE_URL_RE) || []).forEach(function (url) { checkUrl(decode(url).replace(/[.,;:!?]+$/, ''), rel); });
 	checkOldDomains(rel, text);
 });

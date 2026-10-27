@@ -1,5 +1,5 @@
 // Contracttests: de nieuwe site levert alles wat de oude webshop (jelgers3d.nl) leverde, zodat jelgers3d.nl ->
-// jsdesign.nl een padbehoudende domeinwissel wordt (MERGEPLAN §3, B2 en B3). Zo blijven al verstuurde mails, de
+// jelgersdesign.nl een padbehoudende domeinwissel wordt (MERGEPLAN §3, B2 en B3). Zo blijven al verstuurde mails, de
 // productfeed en de Supabase-functie "formulier" (die /js/winkel.json leest) werken.
 // De referentie (tests/contract/referentie.json) is eenmalig gemaakt uit de build van de live webshop, met
 // tools/contract-referentie.mjs. Wijkt de nieuwe site bewust af, zet dat dan in AFWIJKINGEN hieronder (niet in de
