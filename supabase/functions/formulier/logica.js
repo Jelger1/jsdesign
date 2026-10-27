@@ -38,17 +38,17 @@ function regel(waarde, max) { return tekst(waarde, max).replace(/\s+/g, ' '); }
 
 // ---------------------------------------------------------------------------------------------- herkomst (CORS)
 
-// Waar de formulieren staan: jsdesign.nl, de oude webshop en het oude portfolio (die blijven tijdens de overgang
+// Waar de formulieren staan: jelgersdesign.nl, de oude webshop en het oude portfolio (die blijven tijdens de overgang
 // gewoon werken) en de preview op GitHub Pages (jelger1.github.io/jsdesign). Bewust los van SITE_URL: als die
-// straks naar jsdesign.nl gaat, blijven de formulieren op de oude domeinen werken.
+// straks naar jelgersdesign.nl gaat, blijven de formulieren op de oude domeinen werken.
 export const HERKOMST_STANDAARD = [
-	'https://jsdesign.nl', 'https://www.jsdesign.nl',
+	'https://jelgersdesign.nl', 'https://www.jelgersdesign.nl',
 	'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
 	'https://jelgersieler.nl', 'https://www.jelgersieler.nl',
 	'https://jelger1.github.io'
 ];
 
-// Een herkomst is alleen schema, domein en eventueel poort: " https://JSdesign.nl/ " wordt "https://jsdesign.nl",
+// Een herkomst is alleen schema, domein en eventueel poort: " https://jelgersdesign.nl/ " wordt "https://jelgersdesign.nl",
 // en van "https://jelger1.github.io/jsdesign" blijft "https://jelger1.github.io" over. Geen http(s)-adres (een
 // typfout, "*" of "null"): een lege tekst.
 function herkomstVan(waarde) {
@@ -70,7 +70,7 @@ export function herkomstLijst(envWaarde, siteUrl) {
 
 // Mag een pagina van deze herkomst (de Origin-header van de browser) de antwoorden van de functie lezen? Ja als hij
 // in de lijst staat, en voor http://localhost en http://127.0.0.1, met of zonder poort (lokaal ontwikkelen: npm run
-// dev draait op poort 3000). Precies vergelijken, dus http://jsdesign.nl of jsdesign.nl.voorbeeld.nl mag niet.
+// dev draait op poort 3000). Precies vergelijken, dus http://jelgersdesign.nl of jelgersdesign.nl.voorbeeld.nl mag niet.
 export function toegestaneHerkomst(herkomst, lijst) {
 	if (typeof herkomst !== 'string' || !herkomst) return false;
 	return (Array.isArray(lijst) && lijst.indexOf(herkomst) !== -1) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(herkomst);

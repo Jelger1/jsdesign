@@ -24,7 +24,7 @@
 //   RESEND_SEGMENT   optioneel: id van het segment voor de nieuwsbrief (anders zoekt of maakt de functie "Nieuwsbrief")
 //   SITE_URL         standaard https://jelgers3d.nl
 //   ALLOWED_ORIGINS  optioneel: de websites die de functie mogen aanroepen (CORS), kommagescheiden. Vervangt de
-//                    standaardlijst (jsdesign.nl, jelgers3d.nl en jelgersieler.nl, elk ook met www, en de preview op
+//                    standaardlijst (jelgersdesign.nl, jelgers3d.nl en jelgersieler.nl, elk ook met www, en de preview op
 //                    jelger1.github.io). SITE_URL en lokaal ontwikkelen (localhost, 127.0.0.1) mogen altijd; zie
 //                    herkomstLijst in logica.js.
 // SUPABASE_URL en de sleutel voor de database (SUPABASE_SECRET_KEYS of SUPABASE_SERVICE_ROLE_KEY) zet Supabase zelf.

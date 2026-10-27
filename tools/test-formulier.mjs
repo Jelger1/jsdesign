@@ -37,14 +37,14 @@ const fout = function (invoer) { const r = controleer(invoer, CATALOGUS); assert
 
 // De standaardlijst, hier bewust nog een keer uitgeschreven: verdwijnt er een domein uit logica.js, dan valt dat op
 const HERKOMSTEN = [
-	'https://jsdesign.nl', 'https://www.jsdesign.nl', 'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
+	'https://jelgersdesign.nl', 'https://www.jelgersdesign.nl', 'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
 	'https://jelgersieler.nl', 'https://www.jelgersieler.nl', 'https://jelger1.github.io'
 ];
 
 test('herkomstLijst: standaardlijst, ALLOWED_ORIGINS en SITE_URL', function () {
 	assert.deepEqual(herkomstLijst(undefined, 'https://jelgers3d.nl'), HERKOMSTEN, 'zonder ALLOWED_ORIGINS de standaardlijst');
-	assert.deepEqual(herkomstLijst(undefined, 'https://jsdesign.nl'), HERKOMSTEN, 'SITE_URL omzetten sluit de oude domeinen niet uit');
-	assert.equal(herkomstLijst(undefined, 'https://jelgers3d.nl')[0], 'https://jsdesign.nl', 'een vreemde herkomst krijgt de eerste terug');
+	assert.deepEqual(herkomstLijst(undefined, 'https://jelgersdesign.nl'), HERKOMSTEN, 'SITE_URL omzetten sluit de oude domeinen niet uit');
+	assert.equal(herkomstLijst(undefined, 'https://jelgers3d.nl')[0], 'https://jelgersdesign.nl', 'een vreemde herkomst krijgt de eerste terug');
 	for (const leeg of ['', '  ', ' , ,', '*', 'null', null]) {
 		assert.deepEqual(herkomstLijst(leeg, 'https://jelgers3d.nl'), HERKOMSTEN, 'niets bruikbaars telt als niet gezet: ' + JSON.stringify(leeg));
 	}
@@ -52,14 +52,14 @@ test('herkomstLijst: standaardlijst, ALLOWED_ORIGINS en SITE_URL', function () {
 	// ALLOWED_ORIGINS vervangt de standaardlijst: getrimd, zonder slash aan het eind, en SITE_URL met www komt erbij
 	assert.deepEqual(herkomstLijst(' https://a.voorbeeld.nl/ ,https://b.voorbeeld.nl:8443', 'https://jelgers3d.nl'),
 		['https://a.voorbeeld.nl', 'https://b.voorbeeld.nl:8443', 'https://jelgers3d.nl', 'https://www.jelgers3d.nl']);
-	assert.deepEqual(herkomstLijst('https://jsdesign.nl,https://jsdesign.nl/', 'https://jsdesign.nl/'), ['https://jsdesign.nl', 'https://www.jsdesign.nl'], 'niets dubbel');
-	assert.deepEqual(herkomstLijst(' HTTPS://JSdesign.NL/ , https://jelger1.github.io/jsdesign/, jsdesign.nl, *', undefined),
-		['https://jsdesign.nl', 'https://jelger1.github.io'], 'alleen schema en domein; wat geen adres is, valt weg');
+	assert.deepEqual(herkomstLijst('https://jelgersdesign.nl,https://jelgersdesign.nl/', 'https://jelgersdesign.nl/'), ['https://jelgersdesign.nl', 'https://www.jelgersdesign.nl'], 'niets dubbel');
+	assert.deepEqual(herkomstLijst(' HTTPS://JelgersDesign.NL/ , https://jelger1.github.io/jsdesign/, jelgersdesign.nl, *', undefined),
+		['https://jelgersdesign.nl', 'https://jelger1.github.io'], 'alleen schema en domein; wat geen adres is, valt weg');
 
 	// SITE_URL komt er altijd bij als hij ontbreekt, ook bij de standaardlijst
 	assert.deepEqual(herkomstLijst(undefined, 'https://nieuw.voorbeeld.nl'), HERKOMSTEN.concat(['https://nieuw.voorbeeld.nl', 'https://www.nieuw.voorbeeld.nl']));
 	assert.deepEqual(herkomstLijst(undefined, 'https://jelgers3d.nl'), HERKOMSTEN, 'de standaardlijst zelf verandert daarbij niet');
-	assert.deepEqual(herkomstLijst('https://a.voorbeeld.nl', 'https://www.jsdesign.nl'), ['https://a.voorbeeld.nl', 'https://www.jsdesign.nl'], 'geen www.www.');
+	assert.deepEqual(herkomstLijst('https://a.voorbeeld.nl', 'https://www.jelgersdesign.nl'), ['https://a.voorbeeld.nl', 'https://www.jelgersdesign.nl'], 'geen www.www.');
 	assert.deepEqual(herkomstLijst('https://a.voorbeeld.nl', ''), ['https://a.voorbeeld.nl'], 'zonder SITE_URL niets erbij');
 });
 
@@ -70,15 +70,15 @@ test('toegestaneHerkomst: precies de lijst, plus lokaal ontwikkelen', function (
 		assert.equal(toegestaneHerkomst(lokaal, lijst), true, lokaal);
 	}
 	for (const vreemd of [
-		'https://voorbeeld.nl', 'http://jsdesign.nl', 'https://jsdesign.nl/', 'https://jsdesign.nl.voorbeeld.nl', 'https://nepjsdesign.nl',
+		'https://voorbeeld.nl', 'http://jelgersdesign.nl', 'https://jelgersdesign.nl/', 'https://jelgersdesign.nl.voorbeeld.nl', 'https://nepjelgersdesign.nl',
 		'https://iemand-anders.github.io', 'https://localhost:3000', 'http://localhost.voorbeeld.nl', 'http://127.0.0.1.voorbeeld.nl',
 		'http://localhost:3000/pad', 'null', '', null, undefined
 	]) {
 		assert.equal(toegestaneHerkomst(vreemd, lijst), false, String(vreemd));
 	}
-	const eigen = herkomstLijst('https://a.voorbeeld.nl', 'https://jsdesign.nl');
+	const eigen = herkomstLijst('https://a.voorbeeld.nl', 'https://jelgersdesign.nl');
 	assert.equal(toegestaneHerkomst('https://a.voorbeeld.nl', eigen), true, 'uit ALLOWED_ORIGINS');
-	assert.equal(toegestaneHerkomst('https://www.jsdesign.nl', eigen), true, 'SITE_URL met www');
+	assert.equal(toegestaneHerkomst('https://www.jelgersdesign.nl', eigen), true, 'SITE_URL met www');
 	assert.equal(toegestaneHerkomst('https://jelgersieler.nl', eigen), false, 'ALLOWED_ORIGINS vervangt de standaardlijst');
 	assert.equal(toegestaneHerkomst('http://localhost:3000', eigen), true, 'lokaal mag altijd');
 });
