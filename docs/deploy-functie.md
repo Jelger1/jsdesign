@@ -287,3 +287,15 @@ De lijst staat in `herkomstLijst` en `toegestaneHerkomst` (`logica.js`), met tes
 - **Controles:** a (405 "Alleen POST.") en b (elke herkomst krijgt zichzelf terug, een vreemde krijgt
   https://jelgersdesign.nl) zijn groen.
 - **Terugdraaien:** naar `formulier-2026-10-25`. Dan werken de formulieren op jelgersdesign.nl niet meer.
+
+## Deploy 2 november 2026: herroepen en jelgersdesign.nl
+
+**Uitgevoerd:** tag `formulier-2026-11-02` (main), versie 20, na migratie `20261025220000` (door Jelger in de SQL
+Editor gedraaid, daarna read-only gecontroleerd: beide checks en de regel in `schema_migrations` staan goed).
+- **Nieuw:** soort "herroeping" met een ontvangstbevestiging aan de klant (inhoud, datum en tijdstip); berichten van de
+  nieuwe site krijgen site = jelgersdesign.nl; een onderwerp bij contact; "Handgemaakt in Limburg" alleen onder
+  webshopmails; het logo als plaatje en de link "Bestelling herroepen" zodra `SITE_URL` naar jelgersdesign.nl gaat.
+- **Controles:** a (405) en b (elke herkomst krijgt zichzelf terug) groen; een herroeping zonder bestelnummer geeft
+  400 "Vul je bestelnummer in, of de datum waarop je bestelde." (niets opgeslagen, niets gemaild); de logs tonen alleen
+  het opstarten van v20.
+- **Terugdraaien:** naar `formulier-2026-10-27` (v19). Dan geeft de herroepknop weer "Onbekend formulier.".
