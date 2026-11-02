@@ -507,6 +507,14 @@ function buildFeed(products, images, site, shop) {
 		+ items.join('\n') + '\n\t</channel>\n</rss>\n';
 }
 
+// Vult {minimum} in elke tekst van shop.json (ook in de vragen en de categoriepagina's), zodat het bedrag op één plek staat
+function vulMinimum(waarde, bedrag) {
+	if (typeof waarde === 'string') return waarde.split('{minimum}').join(bedrag);
+	if (Array.isArray(waarde)) { waarde.forEach(function (w, i) { waarde[i] = vulMinimum(w, bedrag); }); return waarde; }
+	if (waarde && typeof waarde === 'object') Object.keys(waarde).forEach(function (k) { waarde[k] = vulMinimum(waarde[k], bedrag); });
+	return waarde;
+}
+
 async function build() {
 	const started = Date.now();
 	// Merk en bedrijf (site.json) en de webshop (shop.json) zijn aparte bestanden. Templates lezen ze als één
@@ -514,6 +522,8 @@ async function build() {
 	const brand = readJson('data/site.json');
 	const shop = readJson('data/shop.json');
 	const site = Object.assign({}, shop, brand);
+	// Het minimumbedrag voor verzenden (shop.json > shipping.minimum) staat als {minimum} in de teksten over verzenden
+	if (site.shipping && site.shipping.minimum) vulMinimum(site, h.euro(site.shipping.minimum));
 	const pillars = readJson('data/pillars.json');
 	const projects = readJson('data/projects.json');
 	const products = readJson('data/products.json');

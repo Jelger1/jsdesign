@@ -16,6 +16,9 @@ const checkoutBtn = document.getElementById('cart-checkout');
 const suggestEl = document.getElementById('cart-suggest');
 const suggestList = document.getElementById('cart-suggest-list');
 const MAX_SUGGESTIONS = 2;
+// Verzenden kan vanaf een minimumbedrag aan producten (shop.json > shipping.minimum); zelf ophalen kan altijd
+const verzendEl = document.getElementById('cart-verzend');
+const VERZEND_MINIMUM = Number((document.getElementById('cart-sidebar') || {}).dataset ? document.getElementById('cart-sidebar').dataset.verzendMinimum : 0) || 0;
 const ADDON_MAX = 15;
 
 let highlightKey = null;
@@ -28,6 +31,11 @@ function render() {
 	countEl.hidden = count === 0;
 	toggle.setAttribute('aria-label', 'Winkelwagen openen, ' + count + (count === 1 ? ' artikel' : ' artikelen'));
 	totalEl.textContent = euro(cart.total());
+	if (verzendEl) {
+		const tekort = VERZEND_MINIMUM - cart.total();
+		verzendEl.hidden = !lines.length || tekort <= 0;
+		if (tekort > 0) verzendEl.textContent = 'Nog ' + euro(tekort) + ' tot verzenden (vanaf ' + euro(VERZEND_MINIMUM) + '). Zelf ophalen in Kerkrade kan altijd.';
+	}
 	checkoutBtn.hidden = lines.length === 0;
 	renderSuggestions(lines);
 

@@ -51,7 +51,22 @@ export function initCheckout() {
 		const pickup = form.elements.delivery.value === 'Ophalen';
 		addressFields.hidden = pickup;
 		addressFields.disabled = pickup;
+		syncMinimum();
 	}
+
+	// Verzenden kan vanaf een minimumbedrag aan producten (shop.json > shipping.minimum); zelf ophalen kan altijd.
+	// Onder het minimum staat bij "Verzenden" wat er nog bij moet; versturen kan dan alleen met "Zelf ophalen".
+	const MINIMUM = Number(form.dataset.verzendMinimum) || 0;
+	const verzendMelding = form.querySelector('[data-verzend-melding]');
+	function tekortVoorVerzenden() {
+		return form.elements.delivery.value === 'Verzenden' ? Math.max(0, Math.round((MINIMUM - cart.total()) * 100) / 100) : 0;
+	}
+	function syncMinimum() {
+		const tekort = tekortVoorVerzenden();
+		verzendMelding.hidden = !tekort;
+		if (tekort) verzendMelding.textContent = 'Verzenden kan vanaf ' + euro(MINIMUM) + ' aan producten (exclusief verzendkosten). Voeg nog ' + euro(tekort) + ' toe, of kies Zelf ophalen: dat kan bij elk bedrag.';
+	}
+	cart.subscribe(syncMinimum);
 	form.addEventListener('change', function (event) { if (event.target.name === 'delivery') syncDelivery(); });
 	syncDelivery();
 
@@ -62,6 +77,12 @@ export function initCheckout() {
 	form.addEventListener('submit', function (event) {
 		event.preventDefault();
 		if (sending || cart.count() === 0) return;
+		if (tekortVoorVerzenden()) {
+			message.textContent = 'Verzenden kan vanaf ' + euro(MINIMUM) + ' aan producten. Voeg nog iets toe, of kies Zelf ophalen.';
+			message.className = 'checkout-msg checkout-msg-error';
+			form.querySelector('input[name="delivery"]:checked').focus();
+			return;
+		}
 		if (!validateForm(form)) {
 			message.textContent = 'Nog niet alles is goed ingevuld. Kijk even bij de gemarkeerde velden.';
 			message.className = 'checkout-msg checkout-msg-error';

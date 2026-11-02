@@ -9,6 +9,7 @@ function legalValues(site, datum, root) {
 	const updated = new Date((datum || (site.legal && site.legal.updated) || '2026-01-01') + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 	return {
 		name: h.esc(site.name), owner: h.esc(site.owner), city: h.esc((site.address && site.address.city) || site.pickupLocation),
+		verzendMinimum: h.euro((site.shipping && site.shipping.minimum) || 0),
 		emailLink: h.mailLink(site.email, root || ''), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
 		// Zonder straat op de site: eerlijk zeggen waar de klant het volledige adres wél krijgt
 		addressHtml: h.addressLine(site, '<br>') + (site.address && site.address.onRequest && !site.address.street

@@ -18,7 +18,8 @@
 		}
 	},
 	"shipping": {
-		"note": "Exclusief verzendkosten, ophalen in Kerkrade kan ook"
+		"minimum": 19.95,
+		"note": "Exclusief verzendkosten. Verzenden vanaf {minimum}, zelf ophalen in Kerkrade kan altijd"
 	},
 	"types": {
 		"vaas": {
@@ -82,17 +83,17 @@
 	"usps": [
 		"Persoonlijk advies bij elk ontwerp",
 		"Speciaal voor jou geprint in Limburg",
-		"Verzenden of ophalen in Kerkrade"
+		"Verzenden vanaf {minimum} of ophalen in Kerkrade"
 	],
 	"productUsps": [
 		"Speciaal voor jou geprint, binnen ongeveer 1 week klaar",
-		"Verzenden of zelf ophalen in Kerkrade",
+		"Verzenden vanaf {minimum} of zelf ophalen in Kerkrade",
 		"Je betaalt pas na bevestiging"
 	],
 	"delivery": {
 		"leadTime": "Binnen ongeveer 1 week klaar",
 		"leadTimeLong": "Elk product wordt speciaal voor jou geprint. Ik streef ernaar dat het binnen een week klaar is om te verzenden of op te halen in Kerkrade.",
-		"shipping": "De verzendkosten hangen af van het product. Je hoort ze van mij voordat je betaalt.",
+		"shipping": "Vanaf {minimum} aan producten. De verzendkosten hangen af van het product; je hoort ze van mij voordat je betaalt.",
 		"pickup": "Zelf ophalen in Kerkrade kan ook, dan betaal je geen verzendkosten."
 	},
 	"deadlines": [],
@@ -151,7 +152,7 @@
 		},
 		{
 			"q": "Wat kost verzenden?",
-			"a": "Dat hangt af van het product: een sleutelhanger past door de brievenbus, een vaas gaat goed verpakt in een doos. Je hoort de verzendkosten van mij voordat je betaalt. Zelf ophalen in Kerkrade kan ook, dan betaal je geen verzendkosten."
+			"a": "Ik verzend vanaf {minimum} aan producten. De verzendkosten hangen af van wat je bestelt: een sleutelhanger past door de brievenbus, een vaas gaat goed verpakt in een doos. Je hoort ze van mij voordat je betaalt. Zelf ophalen in Kerkrade kan bij elk bedrag, en dan betaal je geen verzendkosten."
 		},
 		{
 			"q": "Waar kan ik mijn bestelling ophalen?",
@@ -409,7 +410,7 @@
 				{
 					"heading": "Klein cadeau of extraatje",
 					"text": [
-						"Een sleutelhanger past door de brievenbus, dus verzenden is goedkoop. Ze zijn ook leuk als extraatje bij een groter cadeau, bijvoorbeeld bij een model uit de categorie Beelden & modellen."
+						"Een sleutelhanger is een leuk extraatje bij een groter cadeau, bijvoorbeeld bij een model uit de categorie Beelden & modellen. Verzenden kan vanaf {minimum} aan producten; los ophalen in Kerkrade kan altijd."
 					]
 				},
 				{
