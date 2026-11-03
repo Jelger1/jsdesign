@@ -311,4 +311,6 @@ geen secrets voor `SITE_URL` en `MAIL_VAN`, dus de code bepaalt ze.
 - **Poort:** `npm run catalogus-diff` was groen: 17 producten en 21 varianten gelijk aan jelgers3d.nl. Logo en
   herroepen tellen sindsdien als toegestaan verschil.
 - **Controles:** a (405) en b (elke herkomst krijgt zichzelf terug) groen, gelijk aan de nulmeting.
+- **Eind-tot-eind:** op 3 november om 19:58 stuurde Jelger het contactformulier op jelgersdesign.nl in. Beide mails
+  (bevestiging en melding) staan in Resend als delivered, met afzender `bestellingen@jelgersdesign.nl`.
 - **Terugdraaien:** naar `formulier-2026-11-02` (v20). Dan mailt de functie weer als JelgerS3D vanaf jelgers3d.nl.

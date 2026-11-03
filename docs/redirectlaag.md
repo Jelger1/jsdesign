@@ -72,8 +72,10 @@ npx wrangler pages deploy legacy/jelgersieler --project-name jelgersieler-redire
   Pages-project, de eigen domeinen gekoppeld, Always Use HTTPS aan. Alle vier de domeinen actief om 18:29.
 - `node tools/test-redirects.mjs --echt --doel https://jelgersdesign.nl`: 370 adressen goed (http, https, www).
 - Resend: jelgers3d.nl blijft verified.
-- Nog te doen: in Search Console per oud domein de adreswijziging naar jelgersdesign.nl; over een maand bij de oude
-  GitHub-repo's het eigen domein weghalen (Settings > Pages); optioneel DNSSEC aan via Cloudflare.
+- Search Console: Jelger heeft dezelfde avond voor jelgers3d.nl en jelgersieler.nl de adreswijziging naar
+  jelgersdesign.nl ingediend. De oude properties blijven staan.
+- Nog te doen: over een maand bij de oude GitHub-repo's het eigen domein weghalen (Settings > Pages); optioneel
+  DNSSEC aan via Cloudflare.
 
 ## Het plan van de overstap (stand 3 november 2026)
 
