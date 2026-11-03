@@ -77,6 +77,8 @@ test('prompt: persona, regels, pagina en de kennisbank', function () {
 	assert.match(p, /bekijkt nu https:\/\/jelgersdesign\.nl\/contact\.html/);
 	assert.ok(p.includes(JSON.stringify(KENNIS)), 'de hele kennisbank zit erin');
 	assert.doesNotMatch(L.bouwPrompt(KENNIS, { site: SITE, datum: 'x' }), /bekijkt nu/);
+	const product = KENNIS.webshop.producten[0];
+	assert.ok(L.bouwPrompt(KENNIS, { site: SITE, datum: 'x', pagina: product.url }).includes('de productpagina van ' + product.naam), 'op een productpagina: naam (en prijs) erbij');
 	assert.doesNotMatch(p, /@[a-z0-9-]+\.[a-z]{2,}/i, 'geen e-mailadres in de prompt (de kennisbank heeft er bewust geen)');
 });
 
