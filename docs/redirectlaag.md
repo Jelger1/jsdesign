@@ -61,13 +61,41 @@ Daarna eerst testen op het platformsubdomein (zie hieronder). Pas als dat groen 
 zonder `www`) en de DNS van jelgers3d.nl en jelgersieler.nl naar Cloudflare laten wijzen. Dat hoort bij de
 cutover-stappen in het merge-plan (§10.3).
 
+## De overstap (stand 3 november 2026)
+
+Het stappenplan voor Jelger staat als afvinkpagina in claude.ai ("Verhuizing oude domeinen"). De volgorde:
+1. de twee Pages-projecten aanmaken en testen op `*.pages.dev`;
+2. DNSSEC uit bij One.com en een dag wachten tot de DS-records uit .nl weg zijn;
+3. de domeinen aan Cloudflare toevoegen (Free), de records hieronder controleren, de naamservers bij One.com omzetten;
+4. als de zone actief is: de oude A-records en `www` weg, de eigen domeinen (met en zonder `www`) aan het project koppelen,
+   Always Use HTTPS aan;
+5. `--echt` testen, daarna in Search Console per oud domein de adreswijziging naar jelgersdesign.nl.
+
+Terug: de naamservers bij One.com weer op `ns01.one.com` en `ns02.one.com`. Daarom bij One.com niets weghalen.
+
+Records die mee moeten, allemaal "DNS only" (grijze wolk):
+
+| Domein | Type | Naam | Waarde | Waarvoor |
+|---|---|---|---|---|
+| jelgers3d.nl | TXT | `@` | `google-site-verification=gF1i7YIg4rivJZzbI-4GUqvEEsbiPNCHRtn7vSz8YCI` | Search Console |
+| jelgers3d.nl | TXT | `resend._domainkey` | de DKIM-sleutel uit Resend (Domains > jelgers3d.nl) | mail |
+| jelgers3d.nl | CNAME | `send` | `send.forge.rmta.net` | mail |
+| jelgers3d.nl | CNAME | `rsend` | `rsend-euw1.forge.rmta.net` | mail |
+| jelgers3d.nl | TXT | `_dmarc` | `v=DMARC1; p=none;` | mailbeleid |
+| jelgers3d.nl | MX | `@` | `.` (prioriteit 0) | geen inkomende mail |
+| jelgersieler.nl | TXT | `@` | `google-site-verification=PPVgDeE1Vzfh3lOb7SfqoLgO5h1BuFSSKT2O4v1C6GA` | Search Console |
+| jelgersieler.nl | MX, TXT, TXT | `@`, `@`, `_dmarc` | `.` (0), `v=spf1 -all`, `v=DMARC1; p=reject;` | aanbevolen: dit domein mailt niet |
+
+De vier A-records (185.199.108–111.153) en `www` → `jelger1.github.io` blijven staan tot de eigen domeinen aan het
+Pages-project gekoppeld worden; dan maakt Cloudflare zelf de nieuwe.
+
 ## Testen
 
-Op het platformsubdomein, vóór de DNS-wissel (de eindstatus op de preview controleren, want jelgersdesign.nl draait dan nog
-niet):
+Op het platformsubdomein, vóór de DNS-wissel (met `--doel` controleert de test ook dat elk doel op jelgersdesign.nl een 200
+geeft):
 
 ```bash
-node tools/test-redirects.mjs --jelgers3d https://jelgers3d-redirect.pages.dev --jelgersieler https://jelgersieler-redirect.pages.dev --doel https://jelger1.github.io/jsdesign
+node tools/test-redirects.mjs --jelgers3d https://jelgers3d-redirect.pages.dev --jelgersieler https://jelgersieler-redirect.pages.dev --doel https://jelgersdesign.nl
 ```
 
 Direct na de DNS-wissel nog een keer op de echte domeinen, ook over http en met www:
