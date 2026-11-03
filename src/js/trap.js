@@ -3,13 +3,19 @@
 // hem nooit afgebroken worden, en staat hij nooit half af in beeld. Komt hij in beeld, dan bouwt hij zich één keer op
 // (.is-aan): breed de hele trap na elkaar zodra de helft in beeld is, smal elke stap zodra die grotendeels in beeld is.
 // Bij "minder beweging" doet dit niets: dan staat de trap er meteen.
+import { maakVerhaal, VERHAAL } from './verhaal.js';
+
+// Breed en hoog genoeg: de werkwijze op de pijlerpagina's en Over wordt een scrollverhaal (verhaal.js) in plaats van een
+// trap die zich één keer opbouwt.
 export function initTrap() {
 	const trappen = document.querySelectorAll('.trap:not(.trap--vast)'); // de stappen bij afrekenen staan stil
 	if (!trappen.length || !('IntersectionObserver' in window)) return;
 	const minder = window.matchMedia('(prefers-reduced-motion: reduce)');
 	if (minder.matches) return;
 	const breed = window.matchMedia('(min-width: 1100px)').matches;
+	const verhaal = window.matchMedia(VERHAAL).matches;
 	trappen.forEach(function (trap) {
+		if (verhaal && trap.matches('.pijler-aanpak > .trap, .over-aanpak > .trap')) { maakVerhaal(trap); return; }
 		const naastElkaar = breed && !trap.classList.contains('trap--staand'); // een staande trap bouwt per stap
 		if (trap.getBoundingClientRect().top < window.innerHeight) return;
 		const stappen = Array.from(trap.children);

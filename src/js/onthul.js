@@ -12,6 +12,7 @@ const KOPPEN = 'main h2.kop-woorden';
 const BEELDEN = ['.werk-beeld', '.maker-kort-beeld', '.pijler-case-beeld', '.project-media', '.ook-media', '.case-fig-beeld', '.verwant-beeld', '.product-thumb']
 	.map(function (s) { return 'main ' + s; }).join(', ');
 const NA_ELKAAR_MS = 140;
+const VANGNET_MS = 4000;
 
 export function initOnthul() {
 	laadVooruit();
@@ -77,8 +78,13 @@ function laadVooruit() {
 	else window.addEventListener('load', function () { stil(laad); }, { once: true });
 }
 
-// Klaar om te tonen: geladen en gedecodeerd. Mislukt dat, dan wordt de belofte afgewezen.
+// Klaar om te tonen: geladen en gedecodeerd. Mislukt dat, of duurt het langer dan VANGNET_MS, dan wordt de belofte
+// afgewezen en staat het beeld er zonder print (zodra het binnen is): een beeld blijft nooit verborgen.
 function klaar(img) {
+	return Promise.race([gedecodeerd(img), new Promise(function (ja, nee) { setTimeout(nee, VANGNET_MS); })]);
+}
+
+function gedecodeerd(img) {
 	if (img.decode) return img.decode();
 	if (img.complete) return img.naturalWidth ? Promise.resolve() : Promise.reject();
 	return new Promise(function (ja, nee) {
@@ -87,7 +93,8 @@ function klaar(img) {
 	});
 }
 
-function print(vak) {
+// Ook voor het beeld naast de muis bij een bewijs (voorbeeld.js)
+export function print(vak) {
 	const kop = document.createElement('span');
 	kop.className = 'printkop';
 	kop.setAttribute('aria-hidden', 'true');

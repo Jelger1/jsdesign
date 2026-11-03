@@ -279,6 +279,54 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.trap-bouw li{--t:0s}
 }
 
+/* ------------------------------------------------------------------ werkwijze als scrollverhaal
+   Vanaf 1100px breed en 700px hoog, als beweging mag (src/js/verhaal.js; anders de trap hierboven). Links de stappen,
+   die gewoon meescrollen; rechts een tekening die blijft staan: een isometrische trap met één blok per stap, elk een
+   trede hoger (lijnen onder 30°). Een stap die je leest, wordt in de tekening geprint: van onder naar boven in lagen,
+   met de printkop, van stippellijn naar massief. Scrol je terug, dan gaat hij sneller terug, van boven naar beneden.
+   Het blok van de stap waar je bent, staat in volle pijlerkleur; de blokken eronder zijn dieper van kleur. Links loopt
+   het blokje bij elke gelezen stap vol, en is de kop van de stap waar je bent wit. */
+.verhaal-tekening{display:none}
+@media (min-width:1100px) and (min-height:700px) and (prefers-reduced-motion:no-preference){
+	.verhaal{--boven:calc(var(--nav-height) + 2rem);display:grid;grid-template-columns:minmax(0, 5fr) minmax(0, 6fr);column-gap:var(--space-12);align-items:start}
+	html:has(.wijzer) .verhaal{--boven:calc(var(--nav-height) + 48px + 2rem)}
+	.trap.trap--verhaal{display:block;--nr-b:64px;--nr-h:40px}
+	/* Elke stap begint 16vh onder zijn bovenrand: zo begint stap 1 pas als de hele tekening in beeld is. De laatste stap
+	   is hoger, zodat de tekening blijft staan tot ook het laatste blok geprint is en je de hele trap ziet. */
+	.trap.trap--verhaal li{min-height:44vh;margin:0;padding:16vh 0 0 calc(var(--nr-b) + 1.25rem);border:0}
+	.trap.trap--verhaal li:last-child{min-height:76vh}
+	.trap--verhaal li::before,.trap--verhaal li::after,.trap--verhaal .trap-lijn,.trap--verhaal .trap-schuin{display:none}
+	.trap.trap--verhaal .trap-nr{position:absolute;left:0;top:calc(16vh + var(--nr-top));margin:0;font-size:1.25rem}
+	.trap--verhaal li:not(.is-klaar) .trap-nr::before{display:block}
+	.trap--verhaal li:not(.is-klaar) .trap-nr::after{background-position:0 0%}
+	.trap--verhaal li:not(.is-klaar) .trap-nr{color:var(--fg)}
+	.trap--verhaal .trap-nr::after{transition:background-position 0.3s steps(4, end)}
+	.trap--verhaal h3{color:var(--fg-muted);transition:color 0.3s ease}
+	.trap--verhaal li.is-nu h3{color:var(--fg)}
+
+	.verhaal-tekening{--stippel:rgba(243,255,253,0.42);position:sticky;top:var(--boven);display:grid;place-items:center;height:calc(100vh - var(--boven) - 2rem)}
+	.verhaal-tekening svg{display:block;width:100%;height:100%;max-height:540px;overflow:visible}
+	.vb{--kleur:color-mix(in srgb, var(--pillar, var(--brand)) 55%, var(--dark))}
+	.vb.is-nu{--kleur:var(--pillar, var(--brand))}
+	.vb text{font:800 26px var(--font-display);font-stretch:100%}
+	.vb-rand{fill:var(--dark);stroke:var(--stippel);stroke-width:1.3;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
+	.vb-rand + .vb-rand{fill:none}
+	.vb-stip text{fill:var(--fg-muted)}
+	.vb-top{fill:var(--kleur)}
+	.vb-links{fill:color-mix(in srgb, var(--kleur) 62%, #000)}
+	.vb-rechts{fill:color-mix(in srgb, var(--kleur) 38%, #000)}
+	.vb-vol path{transition:fill 0.3s ease}
+	.vb-vol text{fill:var(--fg);transition:fill 0.3s ease}
+	.vb.is-nu .vb-vol text{fill:var(--dark)}
+	/* Printen: de massieve versie komt van onder naar boven in beeld, de printkop loopt mee en is daarna weg */
+	.vb-vol{clip-path:inset(100% 0 0 0);transition:clip-path 0.3s steps(6)}
+	.vb.is-klaar .vb-vol{clip-path:inset(0);transition:clip-path 0.6s steps(12)}
+	.vb.is-klaar .vb-stip{visibility:hidden;transition:visibility 0s 0.6s}
+	.vb-kop{stroke:var(--pillar, var(--brand));stroke-width:3;opacity:0}
+	.vb.is-klaar .vb-kop{animation:blok-kop 0.6s steps(12) forwards}
+}
+@keyframes blok-kop{0%{opacity:1;transform:translateY(0)}99.9%{opacity:1}100%{opacity:0;transform:translateY(var(--reis))}}
+
 /* ------------------------------------------------------------------ uitgelicht werk
    Het eerste project groot (beeld en tekst naast elkaar), de rest per twee. Het laatste vak gaat naar het portfolio;
    staat het alleen op een rij, dan wordt het een brede strook. De titel is de link en dekt de hele kaart. */
@@ -395,6 +443,16 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.bewijs-sectie .bewijs--open{grid-template-areas:'label kop kop pijl';padding:var(--space-5) 0}
 	.bewijs-sectie .bewijs--open .bewijs-label{padding-top:0}
 }
+
+/* Het beeld naast de muis bij een bewijs (src/js/voorbeeld.js): rechtsboven de muis, onder de header en de balken. Het
+   vak is het printbed (de scan uit brand.css); de rand in de kleur van het vak van de regel komt er niet bij, het beeld
+   zegt genoeg. Alleen met een muis en als beweging mag. */
+.voorbeeld{position:fixed;left:0;top:0;z-index:calc(var(--z-sticky) - 1);display:none;pointer-events:none;transform:translateY(-100%);opacity:0;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-secondary);box-shadow:var(--shadow-lg);overflow:hidden;transition:opacity 0.15s ease}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+	.voorbeeld{display:block}
+	.voorbeeld.is-zichtbaar{opacity:1}
+}
+.voorbeeld img{display:block;width:auto;height:auto;max-width:300px;max-height:210px}
 
 /* ------------------------------------------------------------------ afsluiter */
 .pijler-ook{display:grid;gap:var(--space-4);margin-top:var(--space-8)}

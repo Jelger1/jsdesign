@@ -50,6 +50,18 @@ function bewijsUrl(b, ctx, root) {
 	return caseUrl(p, root) + (b.hoofdstuk ? hoofdstukAnker(p, b.hoofdstuk) : '');
 }
 
+// Het beeld naast de muis bij een bewijs (src/js/voorbeeld.js): het eerste beeld uit het hoofdstuk waar het bewijs staat,
+// anders de omslag van de case; bij een product de eerste foto. In de 800-variant: scherp op 300 px breed.
+function voorbeeldUrl(b, ctx, root) {
+	if (b.product) return h.imgPath(ctx.images, ctx.products.find(function (x) { return x.id === b.product; }).images[0].file, 800, root);
+	const p = ctx.projects.find(function (x) { return x.id === b.project; });
+	const k = p.case || {};
+	const hs = (k.hoofdstukken || []).concat(k.resultaat ? [{ titel: 'Resultaat', beelden: k.resultaat.beelden }] : [])
+		.find(function (x) { return x.titel === b.hoofdstuk; });
+	const eerste = hs && (hs.beelden || [])[0];
+	return h.imgPath(ctx.images, eerste ? eerste.file : (k.cover || p.image), 800, root);
+}
+
 // Een lijst beweringen. rijen: [{ id, pijler, label? }] (zonder label het label uit het bewijs; op de home de naam van
 // de pijler). opts: { root, open: de linktekst van de laatste rij, naar alles op de Over-pagina }.
 // De bewering is de link (in de h3) en dekt de hele rij; de projectnaam in het bewijs staat vet en de zin is de
@@ -63,7 +75,7 @@ function bewijsLijst(rijen, ctx, opts) {
 		const b = alle.find(function (x) { return x.id === r.id; });
 		if (!b) throw new Error('skills.json: onbekend bewijs "' + r.id + '"');
 		const label = h.esc(r.label || b.label);
-		return '\t<li class="bewijs" data-pillar="' + h.esc(r.pijler) + '">'
+		return '\t<li class="bewijs" data-pillar="' + h.esc(r.pijler) + '" data-voorbeeld="' + voorbeeldUrl(b, ctx, root) + '">'
 			+ '<p class="bewijs-label" aria-hidden="true">' + label + '</p>'
 			+ '<h3 class="bewijs-kop"><span class="sr-only">' + label + ': </span>'
 			+ '<a class="bewijs-link" href="' + bewijsUrl(b, ctx, root) + '" aria-describedby="bewijs-' + h.esc(b.id) + '">' + h.esc(b.kop) + '</a></h3>'
