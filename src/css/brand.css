@@ -101,7 +101,7 @@ h3,h4,h5,h6{font-stretch:112%}
 @media print{.page-curtain{display:none}}
 
 /* ---------------------------------------------------------------------------------------------- koppen en beelden
-   Uit de reel. Koppen: woord voor woord scherp (blur 6 px naar 0, 0,07 s na elkaar), zonder te verschuiven; een
+   Uit de reel. Koppen: woord voor woord scherp (blur 6 px naar 0 in 0,8 s, 0,1 s na elkaar), zonder te verschuiven; een
    geland woord staat stil. De woorden staan in de HTML (src/templates/koppen.js). De h1 speelt bij het laden, na de
    paginaovergang (.pc-kwam) pas als de banden weggaan; sectiekoppen onder de vouw zodra ze in beeld komen (onthul.js).
    Beelden: laag voor laag geprint, van onder naar boven in 14 stappen, met een printkop in de pijlerkleur. */
@@ -110,10 +110,10 @@ h3,h4,h5,h6{font-stretch:112%}
 @keyframes printkop-loopt{from{top:100%}to{top:0}}
 @keyframes printkop-weg{to{opacity:0}}
 @media (prefers-reduced-motion:no-preference){
-	h1.kop-woorden .w{animation:woord-in 0.55s var(--ease-out) calc(var(--kop-start, 0.1s) + var(--i) * 0.07s) backwards}
+	h1.kop-woorden .w{animation:woord-in 0.8s var(--ease-out) calc(var(--kop-start, 0.1s) + var(--i) * 0.1s) backwards}
 	.pc-kwam h1.kop-woorden{--kop-start:0.8s}
 	h2.kop-wacht .w{opacity:0;filter:blur(6px)}
-	h2.kop-speelt .w{animation:woord-in 0.55s var(--ease-out) calc(var(--i) * 0.07s) backwards}
+	h2.kop-speelt .w{animation:woord-in 0.8s var(--ease-out) calc(var(--i) * 0.1s) backwards}
 
 	.print-wacht img{clip-path:inset(100% 0 0 0)}
 	.print-wacht,.print-loopt{position:relative}
