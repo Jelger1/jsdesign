@@ -109,6 +109,7 @@ function layout(page, ctx) {
 		: '';
 	// Welke toestemmingscategorieën er zijn, leest consent.js hieruit (ga4 = Statistieken, googleAds = Marketing)
 	const analyticsAttrs = (site.backend && site.backend.url ? ' data-backend="' + h.esc(site.backend.url) + '"' : '') // waar formulieren heen gaan (src/js/util.js)
+		+ (site.chat && site.chat.url ? ' data-chat="' + h.esc(process.env.CHAT_URL || site.chat.url) + '"' : '') // de server van Jelly-bot (src/js/chat.js); CHAT_URL om lokaal te testen
 		+ (gtm ? ' data-gtm="' + gtm + '"' : '') // Tag Manager, geladen door consent.js na toestemming
 		+ (analytics.ga4 ? ' data-ga4="' + h.esc(analytics.ga4) + '"' : '')
 		+ (analytics.googleAds ? ' data-ads="' + h.esc(analytics.googleAds) + '"' : '');

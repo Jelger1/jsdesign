@@ -31,13 +31,16 @@
 	"backend": {
 		"url": "https://kgxhefdzufhmigbmchhk.supabase.co/functions/v1/formulier"
 	},
+	"chat": {
+		"url": "https://jellybot-backend.onrender.com"
+	},
 	"analytics": {
 		"gtm": "GTM-MQLPSW9X",
 		"ga4": "G-0SLM0NK7CF",
 		"googleAds": ""
 	},
 	"legal": {
-		"updated": "2026-10-24",
+		"updated": "2026-11-03",
 		"termsUpdated": "2026-11-03"
 	},
 	"forms": {

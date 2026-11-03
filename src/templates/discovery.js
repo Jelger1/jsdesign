@@ -88,7 +88,7 @@ function llms(ctx, full) {
 	return lines.join('\n') + '\n';
 }
 
-// De kennisbank voor Jelly-bot (fase 4 koppelt de server hieraan). Bewust zonder e-mailadres: dat leest elke robot.
+// De kennisbank voor Jelly-bot: de server (server/server.js) haalt hem elk half uur op. Bewust zonder e-mailadres: dat leest elke robot.
 function kennis(ctx) {
 	const site = ctx.site;
 	const socials = site.socials || {};

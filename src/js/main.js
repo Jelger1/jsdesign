@@ -25,6 +25,7 @@ import { initOnthul } from './onthul.js';
 import { initVoorbeeld } from './voorbeeld.js';
 import { initHerroep } from './herroep.js';
 import { initAnker } from './anker.js';
+import { initChat } from './chat.js';
 
 const page = document.body.dataset.page;
 
@@ -53,4 +54,5 @@ if (page === 'pillar' || page === 'case') initWijzer(); // de sectiewijzer en de
 initOnthul(); // sectiekoppen en beelden onder de vouw: woord voor woord scherp en laag voor laag geprint; na de winkel en de rails
 initVoorbeeld(); // het beeld naast de muis bij de bewijsregels (Uit de praktijk); alleen met een muis
 initKijk(); // het kijklabel bij de muis boven projectbeelden en productfoto's; na de winkel en de rails, die de kaarten neerzetten
+initChat(); // Jelly-bot rechtsonder, op elke pagina behalve afrekenen
 initTransition(); // als laatste: andere klik-afhandelingen gaan voor
