@@ -280,21 +280,22 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 }
 
 /* ------------------------------------------------------------------ werkwijze als scrollverhaal
-   Vanaf 1100px breed en 700px hoog, als beweging mag (src/js/verhaal.js; anders de trap hierboven). Links de stappen,
+   Vanaf 1100px breed en 540px hoog, als beweging mag (src/js/verhaal.js; anders de trap hierboven). Links de stappen,
    die gewoon meescrollen; rechts een tekening die blijft staan: een isometrische trap met één blok per stap, elk een
    trede hoger (lijnen onder 30°). Een stap die je leest, wordt in de tekening geprint: van onder naar boven in lagen,
    met de printkop, van stippellijn naar massief. Scrol je terug, dan gaat hij sneller terug, van boven naar beneden.
    Het blok van de stap waar je bent, staat in volle pijlerkleur; de blokken eronder zijn dieper van kleur. Links loopt
    het blokje bij elke gelezen stap vol, en is de kop van de stap waar je bent wit. */
 .verhaal-tekening{display:none}
-@media (min-width:1100px) and (min-height:700px) and (prefers-reduced-motion:no-preference){
+@media (min-width:1100px) and (min-height:540px) and (prefers-reduced-motion:no-preference){
 	.verhaal{--boven:calc(var(--nav-height) + 2rem);display:grid;grid-template-columns:minmax(0, 5fr) minmax(0, 6fr);column-gap:var(--space-12);align-items:start}
 	html:has(.wijzer) .verhaal{--boven:calc(var(--nav-height) + 48px + 2rem)}
 	.trap.trap--verhaal{display:block;--nr-b:64px;--nr-h:40px}
-	/* Elke stap begint 16vh onder zijn bovenrand: zo begint stap 1 pas als de hele tekening in beeld is. De laatste stap
-	   is hoger, zodat de tekening blijft staan tot ook het laatste blok geprint is en je de hele trap ziet. */
+	/* Elke stap begint 16vh onder zijn bovenrand; het printen wacht tot de tekening op haar plek staat (verhaal.js). De
+	   laatste stap is hoger, zodat de tekening blijft staan tot ook het laatste blok geprint is en je de hele trap even
+	   rustig ziet, ook op een laag laptopscherm. */
 	.trap.trap--verhaal li{min-height:44vh;margin:0;padding:16vh 0 0 calc(var(--nr-b) + 1.25rem);border:0}
-	.trap.trap--verhaal li:last-child{min-height:76vh}
+	.trap.trap--verhaal li:last-child{min-height:90vh}
 	.trap--verhaal li::before,.trap--verhaal li::after,.trap--verhaal .trap-lijn,.trap--verhaal .trap-schuin{display:none}
 	.trap.trap--verhaal .trap-nr{position:absolute;left:0;top:calc(16vh + var(--nr-top));margin:0;font-size:1.25rem}
 	.trap--verhaal li:not(.is-klaar) .trap-nr::before{display:block}
@@ -304,7 +305,8 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.trap--verhaal h3{color:var(--fg-muted);transition:color 0.3s ease}
 	.trap--verhaal li.is-nu h3{color:var(--fg)}
 
-	.verhaal-tekening{--stippel:rgba(243,255,253,0.42);position:sticky;top:var(--boven);display:grid;place-items:center;height:calc(100vh - var(--boven) - 2rem)}
+	/* Flex in plaats van grid: dan is de hoogte van het vak bepaald en past de tekening zich aan een laag scherm aan */
+	.verhaal-tekening{--stippel:rgba(243,255,253,0.42);position:sticky;top:var(--boven);display:flex;align-items:center;justify-content:center;height:calc(100vh - var(--boven) - 2rem)}
 	.verhaal-tekening svg{display:block;width:100%;height:100%;max-height:540px;overflow:visible}
 	.vb{--kleur:color-mix(in srgb, var(--pillar, var(--brand)) 55%, var(--dark))}
 	.vb.is-nu{--kleur:var(--pillar, var(--brand))}

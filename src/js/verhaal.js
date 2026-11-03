@@ -1,10 +1,10 @@
 // "Zo werk ik" als scrollverhaal (pijler.css > .verhaal), op de pijlerpagina's en de Over-pagina, vanaf 1100 px breed en
-// 700 px hoog. Links scrollen de stappen gewoon mee; rechts blijft een tekening staan: een isometrische trap met één
+// 540 px hoog (ook een laptop met schermschaling; de tekening schaalt mee met de hoogte). Links scrollen de stappen gewoon mee; rechts blijft een tekening staan: een isometrische trap met één
 // blok per stap, elk een trede hoger. Zodra je een stap leest (zijn kop komt halverwege het venster), wordt zijn blok
 // geprint: laag voor laag, met de printkop, van stippellijn naar massief, net als de beelden. Scrol je terug, dan gaat
 // het weer terug. De site neemt het scrollen niet over: dit leest alleen af waar je bent. Smaller, lager of bij minder
 // beweging blijft het de gewone trap (trap.js).
-export const VERHAAL = '(min-width: 1100px) and (min-height: 700px)';
+export const VERHAAL = '(min-width: 1100px) and (min-height: 540px)';
 
 const SVG = 'http://www.w3.org/2000/svg';
 const A = 80; // de halve breedte van een bovenvlak
@@ -31,6 +31,9 @@ export function maakVerhaal(trap) {
 		const lijn = window.innerHeight * LIJN;
 		let i = -1;
 		koppen.forEach(function (kop, k) { if (kop.getBoundingClientRect().top < lijn) i = k; });
+		// Pas printen als de tekening op haar plek staat (sticky): anders staat blok 1, onderaan, op een laag scherm nog
+		// buiten beeld terwijl het geprint wordt
+		if (tekening.getBoundingClientRect().top > parseFloat(getComputedStyle(tekening).top) + 2) i = -1;
 		if (i === nu) return;
 		nu = i;
 		[stappen, blokken].forEach(function (rij) {
