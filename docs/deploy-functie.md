@@ -299,3 +299,16 @@ Editor gedraaid, daarna read-only gecontroleerd: beide checks en de regel in `sc
   400 "Vul je bestelnummer in, of de datum waarop je bestelde." (niets opgeslagen, niets gemaild); de logs tonen alleen
   het opstarten van v20.
 - **Terugdraaien:** naar `formulier-2026-10-27` (v19). Dan geeft de herroepknop weer "Onbekend formulier.".
+
+## Deploy 3 november 2026: afzender en winkel.json van jelgersdesign.nl
+
+**Uitgevoerd:** tag `formulier-2026-11-03` (main), versie 21. Alleen twee standaardwaarden in `index.ts`; er staan
+geen secrets voor `SITE_URL` en `MAIL_VAN`, dus de code bepaalt ze.
+- **Nieuw:** `SITE_URL` standaard `https://jelgersdesign.nl`. De functie leest winkel.json daar, en de mails krijgen
+  de naam JelgersDesign, het logo en de link "Bestelling herroepen". `MAIL_VAN` standaard
+  `JelgersDesign <bestellingen@jelgersdesign.nl>`; jelgersdesign.nl is op 3 november bij Resend toegevoegd (eu-west-1)
+  en geverifieerd met DKIM, MX en SPF op `send`, CNAME `rsend` en `_dmarc` bij One.com.
+- **Poort:** `npm run catalogus-diff` was groen: 17 producten en 21 varianten gelijk aan jelgers3d.nl. Logo en
+  herroepen tellen sindsdien als toegestaan verschil.
+- **Controles:** a (405) en b (elke herkomst krijgt zichzelf terug) groen, gelijk aan de nulmeting.
+- **Terugdraaien:** naar `formulier-2026-11-02` (v20). Dan mailt de functie weer als JelgerS3D vanaf jelgers3d.nl.
