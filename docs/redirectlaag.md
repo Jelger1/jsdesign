@@ -64,7 +64,18 @@ npx wrangler pages deploy legacy/jelgers3d --project-name jelgers3d-redirect --b
 npx wrangler pages deploy legacy/jelgersieler --project-name jelgersieler-redirect --branch main
 ```
 
-## De overstap (stand 3 november 2026)
+## De overstap is gedaan (3 november 2026)
+
+- DNSSEC uit bij One.com (DS-records rond 17:30 weg bij .nl), naamservers om naar blair/glen.ns.cloudflare.com;
+  zones actief om 18:22.
+- Om 18:23 per domein: de A-records en `www` naar GitHub Pages weg, proxied CNAME's (`@` en `www`) naar het
+  Pages-project, de eigen domeinen gekoppeld, Always Use HTTPS aan. Alle vier de domeinen actief om 18:29.
+- `node tools/test-redirects.mjs --echt --doel https://jelgersdesign.nl`: 370 adressen goed (http, https, www).
+- Resend: jelgers3d.nl blijft verified.
+- Nog te doen: in Search Console per oud domein de adreswijziging naar jelgersdesign.nl; over een maand bij de oude
+  GitHub-repo's het eigen domein weghalen (Settings > Pages); optioneel DNSSEC aan via Cloudflare.
+
+## Het plan van de overstap (stand 3 november 2026)
 
 Het stappenplan voor Jelger staat als afvinkpagina in claude.ai ("Verhuizing oude domeinen"). De volgorde:
 1. de twee Pages-projecten aanmaken en testen op `*.pages.dev` (gedaan, 3 november: 109 adressen goed);
