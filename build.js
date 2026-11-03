@@ -591,6 +591,7 @@ async function build() {
 	const catalog = buildCatalog(products, images);
 	const hash = crypto.createHash('md5').update(css).update(catalog);
 	jsFiles.forEach(function (f) { hash.update(read('src/js/' + f)); });
+	hash.update('js/main.js als één bundel'); // nieuw nummer bij de overstap van losse modules naar één bestand (november 2026)
 	// De 3D-modules (src/3d/) worden met Three.js erbij gebundeld tot één compact bestand per module.
 	// De site laadt ze pas wanneer ze nodig zijn, zodat gewone pagina's er niet zwaarder van worden.
 	const bundles = fs.readdirSync(path.join(ROOT, 'src/3d')).filter(function (f) { return f.endsWith('.js'); });
@@ -605,7 +606,18 @@ async function build() {
 	write('css/styles.css', require('esbuild').transformSync(css, { loader: 'css', minify: true, legalComments: 'none' }).code);
 	write('js/catalog.js', catalog);
 	write('js/winkel.json', buildWinkel(products, images, site, shop));
-	jsFiles.forEach(function (f) { write('js/' + f, versionImports(read('src/js/' + f), version)); });
+	// Alle JavaScript van de site als één bestand (js/main.js), met de catalogus erin: één verzoek in plaats van ruim
+	// dertig losse modules (die haalde Google in oktober vooral op). De 3D-modules blijven apart en laden pas als ze
+	// nodig zijn; hun import krijgt, net als de pagina's, het versienummer.
+	const siteJs = await require('esbuild').build({
+		entryPoints: [path.join(ROOT, 'src/js/main.js')], bundle: true, write: false,
+		minify: true, format: 'esm', target: 'es2020', legalComments: 'none', logLevel: 'warning',
+		plugins: [{ name: 'dist', setup: function (b) {
+			b.onResolve({ filter: /^\.\/catalog\.js$/ }, function () { return { path: path.join(DIST, 'js/catalog.js') }; });
+			b.onResolve({ filter: /-3d\.js$/ }, function (a) { return { path: a.path, external: true }; });
+		} }]
+	});
+	write('js/main.js', versionImports(siteJs.outputFiles[0].text, version));
 	if (bundles.length) {
 		// Met splitting komt Three.js in één gedeeld bestand (js/3d-<hash>.js) dat het teken op de home en de sleutelhanger
 		// allebei gebruiken: wie van de home naar Tastbaar gaat, downloadt het maar één keer. De modules zelf houden hun
