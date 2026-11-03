@@ -103,7 +103,7 @@ function renderHeading() {
 	const types = selected('type');
 	if (types.length === 1) {
 		heading.innerHTML = types[0].dataset.heading;
-		document.title = types[0].dataset.title + ' | JS Design webshop';
+		document.title = types[0].dataset.title + ' | JelgersDesign webshop';
 	} else {
 		heading.innerHTML = defaultHeading;
 		document.title = defaultTitle;

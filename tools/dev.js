@@ -47,7 +47,7 @@ http.createServer(function (req, res) {
 		res.end(content);
 	});
 }).listen(PORT, function () {
-	console.log('\nJS Design draait op http://localhost:' + PORT + '  (stoppen: Ctrl+C)\n');
+	console.log('\nJelgersDesign draait op http://localhost:' + PORT + '  (stoppen: Ctrl+C)\n');
 });
 
 build();

@@ -1,4 +1,4 @@
-// De hero op de home (src/pages/index.html): links in gewone woorden wat JS Design maakt, rechts het JS-teken als enige
+// De hero op de home (src/pages/index.html): links in gewone woorden wat JelgersDesign maakt, rechts het JS-teken als enige
 // beeld. De drie delen van het teken zijn de drie pijlers; het bijschrift eronder noemt ze en linkt erheen. Geen rij
 // opdrachtgevers eronder: het uitgelichte werk staat er direct onder en zegt het met beeld.
 // Het teken is eerst een SVG; src/js/held.js zet er de 3D-versie (src/3d/held-3d.js) overheen zodra die kan.

@@ -41,7 +41,7 @@ const SIZES = {
 function cover(p) { return p.case.cover || p.image; }
 function coverAlt(p) { return p.case.coverAlt || p.alt; }
 
-// De titel in de zoekresultaten: "<titel> · case | JS Design". Te lang (meer dan 60 tekens)? Dan case.seoTitel.
+// De titel in de zoekresultaten: "<titel> · case | JelgersDesign". Te lang (meer dan 60 tekens)? Dan case.seoTitel.
 function titel(p, site) { return (p.case.seoTitel || p.title) + ' · case | ' + site.name; }
 
 // Alle beelden van een case, voor de beeldpijplijn (build.js > used)

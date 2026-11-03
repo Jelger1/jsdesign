@@ -10,11 +10,11 @@
 	"homeImages": {
 		"hero": {
 			"file": "Printer-H2C.jpg",
-			"alt": "De Bambu Lab H2C 3D-printer met vier kleuren filament, waarop alle ontwerpen van JS Design worden geprint"
+			"alt": "De Bambu Lab H2C 3D-printer met vier kleuren filament, waarop alle ontwerpen van JelgersDesign worden geprint"
 		},
 		"about": {
 			"file": "Jelger-Pic.jpg",
-			"alt": "Portret van Jelger Sieler, ontwerper en maker achter JS Design"
+			"alt": "Portret van Jelger Sieler, ontwerper en maker achter JelgersDesign"
 		}
 	},
 	"shipping": {
@@ -180,7 +180,7 @@
 				"type": "vaas"
 			},
 			"heading": "3D-geprinte *designvazen*",
-			"intro": "Een 3D-geprinte vaas van JS Design is een vaas van eigen ontwerp die pas na je bestelling wordt geprint, in de kleur die jij kiest. Je kiest uit drie modellen van elk €34,95: de Kami Vase, de Wavase en de Bold Vase.",
+			"intro": "Een 3D-geprinte vaas van JelgersDesign is een vaas van eigen ontwerp die pas na je bestelling wordt geprint, in de kleur die jij kiest. Je kiest uit drie modellen van elk €34,95: de Kami Vase, de Wavase en de Bold Vase.",
 			"seoTitle": "3D-geprinte vaas kopen, in jouw kleur",
 			"seoDescription": "Een 3D-geprinte vaas kopen van eigen ontwerp: Kami Vase, Wavase en Bold Vase. In jouw kleur geprint in Limburg, elk €34,95.",
 			"compare": false,
@@ -248,7 +248,7 @@
 				"type": "lamp"
 			},
 			"heading": "3D-geprinte *designlampen*",
-			"intro": "Een 3D-geprinte lamp van JS Design is een tafellamp van eigen ontwerp die na je bestelling wordt geprint, in de kleur die jij kiest. Je kiest uit drie modellen vanaf €24,95: de dimbare Orbits Lamp, de Helio Lamp en de Mijnwerkerslamp met wifi-lamp.",
+			"intro": "Een 3D-geprinte lamp van JelgersDesign is een tafellamp van eigen ontwerp die na je bestelling wordt geprint, in de kleur die jij kiest. Je kiest uit drie modellen vanaf €24,95: de dimbare Orbits Lamp, de Helio Lamp en de Mijnwerkerslamp met wifi-lamp.",
 			"seoTitle": "3D-geprinte lamp kopen uit Limburg",
 			"seoDescription": "Een 3D-geprinte lamp van eigen ontwerp: de Mijnwerkerslamp met wifi-lamp, de Helio Lamp en de dimbare Orbits Lamp. Vanaf €24,95.",
 			"compare": true,
@@ -450,7 +450,7 @@
 				"collection": "limburg"
 			},
 			"heading": "Cadeaus met een *Limburgs hart*",
-			"intro": "Een Limburgs cadeau van JS Design is een eigen ontwerp dat pas na je bestelling wordt geprint in Kerkrade. In deze categorie staan cadeaus vanaf €3,95: van sleutelhangers met vlaai of poefel tot modellen van mijngebouwen en het raadhuis.",
+			"intro": "Een Limburgs cadeau van JelgersDesign is een eigen ontwerp dat pas na je bestelling wordt geprint in Kerkrade. In deze categorie staan cadeaus vanaf €3,95: van sleutelhangers met vlaai of poefel tot modellen van mijngebouwen en het raadhuis.",
 			"seoTitle": "Typisch Limburgs cadeau, 3D-geprint",
 			"seoDescription": "Een typisch Limburgs cadeau van eigen ontwerp, 3D-geprint in Kerkrade: mijnmodellen, sleutelhangers, de Koempel-eend en de Mijnwerkerslamp. Vanaf €3,95.",
 			"compare": false,

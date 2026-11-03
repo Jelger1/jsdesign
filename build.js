@@ -146,7 +146,7 @@ function validatePillars(pillars, site, report) {
 		if (!/^[a-z0-9-]+\.html$/.test(p.path || '')) report.errors.push(where + ': path moet eindigen op .html en alleen a-z, 0-9 en - bevatten');
 		if (paths.has(p.path)) report.errors.push(where + ': path komt dubbel voor');
 		paths.add(p.path);
-		// De korte omschrijving staat in het mobiele menu en bij "Ook bij JS Design" op de andere pijlerpagina's
+		// De korte omschrijving staat in het mobiele menu en bij "Ook bij JelgersDesign" op de andere pijlerpagina's
 		if (!p.omschrijving) report.errors.push(where + ': omschrijving is verplicht (bijvoorbeeld "Websites en interactieve verhalen")');
 		if (!p.seo || !p.seo.title || !p.seo.description) report.errors.push(where + ': seo.title en seo.description zijn verplicht');
 		else {
@@ -392,7 +392,7 @@ function buildCatalog(products, images) {
 // Voor de Supabase-functie "formulier" (supabase/functions/formulier): bedrijfsgegevens, de actuele prijzen en de
 // productfoto's voor de mails, zodat de bevestiging precies dezelfde prijzen noemt als de site. Eén bron: data/*.json.
 // Het e-mailadres staat er net als op de pagina's gecodeerd in (zie mailCode in src/templates/helpers.js).
-// De slogan is die van de webshop (shop.json), niet de merkregel van JS Design: de mails gaan over bestellingen.
+// De slogan is die van de webshop (shop.json), niet de merkregel van JelgersDesign: de mails gaan over bestellingen.
 // Het logo bovenaan de mails (de functie gebruikt het als winkel.json het noemt; de oude sites hebben alleen het teken)
 const MAIL_LOGO = { beeld: 'assets/mail/logo-js-design.png', breedte: 140, hoogte: 41 };
 

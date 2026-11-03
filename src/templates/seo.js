@@ -1,6 +1,6 @@
 // Gestructureerde gegevens (schema.org) als één samenhangende graaf per pagina.
 // Organisatie, persoon en website hebben vaste @id's, zodat Google en AI-assistenten op elke pagina dezelfde
-// entiteit herkennen: JS Design, de studio van Jelger Sieler in Kerkrade, voorheen JelgerS3D.
+// entiteit herkennen: JelgersDesign, de studio van Jelger Sieler in Kerkrade, voorheen JelgerS3D.
 // Paginaspecifieke onderdelen (Product, FAQPage, BreadcrumbList, ...) komen uit page.jsonLd en hangen eraan.
 
 const KNOWS_ABOUT = ['Branding', 'Logo-ontwerp', 'Huisstijl', 'UI/UX-design', 'Webdesign', 'Front-end development',

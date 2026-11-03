@@ -1,4 +1,4 @@
-// De drie pijlers van JS Design (data/pillars.json), elk een volledige hoofdpagina in de eigen kleurwereld: een hero in
+// De drie pijlers van JelgersDesign (data/pillars.json), elk een volledige hoofdpagina in de eigen kleurwereld: een hero in
 // het pijlervlak met "Je bent hier", in het kort, diensten, werkwijze, uitgelicht werk, wat ik kan (bewijs uit dit vak),
 // veelgestelde vragen en een afsluiter (src/css/pijler.css). De teksten staan in pillars.json > pagina, het bewijs in
 // data/skills.json.
@@ -214,8 +214,8 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		+ '\t\t</div>\n'
 		+ '\t\t<p class="cta-row"><a class="btn primary" href="contact.html?onderwerp=' + pillar.id + '">Bespreek je project</a> <span class="cta-band-mail">of mail naar ' + h.mailLink(site.email, '') + '</span></p>\n'
 		+ '\t</div>\n'
-		+ '\t<nav class="pijler-ook" aria-label="Ook bij JS Design">\n'
-		+ '\t\t<p class="pijler-label">Ook bij JS Design</p>\n'
+		+ '\t<nav class="pijler-ook" aria-label="Ook bij JelgersDesign">\n'
+		+ '\t\t<p class="pijler-label">Ook bij JelgersDesign</p>\n'
 		+ '\t\t<ul>\n'
 		+ andere.map(function (p) {
 			return '\t\t\t<li data-pillar="' + p.id + '"><a href="' + h.esc(p.path) + '"><span class="pijler-ook-naam">' + h.esc(p.label) + '</span> '

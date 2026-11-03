@@ -1,4 +1,4 @@
-/* Designtokens van JS Design (MERGEPLAN §5.1): kleur, typografie, ruimte, vorm, schaduw, beweging en lagen op één plek.
+/* Designtokens van JelgersDesign (MERGEPLAN §5.1): kleur, typografie, ruimte, vorm, schaduw, beweging en lagen op één plek.
    De namen zijn canoniek. --soft, --accent en --gradient-end zijn aliassen uit de shop; een codemod zet ze later om naar
    --fg, --brand-dark en --raspberry.
    Let op: een token met var() krijgt zijn waarde op de plek waar het staat. Wie een basistoken herdefinieert (zoals de

@@ -7,7 +7,7 @@ const h = require('./helpers');
 // ("Allow: /" vervangen door "Disallow: /"). In de preview staat er geen sitemap in: die pagina's zijn noindex.
 function robots(site, mode) {
 	if (mode !== 'productie') return 'User-agent: *\nAllow: /\n';
-	return '# JS Design · robots.txt\n'
+	return '# JelgersDesign · robots.txt\n'
 		+ '# Zoekmachines en AI-assistenten zijn welkom: alles op deze site is bedoeld om gevonden te worden.\n'
 		+ 'User-agent: *\nAllow: /\n\n'
 		+ '# AI-zoek- en antwoordbots (bezoeken pagina\'s om vragen van gebruikers te beantwoorden)\n'
@@ -80,7 +80,7 @@ function llms(ctx, full) {
 		(site.homeFaq || []).concat(pijlerFaq(ctx), site.faq || []).forEach(function (item) { lines.push('### ' + item.q, '', item.a, ''); });
 	}
 	lines.push('', '## Over en contact', '',
-		'- ' + link(site, 'over.html', 'Over JS Design'),
+		'- ' + link(site, 'over.html', 'Over JelgersDesign'),
 		'- ' + link(site, 'contact.html', 'Contact'),
 		'- ' + link(site, 'privacy.html', 'Privacyverklaring'),
 		'- ' + link(site, 'voorwaarden.html', 'Algemene voorwaarden'));
@@ -123,7 +123,7 @@ function kennis(ctx) {
 			if (p.tier === 'A') Object.assign(project, { jaar: p.case.jaar, context: p.case.context, rol: p.case.rol, inHetKort: p.case.kort });
 			return project;
 		}),
-		// Eerst de vragen over JS Design zelf (home), dan die over de pijlers en die over de webshop
+		// Eerst de vragen over JelgersDesign zelf (home), dan die over de pijlers en die over de webshop
 		faq: (site.homeFaq || []).concat(pijlerFaq(ctx)).map(function (item) { return { q: item.q, a: item.a }; }).concat(site.faq || [])
 	};
 }

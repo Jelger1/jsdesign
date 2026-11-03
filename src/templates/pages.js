@@ -204,13 +204,13 @@ function termsPage(ctx, template) {
 const ARCHIEF = [
 	{ slug: 'jelgers3d-voorwaarden-2026-10-21', titel: 'Algemene voorwaarden JelgerS3D (archief)', kicker: 'Archief · jelgers3d.nl',
 		wat: 'de algemene voorwaarden van JelgerS3D zoals ze op jelgers3d.nl stonden', nu: '<a href="../voorwaarden.html">algemene voorwaarden</a>',
-		gold: 'Ze golden tot de overstap naar JS Design, en gelden nog voor bestellingen die je daarvoor plaatste.' },
+		gold: 'Ze golden tot de overstap naar jelgersdesign.nl, en gelden nog voor bestellingen die je daarvoor plaatste.' },
 	{ slug: 'jelgers3d-privacy-2026-10-21', titel: 'Privacyverklaring JelgerS3D (archief)', kicker: 'Archief · jelgers3d.nl',
 		wat: 'de privacyverklaring van jelgers3d.nl', nu: '<a href="../privacy.html">privacyverklaring</a>',
-		gold: 'Hij gold tot de overstap naar JS Design.' },
+		gold: 'Hij gold tot de overstap naar jelgersdesign.nl.' },
 	{ slug: 'jelgersieler-privacy-2026-10-21', titel: 'Privacyverklaring jelgersieler.nl (archief)', kicker: 'Archief · jelgersieler.nl',
 		wat: 'de privacyverklaring van jelgersieler.nl, mijn portfoliosite', nu: '<a href="../privacy.html">privacyverklaring</a>',
-		gold: 'Hij gold tot de overstap naar JS Design.' }
+		gold: 'Hij gold tot de overstap naar jelgersdesign.nl.' }
 ];
 
 function archivePages(ctx, read) {

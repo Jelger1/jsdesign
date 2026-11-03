@@ -131,7 +131,7 @@ function shopPage(ctx) {
 		path: 'webshop.html',
 		root: '',
 		name: 'shop',
-		title: 'Webshop – 3D-geprinte vazen, lampen & cadeaus | ' + site.name,
+		title: 'Webshop: 3D-geprinte vazen, lampen & cadeaus | ' + site.name, // 60 tekens met JelgersDesign
 		description: 'Shop unieke 3D-geprinte designvazen, lampen en Limburgse cadeaus van ' + site.owner + '. Eigen ontwerp, speciaal voor jou geprint in Limburg. Vanaf ' + h.euro(Math.min.apply(null, prices)) + '.',
 		// Een productfoto, net als op de categoriepagina's; de rest van de site deelt het beeld van de studio
 		ogImage: ctx.images[products[0].images[0].file].og,

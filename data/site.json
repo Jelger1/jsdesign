@@ -1,13 +1,15 @@
 {
 	"url": "https://jelgersdesign.nl",
-	"name": "JS Design",
+	"name": "JelgersDesign",
 	"owner": "Jelger Sieler",
 	"slogan": "Branding · Digitaal · Tastbaar",
-	"description": "JS Design is de ontwerpstudio van Jelger Sieler in Kerkrade: branding, websites & interactieve verhalen, en 3D-printen.",
+	"description": "JelgersDesign is de ontwerpstudio van Jelger Sieler in Kerkrade: branding, websites & interactieve verhalen, en 3D-printen.",
 	"formerNames": [
 		"JelgerS3D",
 		"Jelgers3d",
-		"Jelger S3D"
+		"Jelger S3D",
+		"JS Design",
+		"JSdesign"
 	],
 	"email": "sielerjelger@gmail.com",
 	"instagram": "https://www.instagram.com/jsdesign.nl/",
@@ -36,15 +38,15 @@
 	},
 	"legal": {
 		"updated": "2026-10-24",
-		"termsUpdated": "2026-11-02"
+		"termsUpdated": "2026-11-03"
 	},
 	"forms": {
 		"privacyCheckbox": false
 	},
 	"homeFaq": [
 		{
-			"q": "Wat doet JS Design?",
-			"a": "JS Design is de ontwerpstudio van Jelger Sieler in Kerkrade. Ik doe drie dingen: branding (logo’s en huisstijlen), websites en interactieve verhalen, en 3D-printen, van eigen ontwerpen in de webshop tot prototypes en maatwerk. Je kunt dus van begin tot eind bij mij terecht: van je logo en huisstijl tot je website en iets om vast te pakken."
+			"q": "Wat doet JelgersDesign?",
+			"a": "JelgersDesign is de ontwerpstudio van Jelger Sieler in Kerkrade. Ik doe drie dingen: branding (logo’s en huisstijlen), websites en interactieve verhalen, en 3D-printen, van eigen ontwerpen in de webshop tot prototypes en maatwerk. Je kunt dus van begin tot eind bij mij terecht: van je logo en huisstijl tot je website en iets om vast te pakken."
 		},
 		{
 			"q": "Werk je ook voor bedrijven en organisaties?",
@@ -64,11 +66,12 @@
 		},
 		{
 			"q": "Is JelgerS3D gestopt?",
-			"a": "Nee, JelgerS3D heet nu JS Design. Misschien ken je me van de 3D-prints: producten die je kunt vastpakken. Achter de schermen deed ik al meer, zoals logo’s, huisstijlen en websites. Dat staat nu samen onder één naam. De webshop en de printservice blijven gewoon bestaan.",
+			"a": "Nee, JelgerS3D heet nu JelgersDesign. Misschien ken je me van de 3D-prints: producten die je kunt vastpakken. Achter de schermen deed ik al meer, zoals logo’s, huisstijlen en websites. Dat staat nu samen onder één naam. De webshop en de printservice blijven gewoon bestaan.",
 			"logo": true
 		}
 	],
 	"alternateNames": [
-		"JSdesign"
+		"Jelgersdesign",
+		"Jelgers Design"
 	]
 }
