@@ -393,7 +393,7 @@ function buildCatalog(products, images) {
 // Het e-mailadres staat er net als op de pagina's gecodeerd in (zie mailCode in src/templates/helpers.js).
 // De slogan is die van de webshop (shop.json), niet de merkregel van JS Design: de mails gaan over bestellingen.
 // Het logo bovenaan de mails (de functie gebruikt het als winkel.json het noemt; de oude sites hebben alleen het teken)
-const MAIL_LOGO = { beeld: 'assets/mail/logo-js-design.png', breedte: 138, hoogte: 41 };
+const MAIL_LOGO = { beeld: 'assets/mail/logo-js-design.png', breedte: 140, hoogte: 41 };
 
 function buildWinkel(products, images, site, shop) {
 	const a = site.address || {};
