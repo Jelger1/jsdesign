@@ -45,28 +45,31 @@ Bestaat het anker daar niet, dan stuurt `src/js/anker.js` door naar waar die sec
    als 404 op jelgersdesign.nl. Voor Google is dat hetzelfde als weg. Geen van die bestanden staat in `legacy/`, dus er wordt
    niets van geserveerd.
 
-## Eenmalig: de twee projecten aanmaken (Jelger, in het dashboard van Cloudflare)
+## Zo is het ingericht (3 november 2026)
 
-Per site een Pages-project, gekoppeld aan de repo `Jelger1/jsdesign`:
+Cloudflare-account van Jelger (sielerjelger@gmail.com). Claude richtte het in met de `cf`-CLI (zones, DNS, projecten) en
+Wrangler (de upload), beide ingelogd via de browser met Jelgers akkoord.
 
-| Instelling | jelgers3d | jelgersieler |
+| | jelgers3d | jelgersieler |
 |---|---|---|
-| Projectnaam | `jelgers3d-redirect` | `jelgersieler-redirect` |
-| Productiebranch | `main` | `main` |
-| Build-commando | (leeg) | (leeg) |
-| Uitvoermap | `legacy/jelgers3d` | `legacy/jelgersieler` |
-| Build watch paths (alleen deployen bij wijzigingen) | `legacy/jelgers3d/*` | `legacy/jelgersieler/*` |
+| Pages-project | `jelgers3d-redirect` (`jelgers3d-redirect.pages.dev`) | `jelgersieler-redirect` (`jelgersieler-redirect.pages.dev`) |
+| Inhoud | `legacy/jelgers3d` | `legacy/jelgersieler` |
+| Zone (Free) | jelgers3d.nl | jelgersieler.nl |
+| Naamservers | `blair.ns.cloudflare.com`, `glen.ns.cloudflare.com` | idem |
 
-Daarna eerst testen op het platformsubdomein (zie hieronder). Pas als dat groen is, de eigen domeinen koppelen (met en
-zonder `www`) en de DNS van jelgers3d.nl en jelgersieler.nl naar Cloudflare laten wijzen. Dat hoort bij de
-cutover-stappen in het merge-plan (§10.3).
+De projecten zijn **niet** aan GitHub gekoppeld (direct upload): verandert er iets in `legacy/`, dan opnieuw uploaden:
+
+```bash
+npx wrangler pages deploy legacy/jelgers3d --project-name jelgers3d-redirect --branch main
+npx wrangler pages deploy legacy/jelgersieler --project-name jelgersieler-redirect --branch main
+```
 
 ## De overstap (stand 3 november 2026)
 
 Het stappenplan voor Jelger staat als afvinkpagina in claude.ai ("Verhuizing oude domeinen"). De volgorde:
-1. de twee Pages-projecten aanmaken en testen op `*.pages.dev`;
+1. de twee Pages-projecten aanmaken en testen op `*.pages.dev` (gedaan, 3 november: 109 adressen goed);
 2. DNSSEC uit bij One.com en een dag wachten tot de DS-records uit .nl weg zijn;
-3. de domeinen aan Cloudflare toevoegen (Free), de records hieronder controleren, de naamservers bij One.com omzetten;
+3. de domeinen aan Cloudflare toevoegen (Free) met de records hieronder (gedaan, 3 november), de naamservers bij One.com omzetten;
 4. als de zone actief is: de oude A-records en `www` weg, de eigen domeinen (met en zonder `www`) aan het project koppelen,
    Always Use HTTPS aan;
 5. `--echt` testen, daarna in Search Console per oud domein de adreswijziging naar jelgersdesign.nl.

@@ -8,7 +8,7 @@
 // Gebruik:
 //   node tools/test-redirects.mjs --jelgers3d https://jelgers3d-redirect.pages.dev --jelgersieler https://jelgersieler-redirect.pages.dev
 //   node tools/test-redirects.mjs --echt                (na de DNS-wissel: de echte domeinen, ook http:// en www.)
-//   ... --doel https://jelger1.github.io/jsdesign        (de eindstatus 200 controleren op een andere plek)
+//   ... --doel https://jelgersdesign.nl                   (ook de eindstatus op jelgersdesign.nl controleren)
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
@@ -28,7 +28,8 @@ async function hoofd(url) {
 	return fetch(url, { redirect: 'manual', headers: { 'User-Agent': 'jsdesign-test-redirects' } });
 }
 
-async function verwachtRedirect(url, naar) {
+// eind: de status die het doel moet geven (alleen met --doel). Een pad dat nergens bestaat, eindigt bewust als 404.
+async function verwachtRedirect(url, naar, eind) {
 	getest++;
 	let r = await hoofd(url);
 	let plek = r.headers.get('location');
@@ -39,8 +40,8 @@ async function verwachtRedirect(url, naar) {
 	}
 	if (r.status !== 301 || plek !== naar) { fouten.push(url + ' -> ' + r.status + ' ' + (plek || '') + ' (verwacht 301 ' + naar + ')'); return; }
 	if (DOEL) {
-		const eind = await fetch(naar.replace(data.doel, DOEL), { redirect: 'follow' });
-		if (eind.status !== 200) fouten.push(url + ' -> ' + naar + ': het doel geeft ' + eind.status);
+		const r2 = await fetch(naar.replace(data.doel, DOEL), { redirect: 'follow' });
+		if (r2.status !== (eind || 200)) fouten.push(url + ' -> ' + naar + ': het doel geeft ' + r2.status + ' (verwacht ' + (eind || 200) + ')');
 	}
 }
 
@@ -71,7 +72,7 @@ for (const naam of Object.keys(data.sites)) {
 		await verwachtRedirect(base + '/', data.doel + '/');
 		for (const van of Object.keys(site.verplaatst)) await verwachtRedirect(base + van, data.doel + site.verplaatst[van]);
 		await verwachtRedirect(base + '/nieuwsbrief.html?bron=test', data.doel + '/nieuwsbrief.html?bron=test');
-		await verwachtRedirect(base + '/bestaat-niet/ergens.html', data.doel + '/bestaat-niet/ergens.html');
+		await verwachtRedirect(base + '/bestaat-niet/ergens.html', data.doel + '/bestaat-niet/ergens.html', 404);
 		// Bestanden die blijven (over http alleen de redirect naar https, dat regelt Cloudflare zelf)
 		if (https) for (const f of site.bestanden) await verwachtBestand(base + '/' + f, join(ROOT, 'legacy', naam, f), f.startsWith('assets/'));
 	}
