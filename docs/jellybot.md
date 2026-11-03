@@ -68,5 +68,13 @@ Buiten Render accepteert de server ook `localhost`. De regels hebben tests: `npm
 ## De overstap (3 november 2026)
 
 De server hing tot dan aan `Jelger1/Portfolio` (autodeploy, CORS alleen jelgersieler.nl, kennis hardcoded over
-JSdesign en JelgerS3D). Hij is via de Render-API aan deze repo gekoppeld; de URL bleef gelijk en de OpenAI-sleutel
-bleef staan.
+JSdesign en JelgerS3D). Met akkoord van Jelger is hij om 23:57 via de Render-API aan deze repo gekoppeld; de URL bleef
+gelijk en de OpenAI-sleutel bleef staan. Daarna live getest:
+- `/api/health` gaf `klaar: true`;
+- een preflight vanaf jelgersdesign.nl kreeg de juiste CORS-header;
+- zonder herkomst of vanaf jelgersieler.nl kwam er 403;
+- echte vragen werden goed beantwoord: de prijs op de pagina van de mijnwerkerslamp, de printservice, en een poging
+  om de regels te breken werd netjes afgewezen.
+
+De chatknop ging om 00:01 live (5e81012 en ae251dd). Render bouwt sindsdien vanzelf bij een commit in `server/`
+(trigger `new_commit`).
