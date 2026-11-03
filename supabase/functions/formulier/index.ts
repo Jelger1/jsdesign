@@ -21,11 +21,13 @@
 //
 // Instellingen (Supabase > Edge Functions > Secrets):
 //   RESEND_API_KEY   verplicht, de sleutel van resend.com (voor de nieuwsbrief met toegang tot contacten)
-//   MAIL_VAN         afzender, bv. "JelgerS3D <bestellingen@jelgers3d.nl>" (domein moet bij Resend geverifieerd zijn)
-//   MAIL_VAN_PORTFOLIO  optioneel: afzender voor het portfolio (standaard hetzelfde adres met de naam JSdesign)
+//   MAIL_VAN         afzender, standaard "JelgersDesign <bestellingen@jelgersdesign.nl>" (domein moet bij Resend
+//                    geverifieerd zijn; jelgersdesign.nl sinds 3 november 2026, daarvoor jelgers3d.nl)
+//   MAIL_VAN_PORTFOLIO  optioneel: afzender voor het portfolio (standaard hetzelfde adres met de naam JelgersDesign)
 //   MAIL_EIGENAAR    waar Jelger de overzichten wil ontvangen
 //   RESEND_SEGMENT   optioneel: id van het segment voor de nieuwsbrief (anders zoekt of maakt de functie "Nieuwsbrief")
-//   SITE_URL         standaard https://jelgers3d.nl
+//   SITE_URL         standaard https://jelgersdesign.nl (daar leest de functie winkel.json; sinds 3 november 2026,
+//                    na de catalogusdiff: 17 producten en 21 varianten gelijk aan jelgers3d.nl)
 //   ALLOWED_ORIGINS  optioneel: de websites die de functie mogen aanroepen (CORS), kommagescheiden. Vervangt de
 //                    standaardlijst (jelgersdesign.nl, jelgers3d.nl en jelgersieler.nl, elk ook met www, en de preview op
 //                    jelger1.github.io). SITE_URL en lokaal ontwikkelen (localhost, 127.0.0.1) mogen altijd; zie
@@ -41,14 +43,14 @@ import {
 	mailEigenaar, mailKlant, mailNieuwsbrief, mailHerinnering, herkomstLijst, toegestaneHerkomst
 } from './logica.js';
 
-const SITE_URL = (Deno.env.get('SITE_URL') ?? 'https://jelgers3d.nl').replace(/\/$/, '');
-const MAIL_VAN = Deno.env.get('MAIL_VAN') ?? 'JelgerS3D <bestellingen@jelgers3d.nl>';
+const SITE_URL = (Deno.env.get('SITE_URL') ?? 'https://jelgersdesign.nl').replace(/\/$/, '');
+const MAIL_VAN = Deno.env.get('MAIL_VAN') ?? 'JelgersDesign <bestellingen@jelgersdesign.nl>';
 const MAIL_EIGENAAR = Deno.env.get('MAIL_EIGENAAR') ?? '';
 const RESEND_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
 const SERVICE_KEY = geheimeSleutel();
 const FUNCTIE_URL = SUPABASE_URL + '/functions/v1/formulier';
-const PORTFOLIO = { site: 'jelgersieler.nl', naam: 'JSdesign', url: 'https://jelgersieler.nl', slogan: 'Designer · Developer · Maker' };
+const PORTFOLIO = { site: 'jelgersieler.nl', naam: 'JelgersDesign', url: 'https://jelgersieler.nl', slogan: 'Designer · Developer · Maker' };
 const MAIL_VAN_PORTFOLIO = Deno.env.get('MAIL_VAN_PORTFOLIO') ?? MAIL_VAN.replace(/^[^<]*</, PORTFOLIO.naam + ' <');
 const HERKOMST = herkomstLijst(Deno.env.get('ALLOWED_ORIGINS'), SITE_URL); // CORS: ALLOWED_ORIGINS of de standaardlijst, plus SITE_URL
 const LIMIET_IP = 5;            // inzendingen per IP per 10 minuten

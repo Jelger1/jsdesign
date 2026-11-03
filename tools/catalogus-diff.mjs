@@ -3,7 +3,7 @@
 // nieuwe site (dist/js/winkel.json). Pas als ze gelijk zijn, mag SITE_URL naar https://jelgersdesign.nl: vanaf dat moment
 // rekent de functie elke bestelling na met de nieuwe winkel.json.
 // Gelijk moeten zijn: de product-id's, de varianten (id, label en prijs), sale, personalize, wish, mailImage en de
-// uploadregels. In "winkel" mogen alleen naam, url, mail en slogan verschillen.
+// uploadregels. In "winkel" mogen alleen naam, url, mail, slogan, instagram, logo en herroepen verschillen.
 // Gebruik: npm run catalogus-diff [-- <oud> [<nieuw>]]   (een adres of een bestand)
 //   oud    standaard https://jelgers3d.nl/js/winkel.json
 //   nieuw  standaard dist/js/winkel.json (na stap 2 kan ook https://jelgersdesign.nl/js/winkel.json)
@@ -17,7 +17,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUD = process.argv[2] || 'https://jelgers3d.nl/js/winkel.json';
 const NIEUW = process.argv[3] || join(ROOT, 'dist/js/winkel.json');
 // instagram: de handle wisselt bewust mee met de naam (jelgers3d naar jelgersdesign.nl)
-const WINKEL_MAG_VERSCHILLEN = ['naam', 'url', 'mail', 'slogan', 'instagram'];
+// logo en herroepen: alleen de nieuwe site heeft ze (het logo bovenaan de mails, de link naar de herroepknop); ze
+// veranderen niets aan het narekenen van een bestelling
+const WINKEL_MAG_VERSCHILLEN = ['naam', 'url', 'mail', 'slogan', 'instagram', 'logo', 'herroepen'];
 // De overige productvelden: een verschil houdt de poort niet dicht, maar staat er ter info bij (de naam komt ook in
 // de mails, dus kijk die even na)
 const PRODUCT_TER_INFO = ['name', 'url', 'image', 'related'];
@@ -69,7 +71,7 @@ function vergelijk(oud, nieuw) {
 	const verschillen = [], info = [];
 	const pijl = function (a, b) { return (vast(a) || 'ontbreekt') + ' → ' + (vast(b) || 'ontbreekt'); };
 
-	// Bedrijfsgegevens: alleen naam, url, mail en slogan mogen anders zijn (het nieuwe merk en domein)
+	// Bedrijfsgegevens: alleen wat in WINKEL_MAG_VERSCHILLEN staat mag anders zijn (het nieuwe merk en domein)
 	const ow = oud.winkel || {}, nw = nieuw.winkel || {};
 	Array.from(new Set(Object.keys(ow).concat(Object.keys(nw)))).sort().forEach(function (k) {
 		if (vast(ow[k]) === vast(nw[k])) return;
