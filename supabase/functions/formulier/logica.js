@@ -42,15 +42,10 @@ function regel(waarde, max) { return tekst(waarde, max).replace(/\s+/g, ' '); }
 
 // ---------------------------------------------------------------------------------------------- herkomst (CORS)
 
-// Waar de formulieren staan: jelgersdesign.nl, de oude webshop en het oude portfolio (die blijven tijdens de overgang
-// gewoon werken) en de preview op GitHub Pages (jelger1.github.io/jsdesign). Bewust los van SITE_URL: als die
-// straks naar jelgersdesign.nl gaat, blijven de formulieren op de oude domeinen werken.
-export const HERKOMST_STANDAARD = [
-	'https://jelgersdesign.nl', 'https://www.jelgersdesign.nl',
-	'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
-	'https://jelgersieler.nl', 'https://www.jelgersieler.nl',
-	'https://jelger1.github.io'
-];
+// Waar de formulieren staan: alleen jelgersdesign.nl. De oude webshop (jelgers3d.nl), het oude portfolio
+// (jelgersieler.nl) en jelger1.github.io stonden er tijdens de overgang ook in; sinds 3 november 2026 sturen de oude
+// domeinen door naar jelgersdesign.nl, en op jelger1.github.io staan alleen losse projecten zonder formulier.
+export const HERKOMST_STANDAARD = ['https://jelgersdesign.nl', 'https://www.jelgersdesign.nl'];
 
 // Een herkomst is alleen schema, domein en eventueel poort: " https://JSdesign.nl/ " wordt "https://jelgersdesign.nl",
 // en van "https://jelger1.github.io/jsdesign" blijft "https://jelger1.github.io" over. Geen http(s)-adres (een

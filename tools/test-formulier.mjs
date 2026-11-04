@@ -36,17 +36,16 @@ const ok = function (invoer) { const r = controleer(invoer, CATALOGUS); assert.e
 const fout = function (invoer) { const r = controleer(invoer, CATALOGUS); assert.equal(r.ok, false); return r.fout; };
 
 // De standaardlijst, hier bewust nog een keer uitgeschreven: verdwijnt er een domein uit logica.js, dan valt dat op
-const HERKOMSTEN = [
-	'https://jelgersdesign.nl', 'https://www.jelgersdesign.nl', 'https://jelgers3d.nl', 'https://www.jelgers3d.nl',
-	'https://jelgersieler.nl', 'https://www.jelgersieler.nl', 'https://jelger1.github.io'
-];
+const HERKOMSTEN = ['https://jelgersdesign.nl', 'https://www.jelgersdesign.nl'];
 
 test('herkomstLijst: standaardlijst, ALLOWED_ORIGINS en SITE_URL', function () {
-	assert.deepEqual(herkomstLijst(undefined, 'https://jelgers3d.nl'), HERKOMSTEN, 'zonder ALLOWED_ORIGINS de standaardlijst');
-	assert.deepEqual(herkomstLijst(undefined, 'https://jelgersdesign.nl'), HERKOMSTEN, 'SITE_URL omzetten sluit de oude domeinen niet uit');
-	assert.equal(herkomstLijst(undefined, 'https://jelgers3d.nl')[0], 'https://jelgersdesign.nl', 'een vreemde herkomst krijgt de eerste terug');
+	assert.deepEqual(herkomstLijst(undefined, 'https://jelgersdesign.nl'), HERKOMSTEN, 'zonder ALLOWED_ORIGINS de standaardlijst');
+	assert.equal(herkomstLijst(undefined, 'https://jelgersdesign.nl')[0], 'https://jelgersdesign.nl', 'een vreemde herkomst krijgt de eerste terug');
+	for (const oud of ['https://jelgers3d.nl', 'https://jelgersieler.nl', 'https://jelger1.github.io']) {
+		assert.equal(herkomstLijst(undefined, 'https://jelgersdesign.nl').indexOf(oud), -1, 'de oude domeinen sturen door en staan er niet meer in: ' + oud);
+	}
 	for (const leeg of ['', '  ', ' , ,', '*', 'null', null]) {
-		assert.deepEqual(herkomstLijst(leeg, 'https://jelgers3d.nl'), HERKOMSTEN, 'niets bruikbaars telt als niet gezet: ' + JSON.stringify(leeg));
+		assert.deepEqual(herkomstLijst(leeg, 'https://jelgersdesign.nl'), HERKOMSTEN, 'niets bruikbaars telt als niet gezet: ' + JSON.stringify(leeg));
 	}
 
 	// ALLOWED_ORIGINS vervangt de standaardlijst: getrimd, zonder slash aan het eind, en SITE_URL met www komt erbij
@@ -58,20 +57,20 @@ test('herkomstLijst: standaardlijst, ALLOWED_ORIGINS en SITE_URL', function () {
 
 	// SITE_URL komt er altijd bij als hij ontbreekt, ook bij de standaardlijst
 	assert.deepEqual(herkomstLijst(undefined, 'https://nieuw.voorbeeld.nl'), HERKOMSTEN.concat(['https://nieuw.voorbeeld.nl', 'https://www.nieuw.voorbeeld.nl']));
-	assert.deepEqual(herkomstLijst(undefined, 'https://jelgers3d.nl'), HERKOMSTEN, 'de standaardlijst zelf verandert daarbij niet');
+	assert.deepEqual(herkomstLijst(undefined, 'https://jelgersdesign.nl'), HERKOMSTEN, 'de standaardlijst zelf verandert daarbij niet');
 	assert.deepEqual(herkomstLijst('https://a.voorbeeld.nl', 'https://www.jelgersdesign.nl'), ['https://a.voorbeeld.nl', 'https://www.jelgersdesign.nl'], 'geen www.www.');
 	assert.deepEqual(herkomstLijst('https://a.voorbeeld.nl', ''), ['https://a.voorbeeld.nl'], 'zonder SITE_URL niets erbij');
 });
 
 test('toegestaneHerkomst: precies de lijst, plus lokaal ontwikkelen', function () {
-	const lijst = herkomstLijst(undefined, 'https://jelgers3d.nl');
+	const lijst = herkomstLijst(undefined, 'https://jelgersdesign.nl');
 	for (const herkomst of HERKOMSTEN) assert.equal(toegestaneHerkomst(herkomst, lijst), true, herkomst);
 	for (const lokaal of ['http://localhost', 'http://localhost:3000', 'http://127.0.0.1', 'http://127.0.0.1:3000', 'http://127.0.0.1:5173']) {
 		assert.equal(toegestaneHerkomst(lokaal, lijst), true, lokaal);
 	}
 	for (const vreemd of [
 		'https://voorbeeld.nl', 'http://jelgersdesign.nl', 'https://jelgersdesign.nl/', 'https://jelgersdesign.nl.voorbeeld.nl', 'https://nepjsdesign.nl',
-		'https://iemand-anders.github.io', 'https://localhost:3000', 'http://localhost.voorbeeld.nl', 'http://127.0.0.1.voorbeeld.nl',
+		'https://iemand-anders.github.io', 'https://jelger1.github.io', 'https://jelgers3d.nl', 'https://jelgersieler.nl', 'https://localhost:3000', 'http://localhost.voorbeeld.nl', 'http://127.0.0.1.voorbeeld.nl',
 		'http://localhost:3000/pad', 'null', '', null, undefined
 	]) {
 		assert.equal(toegestaneHerkomst(vreemd, lijst), false, String(vreemd));

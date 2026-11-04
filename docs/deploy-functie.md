@@ -218,23 +218,20 @@ npx supabase@2 functions deploy formulier --project-ref kgxhefdzufhmigbmchhk --u
 
 De lijst staat in `herkomstLijst` en `toegestaneHerkomst` (`logica.js`), met tests in `tools/test-formulier.mjs`.
 
-**De standaardlijst** (zonder secret):
-- `https://jelgersdesign.nl` en `https://www.jelgersdesign.nl`;
-- `https://jelgers3d.nl` en `https://www.jelgers3d.nl`;
-- `https://jelgersieler.nl` en `https://www.jelgersieler.nl`;
-- `https://jelger1.github.io`. Dat is de preview, maar het geldt ook voor de andere Pages-sites van jelger1.
+**De standaardlijst** (zonder secret): alleen `https://jelgersdesign.nl` en `https://www.jelgersdesign.nl`.
+Tot en met versie 21 stonden de oude domeinen (jelgers3d.nl, jelgersieler.nl, met www) en `https://jelger1.github.io`
+er ook in. Sinds de overstap van 3 november 2026 sturen de oude domeinen door, dus vanaf versie 22 zijn ze eruit.
 
 **Altijd toegestaan:**
 - `SITE_URL` en de www-variant ervan;
 - `http://localhost` en `http://127.0.0.1`, met elke poort (lokaal ontwikkelen).
 
-**Los van `SITE_URL`.** De wissel in cutover-stap 4 sluit de oude domeinen dus niet uit.
+**Los van `SITE_URL`.** De lijst verandert niet als `SITE_URL` verandert.
 
 **De secret `ALLOWED_ORIGINS`** (kommagescheiden) **vervangt** de standaardlijst.
 - **Advies: niet zetten.** De lijst in de code is getest. Het plan noemt de secret bij fase 2, maar met deze
   standaardlijst is hij niet nodig.
-- Zet je hem toch, neem dan **alle** herkomsten op waar nog formulieren staan. Dus zolang het oude portfolio live is,
-  ook `jelgersieler.nl` met www.
+- Zet je hem toch, neem dan **alle** herkomsten op waar formulieren staan.
 - Noteer alleen schema en domein (en eventueel een poort), zonder pad: `https://jelger1.github.io`, niet
   `https://jelger1.github.io/jsdesign`.
 - De code vangt slordigheid op:
