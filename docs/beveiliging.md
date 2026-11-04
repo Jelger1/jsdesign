@@ -18,7 +18,7 @@ Waar het kon, is het die dag gecontroleerd.
 | 10 | Veilige databasequery's | in orde | Via de Supabase-client, nooit losse SQL met invoer. |
 | 11 | Configuratie | in orde | Op de site staan alleen URL's en de GTM- en GA-ID's. `.env` staat buiten de repo en in `.gitignore`. |
 | 12 | Limieten | in orde | Formulier: 5 per IP per 10 minuten, 5 per e-mailadres per dag, uploads 10 per IP per 10 minuten en 100 per dag. Jelly-bot: 12 per minuut en 120 per dag per IP, 1500 per dag in totaal. |
-| 13 | CORS | deels | Jelly-bot: alleen jelgersdesign.nl. Formulier: klaar (tag `formulier-2026-11-04`), nog uit te rollen (`docs/deploy-functie.md`). |
+| 13 | CORS | in orde | Jelly-bot en het formulier (vanaf versie 22, 4 november) laten alleen jelgersdesign.nl toe. |
 | 14 | Beveiligingsheaders | deels | Sinds 4 november een CSP per pagina als meta-tag (`src/templates/csp.js`). HSTS, `frame-ancestors` en `nosniff` kunnen niet op GitHub Pages: alleen als jelgersdesign.nl via Cloudflare gaat (**beslissing**). |
 | 15 | Sessiecookies | n.v.t. | Geen eigen cookies; die van Google pas na toestemming. |
 | 16 | CSRF | n.v.t. | Geen ingelogde sessies. |

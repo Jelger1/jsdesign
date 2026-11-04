@@ -312,15 +312,16 @@ geen secrets voor `SITE_URL` en `MAIL_VAN`, dus de code bepaalt ze.
   (bevestiging en melding) staan in Resend als delivered, met afzender `bestellingen@jelgersdesign.nl`.
 - **Terugdraaien:** naar `formulier-2026-11-02` (v20). Dan mailt de functie weer als JelgerS3D vanaf jelgers3d.nl.
 
-## Klaar 4 november 2026: alleen jelgersdesign.nl als herkomst (nog niet uitgerold)
+## Deploy 4 november 2026: alleen jelgersdesign.nl als herkomst
 
-**Stand:** tag `formulier-2026-11-04` (commit 2a9703e) staat klaar en is gepusht. Live draait nog versie 21. Het
-uitrollen vanuit een sessie met Claude werd deze keer geblokkeerd door de automatische beveiliging van die sessie;
-Jelger rolt het zelf uit, of geeft daar uitdrukkelijk akkoord voor.
+**Uitgevoerd:** tag `formulier-2026-11-04` (commit 2a9703e), versie 22, met uitdrukkelijk akkoord van Jelger (de
+eerste poging zonder dat akkoord werd door de automatische beveiliging van de sessie met Claude tegengehouden).
 - **Wat verandert:** alleen de standaardlijst in `logica.js`. De oude domeinen en `https://jelger1.github.io` gaan
   eruit; ze sturen sinds 3 november door. De tests zijn bijgewerkt (29 groen).
 - **Nulmeting (4 november, vóór de deploy):** a gaf 405. Bij b kregen jelgersdesign.nl, jelger1.github.io,
   jelgers3d.nl en jelgersieler.nl elk hun eigen herkomst terug; een vreemde herkomst kreeg `https://jelgersdesign.nl`.
-- **Na de deploy verwacht:** a gaf 405. Bij b krijgt alleen jelgersdesign.nl zichzelf terug; de oude domeinen en
-  jelger1.github.io krijgen `https://jelgersdesign.nl`.
+- **Na de deploy (groen):** a gaf 405. Bij b kreeg alleen jelgersdesign.nl zichzelf terug; de oude domeinen en
+  jelger1.github.io kregen `https://jelgersdesign.nl`. `verify_jwt` staat nog steeds uit.
+- **Eind-tot-eind:** Jelger verstuurt het contactformulier via de chatknop "Stuur je vraag naar Jelger"; daarna de
+  Resend-logs nakijken.
 - **Terugdraaien:** naar `formulier-2026-11-03` (v21).
