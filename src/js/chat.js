@@ -5,7 +5,7 @@
 // opent: wie de chat niet gebruikt, maakt ook geen verbinding met de server (zo staat het in de privacyverklaring).
 // Links in een antwoord heeft de server al nagekeken (alleen adressen van de site en uit de kennisbank); links naar
 // de site zelf openen in hetzelfde tabblad, met de paginaovergang, andere in een nieuw tabblad.
-import { esc } from './util.js';
+import { esc, track } from './util.js';
 
 const ENDPOINT = (document.documentElement.dataset.chat || '').replace(/\/+$/, '');
 const OPSLAG = 'jd-chat-v1';
@@ -201,7 +201,10 @@ export function initChat() {
 		}
 	}
 
-	knop.addEventListener('click', function () { zet(venster.hidden, true); });
+	knop.addEventListener('click', function () {
+		if (venster.hidden) track('chat_open', {}); // alleen een klik van de bezoeker, niet het heropenen na doorklikken
+		zet(venster.hidden, true);
+	});
 	knop.addEventListener('pointerenter', wek);
 	knop.addEventListener('focus', wek);
 	chat.querySelector('[data-chat-sluit]').addEventListener('click', function () { zet(false, true); });
@@ -222,17 +225,17 @@ export function initChat() {
 		if (e.target.closest('[data-chat-link]') && klein.matches) { gesprek.open = false; bewaar(); }
 	});
 	// Naar het contactformulier: de chat dicht, zodat hij het formulier niet afdekt
-	mens.addEventListener('click', function () { gesprek.open = false; bewaar(); });
+	mens.addEventListener('click', function () { track('chat_naar_jelger', {}); gesprek.open = false; bewaar(); });
 	tipsEl.addEventListener('click', function (e) {
 		const tip = e.target.closest('.chat-tip');
-		if (tip) vraag(tip.textContent);
+		if (tip) vraag(tip.textContent, 'tip');
 	});
 	form.addEventListener('submit', function (e) {
 		e.preventDefault();
 		const tekst = invoer.value.trim();
 		if (!tekst || bezig) return;
 		invoer.value = '';
-		vraag(tekst);
+		vraag(tekst, 'typen');
 	});
 
 	/* ---------- Vragen ---------- */
@@ -268,9 +271,11 @@ export function initChat() {
 		}
 	}
 
-	async function vraag(tekst) {
+	// via: 'tip' (een voorbeeldvraag) of 'typen'. Gemeten wordt alleen dát er een vraag was, nooit de vraag zelf.
+	async function vraag(tekst, via) {
 		if (bezig) return;
 		bezig = true;
+		track('chat_vraag', { via: via });
 		log.setAttribute('aria-busy', 'true');
 		gesprek.berichten.push({ role: 'user', content: tekst.slice(0, 1000) });
 		bewaar();

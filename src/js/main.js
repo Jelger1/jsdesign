@@ -26,6 +26,7 @@ import { initVoorbeeld } from './voorbeeld.js';
 import { initHerroep } from './herroep.js';
 import { initAnker } from './anker.js';
 import { initChat } from './chat.js';
+import { initMeten } from './meten.js';
 
 const page = document.body.dataset.page;
 
@@ -55,4 +56,5 @@ initOnthul(); // sectiekoppen en beelden onder de vouw: woord voor woord scherp 
 initVoorbeeld(); // het beeld naast de muis bij de bewijsregels (Uit de praktijk); alleen met een muis
 initKijk(); // het kijklabel bij de muis boven projectbeelden en productfoto's; na de winkel en de rails, die de kaarten neerzetten
 initChat(); // Jelly-bot rechtsonder, op elke pagina behalve afrekenen
+initMeten(); // klikken naar het contactformulier (de rest meten de onderdelen zelf, zie docs/meten.md)
 initTransition(); // als laatste: andere klik-afhandelingen gaan voor
