@@ -98,7 +98,10 @@ let dag = new Date().toDateString();
 function limiet(req, res, next) {
 	const nu = Date.now();
 	const vandaag = new Date().toDateString();
-	if (vandaag !== dag) { dag = vandaag; totaal = 0; tellers.clear(); }
+	if (vandaag !== dag) {
+		if (totaal) console.log('Dagtotaal ' + dag + ': ' + totaal + ' vragen van ' + tellers.size + ' bezoekers');
+		dag = vandaag; totaal = 0; tellers.clear();
+	}
 	const ip = req.ip || 'onbekend';
 	let t = tellers.get(ip);
 	if (!t) { t = { minuut: 0, minuutStart: nu, dag: 0 }; tellers.set(ip, t); }
@@ -126,12 +129,21 @@ app.post('/api/chat', function (req, res, next) {
 	next();
 }, limiet, async function (req, res) {
 	if (!OPENAI_API_KEY) return res.status(503).json({ error: 'Jelly-bot is nog niet klaar. Stuur Jelger een bericht via de contactpagina.' });
-	const berichten = L.schoonBerichten(req.body && req.body.messages);
-	if (!berichten) return res.status(400).json({ error: 'Ongeldig verzoek.' });
+	const schoon = L.schoonBerichten(req.body && req.body.messages);
+	if (!schoon) return res.status(400).json({ error: 'Ongeldig verzoek.' });
+	let verborgen = 0;
+	const berichten = schoon.map(function (b) {
+		if (b.role !== 'user') return b;
+		const v = L.verberg(b.content);
+		verborgen += v.aantal;
+		return { role: b.role, content: v.tekst };
+	});
 	const k = await verseKennis();
 	if (!k) return res.status(503).json({ error: 'Jelly-bot kan even niet bij zijn kennis. Probeer het zo opnieuw, of kijk op de contactpagina.' });
 
-	const prompt = L.bouwPrompt(k.data, { site: SITE, datum: k.datum, pagina: L.paginaUrl(req.body.pagina, SITE, k.links) });
+	const pagina = L.paginaUrl(req.body.pagina, SITE, k.links);
+	const prompt = L.bouwPrompt(k.data, { site: SITE, datum: k.datum, pagina: pagina });
+	const start = Date.now();
 	try {
 		const r = await fetch(OPENAI_BASE_URL + '/chat/completions', {
 			method: 'POST',
@@ -155,9 +167,13 @@ app.post('/api/chat', function (req, res, next) {
 		const data = await r.json();
 		const ruw = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
 		if (!ruw || !ruw.trim()) return res.status(502).json({ error: 'Sorry, ik kon geen antwoord bedenken. Probeer je vraag anders te stellen.' });
-		const schoon = L.filterLinks(ruw.trim(), k.links);
-		if (schoon.weg) console.log('Links uit een antwoord gehaald: ' + schoon.weg);
-		res.json({ reply: schoon.tekst });
+		const gefilterd = L.filterLinks(ruw.trim(), k.links);
+		// Meten zonder mee te lezen: alleen kosten, tijd en de pagina, nooit wat er gevraagd of geantwoord is
+		const u = data.usage || {};
+		console.log('Antwoord: ' + (u.prompt_tokens || '?') + ' tokens in (' + ((u.prompt_tokens_details && u.prompt_tokens_details.cached_tokens) || 0) + ' uit cache), '
+			+ (u.completion_tokens || '?') + ' uit, ' + (Date.now() - start) + ' ms, ' + berichten.length + ' berichten, pagina ' + (pagina ? pagina.replace(SITE, '') : '-')
+			+ (gefilterd.weg ? ', ' + gefilterd.weg + ' link(s) weggehaald' : '') + (verborgen ? ', ' + verborgen + ' persoonsgegeven(s) verborgen' : ''));
+		res.json({ reply: gefilterd.tekst });
 	} catch (e) {
 		if (e.name === 'TimeoutError' || e.name === 'AbortError') {
 			console.error('OpenAI reageerde niet binnen ' + OPENAI_TIMEOUT_MS / 1000 + ' s');

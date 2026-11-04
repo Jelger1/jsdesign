@@ -35,6 +35,15 @@ test('berichten: alleen user en assistant, het laatste van de bezoeker, ingekort
 	assert.equal(L.schoonBerichten(lang).length, L.MAX_BERICHTEN);
 });
 
+test('persoonsgegevens: e-mail, telefoon en IBAN eruit, bedragen en ordernummers blijven', function () {
+	const r = L.verberg('Mail jan.jansen@gmail.com, bel 06-12345678 of +31 6 1234 5678, (045) 5431234; IBAN NL91 ABNA 0417 1643 00');
+	assert.equal(r.aantal, 5);
+	assert.equal(r.tekst, 'Mail [e-mailadres], bel [telefoonnummer] of [telefoonnummer], [telefoonnummer]; IBAN [rekeningnummer]');
+	['De vaas kost €34,95 en de lamp 49,95', 'Bestelling JS3D-2026-0012 van 04-11-2026', 'Kan het 0,5 mm dikker?', 'Postcode 6461 JH, 2 stuks'].forEach(function (t) {
+		assert.deepEqual(L.verberg(t), { tekst: t, aantal: 0 }, t);
+	});
+});
+
 test('herkomst: alleen de site, localhost alleen buiten Render', function () {
 	const lijst = [SITE, 'https://www.jelgersdesign.nl'];
 	assert.equal(L.herkomstToegestaan(SITE, lijst, false), true);
@@ -76,6 +85,8 @@ test('prompt: persona, regels, pagina en de kennisbank', function () {
 	assert.match(p, /Noem geen e-mailadres/);
 	assert.match(p, /bekijkt nu https:\/\/jelgersdesign\.nl\/contact\.html/);
 	assert.ok(p.includes(JSON.stringify(KENNIS)), 'de hele kennisbank zit erin');
+	const zonder = L.bouwPrompt(KENNIS, { site: SITE, datum: '3 november 2026' });
+	assert.ok(p.startsWith(zonder), 'de pagina staat achteraan: het begin is voor elke vraag gelijk (cache van OpenAI)');
 	assert.doesNotMatch(L.bouwPrompt(KENNIS, { site: SITE, datum: 'x' }), /bekijkt nu/);
 	const product = KENNIS.webshop.producten[0];
 	assert.ok(L.bouwPrompt(KENNIS, { site: SITE, datum: 'x', pagina: product.url }).includes('de productpagina van ' + product.naam), 'op een productpagina: naam (en prijs) erbij');
