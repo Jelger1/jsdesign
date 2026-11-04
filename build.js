@@ -636,6 +636,11 @@ async function build() {
 		fs.copyFileSync(path.join(ROOT, 'assets', f), path.join(DIST, 'assets', f));
 	});
 	await buildBrandImages();
+	// Plaatjes voor nieuwsbrieven (gemaakt door tools/nieuwsbrief-beelden.mjs): mails die al verstuurd zijn, laden ze van
+	// de site, dus deze blijven staan
+	if (fs.existsSync(path.join(ROOT, 'assets/nieuwsbrief'))) {
+		fs.cpSync(path.join(ROOT, 'assets/nieuwsbrief'), path.join(DIST, 'assets/nieuwsbrief'), { recursive: true });
+	}
 
 	// Video's worden niet door de build gecomprimeerd (daar is ffmpeg voor nodig): "npm run video" maakt de
 	// webversie in assets/video/, hier gaat alleen de kopie naar dist/
