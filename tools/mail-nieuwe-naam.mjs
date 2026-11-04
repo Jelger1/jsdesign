@@ -34,9 +34,11 @@ function vanafPrijs(p) { return Math.min.apply(null, p.variants.map((v) => v.pri
 function pijler(id) { const p = pijlers.find((x) => x.id === id); if (!p) throw new Error('Geen pijler ' + id); return p; }
 function datumNl(iso) { return new Date(iso + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }); }
 
-// Elke link krijgt UTM-tags, zodat je in GA4 ziet wat de mail opleverde (alleen bij bezoekers met toestemming)
+// Elke link krijgt UTM-tags, zodat je in GA4 ziet wat de mail opleverde (alleen bij bezoekers met toestemming).
+// BRON: nieuwsbrief of klantmail, gezet per variant (zie onderaan)
+let BRON = 'nieuwsbrief';
 function u(pad, inhoud) {
-	return URL + '/' + pad + (pad.includes('?') ? '&' : '?') + 'utm_source=nieuwsbrief&utm_medium=email&utm_campaign=' + CAMPAGNE + '&utm_content=' + inhoud;
+	return URL + '/' + pad + (pad.includes('?') ? '&' : '?') + 'utm_source=' + BRON + '&utm_medium=email&utm_campaign=' + CAMPAGNE + '&utm_content=' + inhoud;
 }
 
 // Bouwstenen
@@ -182,6 +184,8 @@ function afsluiting(variant) {
 	return '<h2 style="margin:0 0 12px 0;font:800 28px/1.15 ' + KOP + ';color:' + K.donker + '">Iets moois maken?</h2>'
 		+ '<p style="margin:0 0 22px 0">Heb je een idee voor een logo, een website of iets wat je geprint wilt hebben? Antwoord gewoon op deze mail. Ik lees alles zelf.</p>'
 		+ knop(u('', 'afsluiting'), 'Bekijk jelgersdesign.nl', K.donker, K.licht)
+		+ (variant.inschrijven ? '<p style="margin:22px 0 0 0;font:15px/1.6 ' + LETTER + '">Wil je voortaan als eerste horen over nieuwe ontwerpen? '
+			+ '<a href="' + esc(u('nieuwsbrief.html', 'inschrijven')) + '" style="color:' + K.link + ';font-weight:700">Schrijf je in voor de nieuwsbrief</a>.</p>' : '')
 		+ '<p style="margin:28px 0 0 0">Groet,</p>'
 		+ '<p style="margin:2px 0 0 0;font:800 24px/1.2 ' + KOP + ';color:' + K.donker + '">Jelger</p>'
 		+ '<p style="margin:2px 0 0 0;font:14px/1.5 ' + LETTER + ';color:' + K.gedempt + '">Jelger Sieler · ' + esc(site.name) + ', Kerkrade</p>';
@@ -258,6 +262,7 @@ function tekstversie(variant) {
 		'Nieuw op de site: Jelly-bot, mijn AI-assistent. Je vindt hem rechtsonder op ' + URL,
 		'',
 		'Heb je een idee voor een logo, een website of iets wat je geprint wilt hebben? Antwoord gewoon op deze mail. Ik lees alles zelf.',
+		...(variant.inschrijven ? ['', 'Wil je voortaan als eerste horen over nieuwe ontwerpen? Schrijf je in voor de nieuwsbrief: ' + u('nieuwsbrief.html', 'inschrijven')] : []),
 		'',
 		'Groet,',
 		'Jelger',
@@ -286,9 +291,31 @@ const NIEUWSBRIEF = {
 	voetTekst: 'Je krijgt deze mail omdat je je hebt aangemeld voor de nieuwsbrief. Afmelden: {{{RESEND_UNSUBSCRIBE_URL}}}'
 };
 
+// Voor bestaande klanten: Jelger stuurt hem zelf, per klant, vanuit Gmail (pagina openen, alles kopiëren, plakken).
+// Geen lijst en geen afmeldlink, wel een uitnodiging voor de nieuwsbrief en een duidelijke manier om nee te zeggen.
+// [naam] vervangt hij per klant.
+const KLANTEN = {
+	bestand: 'klanten-nieuwe-naam',
+	bron: 'klantmail',
+	inschrijven: true,
+	onderwerp: 'JelgerS3D heet nu JelgersDesign',
+	preheader: 'Een nieuwe naam, meer dan 3D-printen, en nieuw in de webshop.',
+	datumregel: 'November 2026',
+	persoonlijk: {
+		kop: 'Hoi [naam],',
+		alineas: [
+			'Je hebt ooit iets bij me gekocht of laten maken toen ik nog JelgerS3D heette. Daarvoor nog steeds bedankt! Ik laat je graag even weten dat mijn bedrijf een nieuwe naam heeft.',
+			'Ik blijf gewoon 3D-printen, laag voor laag in Kerkrade. Alles staat nu op <strong>jelgersdesign.nl</strong>, en het oude adres stuurt je daar vanzelf naartoe.'
+		]
+	},
+	voet: () => 'Je krijgt deze mail van mij persoonlijk, omdat je ooit klant bij me was. Je staat niet op een mailinglijst. Liever geen mail meer van me? Antwoord met “nee bedankt”, dan hoor je niets meer van me.',
+	voetTekst: 'Je krijgt deze mail van mij persoonlijk, omdat je ooit klant bij me was. Je staat niet op een mailinglijst. Liever geen mail meer van me? Antwoord met "nee bedankt", dan hoor je niets meer van me.'
+};
+
 const uit = path.join(ROOT, 'docs/mails');
 fs.mkdirSync(uit, { recursive: true });
-for (const v of [NIEUWSBRIEF]) {
+for (const v of [NIEUWSBRIEF, KLANTEN]) {
+	BRON = v.bron || 'nieuwsbrief';
 	const html = mail(v);
 	fs.writeFileSync(path.join(uit, v.bestand + '.html'), html);
 	fs.writeFileSync(path.join(uit, v.bestand + '.txt'), tekstversie(v));
