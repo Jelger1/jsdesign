@@ -33,6 +33,12 @@ function tips() {
 	return ['Wat doet JelgersDesign?', 'Kan ik mijn eigen 3D-bestand laten printen?', 'Hoe begin ik?'];
 }
 
+// De vragen die de bezoeker in de chat stelde (voor het contactformulier, als hij doorklikt met "Stuur je vraag naar
+// Jelger": forms.js zet ze alvast in het berichtveld, waar hij ze kan aanpassen voor hij verstuurt)
+export function chatVragen() {
+	return lees().berichten.filter(function (b) { return b.role === 'user'; }).map(function (b) { return b.content; });
+}
+
 function lees() {
 	try {
 		const g = JSON.parse(sessionStorage.getItem(OPSLAG));
@@ -54,6 +60,8 @@ export function initChat() {
 	}
 	const root = document.body.dataset.root || '';
 	const avatar = root + 'assets/brand/jelly-bot-192.webp';
+	const pijler = document.body.dataset.pillar;
+	const naarJelger = root + 'contact.html?bron=jellybot' + (pijler ? '&onderwerp=' + encodeURIComponent(pijler) : '');
 	const welkom = 'Hoi! Ik ben **Jelly-bot**, de AI-assistent van ' + naam + '. Vraag me gerust iets over branding, websites, 3D-prints of de webshop.';
 
 	const chat = document.createElement('div');
@@ -69,6 +77,7 @@ export function initChat() {
 		+ '<div class="chat-log" aria-label="Gesprek met Jelly-bot" tabindex="0"></div>'
 		+ '<div class="chat-tips"></div>'
 		+ '<p class="chat-status" role="status"></p>'
+		+ '<a class="chat-mens" href="' + esc(naarJelger) + '" hidden>Liever een mens? <strong>Stuur je vraag naar Jelger</strong></a>'
 		+ '<p class="sr-only" aria-live="polite" data-chat-voorlezen></p>'
 		+ '<form class="chat-invoer" novalidate>'
 		+ '<label class="sr-only" for="chat-vraag">Je vraag aan Jelly-bot</label>'
@@ -88,6 +97,7 @@ export function initChat() {
 	const knopTekst = chat.querySelector('.chat-knop-tekst');
 	const log = chat.querySelector('.chat-log');
 	const tipsEl = chat.querySelector('.chat-tips');
+	const mens = chat.querySelector('.chat-mens');
 	const status = chat.querySelector('.chat-status');
 	const voorlezen = chat.querySelector('[data-chat-voorlezen]');
 	const form = chat.querySelector('.chat-invoer');
@@ -158,11 +168,13 @@ export function initChat() {
 		return el;
 	}
 
+	// Bij een leeg gesprek de voorbeeldvragen, daarna de weg naar Jelger zelf
 	function toonTips() {
 		tipsEl.innerHTML = gesprek.berichten.length ? '' : tips().map(function (t) {
 			return '<button type="button" class="chat-tip">' + esc(t) + '</button>';
 		}).join('');
 		tipsEl.hidden = !tipsEl.firstChild;
+		mens.hidden = !gesprek.berichten.length;
 	}
 
 	function begin() {
@@ -209,6 +221,8 @@ export function initChat() {
 	log.addEventListener('click', function (e) {
 		if (e.target.closest('[data-chat-link]') && klein.matches) { gesprek.open = false; bewaar(); }
 	});
+	// Naar het contactformulier: de chat dicht, zodat hij het formulier niet afdekt
+	mens.addEventListener('click', function () { gesprek.open = false; bewaar(); });
 	tipsEl.addEventListener('click', function (e) {
 		const tip = e.target.closest('.chat-tip');
 		if (tip) vraag(tip.textContent);

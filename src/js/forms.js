@@ -2,6 +2,7 @@
 // het veld, het veld krijgt aria-invalid en de focus gaat naar het eerste veld dat niet klopt.
 import { verstuur, track } from './util.js';
 import { validateForm, watchForm } from './validate.js';
+import { chatVragen } from './chat.js';
 
 export function initForms() {
 	const form = document.getElementById('contact-form');
@@ -13,9 +14,16 @@ export function initForms() {
 	watchForm(form);
 
 	// contact.html?onderwerp=branding (de knoppen op de pijlerpagina's): het onderwerp staat dan al goed
-	const gekozen = new URLSearchParams(location.search).get('onderwerp');
+	const params = new URLSearchParams(location.search);
+	const gekozen = params.get('onderwerp');
 	const onderwerp = form.elements.onderwerp;
 	if (onderwerp && gekozen && Array.prototype.some.call(onderwerp.options, function (o) { return o.value === gekozen; })) onderwerp.value = gekozen;
+	// contact.html?bron=jellybot ("Stuur je vraag naar Jelger" in de chat): de vragen uit de chat alvast in het
+	// berichtveld, zodat de bezoeker niet opnieuw hoeft te typen. Hij ziet en past ze aan voor hij verstuurt.
+	const vragen = params.get('bron') === 'jellybot' ? chatVragen().slice(-5) : [];
+	if (vragen.length && !form.elements.message.value) {
+		form.elements.message.value = ('Mijn vraag aan Jelly-bot:\n' + vragen.map(function (v) { return '- ' + v; }).join('\n')).slice(0, 2000) + '\n\n';
+	}
 
 	function say(text, ok) {
 		message.textContent = text;

@@ -19,6 +19,7 @@ const { casePage, caseImages, caseCover, caseTitel, hoofdstukAnker } = require('
 const discovery = require('./src/templates/discovery');
 const sitemap = require('./src/templates/sitemap');
 const koppen = require('./src/templates/koppen');
+const csp = require('./src/templates/csp');
 const h = require('./src/templates/helpers');
 
 const ROOT = __dirname;
@@ -692,7 +693,7 @@ async function build() {
 	pages.forEach(function (page) {
 		if (seen.has(page.path)) throw new Error('Twee pagina\'s met hetzelfde pad: ' + page.path);
 		seen.add(page.path);
-		write(page.path, koppen(layout(page, ctx))); // de koppen woord voor woord (blur-reveal, src/templates/koppen.js)
+		write(page.path, csp(koppen(layout(page, ctx)))); // de koppen woord voor woord (blur-reveal, src/templates/koppen.js), dan de CSP (src/templates/csp.js)
 	});
 
 	// 6. Voor zoekmachines en AI-assistenten: de sitemap (een index met delen), robots.txt, llms.txt en de kennisbank
