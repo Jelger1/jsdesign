@@ -27,7 +27,38 @@ src/js/chat.js  →  Render: jellybot-backend (map server/ van deze repo)  →  
 - Per IP-adres 12 vragen per minuut en 120 per dag; alle bezoekers samen 1500 per dag (`DAGLIMIET`). Dit staat in het
   werkgeheugen en begint na een herstart opnieuw.
 - **Zet een maandlimiet in het OpenAI-dashboard** (Settings > Limits). Dat is de echte grens. Een vraag kost ongeveer
-  7.000 tokens aan invoer (vooral de kennisbank), met gpt-4o-mini een tiende cent.
+  6.700 tokens aan invoer (vooral de kennisbank), met gpt-4o-mini een tiende cent.
+- **Cache:** de prompt begint voor elke vraag hetzelfde (persona, regels, kennisbank); de pagina van de bezoeker staat
+  achteraan. OpenAI haalt het vaste deel dan uit zijn cache: op 4 november 6.656 van de 6.700 tokens, tegen half tarief,
+  en een antwoord in ongeveer 1 seconde in plaats van 2,4. Zet dus nooit iets wat per vraag verschilt vóór de
+  kennisbank.
+
+## Persoonsgegevens, meten en de weg naar Jelger
+
+- **Persoonsgegevens:** e-mailadressen, telefoonnummers en IBANs in een vraag vervangt de server door
+  `[e-mailadres]` enzovoort voordat er iets naar OpenAI gaat (`verberg` in `server/logica.js`, met tests). Bedragen,
+  datums, postcodes en ordernummers blijven staan.
+- **Meten zonder mee te lezen:** per antwoord één logregel in Render (Logs): tokens in, waarvan uit de cache, tokens
+  uit, tijd, aantal berichten, de pagina en of er links of persoonsgegevens zijn weggehaald. Nooit de vraag of het
+  antwoord. Bij de wisseling van de dag een regel met het dagtotaal.
+- **Stuur je vraag naar Jelger:** na de eerste vraag verschijnt in de chat de knop "Liever een mens?". Die opent het
+  contactformulier met het onderwerp van de pijler en de vragen uit de chat al in het berichtveld (`chatVragen` in
+  `src/js/chat.js`, gelezen door `src/js/forms.js`). De bezoeker ziet en verstuurt het zelf.
+
+## Testvragen voor elke wijziging
+
+`node tools/eval-jellybot.mjs` stelt 12 echte vragen aan de live server en controleert de antwoorden:
+- hij noemt zichzelf Jelly-bot en nooit ChatGPT, en zegt dat hij een AI is;
+- de prijs op een productpagina klopt; voor maatwerk noemt hij geen prijs;
+- hij geeft geen e-mailadres, en weigert vragen buiten het onderwerp, pogingen om de regels te breken en een nep-antwoord
+  in de geschiedenis;
+- een Engelse vraag krijgt een Engels antwoord;
+- alle links gaan naar de site of naar adressen uit de kennisbank.
+
+Draai het voor en na elke wijziging aan de prompt (`server/logica.js`), het model (`OPENAI_MODEL`) of de opbouw van de
+kennisbank. Een lokale server test je met `node tools/eval-jellybot.mjs http://localhost:3000`. Kost ongeveer een cent.
+Op 4 november: 12 van de 12 goed. De eerste ronde vond een echte fout: op een Engelse vraag antwoordde hij in het
+Nederlands. De taalregel staat sindsdien ook achter de kennisbank.
 
 ## Instellingen op Render (Environment)
 
