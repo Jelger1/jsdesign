@@ -42,7 +42,8 @@ async function producten() {
 // Het blokje uit de huisstijl (--js-blok in tokens.css) in de drie pijlerkleuren, voor de diensten
 const BLOK = '100,43.5 50.3,100 0,56.5 49.7,0';
 async function blokjes() {
-	for (const [naam, kleur] of [['branding', '#f10067'], ['digitaal', '#03bcca'], ['tastbaar', '#f3fffd']]) {
+	// donker: voor de opsomming in het aqua aanmeldblok van de klantmail
+	for (const [naam, kleur] of [['branding', '#f10067'], ['digitaal', '#03bcca'], ['tastbaar', '#f3fffd'], ['donker', '#080a0d']]) {
 		const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><polygon points="' + BLOK + '" fill="' + kleur + '"/></svg>';
 		await sharp(Buffer.from(svg)).resize(56, 56).png({ compressionLevel: 9 }).toFile(path.join(UIT, 'blok-' + naam + '.png'));
 	}
