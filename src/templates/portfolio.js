@@ -133,7 +133,6 @@ function portfolioPage(ctx) {
 		main: '<div class="container portfolio-page">\n'
 			+ '\t' + c.breadcrumbs(crumbs) + '\n'
 			+ '\t<header class="portfolio-head">\n'
-			+ '\t\t<p class="kicker">Werk</p>\n'
 			+ '\t\t<h1>Portfolio</h1>\n'
 			+ '\t\t<p class="portfolio-intro">Een selectie van mijn werk: websites, interactieve verhalen, branding en 3D. Bij de uitgelichte projecten vertel ik hoe ze tot stand kwamen.</p>\n'
 			+ '\t</header>\n'

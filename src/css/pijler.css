@@ -29,17 +29,13 @@ body[data-page="pillar"]{--section-space:var(--section-space-compact)}
 .pijler-knoppen{flex-wrap:wrap;margin:var(--space-8) 0 0}
 .pijler-knoppen .btn{text-align:center}
 
-/* Je bent hier: de tegel (zoals het app-icoon), met het isometrische raster en een gloed achter het actieve deel */
+/* Je bent hier: de tegel (zoals het app-icoon), met het isometrische raster; het actieve deel is vol, de rest gestippeld */
 .pijler-hier{margin:0;justify-self:center;width:min(100%, 25rem)}
 .pijler-tegel{position:relative;aspect-ratio:1;overflow:hidden;border-radius:22%;
-	background:radial-gradient(36% 36% at var(--gloed-x) var(--gloed-y), var(--gloed-kleur), transparent 72%),
-		repeating-linear-gradient(30deg, rgba(243,255,253,0.06) 0 1px, transparent 1px 32px),
+	background:repeating-linear-gradient(30deg, rgba(243,255,253,0.06) 0 1px, transparent 1px 32px),
 		repeating-linear-gradient(150deg, rgba(243,255,253,0.06) 0 1px, transparent 1px 32px),
 		var(--dark);
 	box-shadow:10px 10px 0 0 rgba(8,10,13,0.22)}
-.pijler-hier--branding .pijler-tegel{--gloed-x:29%;--gloed-y:41%;--gloed-kleur:rgba(241,0,103,0.3)}
-.pijler-hier--digitaal .pijler-tegel{--gloed-x:63%;--gloed-y:30%;--gloed-kleur:rgba(3,188,202,0.3)}
-.pijler-hier--tastbaar .pijler-tegel{--gloed-x:57%;--gloed-y:66%;--gloed-kleur:rgba(243,255,253,0.18)}
 .pijler-teken{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* Elk deel van het teken kan massief of contour zijn. --uit is hoe ver het langs zijn as (--rx, --ry, uit de template)
    naar buiten staat, in eenheden van het teken: 5 voor een contour, 14 voor het deel van deze pijler */
@@ -51,7 +47,7 @@ body[data-page="pillar"]{--section-space:var(--section-space-compact)}
 .tegel-vorm{fill:var(--kleur);fill-opacity:0;stroke:rgba(243,255,253,0.5);stroke-width:1.25;stroke-dasharray:4px 5px;vector-effect:non-scaling-stroke;
 	transition:fill-opacity 0.3s var(--ease), stroke 0.3s var(--ease), stroke-dasharray 0.3s var(--ease)}
 .tegel-deel.is-hier{--uit:14}
-.tegel-deel.is-hier .tegel-vorm{fill-opacity:1;stroke:transparent;filter:drop-shadow(0 0 18px var(--gloed-kleur))}
+.tegel-deel.is-hier .tegel-vorm{fill-opacity:1;stroke:transparent}
 .tegel-link{cursor:pointer}
 .tegel-link:focus{outline:none}
 /* De lijn naar het label: onder 30° (of 150°, 330°) en dan recht. pathLength="1": tekenen is stroke-dashoffset 1 -> 0 */

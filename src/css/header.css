@@ -12,7 +12,7 @@
 
 .site-header{position:sticky;top:0;z-index:var(--z-header);height:var(--nav-height);display:flex;align-items:center;background:rgba(8,10,13,0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--fg);border-bottom:1px solid var(--border)}
 /* Onderrand in het merkverloop */
-.site-header::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, rgba(241,0,103,0.55) 30%, rgba(3,188,202,0.55) 70%, transparent)}
+.site-header::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--border)}
 .header-inner{display:flex;align-items:center;gap:1.5rem;width:100%;max-width:var(--max-width);margin:0 auto;padding:0 var(--gutter)}
 
 /* Logo: het teken in drie delen met DESIGN in Saira Black in de tekstkleur (src/partials/logo.svg, ook in de footer). Elk deel heeft
@@ -124,10 +124,7 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 .menu{
 	position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;
 	flex-direction:column;overflow-y:auto;overscroll-behavior:contain;color:var(--fg);
-	background:
-		radial-gradient(85% 45% at 100% 0%, rgba(3,188,202,0.13), transparent 70%),
-		radial-gradient(75% 40% at 0% 75%, rgba(241,0,103,0.08), transparent 70%),
-		var(--dark)
+	background:var(--dark)
 }
 .menu[open]{display:flex}
 .menu::backdrop{background:transparent}
@@ -135,7 +132,7 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 	-webkit-mask-image:radial-gradient(90% 60% at 25% 40%, #000 20%, transparent 85%);mask-image:radial-gradient(90% 60% at 25% 40%, #000 20%, transparent 85%)}
 html:has(.menu[open]){overflow:hidden}
 .menu-balk{position:relative;flex:none;display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);height:var(--nav-height);padding:0 var(--gutter);border-bottom:1px solid var(--border)}
-.menu-balk::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, rgba(241,0,103,0.55) 30%, rgba(3,188,202,0.55) 70%, transparent)}
+.menu-balk::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--border)}
 .menu-sluit{display:inline-flex;margin-right:-0.5rem}
 
 /* --blok-b is de breedte van een blokje, --blok-midden de afstand van de bovenkant van een pijler tot het midden van

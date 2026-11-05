@@ -73,9 +73,9 @@ function titel(tekst) {
 	return h.esc(tekst.slice(0, i + 2)) + ' <span class="highlight">' + h.esc(tekst.slice(i + 3)) + '</span>';
 }
 
-function sectieKop(kicker, kop, id) {
+// Sectiekop zonder kopje erboven: dat herhaalde alleen de titel (5 november 2026)
+function sectieKop(kop, id) {
 	return '\t<header class="section-head">\n'
-		+ '\t\t<p class="kicker">' + kicker + '</p>\n'
 		+ '\t\t<h2 id="' + id + '">' + kop + '</h2>\n'
 		+ '\t</header>\n';
 }
@@ -156,7 +156,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 
 	// De home linkt naar de diensten (#diensten)
 	const diensten = '<section id="diensten" class="section container pijler-diensten" aria-labelledby="diensten-titel">\n'
-		+ sectieKop('Diensten', 'Wat ik voor je <span class="highlight">' + h.esc(pagina.werkwoord) + '</span>', 'diensten-titel')
+		+ sectieKop('Wat ik voor je <span class="highlight">' + h.esc(pagina.werkwoord) + '</span>', 'diensten-titel')
 		+ '\t<ol class="dienst-index">\n'
 		+ pagina.diensten.map(function (d, i) {
 			return '\t\t<li class="dienst"><span class="dienst-nr" aria-hidden="true">0' + (i + 1) + '</span>'
@@ -168,7 +168,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 	// Een trap: elke stap staat een trede hoger dan de vorige, verbonden door een lijn onder 30°. De twee lege spans zijn
 	// de trede en de schuine lijn die zich bij het bouwen trekken (pijler.css > .trap, src/js/trap.js)
 	const aanpak = '<section id="aanpak" class="section container pijler-aanpak" aria-labelledby="aanpak-titel">\n'
-		+ sectieKop('Werkwijze', 'Zo werk ik', 'aanpak-titel')
+		+ sectieKop('Zo werk ik', 'aanpak-titel')
 		+ '\t<ol class="trap" style="--treden:' + pagina.aanpak.length + '">\n'
 		+ pagina.aanpak.map(function (s, i) {
 			return '\t\t<li style="--i:' + i + '"><span class="trap-nr" aria-hidden="true">' + (i + 1) + '</span>'
@@ -182,7 +182,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 
 	// Het laatste vak gaat naar het portfolio, zodat de sectie ook zonder (gevonden) cases iets toont
 	const werk = '<section id="werk" class="section container pijler-werk" aria-labelledby="werk-titel">\n'
-		+ sectieKop('Uitgelicht werk', 'Wat ik eerder <span class="highlight">maakte</span>', 'werk-titel')
+		+ sectieKop('Wat ik eerder <span class="highlight">maakte</span>', 'werk-titel')
 		+ '\t<ul class="pijler-case-raster">\n'
 		+ cases.map(function (p, i) { return caseKaart(p, i, ctx); }).join('\n') + (cases.length ? '\n' : '')
 		+ '\t\t<li class="pijler-case-alle"><a href="portfolio/"><span class="pijler-case-alle-label">Portfolio</span><strong>Meer werk bekijken</strong>'
@@ -193,12 +193,12 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 	// Wat ik kan: geen opsomming (Diensten en Werkwijze zeggen het al), maar bewijs uit dit vak, elk met een link naar het
 	// hoofdstuk of product waar het staat (skills.json > bewijsPijler); de laatste rij gaat naar alles op Over
 	const kunde = '<section id="kunde" class="section container pijler-kunde bewijs-sectie" aria-labelledby="kunde-titel">\n'
-		+ sectieKop('Wat ik kan', 'Uit de praktijk', 'kunde-titel')
+		+ sectieKop('Uit de praktijk', 'kunde-titel')
 		+ skills.bewijsLijst(ctx.skills.bewijsPijler[pillar.id].map(function (id) { return { id: id, pijler: pillar.id }; }), ctx, { open: 'Alles wat ik kan' }) + '\n'
 		+ '</section>\n';
 
 	const faq = '<section id="vragen" class="section container pijler-faq" aria-labelledby="faq-titel">\n'
-		+ '\t<header class="section-head section-head-center">\n\t\t<p class="kicker">Goed om te weten</p>\n\t\t<h2 id="faq-titel">Veelgestelde vragen</h2>\n\t</header>\n'
+		+ '\t<header class="section-head section-head-center">\n\t\t<h2 id="faq-titel">Veelgestelde vragen</h2>\n\t</header>\n'
 		+ '\t<div class="faq">\n'
 		+ pagina.faq.map(function (item) {
 			return '\t\t' + c.vraag(item.q, h.esc(item.a));

@@ -198,6 +198,20 @@ function termsPage(ctx, template) {
 	};
 }
 
+// Actievoorwaarden van de giveaway (src/pages/winactie.html); het adres staat in de reel: jelgersdesign.nl/winactie
+function winactiePage(ctx, template) {
+	const site = ctx.site;
+	return {
+		path: 'winactie.html',
+		root: '',
+		name: 'text',
+		title: 'Actievoorwaarden giveaway | ' + site.name,
+		description: 'Win een Mijnwerkerslamp van ' + site.name + ': zo doe je mee, wanneer de winnaar wordt gekozen en wat er met je gegevens gebeurt.',
+		ogImage: ctx.images[site.defaultOgImage].og,
+		main: '<div class="container text-page">\n' + h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), legalValues(site, '2026-11-04')) + '\n</div>'
+	};
+}
+
 // Archief: de juridische teksten van de oude sites, letterlijk zoals ze tot de overstap golden (src/pages/archief/).
 // Wie vóór de overstap bestelde of een bericht stuurde, kan zo nalezen wat toen gold. Niet in Google (noindex) en niet
 // in de sitemap; de huidige voorwaarden en privacyverklaring linken ernaar onder "Eerdere versies".
@@ -328,7 +342,6 @@ function newsletterPage(ctx) {
 		main: '<div class="container newsletter-page" data-bevestig="bevestig" data-bezig="Je aanmelding wordt bevestigd...">\n'
 			+ '\t<div class="newsletter-hero">\n'
 			+ '\t\t<div class="newsletter-hero-text">\n'
-			+ '\t\t\t<p class="kicker" data-aanmelden>Nieuwsbrief</p>\n'
 			+ '\t\t\t<div class="success-icon" aria-hidden="true" data-bevestig-icoon hidden>✓</div>\n'
 			+ '\t\t\t<h1 data-bevestig-titel>Mis nooit meer een <span class="highlight">nieuw ontwerp</span></h1>\n'
 			+ '\t\t\t<p class="newsletter-confirm-text" data-bevestig-tekst aria-live="polite" hidden></p>\n'
@@ -380,5 +393,6 @@ function repliedPage(ctx) {
 
 module.exports = {
 	privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage, printServicePage: printServicePage,
-	newsletterPage: newsletterPage, repliedPage: repliedPage, contactPage: contactPage, archivePages: archivePages, herroepPage: herroepPage
+	newsletterPage: newsletterPage, repliedPage: repliedPage, contactPage: contactPage, archivePages: archivePages, herroepPage: herroepPage,
+	winactiePage: winactiePage
 };

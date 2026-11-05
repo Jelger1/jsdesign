@@ -10,7 +10,7 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 
 .section{padding-top:var(--section-space);padding-bottom:var(--section-space)}
 /* Getinte band met schuine boven- en onderkant, oplopend zoals de lijnen van het JS-teken (--slant: tokens.css) */
-.section-tint{background:radial-gradient(ellipse at 0% 100%, rgba(241,0,103,0.09), transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(3,188,202,0.08), transparent 50%), var(--dark-secondary);clip-path:polygon(0 var(--slant), 100% 0, 100% calc(100% - var(--slant)), 0 100%);padding-top:calc(var(--section-space) + var(--slant) * 0.7);padding-bottom:calc(var(--section-space) + var(--slant) * 0.7);position:relative;z-index:1}
+.section-tint{background:var(--dark-secondary);clip-path:polygon(0 var(--slant), 100% 0, 100% calc(100% - var(--slant)), 0 100%);padding-top:calc(var(--section-space) + var(--slant) * 0.7);padding-bottom:calc(var(--section-space) + var(--slant) * 0.7);position:relative;z-index:1}
 .section-tint > .container{padding-top:0;padding-bottom:0}
 .section-head{margin:0 0 2.25rem 0;max-width:720px}
 .section-head h2{margin:0}
@@ -60,10 +60,9 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 
 /* Maatwerk */
 .custom-cta{display:grid;grid-template-columns:minmax(0, 1.25fr) minmax(0, 0.75fr);gap:clamp(2rem, 5vw, 4rem);align-items:center;padding:clamp(1.5rem, 4vw, 3.5rem);border:1px solid transparent;border-radius:var(--radius-lg);position:relative;
-	background:repeating-linear-gradient(30deg, rgba(243,255,253,0.035) 0 1px, transparent 1px 56px), repeating-linear-gradient(150deg, rgba(243,255,253,0.035) 0 1px, transparent 1px 56px),
-		radial-gradient(ellipse at 100% 0%, rgba(3,188,202,0.16), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(241,0,103,0.13), transparent 55%), var(--dark-card)}
-/* Rand in het merkverloop: raspberry, Deep Teal, aqua, Misty Sage */
-.custom-cta::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(120deg, var(--raspberry), var(--brand-dark) 40%, var(--brand) 70%, var(--sage));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+	background:repeating-linear-gradient(30deg, rgba(243,255,253,0.035) 0 1px, transparent 1px 56px), repeating-linear-gradient(150deg, rgba(243,255,253,0.035) 0 1px, transparent 1px 56px), var(--dark-card)}
+/* Rand in aqua (effen: geen verloop meer, 5 november 2026) */
+.custom-cta::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:var(--brand);-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .custom-cta-text > p:not(.kicker):not(.cta-row):not(.custom-cta-more):not(.custom-cta-klanten){color:var(--fg-muted);font-size:1.05rem;line-height:1.75;max-width:56ch;margin:0 0 1.25rem 0}
 .custom-cta .cta-row{margin-top:1.75rem;flex-wrap:wrap}
 .custom-cta-art{justify-self:end;width:100%;max-width:340px}
@@ -228,7 +227,7 @@ body[data-page="home"]{--section-space:var(--section-space-compact)}
 .work-card:first-child{grid-column:span 2}
 .work-card > a{position:relative;display:flex;flex-direction:column;height:100%;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);background:var(--dark-card);color:var(--soft);text-decoration:none;transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease, border-color 0.3s ease}
 .work-card:not(.work-cta) > a::before{content:'';position:absolute;inset:0;z-index:3;border-radius:inherit;padding:1px;background:linear-gradient(125deg, var(--raspberry), var(--brand) 55%, rgba(3,188,202,0.25));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.35s ease;pointer-events:none}
-.work-card:not(.work-cta) > a:hover,.work-card:not(.work-cta) > a:focus-visible{border-color:transparent;transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,0.35), 0 0 28px rgba(241,0,103,0.12)}
+.work-card:not(.work-cta) > a:hover,.work-card:not(.work-cta) > a:focus-visible{border-color:transparent;transform:translate(-4px, -4px);box-shadow:6px 6px 0 0 var(--extrude-color)}
 .work-card > a:hover::before,.work-card > a:focus-visible::before{opacity:1}
 .work-media{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .work-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(8,10,13,0) 30%, rgba(8,10,13,0.78) 58%, rgba(8,10,13,0.97) 82%);pointer-events:none}

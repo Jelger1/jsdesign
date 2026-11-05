@@ -84,7 +84,6 @@ function shopPage(ctx) {
 	const main = '<div class="container">\n'
 		+ '\t' + c.breadcrumbs(crumbs) + '\n'
 		+ '\t<header class="page-header">\n'
-		+ '\t\t<p class="kicker">Webshop</p>\n'
 		+ '\t\t<h1 data-shop-heading>Vind jouw <span class="highlight">unieke stuk</span></h1>\n'
 		+ '\t\t<p class="page-subtitle">Handgemaakt in Limburg, met liefde voor detail</p>\n'
 		+ '\t\t<p class="page-description">Elk ontwerp vertelt een verhaal. Of je nu zoekt naar een statement voor je interieur, een cadeau met <span class="highlight">betekenis</span> of een stukje Limburgse trots, hier vind je het.</p>\n'
@@ -122,7 +121,7 @@ function shopPage(ctx) {
 	const vragen = site.faq || [];
 	const faq = vragen.length
 		? '<section class="section container shop-vragen" aria-labelledby="shop-vragen-titel">\n'
-			+ '\t<header class="section-head"><p class="kicker">Goed om te weten</p><h2 id="shop-vragen-titel">Vragen over bestellen</h2></header>\n'
+			+ '\t<header class="section-head"><h2 id="shop-vragen-titel">Vragen over bestellen</h2></header>\n'
 			+ '\t<div class="faq">\n' + vragen.map(function (item) { return '\t\t' + c.vraag(item.q, h.esc(item.a)); }).join('\n') + '\n\t</div>\n'
 			+ '</section>\n'
 		: '';

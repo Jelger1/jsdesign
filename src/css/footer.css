@@ -3,7 +3,7 @@
    aanwijzen. Het watermerk-logo in de hoek is vervallen (MERGEPLAN §5.5). */
 .site-footer{--footer-gap:clamp(2.5rem, 5vw, 3.5rem);position:relative;isolation:isolate;background:var(--dark-secondary);color:var(--fg);border-top:1px solid var(--border);padding:clamp(2.5rem, 6vw, 4rem) 0 2rem}
 /* Bovenrand in het merkverloop, zoals onder de header */
-.site-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg, transparent, var(--raspberry) 30%, var(--brand) 70%, transparent)}
+.site-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--border)}
 .reviews-banner + .site-footer{border-top:0}
 .reviews-banner + .site-footer::before{display:none}
 .footer-inner{display:flex;flex-direction:column;gap:var(--footer-gap);max-width:var(--max-width);margin:0 auto;padding:0 var(--gutter)}

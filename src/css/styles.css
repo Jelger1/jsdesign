@@ -37,8 +37,6 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height) + 1rem);-w
 /* Formuliervelden en knoppen nemen het lettertype over (anders tekent de browser button.btn in Arial) */
 button,input,select,textarea{font-family:inherit}
 body{font-family:var(--font-body); color:var(--soft); background:var(--dark); line-height:1.6; margin:0; padding:0;overflow-x:hidden;overflow-x:clip;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
-body::before{content:'';position:fixed;top:-50%;right:-10%;width:800px;height:800px;background:radial-gradient(circle, var(--brand-glow) 0%, transparent 70%);border-radius:50%;z-index:0;pointer-events:none}
-body::after{content:'';position:fixed;bottom:-30%;left:-15%;width:600px;height:600px;background:radial-gradient(circle, var(--raspberry-glow) 0%, transparent 70%);border-radius:50%;z-index:0;pointer-events:none}
 .container{max-width:var(--max-width); margin:0 auto; padding:2rem clamp(1rem,3vw,2rem);position:relative;z-index:1}
 
 /* Hero */
@@ -57,7 +55,7 @@ body::after{content:'';position:fixed;bottom:-30%;left:-15%;width:600px;height:6
 .hero-art::before,.hero-art::after{content:'';position:absolute;z-index:-1;aspect-ratio:1.626;clip-path:var(--js-blok)}
 .hero-art::before{width:44%;top:-9%;right:-13%;background:var(--brand)}
 .hero-art::after{width:34%;bottom:-8%;left:-12%;background:var(--raspberry)}
-.hero-art img{display:block;width:100%;height:auto;aspect-ratio:9 / 10;object-fit:cover;border-radius:var(--radius-lg);box-shadow:0 30px 80px rgba(0,0,0,0.5), 0 0 70px var(--brand-glow); transition:transform 0.4s ease, box-shadow 0.4s ease;border:1px solid var(--border)}
+.hero-art img{display:block;width:100%;height:auto;aspect-ratio:9 / 10;object-fit:cover;border-radius:var(--radius-lg);box-shadow:0 30px 80px rgba(0,0,0,0.5); transition:transform 0.4s ease, box-shadow 0.4s ease;border:1px solid var(--border)}
 .hero-art img:hover{transform:scale(1.02)}
 
 /* Typography */
