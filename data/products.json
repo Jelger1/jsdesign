@@ -485,7 +485,7 @@
 			{ "id": "standaard", "label": "", "price": 19.95 }
 		],
 		"images": [
-			{ "file": "Mijnstreek-set.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De drie ontwerpen uit de Mijnstreek-set: D'r Joep in zwart, de gele Koempel-eend met helm en lamp, en een Vlaai-sleutelhanger" }
+			{ "file": "Mijnstreek-set.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De Mijnstreek-set bij elkaar op een lichte achtergrond: D'r Joep in zwart, de gele Koempel-eend met helm en lamp, en een Vlaai-sleutelhanger" }
 		],
 		"seo": {
 			"title": "Mijnstreek-set: Limburgs cadeau van €19,95",
