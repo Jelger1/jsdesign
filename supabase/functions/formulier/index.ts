@@ -8,6 +8,10 @@
 //   gereageerd  de knop "Ik heb gereageerd" uit Jelgers mail (via jelgers3d.nl/gereageerd.html, ondertekende link)
 //   bevestig    de bevestigingsknop van de nieuwsbrief (via jelgers3d.nl/nieuwsbrief.html); daarna staat het adres
 //               ook als contact in Resend, segment "Nieuwsbrief", voor nieuwsbrieven vanuit het Resend-dashboard
+//               Wie bevestigt, krijgt één persoonlijke kortingscode (tabel kortingscodes, per adres hooguit één,
+//               ook na opnieuw aanmelden), per mail en in het antwoord voor de bevestigingspagina
+//   korting     een kortingscode controleren bij het afrekenen (bij de bestelling zelf gebeurt dat opnieuw, en daar
+//               wordt hij ook als gebruikt gemarkeerd)
 //   taken       elk uur via pg_cron: oude bestanden en onbevestigde aanmeldingen opruimen, en om 9 uur een herinnering
 //               aan Jelger voor wat al dagen op "nieuw" staat
 // Een GET met ?bestand=...&k=... (de downloadlink in Jelgers mail) stuurt door naar het bestand.
@@ -40,7 +44,8 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.118.0';
 import {
 	controleer, controleerBestanden, spamSignaal, stilWeggooien, prijzen, ordernummer, ontcijferMail,
-	mailEigenaar, mailKlant, mailNieuwsbrief, mailHerinnering, herkomstLijst, toegestaneHerkomst
+	mailEigenaar, mailKlant, mailNieuwsbrief, mailHerinnering, herkomstLijst, toegestaneHerkomst,
+	maakKortingscode, normaliseerCode, codeGeldigTot, kortingFout, kortingOp, GEEN_KORTING_OVER, mailKortingscode
 } from './logica.js';
 
 const SITE_URL = (Deno.env.get('SITE_URL') ?? 'https://jelgersdesign.nl').replace(/\/$/, '');
@@ -228,11 +233,79 @@ async function bevestigNieuwsbrief(token: unknown) {
 	if (!rij || (!rij.bevestigd_op && Date.now() - new Date(rij.aangevraagd).getTime() > 30 * DAG)) {
 		return { ok: false, fout: 'Deze link is verlopen. Meld je gerust opnieuw aan.' };
 	}
-	if (rij.bevestigd_op && rij.resend_id) return { ok: true }; // twee keer geklikt: niets aan de hand
-	const resendId = await naarResend(rij.email);
-	const { error } = await db.from('nieuwsbrief').update({ bevestigd_op: rij.bevestigd_op ?? new Date().toISOString(), resend_id: resendId }).eq('id', rij.id);
-	if (error) { console.error('Bevestigen mislukt', error); return { ok: false, fout: 'Er ging iets mis. Probeer het zo opnieuw.' }; }
-	return { ok: true };
+	if (!(rij.bevestigd_op && rij.resend_id)) { // twee keer geklikt: niets meer te doen, behalve de code laten zien
+		const resendId = await naarResend(rij.email);
+		const { error } = await db.from('nieuwsbrief').update({ bevestigd_op: rij.bevestigd_op ?? new Date().toISOString(), resend_id: resendId }).eq('id', rij.id);
+		if (error) { console.error('Bevestigen mislukt', error); return { ok: false, fout: 'Er ging iets mis. Probeer het zo opnieuw.' }; }
+	}
+	// De kortingscode: een mislukking hier mag de aanmelding zelf niet tegenhouden
+	let korting = null;
+	try { korting = await kortingscodeVoor(rij.email); } catch (e) { console.error('Kortingscode maken mislukt', e); }
+	return { ok: true, korting };
+}
+
+// ---------------------------------------------------------------------------------------------- kortingscodes
+
+// De code van een adres, of een nieuwe als het adres er nog geen heeft (en de site korting geeft: winkel.json >
+// winkel.korting). Een nieuwe code gaat ook per mail. Per adres bestaat er hooguit één code, ook na afmelden en
+// opnieuw aanmelden; het adres staat er alleen als hash in. Geeft wat de bevestigingspagina toont, of null.
+async function kortingscodeVoor(email: string) {
+	const w = await winkel();
+	const instelling = w.winkel.korting;
+	if (!instelling) return null;
+	const emailHash = await hash('korting:' + email);
+	const toon = (rij: any) => ({
+		code: rij.code, procent: rij.procent, geldigTot: rij.geldig_tot,
+		gebruikt: Boolean(rij.gebruikt_op), verlopen: new Date(rij.geldig_tot).getTime() < Date.now()
+	});
+	const { data: bestaand } = await db.from('kortingscodes').select('code, procent, geldig_tot, gebruikt_op').eq('email_hash', emailHash).maybeSingle();
+	if (bestaand) return { ...toon(bestaand), al: true };
+	for (let poging = 0; poging < 3; poging++) {
+		const rij = {
+			code: maakKortingscode(crypto.getRandomValues(new Uint8Array(8))), email_hash: emailHash,
+			procent: instelling.procent, geldig_tot: codeGeldigTot(Date.now(), instelling.maanden).toISOString()
+		};
+		const { error } = await db.from('kortingscodes').insert(rij);
+		if (!error) {
+			await stuurMail(email, MAIL_EIGENAAR || w.winkel.email, mailKortingscode(rij.code, rij.geldig_tot, rij.procent, w.winkel));
+			return toon(rij);
+		}
+		if (error.code !== '23505') throw error; // 23505: code of adres bestaat al
+		const { data: tegelijk } = await db.from('kortingscodes').select('code, procent, geldig_tot, gebruikt_op').eq('email_hash', emailHash).maybeSingle();
+		if (tegelijk) return { ...toon(tegelijk), al: true }; // twee keer tegelijk geklikt
+	}
+	throw new Error('Geen vrije kortingscode gevonden');
+}
+
+// Controleert een code voor een e-mailadres en een winkelwagen. regels: al nagerekend met prijzen().
+// Geeft { fout } of { code, procent, bedrag, over, uitgesloten }.
+async function kortingVoor(codeInvoer: unknown, email: string, regels: any[], w: any) {
+	const instelling = w.winkel.korting;
+	if (!instelling) return { fout: 'Kortingscodes zijn op dit moment niet te gebruiken.' };
+	const code = normaliseerCode(codeInvoer);
+	if (!code) return { fout: 'Deze kortingscode klopt niet. Controleer de spelling.' };
+	const { data: rij } = await db.from('kortingscodes').select('code, email_hash, procent, geldig_tot, gebruikt_op').eq('code', code).maybeSingle();
+	const fout = kortingFout(rij, await hash('korting:' + email), new Date());
+	if (fout) return { fout };
+	const berekend = kortingOp(regels, w.catalogus, rij.procent);
+	if (!(berekend.bedrag > 0)) return { fout: GEEN_KORTING_OVER };
+	return { code, procent: rij.procent, ...berekend };
+}
+
+// actie "korting": de knop "Controleer" bij het afrekenen. Niets wordt opgeslagen of als gebruikt gemarkeerd.
+async function kortingControle(invoer: any, headers: Record<string, string>) {
+	const w = await winkel();
+	const email = String(invoer.email ?? '').trim().toLowerCase().slice(0, 200);
+	if (!/^[^\s@<>()",;]+@[^\s@<>()",;]+\.[a-z]{2,}$/i.test(email)) return antwoord({ ok: false, fout: 'Vul eerst je e-mailadres in: de code hoort bij het adres waarmee je je aanmeldde.' }, 400, headers);
+	const regels = (Array.isArray(invoer.regels) ? invoer.regels : []).slice(0, 50).map((r: any) => ({
+		id: String(r?.id ?? '').slice(0, 80), variant: String(r?.variant ?? '').slice(0, 80), aantal: Math.floor(Number(r?.aantal)), tekst: String(r?.tekst ?? '').slice(0, 60) || 'x'
+	}));
+	if (!regels.length || regels.some((r: any) => !(r.aantal >= 1 && r.aantal <= 99))) return antwoord({ ok: false, fout: 'Je winkelwagen is leeg.' }, 400, headers);
+	const berekend = prijzen(regels, w.catalogus);
+	if (!berekend.ok) return antwoord({ ok: false, fout: berekend.fout }, 400, headers);
+	const k: any = await kortingVoor(invoer.code, email, berekend.regels, w);
+	if (k.fout) return antwoord({ ok: false, fout: k.fout }, 400, headers);
+	return antwoord({ ok: true, code: k.code, procent: k.procent, bedrag: k.bedrag, over: k.over, uitgesloten: k.uitgesloten, totaal: Math.round((berekend.totaal - k.bedrag) * 100) / 100 }, 200, headers);
 }
 
 // ---------------------------------------------------------------------------------------------- bestanden
@@ -343,7 +416,11 @@ async function opruimen(w: any) {
 	}
 	const nb = await db.from('nieuwsbrief').delete({ count: 'exact' }).is('bevestigd_op', null).lt('aangevraagd', new Date(Date.now() - 30 * DAG).toISOString());
 	if (nb.error) console.error('Onbevestigde aanmeldingen opruimen mislukt', nb.error);
-	return { bestanden: weg.length, aanmeldingen: nb.count ?? 0 };
+	// Kortingscodes twee jaar na het maken weg (zo lang geldt ook "één code per adres"; zie de privacyverklaring)
+	const twee = new Date(); twee.setFullYear(twee.getFullYear() - 2);
+	const kc = await db.from('kortingscodes').delete({ count: 'exact' }).lt('aangemaakt', twee.toISOString());
+	if (kc.error) console.error('Oude kortingscodes opruimen mislukt', kc.error);
+	return { bestanden: weg.length, aanmeldingen: nb.count ?? 0, kortingscodes: kc.count ?? 0 };
 }
 
 // Eén mail om 9 uur met alles wat al twee (of vijf) dagen op "nieuw" staat zonder "Ik heb gereageerd"
@@ -413,6 +490,7 @@ Deno.serve(async (req) => {
 		if (invoer.actie === 'upload') return await uploadAdressen(invoer, req, headers);
 		if (invoer.actie === 'gereageerd') return await gereageerd(invoer, headers);
 		if (invoer.actie === 'bevestig') { const r = await bevestigNieuwsbrief(invoer.token); return antwoord(r, r.ok ? 200 : 400, headers); }
+		if (invoer.actie === 'korting') return await kortingControle(invoer, headers);
 		if (invoer.actie === 'taken') return await taken(headers);
 	} catch (e) {
 		console.error('Actie ' + invoer.actie + ' mislukt', e);
@@ -459,17 +537,34 @@ Deno.serve(async (req) => {
 		const berekend = prijzen(data.regels, w.catalogus);
 		if (!berekend.ok) return antwoord({ ok: false, fout: berekend.fout }, 400, headers);
 		const id = ordernummer();
+
+		// Kortingscode: opnieuw controleren en meteen als gebruikt markeren, alleen als hij op dit moment nog vrij en
+		// geldig is (twee bestellingen tegelijk met dezelfde code: de tweede krijgt een melding). Mislukt het opslaan
+		// van de bestelling daarna, dan komt de code weer vrij.
+		let korting: any = null;
+		if (data.kortingscode) {
+			const k: any = await kortingVoor(data.kortingscode, data.email, berekend.regels, w);
+			if (k.fout) return antwoord({ ok: false, fout: k.fout, veld: 'kortingscode' }, 400, headers);
+			const { data: geclaimd } = await db.from('kortingscodes').update({ gebruikt_op: moment, bestelling: id })
+				.eq('code', k.code).is('gebruikt_op', null).gte('geldig_tot', moment).select('code');
+			if (!geclaimd?.length) return antwoord({ ok: false, fout: 'Deze kortingscode is net gebruikt.', veld: 'kortingscode' }, 400, headers);
+			korting = { code: k.code, procent: k.procent, bedrag: k.bedrag, over: k.over };
+		}
+		const totaal = korting ? Math.round((berekend.totaal - korting.bedrag) * 100) / 100 : berekend.totaal;
+
 		const { error } = await db.from('bestellingen').insert({
 			id, naam: data.naam, email: data.email, telefoon: data.telefoon, levering: data.levering,
 			adres: data.adres ?? null, postcode: data.postcode ?? null, plaats: data.plaats ?? null, land: data.land ?? null,
-			opmerkingen: data.opmerkingen || null, regels: berekend.regels, totaal: berekend.totaal, akkoord_op: akkoordOp
+			opmerkingen: data.opmerkingen || null, regels: berekend.regels, totaal, akkoord_op: akkoordOp,
+			...(korting ? { korting } : {})
 		});
 		if (error) {
 			console.error('Opslaan bestelling mislukt', error);
+			if (korting) await db.from('kortingscodes').update({ gebruikt_op: null, bestelling: null }).eq('code', korting.code).eq('bestelling', id);
 			return antwoord({ ok: false, fout: 'Je bestelling kon niet worden opgeslagen. Probeer het opnieuw of mail me direct.' }, 500, headers);
 		}
 		const extra = {
-			id, regels: berekend.regels, totaal: berekend.totaal, moment, dashboard,
+			id, regels: berekend.regels, totaal, korting, moment, dashboard,
 			gereageerdLink: await gereageerdLink('b', id),
 			nieuwsbriefLink: data.nieuwsbrief ? await nieuwsbriefAanvraag(data.email, 'bestelling') : null
 		};
@@ -478,7 +573,7 @@ Deno.serve(async (req) => {
 			stuurMail(data.email, MAIL_EIGENAAR || w.winkel.email, mailKlant(data, extra, w.winkel))
 		]);
 		await db.from('bestellingen').update({ mail_eigenaar: eigenaar, mail_klant: klant }).eq('id', id);
-		return antwoord({ ok: true, id, totaal: berekend.totaal, mail: klant }, 200, headers);
+		return antwoord({ ok: true, id, totaal, korting, mail: klant }, 200, headers);
 	}
 
 	// Overige formulieren. Lijkt het op SEO-spam (veel links), dan wel opslaan maar niet mailen.

@@ -115,7 +115,6 @@
 	],
 	"nieuwsbriefKorting": {
 		"procent": 10,
-		"code": "BEDANKT10",
 		"maanden": 3
 	},
 	"homeUsps": [
@@ -193,7 +192,7 @@
 		},
 		{
 			"q": "Krijg ik korting als ik me aanmeld voor de nieuwsbrief?",
-			"a": "Ja. Bestel je iets en meld je je aan voor de nieuwsbrief, dan krijg je 10% korting op de producten van je volgende bestelling. Die bestelling doe je binnen 3 maanden, en je aanmelding moet bevestigd zijn. De code staat op de bedankpagina na je bestelling. Ik trek de korting eraf als ik je volgende bestelling bevestig."
+			"a": "Ja. Als je je aanmelding voor de nieuwsbrief bevestigt, krijg je per mail een persoonlijke code voor 10% korting op je volgende bestelling. Je vult hem in bij het afrekenen, met het e-mailadres waarmee je je aanmeldde. De code geldt 3 maanden en één keer, voor de producten (niet de verzendkosten) en niet voor producten die al voordeliger zijn, zoals een set of een introductieprijs. Per e-mailadres krijg je één code."
 		},
 		{
 			"q": "Verkoop je ook aan winkels en bedrijven?",

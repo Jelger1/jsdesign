@@ -80,8 +80,16 @@ function checkoutPage(ctx) {
 		+ '\t\t\t<fieldset>\n'
 		+ '\t\t\t\t<legend>Wensen</legend>\n'
 		+ '\t\t\t\t' + field({ name: 'notes', label: 'Opmerkingen', type: 'textarea', required: false, placeholder: 'Gewenste kleur, eigen naam, bijzonderheden...' }) + '\n'
-		// De kortingscode gaat als regel bij de opmerkingen mee (src/js/checkout.js); Jelger verrekent hem bij het bevestigen
-		+ '\t\t\t\t' + field({ name: 'kortingscode', label: 'Kortingscode', required: false, className: 'form-group-narrow', placeholder: korting ? 'Bijv. ' + korting.code : '' }) + '\n'
+		// Persoonlijke kortingscode van de nieuwsbrief: src/js/checkout.js laat de functie hem controleren (actie "korting")
+		// en toont de korting in het overzicht; bij de bestelling zelf controleert de functie hem opnieuw
+		+ (korting
+			? '\t\t\t\t<div class="form-group kortingscode">\n'
+				+ '\t\t\t\t\t<label for="co-kortingscode">Kortingscode <span class="optional">(optioneel)</span></label>\n'
+				+ '\t\t\t\t\t<div class="kortingscode-rij"><input type="text" id="co-kortingscode" name="kortingscode" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20" placeholder="JD-XXXX-XXXX" aria-describedby="co-kortingscode-status">'
+				+ '<button type="button" class="btn outline" data-korting-controleer>Controleer</button></div>\n'
+				+ '\t\t\t\t\t<p class="kortingscode-status" id="co-kortingscode-status" role="status" hidden></p>\n'
+				+ '\t\t\t\t</div>\n'
+			: '')
 		+ '\t\t\t</fieldset>\n'
 		// Onzichtbaar veld tegen spamrobots: is het aangevinkt, dan gooit de Supabase-functie de inzending stil weg
 		+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
@@ -136,13 +144,10 @@ function thanksPage(ctx) {
 		+ '\t\t<h2 id="thanks-newsletter-heading">Als eerste horen over nieuwe ontwerpen?</h2>\n'
 		+ '\t\t<p id="thanks-newsletter-text">Laat je e-mailadres achter. Je krijgt alleen een mail als er iets nieuws is, en afmelden kan altijd.</p>\n'
 		+ '\t\t' + h.nieuwsbriefForm('bedankt', '') + '\n'
-		// Korting op je volgende bestelling (shop.json > nieuwsbriefKorting). Alleen na een bestelling: checkout.js zet de
-		// datum erin en toont het blok. Jelger controleert de voorwaarden zelf als hij de volgende bestelling bevestigt.
+		// Korting op je volgende bestelling (shop.json > nieuwsbriefKorting): na het bevestigen van de aanmelding maakt de
+		// functie een persoonlijke code en mailt die. checkout.js toont dit blok alleen na een bestelling zonder code.
 		+ (korting
-			? '\t\t<div class="thanks-korting" id="thanks-korting" data-maanden="' + korting.maanden + '" data-procent="' + korting.procent + '" hidden>\n'
-				+ '\t\t\t<p class="thanks-code">Code <strong>' + h.esc(korting.code) + '</strong><span>' + korting.procent + '% korting · geldig tot en met <span data-korting-tot></span></span></p>\n'
-				+ '\t\t\t<p class="thanks-korting-voorwaarden">Vul de code in bij je volgende bestelling. Hij geldt één keer, voor de producten (niet de verzendkosten), en alleen als je je aanmelding voor de nieuwsbrief hebt bevestigd. Ik trek de korting eraf als ik je bestelling bevestig.</p>\n'
-				+ '\t\t</div>\n'
+			? '\t\t<p class="thanks-korting-voorwaarden" id="thanks-korting" data-procent="' + korting.procent + '" hidden>Na het bevestigen krijg je per mail een persoonlijke code. Hij geldt ' + korting.maanden + ' maanden, één keer, met je e-mailadres, voor de producten (niet de verzendkosten) en niet voor producten die al voordeliger zijn, zoals een set.</p>\n'
 			: '')
 		+ '\t</section>\n'
 		+ '\t<p class="thanks-actions"><a class="btn btn-primary" href="webshop.html">Verder kijken in de webshop</a> <a class="btn outline" href="' + h.esc(site.instagram) + '" target="_blank" rel="noopener noreferrer">Volg op Instagram</a></p>\n'

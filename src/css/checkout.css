@@ -134,9 +134,17 @@
 /* Onder het minimum voor verzenden (src/js/checkout.js): een rustige melding onder de keuze, geen foutkleur */
 .checkout-verzend{margin:1rem 0 0;padding:0.75rem 1rem;border-left:2px solid var(--brand);background:var(--dark-secondary);border-radius:0 var(--radius) var(--radius) 0;color:var(--fg);font-size:0.95rem;line-height:1.5}
 
-/* Bedankpagina: de code voor korting op je volgende bestelling (shop.json > nieuwsbriefKorting) */
-.thanks-korting{margin-top:1.25rem;padding:1rem 1.1rem;border:1px dashed var(--brand);border-radius:var(--radius)}
-.thanks-code{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0.35rem 0.8rem;font-size:1rem;color:var(--fg)}
-.thanks-code strong{font-family:var(--font-mono);font-size:1.35rem;letter-spacing:0.06em;color:var(--brand)}
-.thanks-code > span{color:var(--fg-muted);font-size:0.9rem}
-.thanks-korting-voorwaarden{margin:0.5rem 0 0 0;font-size:0.82rem;line-height:1.5;color:var(--fg-muted)}
+/* Kortingscode: het veld bij afrekenen, de voorwaarden op de bedankpagina en de code na het bevestigen van de nieuwsbrief */
+.kortingscode-rij{display:flex;gap:0.5rem}
+.kortingscode-rij input{flex:1;min-width:0;text-transform:uppercase;font-family:var(--font-mono);letter-spacing:0.06em}
+.kortingscode-rij input::placeholder{text-transform:none;letter-spacing:0.02em}
+.kortingscode-rij .btn{flex:none;padding:0.65rem 1rem}
+.kortingscode-status{margin:0.5rem 0 0 0;font-size:0.88rem;line-height:1.45;color:var(--fg-muted)}
+.kortingscode-status.is-ok{color:var(--ok)}
+.kortingscode-status.is-fout{color:var(--danger)}
+.checkout-item-korting span:last-child{color:var(--ok);font-family:var(--font-mono)}
+.thanks-newsletter > .thanks-korting-voorwaarden{margin:0.9rem 0 0 0;font-size:0.82rem;line-height:1.5;color:var(--fg-muted)}
+.bevestig-code{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem 1rem;margin:1.25rem 0;padding:1rem 1.1rem;border:1px dashed var(--brand);border-radius:var(--radius)}
+.bevestig-code p{margin:0;display:flex;flex-direction:column;gap:0.2rem}
+.bevestig-code strong{font-family:var(--font-mono);font-size:1.4rem;letter-spacing:0.08em;color:var(--brand)}
+.bevestig-code span{font-size:0.9rem;color:var(--fg-muted)}

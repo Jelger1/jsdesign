@@ -385,6 +385,8 @@ function catalogData(products, images) {
 		};
 		// Een set: welke producten erin zitten, zodat de winkelwagen hem niet voorstelt naast wat er al in ligt
 		if (p.set) catalog[p.id].set = p.set.map(function (deel) { return deel.id; });
+		// Al voordeliger (een set of een lopende introductieprijs): daar geldt een kortingscode niet voor
+		if (p.set || (p.intro && p.intro.active)) catalog[p.id].geenKorting = true;
 	});
 	return catalog;
 }
@@ -410,7 +412,10 @@ function buildWinkel(products, images, site, shop) {
 			adres: [a.street, [a.postcode, a.city].filter(Boolean).join(' ')].filter(Boolean).join(', '),
 			kvk: site.kvk, btw: site.btw, ophaalplaats: site.pickupLocation, levertijd: site.delivery.leadTimeLong,
 			logo: MAIL_LOGO,
-			herroepen: 'herroepen.html' // de link "Bestelling herroepen" onder de mails
+			herroepen: 'herroepen.html', // de link "Bestelling herroepen" onder de mails
+			// Kortingscode voor wie zich aanmeldt voor de nieuwsbrief (shop.json > nieuwsbriefKorting); zonder dit blok
+			// maakt en accepteert de functie geen codes
+			korting: shop.nieuwsbriefKorting ? { procent: shop.nieuwsbriefKorting.procent, maanden: shop.nieuwsbriefKorting.maanden } : undefined
 		},
 		catalogus: catalogus,
 		uploads: site.uploads || null // welke bestanden bij een aanvraag mogen (types, aantal, grootte, bewaartermijn)

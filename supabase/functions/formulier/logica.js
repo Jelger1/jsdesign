@@ -159,6 +159,11 @@ export function controleer(invoer, catalogus) {
 			if (!data.adres || !data.postcode || !data.plaats) return fout('Vul je adres volledig in.');
 		}
 		data.opmerkingen = tekst(b.opmerkingen, 2000);
+		// Kortingscode (optioneel): alleen de vorm hier; of hij geldt, kijkt index.ts na in de database
+		if (regel(b.kortingscode, 40)) {
+			data.kortingscode = normaliseerCode(b.kortingscode);
+			if (!data.kortingscode) return fout('Deze kortingscode klopt niet. Controleer de spelling, of laat het veld leeg.');
+		}
 		const regels = Array.isArray(b.regels) ? b.regels : [];
 		if (!regels.length) return fout('Je winkelwagen is leeg.');
 		if (regels.length > 50) return fout('Dat zijn te veel regels voor één bestelling. Stuur me even een mail.');
@@ -219,6 +224,82 @@ export function prijzen(regels, catalogus) {
 		});
 	}
 	return { ok: true, regels: uit, totaal: rond(uit.reduce(function (som, r) { return som + r.regelTotaal; }, 0)) };
+}
+
+// ---------------------------------------------------------------------------------------------- kortingscodes
+
+// Wie zijn aanmelding voor de nieuwsbrief bevestigt, krijgt één persoonlijke code (keuzepagina webshopverkoop,
+// 6-11-2026): willekeurig, een paar maanden geldig, één keer te gebruiken, alleen met het e-mailadres van de aanmelding,
+// en niet op producten die al voordeliger zijn (een set of een introductieprijs: "geenKorting" in winkel.json).
+// Hoeveel procent en hoe lang staat in winkel.json > winkel.korting; zonder dat blok is er geen korting.
+
+// Geen tekens die op elkaar lijken (0/O, 1/I/L), zodat je een code foutloos overtypt
+export const CODE_TEKENS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+
+// bytes: 8 willekeurige bytes (crypto.getRandomValues). Geeft bijvoorbeeld "JD-7KQ4-XM2P".
+export function maakKortingscode(bytes) {
+	const t = Array.from(bytes).slice(0, 8).map(function (b) { return CODE_TEKENS[b % CODE_TEKENS.length]; }).join('');
+	return 'JD-' + t.slice(0, 4) + '-' + t.slice(4, 8);
+}
+
+// Wat iemand intypt, in de vaste vorm ("jd 7kq4 xm2p" en "JD7KQ4XM2P" worden "JD-7KQ4-XM2P"); '' als het geen code kan zijn
+export function normaliseerCode(invoer) {
+	const kaal = String(invoer == null ? '' : invoer).toUpperCase().replace(/[\s.\-_]/g, '');
+	const m = /^JD([A-Z0-9]{4})([A-Z0-9]{4})$/.exec(kaal);
+	return m ? 'JD-' + m[1] + '-' + m[2] : '';
+}
+
+// Tot wanneer een code geldt: hetzelfde moment, een aantal maanden later
+export function codeGeldigTot(nu, maanden) {
+	const d = new Date(nu);
+	d.setMonth(d.getMonth() + maanden);
+	return d;
+}
+
+export function datumKort(moment) {
+	return new Date(moment).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Amsterdam' });
+}
+
+// rij: de code uit de database (of null), emailHash: de hash van het adres van de bestelling.
+// Geeft null als de code gebruikt mag worden, anders de melding voor de klant.
+export function kortingFout(rij, emailHash, nu) {
+	if (!rij) return 'Deze kortingscode bestaat niet. Controleer de spelling.';
+	if (rij.email_hash !== emailHash) return 'Deze code hoort bij een ander e-mailadres. Vul het adres in waarmee je je aanmeldde voor de nieuwsbrief.';
+	if (rij.gebruikt_op) return 'Deze kortingscode is al gebruikt.';
+	if (new Date(rij.geldig_tot).getTime() < new Date(nu).getTime()) return 'Deze kortingscode is verlopen op ' + datumKort(rij.geldig_tot) + '.';
+	return null;
+}
+
+// Hoeveel korting op de nagerekende regels (uit prijzen()): alleen over producten zonder "geenKorting".
+// Geeft { over, bedrag, uitgesloten: [productnamen] }; bedrag 0 als er niets is waar de code voor geldt.
+export function kortingOp(regels, catalogus, procent) {
+	const telt = function (r) { return !(catalogus[r.id] && catalogus[r.id].geenKorting); };
+	const over = rond(regels.filter(telt).reduce(function (som, r) { return som + r.regelTotaal; }, 0));
+	const uitgesloten = Array.from(new Set(regels.filter(function (r) { return !telt(r); }).map(function (r) { return r.naam; })));
+	return { over: over, bedrag: rond(over * procent / 100), uitgesloten: uitgesloten };
+}
+
+export const GEEN_KORTING_OVER = 'Deze code geldt niet voor producten die al voordeliger zijn, zoals een set of een introductieprijs. Voeg iets anders toe, of haal de code weg.';
+
+// De mail met de code, direct na het bevestigen van de aanmelding
+export function mailKortingscode(code, geldigTot, procent, winkel) {
+	const tot = datumKort(geldigTot);
+	const onderwerp = 'Je kortingscode: ' + procent + '% op je volgende bestelling bij ' + winkel.naam;
+	const inhoud = bovenkop('Welkom bij de nieuwsbrief') + titel('Je kortingscode')
+		+ alinea('Hoi, bedankt voor je aanmelding! Als welkom krijg je ' + procent + '% korting op je volgende bestelling in de webshop.')
+		+ '<div style="background:' + KLEUR.zacht + ';border-radius:12px;padding:18px 20px;margin:6px 0 16px 0;text-align:center">'
+		+ '<p style="margin:0;font:700 26px/1.2 ' + "'JetBrains Mono',Consolas,monospace" + ';letter-spacing:0.08em;color:' + KLEUR.tekst + '">' + esc(code) + '</p>'
+		+ '<p style="margin:6px 0 0 0;font-size:14px;color:' + KLEUR.gedempt + '">' + procent + '% korting · geldig tot en met ' + esc(tot) + '</p></div>'
+		+ knoppen([[winkel.url + '/webshop.html', 'Naar de webshop']])
+		+ alinea(gedempt('Vul de code in bij het afrekenen, met dit e-mailadres. Hij geldt één keer, voor de producten (niet de verzendkosten) en niet voor producten die al voordeliger zijn, zoals een set of een introductieprijs.'), 'font-size:14px;margin-top:8px')
+		+ alinea('Groet,<br><strong>' + esc(winkel.eigenaar.split(' ')[0]) + '</strong><br>' + gedempt(esc(winkel.naam)));
+	return {
+		onderwerp: onderwerp,
+		html: omhulsel(onderwerp, procent + '% korting op je volgende bestelling, met code ' + code + '.', inhoud, winkelVoet(winkel, 'nieuwsbrief'), winkel),
+		tekst: 'Bedankt voor je aanmelding! Als welkom krijg je ' + procent + '% korting op je volgende bestelling.\n\nJe code: ' + code
+			+ '\nGeldig tot en met ' + tot + ', één keer, met dit e-mailadres. Niet voor de verzendkosten en niet voor producten die al voordeliger zijn.'
+			+ '\n\n' + winkel.url + '/webshop.html\n\n' + voetTekst(winkel)
+	};
 }
 
 // Ordernummer: tijd in base36 plus twee willekeurige tekens, kort genoeg om over de telefoon te noemen
@@ -413,7 +494,8 @@ function nieuwsbriefBlok(href) {
 }
 
 // De bestelde producten met foto. url: het adres van de site, waar de foto's staan.
-function regelsHtml(regels, totaal, voetnoot, url) {
+// korting: { code, procent, bedrag } als er een kortingscode is gebruikt; totaal is dan het bedrag ná korting.
+function regelsHtml(regels, totaal, voetnoot, url, korting) {
 	const cel = 'padding:12px 0;vertical-align:top;border-bottom:1px solid ' + KLEUR.lijn;
 	return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px">'
 		+ regels.map(function (r) {
@@ -427,17 +509,23 @@ function regelsHtml(regels, totaal, voetnoot, url) {
 				+ (r.aantal > 1 ? '<br>' + gedempt(euro(r.prijs) + ' per stuk') : '') + '</td>'
 				+ '<td style="' + cel + ';padding-left:12px;text-align:right;white-space:nowrap">' + euro(r.regelTotaal) + '</td></tr>';
 		}).join('')
+		+ (korting
+			? '<tr><td></td><td style="padding:12px 0 2px 0">Subtotaal</td><td style="padding:12px 0 2px 0;text-align:right;white-space:nowrap">' + euro(rond(totaal + korting.bedrag)) + '</td></tr>'
+				+ '<tr><td></td><td style="padding:2px 0">Korting ' + korting.procent + '% (' + esc(korting.code) + ')</td><td style="padding:2px 0;text-align:right;white-space:nowrap">−' + euro(korting.bedrag) + '</td></tr>'
+			: '')
 		+ '<tr><td></td><td style="padding:14px 0 2px 0;font:700 16px/1.3 ' + KOP + '">Totaal</td>'
 		+ '<td style="padding:14px 0 2px 0;text-align:right;white-space:nowrap;font:700 16px/1.3 ' + KOP + '">' + euro(totaal) + '</td></tr>'
 		+ (voetnoot ? '<tr><td></td><td colspan="2" style="padding:2px 0 4px 0;color:' + KLEUR.gedempt + ';font-size:13px">' + esc(voetnoot) + '</td></tr>' : '')
 		+ '</table>';
 }
 
-function regelsTekst(regels, totaal) {
+function regelsTekst(regels, totaal, korting) {
 	return regels.map(function (r) {
 		return r.aantal + '× ' + r.naam + (r.variant ? ' (' + r.variant + ')' : '') + ' — ' + euro(r.regelTotaal)
 			+ (r.tekst ? '\n   ' + r.tekstLabel + ': ' + r.tekst : '');
-	}).join('\n') + '\nTotaal: ' + euro(totaal);
+	}).join('\n')
+		+ (korting ? '\nKorting ' + korting.procent + '% (' + korting.code + '): -' + euro(korting.bedrag) : '')
+		+ '\nTotaal: ' + euro(totaal);
 }
 
 function adresRegel(d) {
@@ -485,7 +573,7 @@ export function mailEigenaar(data, extra, winkel) {
 			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Je bestelling ' + extra.id + ' bij ' + winkel.naam), 'Mail ' + (voornaam(data.naam) || 'klant')],
 				['tel:' + data.telefoon.replace(/[^\d+]/g, ''), 'Bel ' + data.telefoon], gereageerd])
 			+ kop('Besteld')
-			+ regelsHtml(extra.regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten.' : 'Wordt opgehaald, geen verzendkosten.', winkel.url)
+			+ regelsHtml(extra.regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten.' : 'Wordt opgehaald, geen verzendkosten.', winkel.url, extra.korting)
 			+ kop('Klant')
 			+ gegevens(klant.concat([
 				['Levering', data.levering === 'Ophalen' ? 'Zelf ophalen in ' + esc(winkel.ophaalplaats) : 'Verzenden'],
@@ -493,7 +581,7 @@ export function mailEigenaar(data, extra, winkel) {
 				['Opmerkingen', data.opmerkingen ? esc(data.opmerkingen).replace(/\n/g, '<br>') : ''],
 				['Akkoord', data.akkoord ? 'Voorwaarden en privacyverklaring, op ' + esc(moment) : '']
 			]));
-		tekstversie = 'NIEUWE BESTELLING ' + extra.id + '\n' + moment + '\n\n' + regelsTekst(extra.regels, extra.totaal)
+		tekstversie = 'NIEUWE BESTELLING ' + extra.id + '\n' + moment + '\n\n' + regelsTekst(extra.regels, extra.totaal, extra.korting)
 			+ '\n\nKLANT\nNaam: ' + data.naam + '\nE-mail: ' + data.email + '\nTelefoon: ' + data.telefoon
 			+ '\nLevering: ' + (data.levering === 'Ophalen' ? 'Zelf ophalen' : 'Verzenden, ' + adresRegel(data))
 			+ (data.opmerkingen ? '\nOpmerkingen: ' + data.opmerkingen : '');
@@ -558,7 +646,7 @@ export function mailKlant(data, extra, winkel) {
 			+ alinea(hoi + ' ik heb je bestelling goed ontvangen. Hieronder zie je wat je hebt besteld en hoe het verder gaat.')
 			+ alinea(label('Bestelnummer ' + esc(extra.id)))
 			+ kop('Dit heb je besteld')
-			+ regelsHtml(regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten. Die hoor je van mij voordat je betaalt.' : 'Je haalt het op in ' + winkel.ophaalplaats + ', dus zonder verzendkosten.', winkel.url)
+			+ regelsHtml(regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten. Die hoor je van mij voordat je betaalt.' : 'Je haalt het op in ' + winkel.ophaalplaats + ', dus zonder verzendkosten.', winkel.url, extra.korting)
 			+ (data.levering === 'Verzenden' ? alinea(gedempt('Bezorgadres: ' + esc(adres)), 'margin-top:10px;font-size:14px') : '')
 			+ kop('Hoe gaat het nu verder?')
 			+ stappen([
@@ -568,7 +656,7 @@ export function mailKlant(data, extra, winkel) {
 			])
 			+ notitie('<strong>Dit is een ontvangstbevestiging:</strong> je hoeft nu nog niets te betalen. Na ons contact krijg je van mij de definitieve bevestiging met de totaalprijs, inclusief eventuele verzendkosten, en de levertijd. Pas als jij die goedkeurt, is de bestelling definitief.')
 			+ nieuwsbrief + afsluiting;
-		tekstversie = (naam ? 'Hoi ' + naam + ',' : 'Hoi,') + '\n\nBedankt voor je bestelling! Je bestelnummer is ' + extra.id + '.\n\n' + regelsTekst(regels, extra.totaal)
+		tekstversie = (naam ? 'Hoi ' + naam + ',' : 'Hoi,') + '\n\nBedankt voor je bestelling! Je bestelnummer is ' + extra.id + '.\n\n' + regelsTekst(regels, extra.totaal, extra.korting)
 			+ (data.levering === 'Verzenden' ? '\n(exclusief verzendkosten)\nBezorgadres: ' + adres : '\nJe haalt het op in ' + winkel.ophaalplaats + '.')
 			+ '\n\nHoe nu verder: ik neem persoonlijk contact met je op. Pas als alles klopt, betaal je en ga ik printen. ' + winkel.levertijd
 			+ '\n\nDit is een ontvangstbevestiging: je hoeft nu nog niets te betalen. Na ons contact krijg je de definitieve bevestiging met de totaalprijs en de levertijd.';

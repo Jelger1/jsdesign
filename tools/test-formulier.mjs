@@ -8,7 +8,8 @@ import { readFileSync, existsSync } from 'node:fs';
 import {
 	controleer, spamSignaal, stilWeggooien, prijzen, ordernummer, mailEigenaar, mailKlant, ontcijferMail, MIN_DUUR_MS,
 	controleerBestanden, bestandsnaam, grootteTekst, typesTekst, mailNieuwsbrief, mailHerinnering, telling,
-	herkomstLijst, toegestaneHerkomst
+	herkomstLijst, toegestaneHerkomst, maakKortingscode, normaliseerCode, codeGeldigTot, kortingFout, kortingOp, mailKortingscode,
+	CODE_TEKENS, GEEN_KORTING_OVER
 } from '../supabase/functions/formulier/logica.js';
 import helpers from '../src/templates/helpers.js';
 
@@ -491,4 +492,60 @@ test('alle bestelbare producten van de site zijn na te rekenen', { skip: !exists
 			assert.equal(r.totaal, Math.round(v.price * 200) / 100, id + '/' + v.id);
 		}
 	}
+});
+
+test('kortingscodes: vorm, invoer en geldigheid', function () {
+	const code = maakKortingscode([0, 1, 2, 3, 30, 31, 255, 128]);
+	assert.match(code, /^JD-[A-Z0-9]{4}-[A-Z0-9]{4}$/);
+	assert.equal(code, 'JD-ABCD-' + CODE_TEKENS[30] + CODE_TEKENS[0] + CODE_TEKENS[255 % 31] + CODE_TEKENS[128 % 31]);
+	for (const t of 'O0I1L') assert.equal(CODE_TEKENS.indexOf(t), -1, 'geen teken dat op een ander lijkt: ' + t);
+	assert.equal(normaliseerCode(' jd 7kq4 xm2p '), 'JD-7KQ4-XM2P');
+	assert.equal(normaliseerCode('JD7KQ4XM2P'), 'JD-7KQ4-XM2P');
+	assert.equal(normaliseerCode('jd-7kq4-xm2p'), 'JD-7KQ4-XM2P');
+	for (const mis of ['BEDANKT10', '', 'JD-7KQ4', 'XX-7KQ4-XM2P', null]) assert.equal(normaliseerCode(mis), '', String(mis));
+	assert.equal(codeGeldigTot(Date.UTC(2026, 10, 6, 12), 3).toISOString().slice(0, 10), '2027-02-06');
+
+	const nu = new Date('2026-11-06T12:00:00Z');
+	const rij = { email_hash: 'abc', gebruikt_op: null, geldig_tot: '2027-02-06T12:00:00Z' };
+	assert.equal(kortingFout(rij, 'abc', nu), null);
+	assert.match(kortingFout(null, 'abc', nu), /bestaat niet/);
+	assert.match(kortingFout(rij, 'xyz', nu), /ander e-mailadres/);
+	assert.match(kortingFout({ ...rij, gebruikt_op: '2026-12-01T10:00:00Z' }, 'abc', nu), /al gebruikt/);
+	assert.match(kortingFout(rij, 'abc', new Date('2027-02-07T00:00:00Z')), /verlopen op 6 februari 2027/);
+});
+
+test('kortingscodes: alleen over producten zonder geenKorting, op centen afgerond', function () {
+	const catalogus = { ...CATALOGUS, set: { name: 'Mijnstreek-set', sale: 'cart', variants: [{ id: 'standaard', price: 19.95 }], geenKorting: true } };
+	const r = prijzen([{ id: 'vaas', variant: 'm', aantal: 1, tekst: '' }, { id: 'set', variant: 'standaard', aantal: 2, tekst: '' }], catalogus);
+	assert.equal(r.ok, true);
+	const k = kortingOp(r.regels, catalogus, 10);
+	assert.deepEqual(k, { over: 24.95, bedrag: 2.5, uitgesloten: ['Mijnstreek-set'] });
+	const alleenSet = kortingOp(prijzen([{ id: 'set', variant: 'standaard', aantal: 1 }], catalogus).regels, catalogus, 10);
+	assert.equal(alleenSet.bedrag, 0, 'alleen een set: geen korting');
+	assert.match(GEEN_KORTING_OVER, /al voordeliger/);
+});
+
+test('kortingscodes: invoer bij een bestelling en de korting in de mails', function () {
+	assert.equal(ok(bestelling({ bestelling: { ...bestelling().bestelling, kortingscode: 'jd7kq4xm2p' } })).kortingscode, 'JD-7KQ4-XM2P');
+	assert.equal(ok(bestelling({ bestelling: { ...bestelling().bestelling, kortingscode: '  ' } })).kortingscode, undefined, 'leeg veld: geen code');
+	assert.match(fout(bestelling({ bestelling: { ...bestelling().bestelling, kortingscode: 'BEDANKT10' } })), /kortingscode klopt niet/);
+
+	const data = ok(bestelling());
+	const r = prijzen(data.regels, CATALOGUS);
+	const korting = { code: 'JD-7KQ4-XM2P', procent: 10, bedrag: 4.99, over: 49.9 };
+	const extra = { id: 'JS3D-TEST', regels: r.regels, totaal: 44.91, korting, moment: '2026-11-06T12:00:00Z', dashboard: 'https://x' };
+	for (const mail of [mailKlant(data, extra, WINKEL), mailEigenaar(data, extra, WINKEL)]) {
+		assert.match(mail.html, /Subtotaal/);
+		assert.match(mail.html, /Korting 10% \(JD-7KQ4-XM2P\)/);
+		assert.match(mail.html, /€49,90/);
+		assert.match(mail.html, /€44,91/);
+		assert.match(mail.tekst, /Korting 10% \(JD-7KQ4-XM2P\): -€4,99/);
+	}
+	assert.doesNotMatch(mailKlant(data, { ...extra, korting: null, totaal: 49.9 }, WINKEL).html, /Subtotaal/, 'zonder code geen kortingsregel');
+
+	const m = mailKortingscode('JD-7KQ4-XM2P', '2027-02-06T12:00:00Z', 10, WINKEL);
+	assert.match(m.onderwerp, /10% op je volgende bestelling/);
+	assert.match(m.html, /JD-7KQ4-XM2P/);
+	assert.match(m.html, /6 februari 2027/);
+	assert.match(m.tekst, /JD-7KQ4-XM2P/);
 });

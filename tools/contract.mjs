@@ -34,7 +34,9 @@ const AFWIJKINGEN = {
 	'winkel.herroepen': 'de pagina Bestelling herroepen (art. 6:230oa BW), gelinkt onder de bevestiging van een bestelling (oktober 2026)',
 	'product mijnstreek-set': "nieuw product: Koempel-eend, D'r Joep 15 cm en Vlaai-sleutelhanger als set van €19,95 (keuzepagina webshopverkoop, november 2026)",
 	'mijnstreek-set': 'nieuw product, met de lijst van wat erin zit (set) voor de suggesties in de winkelwagen (november 2026)',
-	'g:id mijnstreek-set*': 'nieuw product, november 2026 (een feed-item per variant)'
+	'g:id mijnstreek-set*': 'nieuw product, november 2026 (een feed-item per variant)',
+	'winkel.korting': 'kortingscodes voor de nieuwsbrief: procent en geldigheid voor de functie (november 2026)',
+	'mijnwerkerslamp.geenKorting': 'introductieprijs loopt tot 31-12-2026: geen kortingscode op de lamp; deze regel daarna weghalen'
 };
 const gebruikt = new Set();
 

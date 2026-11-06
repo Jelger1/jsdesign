@@ -27,6 +27,21 @@ export function initBevestig() {
 		acties.hidden = false;
 	}
 
+	function toonCode(k) {
+		const tot = new Date(k.geldigTot).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+		const blok = document.createElement('div');
+		blok.className = 'bevestig-code';
+		blok.innerHTML = '<p><strong data-code></strong><span>' + k.procent + '% korting · geldig tot en met ' + tot + '</span></p>'
+			+ '<button type="button" class="btn outline" data-kopieer>Kopieer code</button>';
+		blok.querySelector('[data-code]').textContent = k.code;
+		const knop = blok.querySelector('[data-kopieer]');
+		knop.addEventListener('click', function () {
+			const gelukt = function () { knop.textContent = 'Gekopieerd'; };
+			if (navigator.clipboard) navigator.clipboard.writeText(k.code).then(gelukt, function () {});
+		});
+		tekst.insertAdjacentElement('afterend', blok);
+	}
+
 	let gegevens;
 	if (pagina.dataset.bevestig === 'bevestig') {
 		gegevens = { actie: 'bevestig', token: code.get('t') || '' };
@@ -37,6 +52,14 @@ export function initBevestig() {
 
 	verstuur(Object.assign({ pagina: location.pathname }, gegevens)).then(function (antwoord) {
 		if (gegevens.actie === 'bevestig') {
+			// De persoonlijke kortingscode (de functie maakt hem bij het bevestigen; per adres hooguit één)
+			const k = antwoord.korting;
+			if (k && !k.gebruikt && !k.verlopen) {
+				klaar('Je bent aangemeld!', (k.al ? 'Je had al een kortingscode. ' : 'Als welkom krijg je ' + k.procent + '% korting op je volgende bestelling. ')
+					+ 'Vul de code in bij het afrekenen, met dit e-mailadres. Hij staat ook in je mail.', true);
+				toonCode(k);
+				return;
+			}
 			klaar('Je bent aangemeld!', 'Je hoort het als eerste als er een nieuw ontwerp is. Afmelden kan altijd, met één klik onderaan elke mail.', true);
 			return;
 		}
