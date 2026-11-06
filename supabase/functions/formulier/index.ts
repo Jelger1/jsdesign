@@ -25,7 +25,7 @@
 //
 // Instellingen (Supabase > Edge Functions > Secrets):
 //   RESEND_API_KEY   verplicht, de sleutel van resend.com (voor de nieuwsbrief met toegang tot contacten)
-//   MAIL_VAN         afzender, standaard "JelgersDesign <bestellingen@jelgersdesign.nl>" (domein moet bij Resend
+//   MAIL_VAN         afzender, standaard "Jelger van JelgersDesign <bestellingen@jelgersdesign.nl>" (domein moet bij Resend
 //                    geverifieerd zijn; jelgersdesign.nl sinds 3 november 2026, daarvoor jelgers3d.nl)
 //   MAIL_VAN_PORTFOLIO  optioneel: afzender voor het portfolio (standaard hetzelfde adres met de naam JelgersDesign)
 //   MAIL_EIGENAAR    waar Jelger de overzichten wil ontvangen
@@ -49,7 +49,8 @@ import {
 } from './logica.js';
 
 const SITE_URL = (Deno.env.get('SITE_URL') ?? 'https://jelgersdesign.nl').replace(/\/$/, '');
-const MAIL_VAN = Deno.env.get('MAIL_VAN') ?? 'JelgersDesign <bestellingen@jelgersdesign.nl>';
+// Een persoonlijke afzendernaam (zoals bij de nieuwsbrief): Gmail zet mails van een merknaam eerder bij Reclame
+const MAIL_VAN = Deno.env.get('MAIL_VAN') ?? 'Jelger van JelgersDesign <bestellingen@jelgersdesign.nl>';
 const MAIL_EIGENAAR = Deno.env.get('MAIL_EIGENAAR') ?? '';
 const RESEND_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';

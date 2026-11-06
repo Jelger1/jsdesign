@@ -430,7 +430,7 @@ function omhulsel(titel, preheader, inhoud, voet, winkel) {
 		+ '<tr><td style="padding:0 4px 20px 4px"><a href="' + esc(url) + '" style="text-decoration:none">' + logoKop(winkel) + '</a></td></tr>'
 		+ '<tr><td bgcolor="' + KLEUR.kaart + '" style="background:' + KLEUR.kaart + ';border-radius:16px;overflow:hidden">'
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">'
-		+ '<tr><td height="4" bgcolor="' + KLEUR.merk + '" style="height:4px;line-height:4px;font-size:0;background:' + KLEUR.merk + ';background-image:linear-gradient(90deg,' + KLEUR.roze + ',' + KLEUR.merk + ')">&nbsp;</td></tr>'
+		+ '<tr><td height="4" bgcolor="' + KLEUR.merk + '" style="height:4px;line-height:4px;font-size:0;background:' + KLEUR.merk + '">&nbsp;</td></tr>' // effen: geen verloop (zoals op de site)
 		+ '<tr><td class="kaart" style="padding:32px 32px 14px 32px;font:15px/1.6 ' + LETTER + ';color:' + KLEUR.tekst + '">' + inhoud + '</td></tr>'
 		+ '</table></td></tr>'
 		+ '<tr><td style="padding:22px 4px 0 4px;font:12px/1.7 ' + LETTER + ';color:' + KLEUR.grijs + '">' + voet + '</td></tr>'
@@ -551,7 +551,7 @@ function voetLink(href, t) { return '<a href="' + esc(href) + '" style="color:' 
 function winkelVoet(w, soort) {
 	return '<strong style="color:' + KLEUR.licht + '">' + esc(w.naam) + '</strong>' + (w.slogan ? ' · ' + esc(w.slogan) : '') + (w.portfolio || WINKELMAILS.indexOf(soort) === -1 ? '' : ' · Handgemaakt in Limburg') + '<br>'
 		+ (w.portfolio ? '' : esc(w.adres) + ' · KvK ' + esc(w.kvk) + ' · Btw ' + esc(w.btw) + '<br>')
-		+ [voetLink(w.url, w.url.replace(/^https?:\/\//, '')), w.instagram ? voetLink(w.instagram, 'Instagram') : '',
+		+ [voetLink(w.url, w.url.replace(/^https?:\/\//, '')), w.instagram && soort === 'nieuwsbrief' ? voetLink(w.instagram, 'Instagram') : '' /* in een bevestiging zo min mogelijk links: dat lijkt minder op reclame */,
 			w.portfolio ? '' : voetLink(w.url + '/voorwaarden.html', 'Algemene voorwaarden'), voetLink(w.url + '/privacy.html', 'Privacyverklaring'),
 			// Na een bestelling: de herroepingsknop (alleen als de site er een heeft; winkel.json noemt dan de pagina)
 			w.herroepen && soort === 'bestelling' ? voetLink(w.url + '/' + w.herroepen, 'Bestelling herroepen') : ''].filter(Boolean).join(' · ');

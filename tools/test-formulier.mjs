@@ -222,7 +222,7 @@ test('mails bij een bestelling', function () {
 	assert.ok(jelger.html.includes('src="https://jelgers3d.nl/assets/mail/logo.png" width="44" height="41"'));
 	assert.ok(jelger.html.includes('text-transform:uppercase;color:#f3fffd">JelgerS3D</td>'), 'naam naast het teken');
 	assert.ok(jelger.html.includes("font-family:\"Saira\"") && jelger.html.includes("'DM Sans'") && jelger.html.includes("font-family:\"Stevie Sans\""));
-	assert.ok(jelger.html.includes('linear-gradient(90deg,#f10067,#03bcca)'));
+	assert.ok(jelger.html.includes('height:4px') && !jelger.html.includes('linear-gradient'), 'effen balk boven de kaart, geen verloop');
 	assert.ok(jelger.html.includes('<img src="https://jelgers3d.nl/assets/mail/kami-vase-c-400.jpg" width="48" height="60" alt=""'));
 
 	const klant = mailKlant(data, extra, WINKEL);
@@ -235,7 +235,8 @@ test('mails bij een bestelling', function () {
 	assert.ok(!klant.html.includes('in het rood'), 'opmerkingen alleen voor Jelger');
 	assert.ok(klant.html.includes('KvK 12345678'));
 	assert.ok(klant.html.includes('Bestelnummer JS3D-TEST01. Je betaalt nog niets'), 'voorbeeldregel in de inbox');
-	assert.ok(klant.html.includes('>Instagram</a>') && klant.html.includes('3D-design met karakter · Handgemaakt in Limburg'));
+	assert.ok(!klant.html.includes('>Instagram</a>') && klant.html.includes('3D-design met karakter · Handgemaakt in Limburg'), 'een bevestiging zonder Instagram-link (minder links, minder reclame)');
+	assert.ok(mailNieuwsbrief('https://x/nieuwsbrief.html#t=1', WINKEL).html.includes('>Instagram</a>'), 'de nieuwsbriefmail houdt de Instagram-link');
 	assert.ok(klant.tekst.startsWith('Hoi Anne-Marie,'));
 	assert.ok(!klant.html.includes('gereageerd'), 'de knop voor Jelger staat niet in de mail aan de klant');
 	assert.ok(!klant.html.includes('Als eerste horen'), 'zonder vinkje geen nieuwsbriefblok');
