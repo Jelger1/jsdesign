@@ -93,6 +93,9 @@ export function initCheckout() {
 		new FormData(form).forEach(function (value, key) { values[key] = String(value).trim(); });
 		const lines = cart.getLines();
 		const total = cart.total();
+		// De functie kent geen kortingscodes: de code staat bovenaan de opmerkingen, Jelger verrekent hem bij het bevestigen
+		const code = (values.kortingscode || '').replace(/\s+/g, '').toUpperCase().slice(0, 30);
+		const opmerkingen = (code ? 'Kortingscode: ' + code + (values.notes ? '\n' : '') : '') + (values.notes || '');
 
 		sending = true;
 		submitBtn.disabled = true;
@@ -115,12 +118,12 @@ export function initCheckout() {
 				postcode: values.postcode,
 				plaats: values.city,
 				land: values.country,
-				opmerkingen: values.notes,
+				opmerkingen: opmerkingen,
 				regels: lines.map(function (line) { return { id: line.id, variant: line.variant, aantal: line.qty, tekst: line.text || '' }; })
 			}
 		}).then(function (antwoord) {
 			try {
-				sessionStorage.setItem(LAST_ORDER_KEY, JSON.stringify({ id: antwoord.id, mail: antwoord.mail === true, nieuwsbrief: values.nieuwsbrief === 'ja', lines: lines, total: antwoord.totaal != null ? antwoord.totaal : total, tracked: false }));
+				sessionStorage.setItem(LAST_ORDER_KEY, JSON.stringify({ id: antwoord.id, mail: antwoord.mail === true, nieuwsbrief: values.nieuwsbrief === 'ja', korting: code, lines: lines, total: antwoord.totaal != null ? antwoord.totaal : total, tracked: false }));
 			} catch (e) { /* zonder sessionStorage toont de bedanktpagina alleen de algemene tekst */ }
 			cart.clear();
 			location.href = form.dataset.thanks;
@@ -143,10 +146,24 @@ export function initThanks() {
 	try { order = JSON.parse(sessionStorage.getItem(LAST_ORDER_KEY)); } catch (e) {}
 	if (!order || !order.lines || !order.lines.length) return;
 
-	// Vinkje voor de nieuwsbrief al aangezet: dan geen tweede aanmeldveld, maar een verwijzing naar de knop in de mail
+	// Korting op je volgende bestelling voor wie zich aanmeldt (shop.json > nieuwsbriefKorting): de code met de datum
+	// tot wanneer hij geldt, gerekend vanaf vandaag
 	const newsletter = document.getElementById('thanks-newsletter');
+	const korting = document.getElementById('thanks-korting');
+	const tekst = document.getElementById('thanks-newsletter-text');
+	if (korting) {
+		const procent = korting.dataset.procent;
+		const tot = new Date();
+		tot.setMonth(tot.getMonth() + (Number(korting.dataset.maanden) || 3));
+		korting.querySelector('[data-korting-tot]').textContent = tot.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+		korting.hidden = false;
+		document.getElementById('thanks-newsletter-heading').textContent = procent + '% korting op je volgende bestelling';
+		tekst.textContent = 'Meld je hieronder aan voor de nieuwsbrief en bevestig je aanmelding via de mail. Dan geldt deze code voor je volgende bestelling.';
+	}
+
+	// Vinkje voor de nieuwsbrief al aangezet: dan geen tweede aanmeldveld, maar een verwijzing naar de knop in de mail
 	if (newsletter && order.nieuwsbrief && order.mail) {
-		document.getElementById('thanks-newsletter-text').textContent = 'Je vinkte aan dat je op de hoogte wilt blijven. Bevestig dat met de knop in je bevestigingsmail; pas dan sta je op de lijst.';
+		tekst.textContent = 'Je vinkte aan dat je op de hoogte wilt blijven. Bevestig dat met de knop in je bevestigingsmail; pas dan sta je op de lijst' + (korting ? ' en geldt deze code.' : '.');
 		const form = newsletter.querySelector('form');
 		if (form) form.remove();
 	}
@@ -156,7 +173,8 @@ export function initThanks() {
 	// Bestelnummer, en alleen als de ontvangstbevestiging echt is verstuurd ook dat het in je mail staat
 	const number = document.getElementById('thanks-number');
 	if (number && order.id) {
-		number.innerHTML = 'Je bestelnummer is <strong>' + esc(order.id) + '</strong>.' + (order.mail ? ' Je krijgt ook een ontvangstbevestiging per mail.' : '');
+		number.innerHTML = 'Je bestelnummer is <strong>' + esc(order.id) + '</strong>.' + (order.mail ? ' Je krijgt ook een ontvangstbevestiging per mail.' : '')
+			+ (order.korting ? ' Je kortingscode ' + esc(order.korting) + ' staat bij je bestelling; ik verreken hem als ik je bestelling bevestig.' : '');
 		number.hidden = false;
 	}
 

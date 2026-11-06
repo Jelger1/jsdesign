@@ -109,3 +109,18 @@
 .pdp-video h2{font-size:1.5rem;margin-bottom:1.25rem}
 .pdp-video video{display:block;width:100%;max-width:900px;height:auto;aspect-ratio:16/9;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--dark-card)}
 .pdp-video-caption{max-width:900px;margin:0.75rem 0 0 0;font-size:0.85rem;color:var(--fg-muted)}
+
+/* Echte aantallen, setprijs, wie het maakt en waar het ook ligt (src/templates/product.js) */
+.pdp-bewijs{display:flex;align-items:center;gap:0.55rem;margin:0.65rem 0 0 0;font-size:0.92rem;font-weight:600;color:var(--fg)}
+.pdp-bewijs::before{content:'';flex:none;width:10px;height:10px;background:var(--brand)}
+.pdp-set-note{margin:0.4rem 0 0 0;font-size:0.9rem;color:var(--fg-muted)}
+.pdp-maker{display:flex;align-items:center;gap:0.9rem;margin-top:1.25rem;padding:0.9rem 1rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card)}
+.pdp-maker-foto{flex:none;width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:50% 18%;background:var(--dark-secondary)}
+.pdp-maker p{margin:0;font-size:0.9rem;line-height:1.5;color:var(--soft)}
+.pdp-maker a{color:var(--brand)}
+.pdp-maker-naam{display:block;margin-top:0.2rem;font-family:var(--font-accent);font-style:italic;font-size:1.15rem;line-height:1.2;color:var(--fg)}
+.pdp-verkooppunten{margin:0.9rem 0 0 0;font-size:0.86rem;line-height:1.55;color:var(--fg-muted)}
+.pdp-verkooppunten strong{color:var(--fg);font-weight:600}
+.review-vraag{margin-top:2.5rem;margin-bottom:0;text-align:center;font-size:0.95rem;color:var(--fg-muted)}
+.review-vraag a,.reviews-check a{color:var(--brand)}
+.reviews-check{margin:1rem 0 0 0;font-size:0.85rem;color:var(--fg-muted)}

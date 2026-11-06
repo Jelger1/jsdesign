@@ -96,7 +96,28 @@
 		"shipping": "Vanaf {minimum} aan producten. De verzendkosten hangen af van het product; je hoort ze van mij voordat je betaalt.",
 		"pickup": "Zelf ophalen in Kerkrade kan ook, dan betaal je geen verzendkosten."
 	},
-	"deadlines": [],
+	"deadlines": [
+		{ "occasion": "Sinterklaas", "showFrom": "2026-11-06", "orderBefore": "2026-11-22" },
+		{ "occasion": "Kerst", "showFrom": "2026-11-23", "orderBefore": "2026-12-13" }
+	],
+	"geprint": {
+		"totaal": 1022,
+		"jaar": 2026,
+		"aanWinkels": 963,
+		"bron": "Facturen en boekhouding tot 10 oktober 2026; per product staat het aantal bij 'geprint' in products.json"
+	},
+	"verkooppunten": [
+		{ "naam": "Nederlands Mijnmuseum", "lidwoord": "het", "plaats": "Heerlen", "producten": ["koempel-eend"] },
+		{ "naam": "Discovery Museum", "plaats": "Kerkrade", "producten": ["koempel-eend", "dr-joep", "mijnschacht-nulland", "kirchroa-sleutelhanger", "vlaai-sleutelhanger"] },
+		{ "naam": "Boekhandel Deurenberg", "plaats": "Kerkrade", "producten": ["koempel-eend", "dr-joep", "mijnschacht-nulland", "kirchroa-sleutelhanger", "vlaai-sleutelhanger", "poefel-sleutelhanger"] },
+		{ "naam": "Brouwerij Rolduc", "plaats": "Kerkrade", "producten": ["koempel-eend", "dr-joep", "mijnschacht-nulland", "blonde-non"] },
+		{ "naam": "Visit Zuid-Limburg", "plaats": "Valkenburg", "producten": ["koempel-eend", "dr-joep"] }
+	],
+	"nieuwsbriefKorting": {
+		"procent": 10,
+		"code": "BEDANKT10",
+		"maanden": 3
+	},
 	"homeUsps": [
 		{
 			"title": "Eigen ontwerpen",
@@ -169,6 +190,14 @@
 		{
 			"q": "Kun je ook iets op maat maken?",
 			"a": "Zeker. Van een lightbox met jouw logo tot een sleutelhanger met je eigen plaatsnaam of een compleet nieuw ontwerp. Stuur een bericht met je idee, dan denk ik met je mee."
+		},
+		{
+			"q": "Krijg ik korting als ik me aanmeld voor de nieuwsbrief?",
+			"a": "Ja. Bestel je iets en meld je je aan voor de nieuwsbrief, dan krijg je 10% korting op de producten van je volgende bestelling. Die bestelling doe je binnen 3 maanden, en je aanmelding moet bevestigd zijn. De code staat op de bedankpagina na je bestelling. Ik trek de korting eraf als ik je volgende bestelling bevestig."
+		},
+		{
+			"q": "Verkoop je ook aan winkels en bedrijven?",
+			"a": "Ja. Musea, een brouwerij, een boekhandel en Visit Zuid-Limburg verkopen mijn ontwerpen al. Vanaf 10 stuks maak ik een zakelijke prijs, ook voor relatiegeschenken in je eigen kleur of met je logo. Kijk op de pagina Voor winkels en bedrijven."
 		}
 	],
 	"pickupLocation": "Kerkrade",
@@ -331,7 +360,8 @@
 					"list": [
 						"**D'r Joep** – het Limburgse mijnwerkersicoon in een strak, gefacetteerd ontwerp, 15 of 25 cm.",
 						"**Koempel-eend** – een badeend met mijnwerkershelm en lamp, het goedkoopste model in deze categorie.",
-						"**Blonde Non** – ontworpen in opdracht van Brouwerij Rolduc en alleen bij de brouwerij te koop."
+						"**Blonde Non** – ontworpen in opdracht van Brouwerij Rolduc en alleen bij de brouwerij te koop.",
+						"**Mijnstreek-set** – de Koempel-eend, D'r Joep van 15 cm en een Vlaai-sleutelhanger samen, voordeliger dan los."
 					]
 				},
 				{
@@ -446,6 +476,7 @@
 		{
 			"slug": "limburgse-cadeaus",
 			"label": "Limburgse cadeaus",
+			"verkooppunten": true,
 			"filter": {
 				"collection": "limburg"
 			},
@@ -459,7 +490,7 @@
 					"heading": "Een cadeau per prijsklasse",
 					"list": [
 						"**Tot €10** – de sleutelhangers (vlaai, poefel, Kirchroa of je eigen straatnaam) en de Koempel-eend.",
-						"**€10 tot €25** – D'r Joep, de Blonde Non en de kleinste maat van de modellen van Schacht Nulland, Oranje-Nassau I en het Raadhuis Kerkrade.",
+						"**€10 tot €25** – D'r Joep, de Blonde Non, de Mijnstreek-set en de kleinste maat van de modellen van Schacht Nulland, Oranje-Nassau I en het Raadhuis Kerkrade.",
 						"**Vanaf €25** – de grootste maat van die modellen en de Mijnwerkerslamp met wifi-lamp."
 					]
 				},

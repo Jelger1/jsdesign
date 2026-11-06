@@ -90,7 +90,8 @@ function layout(page, ctx) {
 	const cart = h.fill(ctx.partials.cart, {
 		root: root,
 		shippingNote: h.esc(site.shipping.note),
-		shippingMinimum: String(site.shipping.minimum || 0)
+		shippingMinimum: String(site.shipping.minimum || 0),
+		deadlines: h.esc(JSON.stringify(site.deadlines || []))
 	});
 
 	// Google Tag Manager alleen in productie, en pas na toestemming voor statistieken of marketing (besluit 13):

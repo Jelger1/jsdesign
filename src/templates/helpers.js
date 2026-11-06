@@ -154,10 +154,11 @@ function uploadField(site, soort, opts) {
 }
 
 // Het vinkje voor de nieuwsbrief in formulieren: standaard uit, en pas na de bevestigingsknop in de mail sta je op de lijst
-function nieuwsbriefCheckbox(id) {
+// tekst: een andere zin naast het vinkje (bij afrekenen staat de korting op je volgende bestelling erbij)
+function nieuwsbriefCheckbox(id, tekst) {
 	return '<div class="form-consent form-optin">'
 		+ '<label class="form-consent-label" for="' + id + '"><input type="checkbox" id="' + id + '" name="nieuwsbrief" value="ja">'
-		+ '<span>Houd me op de hoogte van nieuwe ontwerpen (af en toe een mail, afmelden kan altijd)</span></label>'
+		+ '<span>' + esc(tekst || 'Houd me op de hoogte van nieuwe ontwerpen (af en toe een mail, afmelden kan altijd)') + '</span></label>'
 		+ '</div>';
 }
 
@@ -196,7 +197,30 @@ function fill(template, values) {
 	});
 }
 
+// Echte aantallen in gewone taal, altijd naar beneden afgerond: 592 wordt "bijna 600" (binnen 3% van het volgende
+// honderdtal), 167 wordt "ruim 150", 1022 wordt "ruim 1.000". Zo klopt de tekst ook als er inmiddels meer zijn verkocht.
+function aantalTekst(n) {
+	const stap = n >= 1000 ? 1000 : n >= 100 ? 50 : 10;
+	const volgend = Math.ceil(n / 100) * 100;
+	if (n >= 50 && n < 1000 && volgend - n > 0 && (volgend - n) / volgend <= 0.03) return 'bijna ' + volgend.toLocaleString('nl-NL');
+	const omlaag = Math.floor(n / stap) * stap;
+	return (omlaag === n ? '' : 'ruim ') + omlaag.toLocaleString('nl-NL');
+}
+
+// Winkels die een product ook verkopen (shop.json > verkooppunten), als zin: "het Nederlands Mijnmuseum (Heerlen) en
+// Discovery Museum (Kerkrade)". Plaatsen die vaker voorkomen staan één keer, achter de laatste winkel daar.
+function verkooppuntenZin(lijst) {
+	const delen = [];
+	lijst.forEach(function (v, i) {
+		const volgende = lijst[i + 1];
+		const naam = (v.lidwoord ? v.lidwoord + ' ' : '') + v.naam;
+		delen.push(volgende && volgende.plaats === v.plaats ? naam : naam + ' (' + v.plaats + ')');
+	});
+	return delen.length > 1 ? delen.slice(0, -1).join(', ') + ' en ' + delen[delen.length - 1] : delen.join('');
+}
+
 module.exports = {
+	aantalTekst: aantalTekst, verkooppuntenZin: verkooppuntenZin,
 	esc: esc, euro: euro, minPrice: minPrice, priceLabel: priceLabel, priceHtml: priceHtml, productUrl: productUrl, projectUrl: projectUrl,
 	img: img, imgPath: imgPath, srcset: srcset, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill,
 	addressLine: addressLine, privacyCheckbox: privacyCheckbox, mailCode: mailCode, mailLink: mailLink,

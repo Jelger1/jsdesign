@@ -8,6 +8,7 @@ import { initRails } from './rail.js';
 import { initForms } from './forms.js';
 import { initProduct } from './product.js';
 import { initRequest } from './request.js';
+import { initReview } from './review.js';
 import { initShop } from './shop.js';
 import { initCheckout, initThanks } from './checkout.js';
 import { initKeychain } from './keychain.js';
@@ -44,7 +45,8 @@ initForms(); // contactformulier: op de contactpagina; doet elders niets
 initHerroep(); // bestelling herroepen: op herroepen.html; doet elders niets
 if (page === 'shop') initShop();
 if (page === 'product') initProduct();
-initRequest(); // aanvraagformulier: op productpagina's met maatwerk en op de printservicepagina
+initRequest(); // aanvraagformulier: op productpagina's met maatwerk, de printservicepagina en zakelijk.html
+initReview(); // review.html; doet elders niets
 initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagina) of de teaser (Tastbaar, oude homepage)
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();

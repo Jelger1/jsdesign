@@ -389,6 +389,7 @@
 		"material": "Bioplastic op plantaardige basis",
 		"sale": "cart",
 		"featured": true,
+		"geprint": 167,
 		"tagline": "Strak design met Limburgse roots, een moderne klassieker voor op je bureau of kast.",
 		"description": [
 			"D'r Joep, de mijnwerker die symbool staat voor iedereen die in Limburg ondergronds werkte. Hier opnieuw vormgegeven in strakke vlakken, als een origami-figuur: jas open, lamp in de hand, blik vooruit. Herkenbaar van een afstand, verrassend modern van dichtbij.",
@@ -425,6 +426,8 @@
 		"material": "Bioplastic op plantaardige basis",
 		"sale": "cart",
 		"featured": true,
+		"badge": "Meest verkocht",
+		"geprint": 592,
 		"tagline": "Modern icoon van Limburgse trots, het perfecte cadeau of eyecatcher op je bureau.",
 		"description": [
 			"Een badeend met een mijnwerkershelm en een lamp in de vleugel. Meer uitleg heeft de Koempel-eend niet nodig. Koempel is Limburgs voor mijnwerker, en deze kleine kameraad draagt dat verleden met een knipoog.",
@@ -449,6 +452,46 @@
 			"description": "De Koempel-eend: een badeend met mijnwerkershelm en lamp. Een Limburgs cadeau met een knipoog, 3D-geprint in Limburg. €6,95."
 		},
 		"related": ["mijnwerkerslamp", "dr-joep", "mijnschacht-nulland"]
+	},
+	{
+		"id": "mijnstreek-set",
+		"name": "Mijnstreek-set",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "Bioplastic op plantaardige basis",
+		"sale": "cart",
+		"featured": false,
+		"badge": "Set",
+		"set": [
+			{ "id": "koempel-eend" },
+			{ "id": "dr-joep", "variant": "15cm" },
+			{ "id": "vlaai-sleutelhanger" }
+		],
+		"tagline": "De Koempel-eend, D'r Joep en een punt vlaai in één cadeau. Precies genoeg om te laten verzenden.",
+		"description": [
+			"Drie Limburgse klassiekers in één keer: de Koempel-eend met helm en lamp, D'r Joep van 15 cm en een punt pruimenvlaai voor aan de sleutelbos. Alle drie eigen ontwerpen, geprint in Kerkrade.",
+			"Een cadeau voor wie de mijnstreek in het hart draagt, of voor wie Limburg ooit verliet. Heb je een kleurwens? Zet hem bij je bestelling in het opmerkingenveld, dan stemmen we het af."
+		],
+		"highlights": [
+			"Koempel-eend, D'r Joep van 15 cm en een Vlaai-sleutelhanger",
+			"Als set voordeliger dan los",
+			"Genoeg om te laten verzenden"
+		],
+		"specs": [
+			{ "label": "Inhoud", "value": "Koempel-eend, D'r Joep (15 cm), Vlaai-sleutelhanger" },
+			{ "label": "Ontwerp", "value": "Eigen 3D-modellen, geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 19.95 }
+		],
+		"images": [
+			{ "file": "Mijnstreek-set.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De drie ontwerpen uit de Mijnstreek-set: D'r Joep in zwart, de gele Koempel-eend met helm en lamp, en een Vlaai-sleutelhanger" }
+		],
+		"seo": {
+			"title": "Mijnstreek-set: Limburgs cadeau van €19,95",
+			"description": "Koempel-eend, D'r Joep (15 cm) en een Vlaai-sleutelhanger in één Limburgs cadeau, 3D-geprint in Kerkrade. Als set €19,95, genoeg om te verzenden."
+		},
+		"related": ["koempel-eend", "dr-joep", "vlaai-sleutelhanger"]
 	},
 	{
 		"id": "vlaai-sleutelhanger",

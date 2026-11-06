@@ -64,6 +64,21 @@ function productsFor(page, products) {
 	});
 }
 
+// "Ook in de winkel" (shop.json > categoryPages > verkooppunten: true): de winkels uit shop.json > verkooppunten en het
+// echte aantal van dit jaar (shop.json > geprint), met een link naar de pagina voor winkels en bedrijven
+function verkooppuntenSectie(page, site) {
+	const lijst = site.verkooppunten || [];
+	if (!page.verkooppunten || !lijst.length) return '';
+	const geprint = site.geprint && site.geprint.totaal
+		? ' Dit jaar gingen er al ' + h.aantalTekst(site.geprint.totaal) + ' ontwerpen de deur uit.'
+		: '';
+	return '\t<section class="category-text" aria-labelledby="ook-in-de-winkel">\n'
+		+ '\t\t<h2 id="ook-in-de-winkel">Ook in de winkel</h2>\n'
+		+ '\t\t<p>Liever eerst in het echt zien? De Koempel-eend, D\'r Joep en andere ontwerpen liggen ook bij ' + h.esc(h.verkooppuntenZin(lijst)) + '.' + geprint + '</p>\n'
+		+ '\t\t<p>Heb je zelf een winkel of zoek je relatiegeschenken? <a href="zakelijk.html">Lees hoe je ze inkoopt</a>.</p>\n'
+		+ '\t</section>\n';
+}
+
 function categoryPage(page, ctx) {
 	const site = ctx.site;
 	const products = productsFor(page, ctx.products);
@@ -88,6 +103,7 @@ function categoryPage(page, ctx) {
 		+ '\t</section>\n'
 		+ (page.compare ? compareTable(page, products) : '')
 		+ sections(page)
+		+ verkooppuntenSectie(page, site)
 		+ faqSection(page)
 		+ '\t<nav class="category-more" aria-label="Meer categorieën">\n'
 		+ '\t\t<p>Verder kijken</p>\n'

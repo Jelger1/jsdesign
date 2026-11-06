@@ -14,6 +14,7 @@ const RULES = {
 	city: function (value) { return !value ? 'Vul je woonplaats in.' : ''; },
 	text: function (value) { return value.length < 5 ? 'Vertel kort wat je wilt laten maken.' : ''; },
 	message: function (value) { return value.length < 5 ? 'Vertel kort waar je vraag of idee over gaat.' : ''; },
+	review: function (value) { return value.length < 5 ? 'Schrijf een paar woorden over wat je ervan vindt.' : ''; },
 	bestelling: function (value) { return !value ? 'Vul je bestelnummer in, of de datum waarop je bestelde.' : ''; },
 	privacy: function (value, input) { return input.checked ? '' : 'Vink dit aan om het formulier te kunnen versturen.'; }
 };

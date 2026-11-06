@@ -139,6 +139,37 @@ function introNote(product) {
 		+ '. Daarna ' + h.euro(product.variants[0].regularPrice) + '.</p>\n';
 }
 
+// Echte aantallen ("geprint" in products.json, geteld uit de facturen). Bewust "geprint" en niet "tevreden klanten":
+// het meeste ging via winkels.
+function geprintNote(product) {
+	if (!product.geprint) return '';
+	return '\t\t<p class="pdp-bewijs">Al ' + h.aantalTekst(product.geprint) + ' keer geprint</p>\n';
+}
+
+// Een set ("set" in products.json): wat de onderdelen los samen kosten, uitgerekend uit hun eigen prijzen
+function setNote(product, ctx) {
+	if (!product.set) return '';
+	const los = product.set.reduce(function (som, deel) {
+		const p = ctx.byId[deel.id];
+		const v = p && (p.variants.find(function (x) { return x.id === deel.variant; }) || p.variants[0]);
+		if (!v) throw new Error('Set ' + product.id + ': onderdeel ' + deel.id + ' bestaat niet');
+		return som + v.price;
+	}, 0);
+	return '\t\t<p class="pdp-set-note">Los gekocht kosten ze samen ' + h.euro(Math.round(los * 100) / 100) + '.</p>\n';
+}
+
+// Wie het maakt, met een gezicht: onder de koopknop. Plus de winkels waar het product ook ligt (shop.json > verkooppunten).
+function makerBlock(product, ctx, root) {
+	const site = ctx.site;
+	const portret = site.homeImages && site.homeImages.about;
+	const winkels = (site.verkooppunten || []).filter(function (v) { return v.producten.indexOf(product.id) !== -1; });
+	return '\t\t<div class="pdp-maker">\n'
+		+ (portret ? '\t\t\t' + h.img(ctx.images, portret.file, { alt: '', sizes: '56px', root: root, className: 'pdp-maker-foto' }) + '\n' : '')
+		+ '\t\t\t<p>Ik ontwerp en print elk stuk zelf in ' + h.esc(site.pickupLocation) + '. Vraag over kleur of maat? <a href="' + root + 'contact.html?onderwerp=tastbaar">Stuur me een bericht</a>.<span class="pdp-maker-naam">Jelger</span></p>\n'
+		+ '\t\t</div>\n'
+		+ (winkels.length ? '\t\t<p class="pdp-verkooppunten"><strong>Ook te koop bij</strong> ' + h.esc(h.verkooppuntenZin(winkels)) + '.</p>\n' : '');
+}
+
 // Promovideo (optioneel, "video" in products.json). Laadt pas als de bezoeker op play drukt.
 function videoSection(product, ctx, root) {
 	if (!product.video) return '';
@@ -236,6 +267,8 @@ function productPage(product, ctx) {
 		+ '\t\t<p class="pdp-tagline">' + h.esc(product.tagline) + '</p>\n'
 		+ (price ? '\t\t<p class="pdp-price" id="pdp-price" aria-live="polite">' + price + '</p>\n' : '\t\t<p class="pdp-price pdp-price-muted">Binnenkort beschikbaar</p>\n')
 		+ introNote(product)
+		+ setNote(product, ctx)
+		+ geprintNote(product)
 		+ (product.sale === 'cart' ? '\t\t<p class="pdp-price-note">' + h.esc(site.shipping.note) + '</p>\n' : '')
 		+ '\t\t' + buyBox(product, ctx, root) + '\n'
 		+ '\t\t<ul class="pdp-usps">\n'
@@ -245,6 +278,7 @@ function productPage(product, ctx) {
 			? '\t\t<details class="pdp-delivery">\n\t\t\t<summary>Levering en verzendkosten</summary>\n'
 				+ '\t\t\t<p>' + h.esc(site.delivery.leadTimeLong) + '</p>\n\t\t\t<p>' + h.esc(site.delivery.shipping) + ' ' + h.esc(site.delivery.pickup) + '</p>\n\t\t</details>\n'
 			: '')
+		+ makerBlock(product, ctx, root)
 		+ '\t</div>\n'
 		+ '\t</article>\n\n'
 		+ '\t<div class="pdp-details">\n'
@@ -266,7 +300,7 @@ function productPage(product, ctx) {
 		+ '\t</div>\n'
 		+ '</div>\n\n'
 		+ videoSection(product, ctx, root)
-		+ c.reviewsSection(reviews, 'Wat klanten zeggen over de ' + product.name) + '\n'
+		+ c.reviewsSection(reviews, 'Wat klanten zeggen over de ' + product.name, { root: root, product: product })
 		+ (related.length
 			? '<section class="container pdp-related" aria-labelledby="related-heading">\n'
 				+ '\t<h2 id="related-heading">Past erbij</h2>\n'

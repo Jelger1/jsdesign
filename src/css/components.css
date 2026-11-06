@@ -189,3 +189,15 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 @media (prefers-reduced-motion:reduce){
 	*,*::before,*::after{animation-duration:0.01ms !important;animation-delay:0s !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;transition-delay:0s !important;scroll-behavior:auto !important}
 }
+
+/* Winkelwagen: het product dat het verzendminimum haalt, de feestdagdeadline en "staat nog klaar" (src/js/cart-ui.js) */
+.cart-suggest-item--verzend{border-style:solid;border-color:var(--brand)}
+.cart-suggest-item--verzend span{color:var(--fg)}
+.cart-footer .cart-deadline{margin:0}
+.wagen-terug{position:fixed;left:max(1rem, env(safe-area-inset-left, 0px));bottom:calc(1rem + env(safe-area-inset-bottom, 0px) + var(--koopbalk-hoogte, 0px));z-index:998;display:flex;align-items:center;gap:0.75rem;max-width:min(380px, calc(100vw - 2rem));padding:0.7rem 0.6rem 0.7rem 1rem;background:var(--dark-card);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:6px 6px 0 0 var(--brand)}
+.wagen-terug p{margin:0;display:flex;flex-direction:column;gap:0.1rem;min-width:0;font-size:0.9rem;line-height:1.35}
+.wagen-terug span{color:var(--fg-muted);font-size:0.84rem}
+.wagen-terug .btn{flex:none;padding:0.55rem 0.9rem;font-size:0.88rem}
+.wagen-terug-sluit{flex:none;width:32px;height:32px;border:0;background:transparent;color:var(--fg-muted);font-size:0.95rem;cursor:pointer;border-radius:50%}
+.wagen-terug-sluit:hover{color:var(--fg)}
+@media (max-width:640px){.wagen-terug{right:max(1rem, env(safe-area-inset-right, 0px));max-width:none;bottom:calc(1rem + env(safe-area-inset-bottom, 0px) + var(--koopbalk-hoogte, 0px) + 76px)}}

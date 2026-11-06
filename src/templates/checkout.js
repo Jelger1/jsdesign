@@ -39,6 +39,7 @@ function steps(active) {
 
 function checkoutPage(ctx) {
 	const site = ctx.site;
+	const korting = site.nieuwsbriefKorting;
 	const main = '<div class="container checkout-page">\n'
 		+ '\t<p class="checkout-back"><a href="webshop.html">← Verder winkelen</a></p>\n'
 		+ '\t<h1>Bestelling afronden</h1>\n'
@@ -79,10 +80,14 @@ function checkoutPage(ctx) {
 		+ '\t\t\t<fieldset>\n'
 		+ '\t\t\t\t<legend>Wensen</legend>\n'
 		+ '\t\t\t\t' + field({ name: 'notes', label: 'Opmerkingen', type: 'textarea', required: false, placeholder: 'Gewenste kleur, eigen naam, bijzonderheden...' }) + '\n'
+		// De kortingscode gaat als regel bij de opmerkingen mee (src/js/checkout.js); Jelger verrekent hem bij het bevestigen
+		+ '\t\t\t\t' + field({ name: 'kortingscode', label: 'Kortingscode', required: false, className: 'form-group-narrow', placeholder: korting ? 'Bijv. ' + korting.code : '' }) + '\n'
 		+ '\t\t\t</fieldset>\n'
 		// Onzichtbaar veld tegen spamrobots: is het aangevinkt, dan gooit de Supabase-functie de inzending stil weg
 		+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
-		+ '\t\t\t' + h.nieuwsbriefCheckbox('co-nieuwsbrief') + '\n'
+		+ '\t\t\t' + h.nieuwsbriefCheckbox('co-nieuwsbrief', korting
+			? 'Houd me op de hoogte van nieuwe ontwerpen en geef me ' + korting.procent + '% korting op mijn volgende bestelling (af en toe een mail, afmelden kan altijd)'
+			: '') + '\n'
 		+ '\t\t\t' + h.privacyCheckbox(site, '', 'co-privacy', true) + '\n'
 		+ '\t\t\t<p id="checkout-msg" class="checkout-msg" role="alert"></p>\n'
 		+ '\t\t\t<button type="submit" id="checkout-submit" class="btn btn-primary btn-block">Aanvraag versturen</button>\n'
@@ -114,6 +119,7 @@ function checkoutPage(ctx) {
 
 function thanksPage(ctx) {
 	const site = ctx.site;
+	const korting = site.nieuwsbriefKorting;
 	const main = '<div class="container checkout-page thanks-page">\n'
 		+ '\t<div class="success-icon" aria-hidden="true">✓</div>\n'
 		+ '\t<h1>Bedankt voor je aanvraag!</h1>\n'
@@ -130,6 +136,14 @@ function thanksPage(ctx) {
 		+ '\t\t<h2 id="thanks-newsletter-heading">Als eerste horen over nieuwe ontwerpen?</h2>\n'
 		+ '\t\t<p id="thanks-newsletter-text">Laat je e-mailadres achter. Je krijgt alleen een mail als er iets nieuws is, en afmelden kan altijd.</p>\n'
 		+ '\t\t' + h.nieuwsbriefForm('bedankt', '') + '\n'
+		// Korting op je volgende bestelling (shop.json > nieuwsbriefKorting). Alleen na een bestelling: checkout.js zet de
+		// datum erin en toont het blok. Jelger controleert de voorwaarden zelf als hij de volgende bestelling bevestigt.
+		+ (korting
+			? '\t\t<div class="thanks-korting" id="thanks-korting" data-maanden="' + korting.maanden + '" data-procent="' + korting.procent + '" hidden>\n'
+				+ '\t\t\t<p class="thanks-code">Code <strong>' + h.esc(korting.code) + '</strong><span>' + korting.procent + '% korting · geldig tot en met <span data-korting-tot></span></span></p>\n'
+				+ '\t\t\t<p class="thanks-korting-voorwaarden">Vul de code in bij je volgende bestelling. Hij geldt één keer, voor de producten (niet de verzendkosten), en alleen als je je aanmelding voor de nieuwsbrief hebt bevestigd. Ik trek de korting eraf als ik je bestelling bevestig.</p>\n'
+				+ '\t\t</div>\n'
+			: '')
 		+ '\t</section>\n'
 		+ '\t<p class="thanks-actions"><a class="btn btn-primary" href="webshop.html">Verder kijken in de webshop</a> <a class="btn outline" href="' + h.esc(site.instagram) + '" target="_blank" rel="noopener noreferrer">Volg op Instagram</a></p>\n'
 		+ '</div>';

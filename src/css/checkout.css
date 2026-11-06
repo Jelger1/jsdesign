@@ -133,3 +133,10 @@
 
 /* Onder het minimum voor verzenden (src/js/checkout.js): een rustige melding onder de keuze, geen foutkleur */
 .checkout-verzend{margin:1rem 0 0;padding:0.75rem 1rem;border-left:2px solid var(--brand);background:var(--dark-secondary);border-radius:0 var(--radius) var(--radius) 0;color:var(--fg);font-size:0.95rem;line-height:1.5}
+
+/* Bedankpagina: de code voor korting op je volgende bestelling (shop.json > nieuwsbriefKorting) */
+.thanks-korting{margin-top:1.25rem;padding:1rem 1.1rem;border:1px dashed var(--brand);border-radius:var(--radius)}
+.thanks-code{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0.35rem 0.8rem;font-size:1rem;color:var(--fg)}
+.thanks-code strong{font-family:var(--font-mono);font-size:1.35rem;letter-spacing:0.06em;color:var(--brand)}
+.thanks-code > span{color:var(--fg-muted);font-size:0.9rem}
+.thanks-korting-voorwaarden{margin:0.5rem 0 0 0;font-size:0.82rem;line-height:1.5;color:var(--fg-muted)}

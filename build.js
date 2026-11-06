@@ -13,6 +13,7 @@ const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
 const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage, archivePages, herroepPage, winactiePage } = require('./src/templates/pages');
 const { pillarPage } = require('./src/templates/pillar');
+const { reviewPage, zakelijkPage } = require('./src/templates/winkel-extra');
 const overPage = require('./src/templates/over');
 const portfolioPage = require('./src/templates/portfolio');
 const { casePage, caseImages, caseCover, caseTitel, hoofdstukAnker } = require('./src/templates/case');
@@ -382,6 +383,8 @@ function catalogData(products, images) {
 			personalize: Boolean(p.personalize),
 			wish: Boolean(p.wish)
 		};
+		// Een set: welke producten erin zitten, zodat de winkelwagen hem niet voorstelt naast wat er al in ligt
+		if (p.set) catalog[p.id].set = p.set.map(function (deel) { return deel.id; });
 	});
 	return catalog;
 }
@@ -689,7 +692,7 @@ async function build() {
 		.concat([contactPage(ctx, read('src/pages/contact.html'))])
 		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
-		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), herroepPage(ctx, read('src/pages/herroepen.html')), winactiePage(ctx, read('src/pages/winactie.html')), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
+		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), herroepPage(ctx, read('src/pages/herroepen.html')), winactiePage(ctx, read('src/pages/winactie.html')), reviewPage(ctx), zakelijkPage(ctx), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
 		.concat(archivePages(ctx, read))
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	// De leesbare sitemap: alle pagina's die in Google horen

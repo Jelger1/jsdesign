@@ -64,30 +64,81 @@ function render() {
 	}).join('') + '</ul>';
 }
 
+// Het product dat het verschil tot het verzendminimum dicht: de goedkoopste uitvoering die genoeg is, bij gelijke prijs
+// eerst wat bij de wagen past. Ook producten met maten tellen mee (dan met die maat), maar geen set met iets erin dat
+// al in de wagen ligt, en niets met een eigen tekst. Geeft { id, variant } of null.
+function gapCloser(lines, inCart, tekort) {
+	const related = new Set(lines.flatMap(function (line) { return catalog[line.id].related; }));
+	const kandidaten = [];
+	Object.keys(catalog).forEach(function (id) {
+		const p = catalog[id];
+		if (p.sale !== 'cart' || p.personalize || inCart.has(id)) return;
+		if ((p.set || []).some(function (deel) { return inCart.has(deel); })) return;
+		const v = p.variants.filter(function (x) { return x.price >= tekort; }).sort(function (a, b) { return a.price - b.price; })[0];
+		if (v) kandidaten.push({ id: id, variant: v, related: related.has(id) });
+	});
+	kandidaten.sort(function (a, b) { return a.variant.price - b.variant.price || Number(b.related) - Number(a.related); });
+	return kandidaten[0] || null;
+}
+
+function suggestItem(id, variant, note) {
+	const p = catalog[id];
+	const naam = p.name + (p.variants.length > 1 && variant.label ? ' ' + variant.label : '');
+	return '<li class="cart-suggest-item' + (note ? ' cart-suggest-item--verzend' : '') + '">'
+		+ '<img src="' + root + esc(p.image) + '" alt="" width="48" height="60" loading="lazy">'
+		+ '<div><a href="' + root + esc(p.url) + '">' + esc(naam) + '</a><span>' + euro(variant.price) + (note ? ' · ' + esc(note) : '') + '</span></div>'
+		+ '<button type="button" class="cart-suggest-add" data-add="' + esc(id) + '" data-variant="' + esc(variant.id) + '" data-source="' + (note ? 'suggestie-verzenden' : 'suggestie') + '" aria-label="' + esc(naam) + ' toevoegen">+</button>'
+		+ '</li>';
+}
+
 // Suggesties zijn kleine extra's die je er makkelijk bij neemt (tot ADDON_MAX euro), niet nóg een vaas van €35.
 // Eerst wat bij de artikelen in de wagen past ("related" in products.json), daarna de voordeligste.
 // Alleen producten die je met één klik kunt toevoegen (dus zonder variantkeuze).
+// Ligt de wagen onder het verzendminimum, dan staat bovenaan wat het verschil dicht (gapCloser).
 function renderSuggestions(lines) {
 	const inCart = new Set(lines.map(function (line) { return line.id; }));
 	const price = function (id) { return catalog[id].variants[0].price; };
+	const tekort = Math.round((VERZEND_MINIMUM - cart.total()) * 100) / 100;
+	const closer = lines.length && tekort > 0 ? gapCloser(lines, inCart, tekort) : null;
 	const isAddon = function (id) {
 		const p = catalog[id];
 		// Producten met een eigen tekst kun je niet met één klik toevoegen: die ontwerp je eerst
-		return p && p.sale === 'cart' && p.variants.length === 1 && !p.personalize && !inCart.has(id) && price(id) <= ADDON_MAX;
+		return p && p.sale === 'cart' && p.variants.length === 1 && !p.personalize && !inCart.has(id) && price(id) <= ADDON_MAX
+			&& !(closer && closer.id === id) && !(p.set || []).some(function (deel) { return inCart.has(deel); });
 	};
 	const related = lines.flatMap(function (line) { return catalog[line.id].related; });
 	const cheapest = Object.keys(catalog).filter(isAddon).sort(function (a, b) { return price(a) - price(b); });
-	const picks = Array.from(new Set(related.concat(cheapest))).filter(isAddon).slice(0, MAX_SUGGESTIONS);
+	const picks = Array.from(new Set(related.concat(cheapest))).filter(isAddon).slice(0, closer ? MAX_SUGGESTIONS - 1 : MAX_SUGGESTIONS);
 
-	suggestEl.hidden = lines.length === 0 || picks.length === 0;
-	suggestList.innerHTML = picks.map(function (id) {
-		const p = catalog[id];
-		return '<li class="cart-suggest-item">'
-			+ '<img src="' + root + esc(p.image) + '" alt="" width="48" height="60" loading="lazy">'
-			+ '<div><a href="' + root + esc(p.url) + '">' + esc(p.name) + '</a><span>' + euro(p.variants[0].price) + '</span></div>'
-			+ '<button type="button" class="cart-suggest-add" data-add="' + esc(id) + '" data-variant="' + esc(p.variants[0].id) + '" data-source="suggestie" aria-label="' + esc(p.name) + ' toevoegen">+</button>'
-			+ '</li>';
-	}).join('');
+	suggestEl.hidden = lines.length === 0 || (picks.length === 0 && !closer);
+	suggestList.innerHTML = (closer ? suggestItem(closer.id, closer.variant, 'hiermee kun je laten verzenden') : '')
+		+ picks.map(function (id) { return suggestItem(id, catalog[id].variants[0], ''); }).join('');
+}
+
+// Komt iemand terug met iets in de winkelwagen (de browser bewaart hem), dan één keer per bezoek een rustige melding.
+// Alleen bij de eerste pagina van een bezoek: wie tijdens het bezoek zelf iets toevoegt, krijgt hem niet.
+const TERUG_KEY = 'jd-wagen-bezoek';
+function initTerugkeer() {
+	let nieuwBezoek = false;
+	try {
+		nieuwBezoek = !sessionStorage.getItem(TERUG_KEY);
+		sessionStorage.setItem(TERUG_KEY, '1');
+	} catch (e) { return; }
+	const pagina = document.body.dataset.page;
+	if (!nieuwBezoek || !cart.count() || pagina === 'checkout' || pagina === 'thanks') return;
+
+	const n = cart.count();
+	const melding = document.createElement('div');
+	melding.className = 'wagen-terug';
+	melding.setAttribute('role', 'status');
+	melding.innerHTML = '<p><strong>Je winkelwagen staat nog klaar</strong><span>' + n + (n === 1 ? ' artikel' : ' artikelen') + ' · ' + euro(cart.total()) + '</span></p>'
+		+ '<button type="button" class="btn btn-primary" data-wagen-open>Bekijk</button>'
+		+ '<button type="button" class="wagen-terug-sluit" data-wagen-sluit aria-label="Melding sluiten">✕</button>';
+	document.body.appendChild(melding);
+	const weg = function () { melding.remove(); };
+	melding.querySelector('[data-wagen-open]').addEventListener('click', function () { weg(); openCart(); });
+	melding.querySelector('[data-wagen-sluit]').addEventListener('click', weg);
+	setTimeout(weg, 12000);
 }
 
 export function openCart() {
@@ -129,6 +180,7 @@ export function initCartUi() {
 	if (!sidebar) return;
 	cart.subscribe(render);
 	render();
+	initTerugkeer();
 
 	toggle.addEventListener('click', openCart);
 	overlay.addEventListener('click', closeCart);

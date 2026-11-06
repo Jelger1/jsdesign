@@ -18,7 +18,7 @@ function velden(form, values) {
 }
 
 export function initRequest() {
-	const form = document.querySelector('.request-form');
+	const form = document.querySelector('.request-form[data-request]');
 	if (!form) return;
 	const message = form.querySelector('[data-request-msg]');
 	const success = document.querySelector('[data-request-success]');

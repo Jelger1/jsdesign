@@ -84,14 +84,24 @@ function reviewCard(review) {
 		+ '</li>';
 }
 
-function reviewsSection(reviews, heading) {
-	if (!reviews.length) return '';
+// opts.root: pad naar de hoofdmap; opts.product: op een productpagina gaat de link naar het reviewformulier met dat
+// product al ingevuld, en staat zonder reviews alleen de vraag of je er een wilt schrijven.
+function reviewsSection(reviews, heading, opts) {
+	opts = opts || {};
+	const root = opts.root || '';
+	const href = root + 'review.html' + (opts.product ? '?product=' + encodeURIComponent(opts.product.id) : '');
+	if (!reviews.length) {
+		if (!opts.product || opts.product.sale !== 'cart') return '';
+		return '<p class="container review-vraag">Heb je de ' + h.esc(opts.product.name) + ' al? <a href="' + href + '">Vertel hoe hij bevalt</a></p>\n';
+	}
 	return '<section class="reviews-banner" aria-labelledby="reviews-heading">\n'
 		+ '\t<h2 id="reviews-heading" class="reviews-heading">' + h.esc(heading) + '</h2>\n'
 		+ '\t<ul class="reviews-track" tabindex="0" aria-label="Klantreviews, horizontaal te scrollen">\n'
 		+ reviews.map(reviewCard).join('\n') + '\n'
 		+ '\t</ul>\n'
-		+ '</section>';
+		// Omnibus-regels (sinds 28 mei 2022): zeg erbij of en hoe je controleert dat reviews van echte kopers komen
+		+ '\t<p class="reviews-check">Alleen reviews van mensen die echt bij mij kochten; ik controleer elke review voordat hij hier staat. <a href="' + href + '">Schrijf een review</a></p>\n'
+		+ '</section>\n';
 }
 
 // Horizontale rail met scroll-snap en vorige/volgende-knoppen

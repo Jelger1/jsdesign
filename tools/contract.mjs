@@ -31,7 +31,10 @@ const winkel = JSON.parse(readFileSync(join(DIST, 'js/winkel.json'), 'utf8'));
 // de laatste test; de referentie maak je alleen opnieuw bij een her-sync (tools/contract-referentie.mjs).
 const AFWIJKINGEN = {
 	'winkel.logo': 'het logo van JS Design bovenaan de mails, als plaatje (oktober 2026); de oude webshop heeft alleen het teken',
-	'winkel.herroepen': 'de pagina Bestelling herroepen (art. 6:230oa BW), gelinkt onder de bevestiging van een bestelling (oktober 2026)'
+	'winkel.herroepen': 'de pagina Bestelling herroepen (art. 6:230oa BW), gelinkt onder de bevestiging van een bestelling (oktober 2026)',
+	'product mijnstreek-set': "nieuw product: Koempel-eend, D'r Joep 15 cm en Vlaai-sleutelhanger als set van €19,95 (keuzepagina webshopverkoop, november 2026)",
+	'mijnstreek-set': 'nieuw product, met de lijst van wat erin zit (set) voor de suggesties in de winkelwagen (november 2026)',
+	'g:id mijnstreek-set*': 'nieuw product, november 2026 (een feed-item per variant)'
 };
 const gebruikt = new Set();
 
