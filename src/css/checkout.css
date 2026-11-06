@@ -72,7 +72,7 @@
 .thanks-intro{font-size:1.125rem;color:var(--fg-muted);line-height:1.7;max-width:56ch;margin:0 0 2.5rem}
 .thanks-intro strong{color:var(--soft)}
 .thanks-order{position:static;text-align:left;margin-bottom:2rem}
-.thanks-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
+.thanks-actions{display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center}
 
 /* Aanvraagformulier op de productpagina */
 .request-form{margin-top:1.5rem;padding:1.5rem;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg)}
