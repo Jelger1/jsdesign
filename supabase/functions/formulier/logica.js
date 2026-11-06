@@ -285,7 +285,7 @@ export const GEEN_KORTING_OVER = 'Deze code geldt niet voor producten die al voo
 export function mailKortingscode(code, geldigTot, procent, winkel) {
 	const tot = datumKort(geldigTot);
 	const onderwerp = 'Je kortingscode: ' + procent + '% op je volgende bestelling bij ' + winkel.naam;
-	const inhoud = bovenkop('Welkom bij de nieuwsbrief') + titel('Je kortingscode')
+	const inhoud = bovenkop('Welkom bij de nieuwsbrief') + hoofdkop('Je kortingscode', winkel)
 		+ alinea('Hoi, bedankt voor je aanmelding! Als welkom krijg je ' + procent + '% korting op je volgende bestelling in de webshop.')
 		+ '<div style="background:' + KLEUR.zacht + ';border-radius:12px;padding:18px 20px;margin:6px 0 16px 0;text-align:center">'
 		+ '<p style="margin:0;font:700 26px/1.2 ' + "'JetBrains Mono',Consolas,monospace" + ';letter-spacing:0.08em;color:' + KLEUR.tekst + '">' + esc(code) + '</p>'
@@ -439,6 +439,18 @@ function omhulsel(titel, preheader, inhoud, voet, winkel) {
 
 function bovenkop(t) { return '<p style="margin:0 0 6px 0;font:700 12px/1.4 ' + LETTER + ';letter-spacing:0.08em;text-transform:uppercase;color:' + KLEUR.link + '">' + esc(t) + '</p>'; }
 // letter: andere letter dan de koppen, voor een bestelnummer (dat moet je makkelijk kunnen overtypen)
+// Een kop als plaatje in de letters van de site (winkel.json > winkel.mailKoppen, gemaakt door
+// tools/mail-koppen-functie.mjs). Gmail laadt geen eigen lettertypen en zou Arial tonen. Staat de tekst niet in de lijst
+// (of is er geen lijst, zoals bij de oude sites), dan wordt het gewone tekst. De tekst staat altijd in de alt.
+function kopPlaatje(tekst, winkel, marge) {
+	const k = winkel && winkel.mailKoppen && heeft(winkel.mailKoppen, tekst) ? winkel.mailKoppen[tekst] : null;
+	if (!k || !k.src || !(k.w > 0) || !(k.h > 0)) return '';
+	return '<div style="margin:' + marge + '"><img src="' + esc(winkel.url + '/' + k.src) + '" width="' + Number(k.w) + '" height="' + Number(k.h) + '" alt="' + esc(tekst) + '"'
+		+ ' style="display:block;border:0;outline:none;max-width:100%;height:auto;font:800 22px/1.2 ' + KOP + ';color:' + KLEUR.tekst + '"></div>';
+}
+function hoofdkop(tekst, winkel) { return kopPlaatje(tekst, winkel, '0 0 14px 0') || titel(esc(tekst)); }
+function tussenkop(tekst, winkel) { return kopPlaatje(tekst, winkel, '28px 0 10px 0') || kop(tekst); }
+
 function titel(html, letter) { return '<h1 style="margin:0 0 14px 0;font:800 26px/1.2 ' + (letter || KOP) + ';color:' + KLEUR.tekst + '">' + html + '</h1>'; }
 function kop(t) { return '<h2 style="margin:28px 0 10px 0;font:700 17px/1.3 ' + KOP + ';color:' + KLEUR.tekst + '">' + esc(t) + '</h2>'; }
 function alinea(html, stijl) { return '<p style="margin:0 0 14px 0' + (stijl ? ';' + stijl : '') + '">' + html + '</p>'; }
@@ -513,8 +525,8 @@ function regelsHtml(regels, totaal, voetnoot, url, korting) {
 			? '<tr><td></td><td style="padding:12px 0 2px 0">Subtotaal</td><td style="padding:12px 0 2px 0;text-align:right;white-space:nowrap">' + euro(rond(totaal + korting.bedrag)) + '</td></tr>'
 				+ '<tr><td></td><td style="padding:2px 0">Korting ' + korting.procent + '% (' + esc(korting.code) + ')</td><td style="padding:2px 0;text-align:right;white-space:nowrap">−' + euro(korting.bedrag) + '</td></tr>'
 			: '')
-		+ '<tr><td></td><td style="padding:14px 0 2px 0;font:700 16px/1.3 ' + KOP + '">Totaal</td>'
-		+ '<td style="padding:14px 0 2px 0;text-align:right;white-space:nowrap;font:700 16px/1.3 ' + KOP + '">' + euro(totaal) + '</td></tr>'
+		+ '<tr><td></td><td style="padding:14px 0 2px 0;font:700 16px/1.3 ' + LETTER + '">Totaal</td>'
+		+ '<td style="padding:14px 0 2px 0;text-align:right;white-space:nowrap;font:700 16px/1.3 ' + LETTER + '">' + euro(totaal) + '</td></tr>'
 		+ (voetnoot ? '<tr><td></td><td colspan="2" style="padding:2px 0 4px 0;color:' + KLEUR.gedempt + ';font-size:13px">' + esc(voetnoot) + '</td></tr>' : '')
 		+ '</table>';
 }
@@ -568,13 +580,14 @@ export function mailEigenaar(data, extra, winkel) {
 		const aantal = extra.regels.reduce(function (s, r) { return s + r.aantal; }, 0);
 		onderwerp = 'Nieuwe bestelling ' + extra.id + ': ' + aantal + ' item' + (aantal === 1 ? '' : 's') + ', ' + euro(extra.totaal) + ' (' + data.levering.toLowerCase() + ')';
 		preheader = data.naam + ' · ' + euro(extra.totaal) + ' · ' + (data.levering === 'Ophalen' ? 'ophalen in ' + winkel.ophaalplaats : 'verzenden naar ' + (data.plaats || ''));
-		inhoud = bovenkop('Nieuwe bestelling') + titel(esc(extra.id), LETTER)
+		inhoud = hoofdkop('Nieuwe bestelling', winkel)
+			+ alinea(label('Bestelnummer ' + esc(extra.id)))
 			+ alinea(gedempt(esc(moment) + ' · ' + esc(data.naam) + ' · ' + (data.levering === 'Ophalen' ? 'ophalen' : 'verzenden')))
 			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Je bestelling ' + extra.id + ' bij ' + winkel.naam), 'Mail ' + (voornaam(data.naam) || 'klant')],
 				['tel:' + data.telefoon.replace(/[^\d+]/g, ''), 'Bel ' + data.telefoon], gereageerd])
-			+ kop('Besteld')
+			+ tussenkop('Besteld', winkel)
 			+ regelsHtml(extra.regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten.' : 'Wordt opgehaald, geen verzendkosten.', winkel.url, extra.korting)
-			+ kop('Klant')
+			+ tussenkop('Klant', winkel)
 			+ gegevens(klant.concat([
 				['Levering', data.levering === 'Ophalen' ? 'Zelf ophalen in ' + esc(winkel.ophaalplaats) : 'Verzenden'],
 				['Adres', data.levering === 'Verzenden' ? esc(adresRegel(data)) : ''],
@@ -594,18 +607,19 @@ export function mailEigenaar(data, extra, winkel) {
 			: 'Nieuwe ' + soortNaam + (data.soort === 'offerte' && data.product ? ' ' + data.product : '') + ' van ' + data.naam;
 		preheader = data.bericht ? data.bericht.slice(0, 120) : Object.keys(data.velden || {}).map(function (l) { return data.velden[l]; }).join(' · ').slice(0, 120) || onderwerp;
 		const velden = Object.keys(data.velden || {}).map(function (label) { return [label, esc(data.velden[label]).replace(/\n/g, '<br>')]; });
-		inhoud = bovenkop({ contact: viaPortfolio ? 'Nieuw bericht via je portfolio' : 'Nieuw bericht', offerte: 'Nieuwe aanvraag', printservice: 'Nieuwe printaanvraag', beschikbaarheid: 'Seintje gevraagd', herroeping: 'Herroeping' }[data.soort])
-			+ titel(esc(data.naam || data.email))
+		// Een vaste kop (als plaatje), met de naam eronder: een naam kan geen plaatje zijn
+		inhoud = hoofdkop({ contact: viaPortfolio ? 'Nieuw bericht via je portfolio' : 'Nieuw bericht', offerte: 'Nieuwe aanvraag', printservice: 'Nieuwe printaanvraag', beschikbaarheid: 'Seintje gevraagd', herroeping: 'Herroeping' }[data.soort], winkel)
+			+ '<p style="margin:0 0 4px 0;font:700 19px/1.3 ' + LETTER + ';color:' + KLEUR.tekst + '">' + esc(data.naam || data.email) + '</p>'
 			+ alinea(gedempt(esc(moment) + (data.product ? ' · ' + esc(data.product) : '')))
 			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Re: ' + onderwerp), 'Beantwoorden'], gereageerd])
 			+ (data.soort === 'herroeping' ? notitie('<strong>De klant herroept de koop.</strong> De ontvangstbevestiging is al automatisch verstuurd. Het aankoopbedrag, met de standaard verzendkosten van de heenzending, moet binnen 14 dagen terug; je mag wachten tot het product terug is of de klant laat zien dat het is verstuurd. Is het maatwerk (artikel 6 van de voorwaarden), laat de klant dat dan weten.') : '')
 			+ (data.bericht ? citaat(data.bericht) : '')
 			+ (velden.length ? gegevens(velden) : '')
 			+ (bestanden.length
-				? kop(bestanden.length === 1 ? 'Bestand' : 'Bestanden') + bestandenLijst(bestanden, true)
+				? tussenkop(bestanden.length === 1 ? 'Bestand' : 'Bestanden', winkel) + bestandenLijst(bestanden, true)
 					+ (extra.bewaarMaanden ? alinea(gedempt('De bestanden blijven ' + extra.bewaarMaanden + ' maanden bewaard; daarna verwijdert de site ze automatisch.'), 'font-size:13px') : '')
 				: data.soort === 'printservice' ? notitie('<strong>Let op:</strong> er is geen bestand geüpload. De klant heeft gelezen dat het als antwoord op jouw bericht kan worden nagestuurd.') : '')
-			+ kop('Afzender')
+			+ tussenkop('Afzender', winkel)
 			+ gegevens(klant.concat([['Akkoord', data.akkoord ? 'Privacyverklaring, op ' + esc(moment) : '']]));
 		tekstversie = onderwerp.toUpperCase() + '\n' + moment + '\n\n'
 			+ (data.bericht ? data.bericht + '\n\n' : '')
@@ -642,13 +656,13 @@ export function mailKlant(data, extra, winkel) {
 		preheader = 'Bestelnummer ' + extra.id + '. Je betaalt nog niets: ik neem eerst persoonlijk contact met je op.';
 		const regels = extra.regels.map(function (r) { return Object.assign({}, r, { tekst: zonderLinks(r.tekst) }); });
 		const adres = zonderLinks(adresRegel(data));
-		inhoud = bovenkop('Bestelling ontvangen') + titel('Bedankt voor je bestelling!')
+		inhoud = bovenkop('Bestelling ontvangen') + hoofdkop('Bedankt voor je bestelling!', winkel)
 			+ alinea(hoi + ' ik heb je bestelling goed ontvangen. Hieronder zie je wat je hebt besteld en hoe het verder gaat.')
 			+ alinea(label('Bestelnummer ' + esc(extra.id)))
-			+ kop('Dit heb je besteld')
+			+ tussenkop('Dit heb je besteld', winkel)
 			+ regelsHtml(regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten. Die hoor je van mij voordat je betaalt.' : 'Je haalt het op in ' + winkel.ophaalplaats + ', dus zonder verzendkosten.', winkel.url, extra.korting)
 			+ (data.levering === 'Verzenden' ? alinea(gedempt('Bezorgadres: ' + esc(adres)), 'margin-top:10px;font-size:14px') : '')
-			+ kop('Hoe gaat het nu verder?')
+			+ tussenkop('Hoe gaat het nu verder?', winkel)
 			+ stappen([
 				'Ik neem persoonlijk contact met je op om kleur, details en ' + (data.levering === 'Ophalen' ? 'een moment om op te halen in ' + esc(winkel.ophaalplaats) : 'de verzendkosten') + ' af te spreken.',
 				'Pas als alles klopt, betaal je en ga ik voor je printen.',
@@ -669,12 +683,12 @@ export function mailKlant(data, extra, winkel) {
 		// Vrije tekst van de bezoeker komt niet in het onderwerp (de mail kan naar elk adres): alleen een echt bestelnummer
 		onderwerp = 'Je herroeping is ontvangen' + (/^JS3D-[0-9A-Z]+$/i.test(bestelling) ? ' (' + bestelling.toUpperCase() + ')' : '');
 		preheader = 'Ontvangen op ' + ontvangen + '. Hieronder staat wat je hebt verstuurd en hoe het verder gaat.';
-		inhoud = bovenkop('Herroeping ontvangen') + titel('Je herroeping is binnen')
+		inhoud = bovenkop('Herroeping ontvangen') + hoofdkop('Je herroeping is binnen', winkel)
 			+ alinea(hoi + ' hierbij bevestig ik dat ik je herroeping heb ontvangen op <strong>' + esc(ontvangen) + '</strong>.')
-			+ kop('Je verklaring')
+			+ tussenkop('Je verklaring', winkel)
 			+ gegevens([['Naam', esc(zonderLinks(data.naam))], ['E-mail', esc(data.email)], ['Bestelling', esc(bestelling)],
 				['Producten', esc(producten).replace(/\n/g, '<br>')], ['Ontvangen op', esc(ontvangen)]])
-			+ kop('Hoe gaat het nu verder?')
+			+ tussenkop('Hoe gaat het nu verder?', winkel)
 			+ stappen([
 				'Stuur het product binnen 14 dagen onbeschadigd terug' + (winkel.adres ? ' naar ' + esc(winkel.naam) + ', ' + esc(winkel.adres) : '') + '. De kosten van het terugsturen zijn voor jou.',
 				'Je krijgt het aankoopbedrag binnen 14 dagen na je herroeping terug, met de standaard verzendkosten van de heenzending. Ik mag daarmee wachten tot ik het product terug heb, of tot je laat zien dat het is verstuurd.'
@@ -689,7 +703,7 @@ export function mailKlant(data, extra, winkel) {
 	} else if (data.soort === 'beschikbaarheid') {
 		onderwerp = 'Je hoort het zodra de ' + data.product + ' er weer is';
 		preheader = 'Eén mail zodra hij weer te bestellen is. Verder niets.';
-		inhoud = bovenkop('Je staat genoteerd') + titel('Je hoort het als eerste')
+		inhoud = bovenkop('Je staat genoteerd') + hoofdkop('Je hoort het als eerste', winkel)
 			+ alinea('Hoi, zodra de <strong>' + esc(data.product) + '</strong> weer te bestellen is, krijg je één mail van mij. Verder niets.') + afsluiting;
 		tekstversie = 'Je staat genoteerd: zodra de ' + data.product + ' weer te bestellen is, krijg je één mail van mij.';
 	} else {
@@ -699,11 +713,11 @@ export function mailKlant(data, extra, winkel) {
 		onderwerp = data.soort === 'contact' ? 'Je bericht aan ' + winkel.naam + ' is binnen' : 'Je ' + wat + ' bij ' + winkel.naam + ' is binnen';
 		preheader = data.soort === 'contact' ? 'Je hoort ' + termijn + ' van me.' : 'Je hoort zo snel mogelijk wat het kost en hoe lang het duurt.';
 		const bericht = zonderLinks(data.bericht);
-		inhoud = bovenkop(wat.charAt(0).toUpperCase() + wat.slice(1) + ' ontvangen') + titel('Bedankt voor je ' + wat + '!')
+		inhoud = bovenkop(wat.charAt(0).toUpperCase() + wat.slice(1) + ' ontvangen') + hoofdkop('Bedankt voor je ' + wat + '!', winkel)
 			+ alinea(hoi + ' ' + (data.soort === 'contact' ? 'je hoort ' + termijn + ' van me.'
 				: 'je ' + wat + (data.soort === 'offerte' && data.product ? ' voor de <strong>' + esc(data.product) + '</strong>' : '') + ' is binnen. Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt.'))
 			+ (data.soort === 'printservice' && !bestanden.length ? notitie('<strong>Stuur je bestand (STL of 3MF) als antwoord op deze mail</strong>, als je dat nog niet hebt gedaan. Dan kan ik het meteen bekijken.') : '')
-			+ kop('Wat je hebt gestuurd')
+			+ tussenkop('Wat je hebt gestuurd', winkel)
 			+ (bericht ? citaat(bericht) : gegevens(velden.map(function (r) { return [r[0], esc(r[1]).replace(/\n/g, '<br>')]; })))
 			+ (bestanden.length ? alinea('<strong>' + (bestanden.length === 1 ? 'Je bestand is' : 'Je bestanden zijn') + ' goed aangekomen:</strong>', 'margin-top:14px') + bestandenLijst(bestanden, false) : '')
 			+ alinea('Je zit nergens aan vast: eerst hoor je van mij, daarna beslis je.')
@@ -723,7 +737,7 @@ export function mailKlant(data, extra, winkel) {
 // niemand een ander kan aanmelden. href: de bevestigingspagina op de site, met het geheime token erin.
 export function mailNieuwsbrief(href, winkel) {
 	const onderwerp = 'Bevestig je aanmelding voor de nieuwsbrief van ' + winkel.naam;
-	const inhoud = bovenkop('Nog één klik') + titel('Bevestig je aanmelding')
+	const inhoud = bovenkop('Nog één klik') + hoofdkop('Bevestig je aanmelding', winkel)
 		+ alinea('Hoi, leuk dat je als eerste wilt horen over nieuwe ontwerpen van ' + esc(winkel.naam) + '! Klik op de knop om je aanmelding te bevestigen.')
 		+ knoppen([[href, 'Ja, ik meld me aan']])
 		+ alinea(gedempt('Afmelden kan daarna altijd, met één klik onderaan elke mail. Heb je je niet aangemeld? Dan hoef je niets te doen: zonder bevestiging sta je niet op de lijst.'), 'font-size:14px;margin-top:8px')
@@ -764,7 +778,7 @@ export function mailHerinnering(items, winkel, nu, dashboard) {
 		const mailOnderwerp = it.soort === 'bestelling' ? 'Je bestelling ' + it.id + ' bij ' + winkel.naam : 'Je ' + TITELS[it.soort] + ' bij ' + (it.merk || winkel.naam);
 		return { kop: kop, wie: wie, samenvatting: samenvatting, it: it, mailto: 'mailto:' + it.email + '?subject=' + encodeURIComponent(mailOnderwerp) };
 	});
-	const inhoud = bovenkop('Herinnering') + titel('Nog niet gereageerd')
+	const inhoud = bovenkop('Herinnering') + hoofdkop('Nog niet gereageerd', winkel)
 		+ alinea((items.length === 1 ? 'Deze staat' : 'Deze staan') + ' al een paar dagen op "nieuw". Heb je al gereageerd? Tik dan op <strong>Ik heb gereageerd</strong>, dan hoor je er niets meer over.')
 		+ regels.map(function (r) {
 			return '<div style="border:1px solid ' + KLEUR.lijn + ';border-radius:12px;padding:14px 16px 4px 16px;margin:0 0 12px 0">'

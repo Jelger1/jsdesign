@@ -402,6 +402,21 @@ function buildCatalog(products, images) {
 // Het logo bovenaan de mails (de functie gebruikt het als winkel.json het noemt; de oude sites hebben alleen het teken)
 const MAIL_LOGO = { beeld: 'assets/mail/logo-js-design.png', breedte: 140, hoogte: 41 };
 
+// De koppen van de functiemails als plaatje (data/mail-koppen.json, gemaakt door tools/mail-koppen-functie.mjs):
+// { tekst: { src, w, h } }. De functie gebruikt een plaatje als de tekst van een kop hier precies in staat.
+function mailKoppen() {
+	const lijstPad = path.join(ROOT, 'data/mail-koppen.json');
+	if (!fs.existsSync(lijstPad)) return undefined;
+	const lijst = JSON.parse(fs.readFileSync(lijstPad, 'utf8'));
+	const uit = {};
+	Object.keys(lijst).forEach(function (tekst) {
+		const k = lijst[tekst];
+		if (!fs.existsSync(path.join(ROOT, 'assets/mailkoppen', k.bestand))) throw new Error('Mailkop ontbreekt: assets/mailkoppen/' + k.bestand + ' (draai node tools/mail-koppen-functie.mjs)');
+		uit[tekst] = { src: 'assets/mailkoppen/' + k.bestand, w: k.breedte, h: k.hoogte };
+	});
+	return uit;
+}
+
 function buildWinkel(products, images, site, shop) {
 	const a = site.address || {};
 	const catalogus = catalogData(products, images);
@@ -415,7 +430,8 @@ function buildWinkel(products, images, site, shop) {
 			herroepen: 'herroepen.html', // de link "Bestelling herroepen" onder de mails
 			// Kortingscode voor wie zich aanmeldt voor de nieuwsbrief (shop.json > nieuwsbriefKorting); zonder dit blok
 			// maakt en accepteert de functie geen codes
-			korting: shop.nieuwsbriefKorting ? { procent: shop.nieuwsbriefKorting.procent, maanden: shop.nieuwsbriefKorting.maanden } : undefined
+			korting: shop.nieuwsbriefKorting ? { procent: shop.nieuwsbriefKorting.procent, maanden: shop.nieuwsbriefKorting.maanden } : undefined,
+			mailKoppen: mailKoppen() // koppen in de mails als plaatje in de letters van de site
 		},
 		catalogus: catalogus,
 		uploads: site.uploads || null // welke bestanden bij een aanvraag mogen (types, aantal, grootte, bewaartermijn)
@@ -648,6 +664,10 @@ async function build() {
 	// de site, dus deze blijven staan
 	if (fs.existsSync(path.join(ROOT, 'assets/nieuwsbrief'))) {
 		fs.cpSync(path.join(ROOT, 'assets/nieuwsbrief'), path.join(DIST, 'assets/nieuwsbrief'), { recursive: true });
+	}
+	// Koppen voor de mails van de functie (tools/mail-koppen-functie.mjs); verstuurde mails laden ze van de site
+	if (fs.existsSync(path.join(ROOT, 'assets/mailkoppen'))) {
+		fs.cpSync(path.join(ROOT, 'assets/mailkoppen'), path.join(DIST, 'assets/mailkoppen'), { recursive: true });
 	}
 
 	// Video's worden niet door de build gecomprimeerd (daar is ffmpeg voor nodig): "npm run video" maakt de

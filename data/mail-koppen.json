@@ -1,0 +1,122 @@
+{
+	"Bedankt voor je bestelling!": {
+		"bestand": "kop-bedankt-bestelling.png",
+		"breedte": 387,
+		"hoogte": 43
+	},
+	"Bedankt voor je bericht!": {
+		"bestand": "kop-bedankt-bericht.png",
+		"breedte": 359,
+		"hoogte": 43
+	},
+	"Bedankt voor je aanvraag!": {
+		"bestand": "kop-bedankt-aanvraag.png",
+		"breedte": 394,
+		"hoogte": 43
+	},
+	"Bedankt voor je printaanvraag!": {
+		"bestand": "kop-bedankt-printaanvraag.png",
+		"breedte": 457,
+		"hoogte": 43
+	},
+	"Je herroeping is binnen": {
+		"bestand": "kop-herroeping-binnen.png",
+		"breedte": 354,
+		"hoogte": 43
+	},
+	"Je hoort het als eerste": {
+		"bestand": "kop-als-eerste.png",
+		"breedte": 310,
+		"hoogte": 43
+	},
+	"Bevestig je aanmelding": {
+		"bestand": "kop-bevestig-aanmelding.png",
+		"breedte": 341,
+		"hoogte": 43
+	},
+	"Je kortingscode": {
+		"bestand": "kop-kortingscode.png",
+		"breedte": 200,
+		"hoogte": 43
+	},
+	"Dit heb je besteld": {
+		"bestand": "kop-dit-heb-je-besteld.png",
+		"breedte": 168,
+		"hoogte": 24
+	},
+	"Hoe gaat het nu verder?": {
+		"bestand": "kop-hoe-verder.png",
+		"breedte": 231,
+		"hoogte": 24
+	},
+	"Je verklaring": {
+		"bestand": "kop-je-verklaring.png",
+		"breedte": 124,
+		"hoogte": 24
+	},
+	"Wat je hebt gestuurd": {
+		"bestand": "kop-wat-je-stuurde.png",
+		"breedte": 202,
+		"hoogte": 24
+	},
+	"Nieuwe bestelling": {
+		"bestand": "kop-nieuwe-bestelling.png",
+		"breedte": 247,
+		"hoogte": 43
+	},
+	"Nieuw bericht": {
+		"bestand": "kop-nieuw-bericht.png",
+		"breedte": 200,
+		"hoogte": 43
+	},
+	"Nieuwe aanvraag": {
+		"bestand": "kop-nieuwe-aanvraag.png",
+		"breedte": 254,
+		"hoogte": 43
+	},
+	"Nieuwe printaanvraag": {
+		"bestand": "kop-nieuwe-printaanvraag.png",
+		"breedte": 317,
+		"hoogte": 43
+	},
+	"Seintje gevraagd": {
+		"bestand": "kop-seintje.png",
+		"breedte": 237,
+		"hoogte": 43
+	},
+	"Herroeping": {
+		"bestand": "kop-herroeping.png",
+		"breedte": 139,
+		"hoogte": 43
+	},
+	"Nog niet gereageerd": {
+		"bestand": "kop-niet-gereageerd.png",
+		"breedte": 276,
+		"hoogte": 43
+	},
+	"Besteld": {
+		"bestand": "kop-besteld.png",
+		"breedte": 74,
+		"hoogte": 24
+	},
+	"Klant": {
+		"bestand": "kop-klant.png",
+		"breedte": 53,
+		"hoogte": 24
+	},
+	"Afzender": {
+		"bestand": "kop-afzender.png",
+		"breedte": 90,
+		"hoogte": 24
+	},
+	"Bestand": {
+		"bestand": "kop-bestand.png",
+		"breedte": 80,
+		"hoogte": 24
+	},
+	"Bestanden": {
+		"bestand": "kop-bestanden.png",
+		"breedte": 104,
+		"hoogte": 24
+	}
+}

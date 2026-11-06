@@ -36,6 +36,7 @@ const AFWIJKINGEN = {
 	'mijnstreek-set': 'nieuw product, met de lijst van wat erin zit (set) voor de suggesties in de winkelwagen (november 2026)',
 	'g:id mijnstreek-set*': 'nieuw product, november 2026 (een feed-item per variant)',
 	'winkel.korting': 'kortingscodes voor de nieuwsbrief: procent en geldigheid voor de functie (november 2026)',
+	'winkel.mailKoppen': 'koppen in de functiemails als plaatje in de letters van de site (november 2026)',
 	'mijnwerkerslamp.geenKorting': 'introductieprijs loopt tot 31-12-2026: geen kortingscode op de lamp; deze regel daarna weghalen'
 };
 const gebruikt = new Set();

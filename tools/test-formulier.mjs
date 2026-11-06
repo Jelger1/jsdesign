@@ -549,3 +549,25 @@ test('kortingscodes: invoer bij een bestelling en de korting in de mails', funct
 	assert.match(m.html, /6 februari 2027/);
 	assert.match(m.tekst, /JD-7KQ4-XM2P/);
 });
+
+test('mailkoppen: kop als plaatje als de tekst in winkel.mailKoppen staat, anders tekst', function () {
+	const koppen = { 'Bedankt voor je bestelling!': { src: 'assets/mailkoppen/kop-bedankt-bestelling.png', w: 387, h: 43 }, 'Nieuwe bestelling': { src: 'assets/mailkoppen/kop-nieuwe-bestelling.png', w: 247, h: 43 } };
+	const data = ok(bestelling());
+	const r = prijzen(data.regels, CATALOGUS);
+	const extra = { id: 'JS3D-TEST', regels: r.regels, totaal: r.totaal, moment: '2026-11-06T12:00:00Z', dashboard: 'https://x' };
+	const klant = mailKlant(data, extra, { ...WINKEL, mailKoppen: koppen }).html;
+	assert.match(klant, /<img src="https:\/\/jelgers3d\.nl\/assets\/mailkoppen\/kop-bedankt-bestelling\.png" width="387" height="43" alt="Bedankt voor je bestelling!"/);
+	assert.match(klant, /<h2[^>]*>Dit heb je besteld<\/h2>/, 'een kop zonder plaatje blijft tekst');
+	const eigenaar = mailEigenaar(data, extra, { ...WINKEL, mailKoppen: koppen }).html;
+	assert.match(eigenaar, /alt="Nieuwe bestelling"/);
+	assert.match(eigenaar, /Bestelnummer JS3D-TEST/, 'het bestelnummer staat er als tekst onder');
+	assert.doesNotMatch(mailKlant(data, extra, WINKEL).html, /mailkoppen/, 'zonder lijst gewone tekst');
+	assert.match(mailKlant(data, extra, WINKEL).html, /<h1[^>]*>Bedankt voor je bestelling!<\/h1>/);
+});
+
+test('mailkoppen: elke kop uit de lijst bestaat als plaatje en staat in winkel.json', { skip: !existsSync(new URL('../dist/js/winkel.json', import.meta.url)) && 'bouw eerst de site' }, function () {
+	const { winkel } = JSON.parse(readFileSync(new URL('../dist/js/winkel.json', import.meta.url), 'utf8'));
+	const lijst = JSON.parse(readFileSync(new URL('../data/mail-koppen.json', import.meta.url), 'utf8'));
+	assert.deepEqual(Object.keys(winkel.mailKoppen).sort(), Object.keys(lijst).sort());
+	for (const tekst of Object.keys(winkel.mailKoppen)) assert.ok(existsSync(new URL('../dist/' + winkel.mailKoppen[tekst].src, import.meta.url)), tekst);
+});
