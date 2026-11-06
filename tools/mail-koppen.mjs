@@ -31,10 +31,14 @@ function css(fonts) {
 		+ '.hl{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-stretch:normal;font-size:1.14em;letter-spacing:-0.01em;padding-right:0.08em;'
 		+ 'background:linear-gradient(100deg,#f10067,#03bcca 75%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}'
 		+ '.hl-effen{background:none;-webkit-text-fill-color:currentColor}'
+		// Voor een doorzichtige kop (functiemails): een verloop dat op licht en donker leesbaar blijft (minstens 3:1)
+		+ '.hl-mail{background-image:linear-gradient(100deg,#f10067,#0596a3 75%)}'
 		+ '.weg{text-decoration:line-through;text-decoration-thickness:0.08em}';
 }
 
 // koppen: [{ naam, html, niveau: 'h1'|'h2'|'h3', grootte (px), kleur, achter, max (px) }]
+// achter: 'transparent' geeft een plaatje zonder achtergrond, voor mails die een mailprogramma in donkere modus donker
+// kleurt (een vaste achtergrond in het plaatje wordt dan een lichte balk).
 // html mag <span class="hl">accent</span> en <br> bevatten. Geeft { naam: { breedte, hoogte } } terug (CSS-pixels).
 export async function maakKoppen(koppen, uitDir, fontsDir) {
 	const browser = BROWSERS.find((b) => fs.existsSync(b));
@@ -56,6 +60,7 @@ export async function maakKoppen(koppen, uitDir, fontsDir) {
 	const s = (m, p) => stuur(m, p, sessionId);
 	await s('Page.enable');
 	await s('Emulation.setDeviceMetricsOverride', { width: 800, height: 600, deviceScaleFactor: 2, mobile: false });
+	if (koppen.some((k) => k.achter === 'transparent')) await s('Emulation.setDefaultBackgroundColorOverride', { color: { r: 0, g: 0, b: 0, a: 0 } });
 
 	const fonts = 'file:///' + path.resolve(fontsDir).replace(/\\/g, '/');
 	const maten = {};

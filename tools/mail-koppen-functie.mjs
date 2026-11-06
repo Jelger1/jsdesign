@@ -16,16 +16,19 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const UIT = path.join(ROOT, 'assets/mailkoppen');
 const LIJST = path.join(ROOT, 'data/mail-koppen.json');
 
-// De kaart in de mails (supabase/functions/formulier/logica.js > KLEUR.kaart en KLEUR.tekst). De achtergrond zit in het
-// plaatje, zodat de kop ook leesbaar blijft als een mailprogramma de kaart donker maakt.
-const KAART = '#f3fffd';
-const TEKST = '#080a0d';
+// Doorzichtig, in kleuren die op de lichte kaart (#f3fffd) én in donkere modus (Gmail maakt de kaart dan donker, rond
+// #1f1f1f) minstens 3:1 contrast halen: petrol #027a84 (5,0 en 3,2) en het accent van roze naar petrol (hl-mail).
+// Een vaste lichte achtergrond in het plaatje gaf in donkere modus een witte balk achter elke kop.
+const KAART = 'transparent';
+const TEKST = '#027a84';
 const BREED = 536; // binnenbreedte van de kaart: 600 min 2 x 32
-const HL = (t) => '<span class="hl">' + t + '</span>';
+const HL = (t) => '<span class="hl hl-mail">' + t + '</span>';
 
 // tekst: precies zoals de functie hem gebruikt (en de alt van het plaatje). html: met het accent in Instrument Serif.
-const titel = (naam, tekst, html) => ({ naam, tekst, html, niveau: 'h2', grootte: 30, kleur: TEKST, achter: KAART, max: BREED });
-const tussen = (naam, tekst) => ({ naam, tekst, html: tekst, niveau: 'h3', grootte: 19, kleur: TEKST, achter: KAART, max: BREED });
+// Versie in de bestandsnaam: Gmail bewaart plaatjes per adres, dus een nieuwe versie krijgt een nieuwe naam
+const V = 't2';
+const titel = (naam, tekst, html) => ({ naam: naam + '-' + V, tekst, html, niveau: 'h2', grootte: 30, kleur: TEKST, achter: KAART, max: BREED });
+const tussen = (naam, tekst) => ({ naam: naam + '-' + V, tekst, html: tekst, niveau: 'h3', grootte: 19, kleur: TEKST, achter: KAART, max: BREED });
 
 const KOPPEN = [
 	// Voor de klant
@@ -60,5 +63,6 @@ fs.mkdirSync(UIT, { recursive: true });
 const maten = await maakKoppen(KOPPEN, UIT, path.join(ROOT, 'assets/fonts'));
 const lijst = {};
 for (const k of KOPPEN) lijst[k.tekst] = { bestand: 'kop-' + k.naam + '.png', breedte: maten[k.naam].breedte, hoogte: maten[k.naam].hoogte };
+// De plaatjes van de vorige versie (met lichte achtergrond) blijven staan: al verstuurde mails laden ze nog.
 fs.writeFileSync(LIJST, JSON.stringify(lijst, null, '\t') + '\n');
 console.log(KOPPEN.length + ' koppen gemaakt in assets/mailkoppen, lijst in data/mail-koppen.json');
