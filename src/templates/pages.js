@@ -383,6 +383,37 @@ function contactPage(ctx, template) {
 	};
 }
 
+// jelgersdesign.nl/websitecheck: de gratis websitecheck uit de video's en posts (src/pages/websitecheck.html)
+function websitecheckPage(ctx, template) {
+	const site = ctx.site;
+	// De vragen van een ondernemer zonder websitekennis. a is HTML (de links); de rest is gewone tekst
+	const vragen = [
+		{ q: 'Wat kost het?', a: 'Niets, en je zit nergens aan vast. Wil je daarna hulp bij je website, dan hoor ik het graag. Zo niet, dan heb je in elk geval je tips.' },
+		{ q: 'Waarom is het gratis?', a: 'Zo leer je mij en mijn manier van werken kennen, zonder risico. En ik leer jouw bedrijf kennen.' },
+		{ q: 'Heb je mijn wachtwoord of inloggegevens nodig?', a: 'Nee. Ik kijk alleen naar wat iedere bezoeker ook ziet, en ik verander niets aan je website.' },
+		{ q: 'Mijn website is door iemand anders gemaakt, of met Wix of WordPress. Kan dat?', a: 'Ja. Het maakt niet uit wie je website heeft gemaakt of waarmee. Ik kijk naar wat je klanten zien.' },
+		{ q: 'Ik heb nog geen website. Kan ik toch iets vragen?', a: 'Dan valt er nog niets te checken, maar ik denk graag met je mee. Stuur me een bericht via de <a href="contact.html">contactpagina</a>.' },
+		{ q: 'Laat je mijn website zien in je posts of video\'s?', a: 'Nee. De video is alleen voor jou. Ik laat je website nooit zonder jouw toestemming zien en noem je bedrijf niet.' },
+		{ q: 'Wat doe je met mijn gegevens?', a: 'Ik gebruik je naam, e-mailadres en webadres alleen voor deze check en om je de video te sturen. Meer staat in de <a href="privacy.html">privacyverklaring</a>.' }
+	];
+	return {
+		path: 'websitecheck.html',
+		root: '',
+		name: 'contact',
+		section: 'digitaal',
+		schemaType: 'ContactPage',
+		title: 'Gratis websitecheck | ' + site.name,
+		description: 'Gratis websitecheck van ' + site.name + ' in Kerkrade: een korte video in gewone taal over je website op een telefoon, de snelheid en Google.',
+		ogImage: ctx.images[site.defaultOgImage].og,
+		main: h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
+			portret: h.img(ctx.images, site.homeImages.about.file, { alt: site.homeImages.about.alt, sizes: '72px', className: 'contact-portret' }),
+			nieuwsbriefCheckbox: h.nieuwsbriefCheckbox('wc-nieuwsbrief'),
+			privacyCheckbox: h.privacyCheckbox(site, '', 'wc-privacy', false),
+			vragen: vragen.map(function (item) { return '\t\t\t' + c.vraag(item.q, item.a); }).join('\n')
+		})
+	};
+}
+
 function repliedPage(ctx) {
 	return confirmPage(ctx, {
 		path: 'gereageerd.html', action: 'gereageerd', title: 'Gereageerd', busy: 'Even geduld...',
@@ -394,5 +425,5 @@ function repliedPage(ctx) {
 module.exports = {
 	privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage, printServicePage: printServicePage,
 	newsletterPage: newsletterPage, repliedPage: repliedPage, contactPage: contactPage, archivePages: archivePages, herroepPage: herroepPage,
-	winactiePage: winactiePage
+	winactiePage: winactiePage, websitecheckPage: websitecheckPage
 };

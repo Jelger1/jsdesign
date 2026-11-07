@@ -1,0 +1,132 @@
+<!-- Gratis websitecheck (websitecheck.html): de landingspagina van de video's en posts over websites op maat
+     (socials/website-reeks). Bovenaan het formulier, daaronder in gewone taal wat ik precies bekijk, wat je krijgt en
+     de vragen die een ondernemer zonder websitekennis heeft. Het formulier is dat van de contactpagina met een veld voor
+     het webadres; src/js/forms.js zet dat adres bovenaan het bericht en verstuurt het als contactbericht met onderwerp
+     "digitaal", dus de functie "formulier" hoeft niet te veranderen. De drie checks hier zijn dezelfde als in
+     socials/website-reeks/WEBSITECHECK-WERKWIJZE.md: pas je de ene aan, pas dan ook de andere aan.
+     {{...}} wordt door build.js ingevuld (websitecheckPage in pages.js). -->
+<div class="container contact-page websitecheck-page">
+	<header class="section-head">
+		<h1>Hoe doet jouw <span class="highlight">website</span> het?</h1>
+		<div class="contact-persoon">
+			{{portret}}
+			<p class="section-intro">Stuur me het adres van je website. Ik bekijk hem zoals een klant dat doet: op een telefoon en op een computer. Daarna krijg je van mij een korte video van ongeveer 2 minuten. Daarin zie je wat goed gaat, wat beter kan en één tip die je meteen zelf kunt doorvoeren. Gratis, en je zit nergens aan vast.</p>
+		</div>
+	</header>
+
+	<div class="contact-raster">
+	<form id="contact-form" class="contact-form" novalidate data-websitecheck>
+		<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+		<input type="hidden" name="onderwerp" value="digitaal">
+		<div class="contact-form-card">
+			<p class="form-legenda">Naam, e-mailadres en website zijn verplicht.</p>
+			<div class="form-group">
+				<label for="wc-name">Naam</label>
+				<div class="input-wrap">
+					<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+					<input type="text" id="wc-name" name="name" required autocomplete="name" placeholder="Je volledige naam">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="wc-email">E-mailadres <span class="form-optioneel">(hierheen stuur ik de video)</span></label>
+				<div class="input-wrap">
+					<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+					<input type="email" id="wc-email" name="email" required autocomplete="email" placeholder="je@email.nl">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="wc-website">Het adres van je website</label>
+				<div class="input-wrap">
+					<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+					<input type="text" id="wc-website" name="website" required inputmode="url" autocomplete="url" placeholder="jouwbedrijf.nl">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="wc-message">Wat wil je vooral weten? <span class="form-optioneel">(niet verplicht)</span></label>
+				<textarea id="wc-message" name="message" rows="3" placeholder="Bijvoorbeeld: waarom krijg ik zo weinig aanvragen via mijn site?"></textarea>
+			</div>
+			{{nieuwsbriefCheckbox}}
+			{{privacyCheckbox}}
+			<button type="submit" class="btn primary btn-block">Vraag de websitecheck aan</button>
+			<p id="form-msg" class="form-msg" aria-live="polite"></p>
+		</div>
+	</form>
+
+	<aside class="contact-verder" aria-labelledby="verder-titel">
+		<h2 id="verder-titel" class="contact-verder-titel">Zo werkt het</h2>
+		<ol class="contact-stappen">
+			<li><strong>Je vult het formulier in.</strong> Je naam, je e-mailadres en het adres van je website. Meer niet.</li>
+			<li><strong>Ik bekijk je website.</strong> Op drie punten: je telefoon, de snelheid en Google. <a href="#wat-ik-check">Wat dat precies inhoudt</a>.</li>
+			<li><strong>Je krijgt de video in je mail.</strong> Meestal binnen 3 tot 4 werkdagen, en alleen voor jou.</li>
+		</ol>
+		<p class="contact-direct">Je hoeft niets te installeren en geen wachtwoord te geven: ik kijk alleen naar wat iedere bezoeker ook ziet. Wil je daarna verder, dan praten we. Zo niet, dan heb je in elk geval je tips.</p>
+	</aside>
+	</div>
+
+	<section class="wc-sectie" aria-labelledby="wat-ik-check">
+		<h2 id="wat-ik-check" class="pijler-label">Wat ik precies check</h2>
+		<p class="wc-intro">Drie dingen die een klant meteen merkt, ook als hij niets van websites weet. Ik leg het uit in gewone taal en laat het je in de video op je eigen site zien.</p>
+		<ol class="dienst-index wc-checks">
+			<li class="dienst">
+				<span class="dienst-nr" aria-hidden="true">01</span>
+				<h3 class="dienst-naam">Werkt je website goed op een telefoon?</h3>
+				<div class="dienst-tekst">
+					<p>De meeste mensen zoeken een bedrijf op hun telefoon, vaak onderweg. Moeten ze inzoomen of opzij schuiven, dan zijn ze zo weer weg.</p>
+					<p class="wc-ik">Ik kijk of:</p>
+					<ul class="wc-punten">
+						<li>je teksten te lezen zijn zonder in te zoomen;</li>
+						<li>alles op het scherm past, zonder opzij te schuiven;</li>
+						<li>knoppen en links groot genoeg zijn voor een duim;</li>
+						<li>je telefoonnummer en e-mailadres met één tik werken;</li>
+						<li>een menukaart, prijslijst of folder ook op een telefoon te lezen is. Een pdf is dat vaak niet.</li>
+					</ul>
+				</div>
+			</li>
+			<li class="dienst">
+				<span class="dienst-nr" aria-hidden="true">02</span>
+				<h3 class="dienst-naam">Hoe snel laadt je website?</h3>
+				<div class="dienst-tekst">
+					<p>Blijft een pagina lang leeg, dan haken mensen af voordat ze zien wat je doet. Google let ook op snelheid.</p>
+					<p class="wc-ik">Ik meet:</p>
+					<ul class="wc-punten">
+						<li>je snelheid met de gratis meting van Google zelf (Lighthouse), op een telefoon en op een computer. Je krijgt een score van 0 tot 100: 90 of hoger is goed;</li>
+						<li>hoe lang het duurt voordat een bezoeker je pagina echt ziet;</li>
+						<li>wat de meeste vertraging geeft, bijvoorbeeld foto's of video's die veel groter zijn dan nodig.</li>
+					</ul>
+				</div>
+			</li>
+			<li class="dienst">
+				<span class="dienst-nr" aria-hidden="true">03</span>
+				<h3 class="dienst-naam">Snapt Google wat je doet en waar je zit?</h3>
+				<div class="dienst-tekst">
+					<p>Mensen zoeken op wat ze nodig hebben en waar, zoals "loodgieter Kerkrade". Kan Google dat niet uit je site halen, dan vinden ze iemand anders.</p>
+					<p class="wc-ik">Ik kijk of:</p>
+					<ul class="wc-punten">
+						<li>er een slotje voor je webadres staat. Zonder slotje zet de browser "Niet beveiligd" naast je adres;</li>
+						<li>Google duidelijk laat zien wat je doet en waar, als iemand je bedrijf zoekt;</li>
+						<li>je adres, telefoonnummer en openingstijden op je site staan en kloppen met Google Maps.</li>
+					</ul>
+				</div>
+			</li>
+		</ol>
+	</section>
+
+	<section class="wc-sectie wc-krijg" aria-labelledby="wat-je-krijgt">
+		<h2 id="wat-je-krijgt" class="pijler-label">Wat je krijgt</h2>
+		<ul class="wc-punten wc-punten--groot">
+			<li>Een video van ongeveer 2 minuten. Je ziet je eigen website en hoort mij uitleggen wat ik zie.</li>
+			<li>Per punt wat goed gaat en wat beter kan, zonder vakjargon.</li>
+			<li>Je snelheidsscores, zodat je later kunt zien of het beter is geworden.</li>
+			<li>Eén tip die je meteen zelf kunt doorvoeren, of kunt doorgeven aan wie je site beheert.</li>
+		</ul>
+		<p class="wc-noot">De websitecheck is een eerlijke eerste blik op de drie dingen die het meest uitmaken. Het is geen volledige doorlichting van je hele site en geen offerte.</p>
+	</section>
+
+	<section class="wc-sectie" aria-labelledby="vragen-titel">
+		<h2 id="vragen-titel" class="pijler-label">Veelgestelde vragen</h2>
+		<div class="faq wc-faq">
+{{vragen}}
+		</div>
+		<p class="wc-weer"><a class="btn primary" href="#contact-form">Vraag de websitecheck aan</a></p>
+	</section>
+</div>

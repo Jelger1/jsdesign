@@ -38,7 +38,12 @@ export function initForms() {
 		if (!validateForm(form)) return;
 		const name = form.elements.name.value.trim();
 		const email = form.elements.email.value.trim();
-		const text = form.elements.message.value.trim();
+		// websitecheck.html: het webadres komt bovenaan het bericht; de vraag eronder is daar niet verplicht
+		const check = form.hasAttribute('data-websitecheck');
+		const vraag = form.elements.message.value.trim();
+		const text = check
+			? ('Websitecheck aangevraagd voor: ' + form.elements.website.value.trim() + (vraag ? '\n\n' + vraag : '')).slice(0, 2000)
+			: vraag;
 
 		submitBtn.disabled = true;
 		submitBtn.textContent = 'Verzenden...';
@@ -54,9 +59,9 @@ export function initForms() {
 			akkoord: Boolean(form.elements.privacy && form.elements.privacy.checked),
 			botcheck: Boolean(form.elements.botcheck && form.elements.botcheck.checked)
 		}).then(function (antwoord) {
-			track('generate_lead', { lead_type: 'contact' });
+			track('generate_lead', { lead_type: check ? 'websitecheck' : 'contact' });
 			const nieuwsbrief = antwoord.mail && form.elements.nieuwsbrief && form.elements.nieuwsbrief.checked;
-			say('Bedankt! Je bericht is verstuurd.' + (antwoord.mail ? ' Je krijgt een bevestiging per mail' + (nieuwsbrief ? ', met daarin de knop om je aanmelding voor de nieuwsbrief te bevestigen.' : '.') : '') + ' Je hoort meestal binnen 3 tot 4 werkdagen van me.', true);
+			say((check ? 'Bedankt! Ik bekijk je website en stuur je de video.' : 'Bedankt! Je bericht is verstuurd.') + (antwoord.mail ? ' Je krijgt een bevestiging per mail' + (nieuwsbrief ? ', met daarin de knop om je aanmelding voor de nieuwsbrief te bevestigen.' : '.') : '') + ' Je hoort meestal binnen 3 tot 4 werkdagen van me.', true);
 			form.reset();
 			if (onderwerp && gekozen && Array.prototype.some.call(onderwerp.options, function (o) { return o.value === gekozen; })) onderwerp.value = gekozen;
 		}).catch(function (error) {

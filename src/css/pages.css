@@ -51,7 +51,27 @@
 .contact-persoon .section-intro{margin:0}
 .contact-portret{flex:none;width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 18%;background:var(--dark-secondary)}
 .contact-direct{margin:1.5rem 0 0 0;color:var(--fg-muted);line-height:1.7}
-.contact-direct a{color:var(--brand)}
+.contact-direct a,.contact-stappen a{color:var(--brand)}
+
+/* Websitecheck (src/pages/websitecheck.html): onder het formulier in gewone taal wat ik check (de index van de
+   pijlerpagina's, pijler.css > .dienst-index), wat je krijgt en de vragen. De lijstjes hebben het blokje uit het teken in
+   de pijlerkleur (digitaal: aqua) */
+.wc-sectie{margin-top:clamp(3.5rem, 8vw, 5.5rem)}
+.wc-sectie > .pijler-label{margin-bottom:var(--space-6)}
+.wc-intro{margin:0 0 var(--space-8);max-width:60ch;font-size:var(--text-md);line-height:1.65;color:var(--fg-muted)}
+.wc-checks .dienst-tekst p{margin:0 0 0.75rem}
+.wc-checks .dienst-tekst .wc-ik{margin-bottom:0.5rem;font-weight:600;color:var(--soft)}
+.wc-punten{list-style:none;margin:0;padding:0;display:grid;gap:0.55rem}
+.wc-punten li{position:relative;padding-left:1.6rem;line-height:1.6;color:var(--fg-muted)}
+.wc-punten li::before{content:'';position:absolute;left:0;top:0.5em;width:14px;height:9px;clip-path:var(--js-blok);background:var(--pillar)}
+.wc-punten--groot{gap:0.85rem;max-width:62ch}
+.wc-punten--groot li{font-size:var(--text-md);color:var(--fg)}
+.wc-punten--groot li::before{top:0.55em}
+.wc-noot{margin:var(--space-6) 0 0;max-width:62ch;line-height:1.7;color:var(--fg-muted)}
+.websitecheck-page .faq{margin:0}
+.wc-faq a{color:var(--brand)}
+.wc-weer{margin:var(--space-10) 0 0}
+@media (forced-colors:active){.wc-punten li::before{forced-color-adjust:none;background:CanvasText}}
 
 /* Cookiemelding: klein, blokkeert niets, en weigeren is even makkelijk als accepteren */
 .cookie-banner{position:fixed;left:1rem;bottom:1rem;z-index:950;max-width:420px;padding:1.25rem;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);animation:fadeIn 0.35s ease}
