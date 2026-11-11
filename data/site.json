@@ -76,5 +76,38 @@
 	"alternateNames": [
 		"Jelgersdesign",
 		"Jelgers Design"
-	]
+	],
+	"_menu": "Uitklapmenu's in de header (layout.js): per onderdeel extra links (label, path, tekst, eventueel badge) en 'werk' = case-id's uit projects.json met een korte naam. Het overzicht van de pijler zelf en de webshopcategorieën (shop.json) komen er vanzelf bij.",
+	"menu": {
+		"branding": {
+			"werk": [
+				{ "id": "sanctus", "label": "Sanctus Fusion" },
+				{ "id": "dekentje", "label": "Dekentje.nl" }
+			]
+		},
+		"digitaal": {
+			"links": [
+				{ "label": "Websitecheck", "path": "websitecheck.html", "tekst": "Een korte video over je website, in gewone taal", "badge": "Gratis" }
+			],
+			"werk": [
+				{ "id": "rolduc", "label": "Brouwerij Rolduc" },
+				{ "id": "wmc", "label": "WMC Kerkrade" },
+				{ "id": "heerlen", "label": "Heerlen" },
+				{ "id": "kunstroute", "label": "Kunstroute Zuyderland" }
+			]
+		},
+		"tastbaar": {
+			"links": [
+				{ "label": "3D-printservice", "path": "3d-printservice.html", "tekst": "Je eigen 3D-bestand laten printen" }
+			],
+			"werk": [
+				{ "id": "jelgers3d", "label": "JelgerS3D" }
+			]
+		},
+		"webshop": {
+			"links": [
+				{ "label": "Voor winkels en bedrijven", "path": "zakelijk.html", "tekst": "Zakelijke prijs vanaf 10 stuks" }
+			]
+		}
+	}
 }

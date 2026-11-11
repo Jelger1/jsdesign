@@ -35,6 +35,77 @@ function initNav() {
 	mobiel.addEventListener('change', function () { if (!mobiel.matches) sluit(true); });
 }
 
+// Uitklapmenu's (header.html, layout.js > uitklapmenus). Desktop: een paneel onder Branding, Digitaal, Tastbaar en
+// Webshop. Met de muis opent het na 80 ms op de naam (meteen als er al een paneel open is, zodat je van het ene naar het
+// andere kunt schuiven) en sluit het 250 ms nadat de muis weg is. Het pijltje achter de naam is een knop: klikken,
+// tikken of Enter opent het paneel en het blijft dan open tot je nog eens op het pijltje drukt, ernaast klikt, Escape
+// drukt (de focus gaat terug naar het pijltje) of met Tab het onderdeel verlaat. Een tik op de naam zelf gaat gewoon naar
+// de pagina. Mobiel: de ronde knop naast een pijler klapt de lijst eronder uit of in.
+function initSubmenus() {
+	const items = Array.prototype.filter.call(document.querySelectorAll('.nav-item'), function (el) { return el.querySelector('.nav-sub'); });
+	let open = null;
+
+	function zet(item, aan) {
+		item.classList.toggle('is-open', aan);
+		item.querySelector('.nav-uit').setAttribute('aria-expanded', String(aan));
+		if (aan) open = item;
+		else if (open === item) open = null;
+	}
+	function opent(item, via) {
+		if (open && open !== item) zet(open, false);
+		item.dataset.via = via;
+		zet(item, true);
+	}
+
+	items.forEach(function (item) {
+		const knop = item.querySelector('.nav-uit');
+		let klok = 0;
+		item.addEventListener('pointerenter', function (event) {
+			if (event.pointerType !== 'mouse') return;
+			clearTimeout(klok);
+			if (open === item) return;
+			klok = setTimeout(function () { opent(item, 'muis'); }, open ? 0 : 80);
+		});
+		item.addEventListener('pointerleave', function (event) {
+			if (event.pointerType !== 'mouse') return;
+			clearTimeout(klok);
+			if (open !== item || item.dataset.via !== 'muis') return;
+			klok = setTimeout(function () { zet(item, false); }, 250);
+		});
+		knop.addEventListener('click', function () {
+			clearTimeout(klok);
+			// Al open door de muis: dan zet een klik hem vast in plaats van hem te sluiten
+			if (open === item && item.dataset.via === 'muis') { item.dataset.via = 'knop'; return; }
+			if (open === item) zet(item, false);
+			else opent(item, 'knop');
+		});
+		item.addEventListener('focusout', function (event) {
+			if (open === item && event.relatedTarget && !item.contains(event.relatedTarget)) zet(item, false);
+		});
+	});
+	if (items.length) {
+		document.addEventListener('click', function (event) {
+			if (open && !open.contains(event.target)) zet(open, false);
+		});
+		document.addEventListener('keydown', function (event) {
+			if (event.key !== 'Escape' || !open) return;
+			const item = open;
+			zet(item, false);
+			if (item.contains(document.activeElement)) item.querySelector('.nav-uit').focus();
+		});
+	}
+
+	document.querySelectorAll('.menu-uit').forEach(function (knop) {
+		const lijst = document.getElementById(knop.getAttribute('aria-controls'));
+		if (!lijst) return;
+		knop.addEventListener('click', function () {
+			const aan = knop.getAttribute('aria-expanded') !== 'true';
+			knop.setAttribute('aria-expanded', String(aan));
+			lijst.hidden = !aan;
+		});
+	});
+}
+
 function initReveal() {
 	const elements = document.querySelectorAll('.section, .pdp-details, .pdp-related');
 	if (prefersReducedMotion || !('IntersectionObserver' in window) || !elements.length) return;
@@ -74,6 +145,7 @@ function initDeadlines() {
 
 export function initUi() {
 	initNav();
+	initSubmenus();
 	initReveal();
 	initDeadlines();
 }

@@ -13,6 +13,70 @@ const NAV_LABEL = { branding: 'Branding', digitaal: 'Digitaal', tastbaar: 'Tastb
 const SECTION_BY_NAME = { shop: 'webshop', category: 'webshop', product: 'webshop', checkout: 'webshop', thanks: 'webshop' };
 const PILLARS = ['branding', 'digitaal', 'tastbaar'];
 
+// Uitklapmenu's (site.json > menu). Op de desktop krijgen Branding, Digitaal, Tastbaar en Webshop een paneel dat opengaat
+// bij aanwijzen of met het pijltje naast de naam (een knop, voor toetsenbord en touchscreen; src/js/ui.js). Bovenaan
+// staat het overzicht van dat onderdeel, dan de extra links (zoals de websitecheck), bij de webshop de categorieën en bij
+// een pijler een rij met werk (case-pagina's). In het mobiele menu klapt elke pijler uit tot dezelfde extra links en het
+// werk; de pijler zelf is daar het overzicht. Geeft de waarden voor header.html: pijl:<k>, sub:<k> en msub:<k>.
+function uitklapmenus(page, ctx, pijlerHier) {
+	const site = ctx.site, root = page.root || '', menu = site.menu || {};
+	const uit = {};
+	const href = function (pad) { return root + pad.replace(/index\.html$/, ''); };
+	const hier = function (pad) { return page.path === pad ? ' aria-current="page"' : ''; };
+	const badge = function (l) { return l.badge ? ' <span class="nav-badge">' + h.esc(l.badge) + '</span>' : ''; };
+	const link = function (l) {
+		return '<li><a class="nav-sub-link" href="' + href(l.path) + '"' + hier(l.path) + '><span class="nav-sub-naam">' + h.esc(l.label) + badge(l) + '</span>'
+			+ (l.tekst ? '<span class="nav-sub-wat">' + h.esc(l.tekst) + '</span>' : '') + '</a></li>';
+	};
+	const werk = function (k, klasse, lijst) {
+		if (!lijst || !lijst.length) return '';
+		const items = lijst.map(function (w) {
+			const p = ctx.projects.find(function (x) { return x.id === w.id && x.case; });
+			if (!p) throw new Error('site.json > menu > ' + k + ': "' + w.id + '" is geen case in projects.json');
+			const pad = 'portfolio/' + p.id + '.html';
+			return '<li><a href="' + href(pad) + '"' + hier(pad) + '>' + h.esc(w.label || p.title) + '</a></li>';
+		});
+		if (klasse === 'nav-sub') items.push('<li><a class="nav-sub-alles" href="' + href('portfolio/index.html') + '">Al het werk</a></li>');
+		return '<div class="' + klasse + '-werk"><p class="' + klasse + '-kop" id="' + klasse + '-werk-' + k + '">Werk</p>'
+			+ '<ul aria-labelledby="' + klasse + '-werk-' + k + '">' + items.join('') + '</ul></div>';
+	};
+	['branding', 'digitaal', 'tastbaar', 'webshop'].forEach(function (k) {
+		const m = menu[k];
+		if (!m) { uit['pijl:' + k] = uit['sub:' + k] = uit['msub:' + k] = ''; return; }
+		const pijler = ctx.pillars.find(function (p) { return p.id === k; });
+		const naam = pijler ? pijler.label : 'Webshop';
+		const overzicht = pijler
+			? { label: 'Alles over ' + pijler.label, path: pijler.path, tekst: pijler.omschrijving }
+			: { label: 'Alle ontwerpen', path: 'webshop.html', tekst: 'Eigen ontwerpen, geprint in Kerkrade' };
+		const extra = (m.links || []).map(link).join('');
+		const cats = k === 'webshop' && (site.categoryPages || []).length
+			? '<div class="nav-sub-cats"><p class="nav-sub-kop" id="nav-sub-cats-kop">Categorieën</p><ul aria-labelledby="nav-sub-cats-kop">'
+				+ site.categoryPages.map(function (c) { const pad = c.slug + '.html'; return '<li><a href="' + href(pad) + '"' + hier(pad) + '>' + h.esc(c.label) + '</a></li>'; }).join('')
+				+ '</ul></div>'
+			: '';
+		uit['pijl:' + k] = '<span class="nav-pijl" aria-hidden="true"></span>';
+		uit['sub:' + k] = '<button class="nav-uit" type="button" aria-expanded="false" aria-controls="nav-sub-' + k + '"><span class="sr-only">Meer onder ' + h.esc(naam) + '</span></button>'
+			+ '<div class="nav-sub" id="nav-sub-' + k + '"><div class="nav-sub-kaart">'
+			+ (cats ? '<ul class="nav-sub-links">' + link(overzicht) + '</ul>' + cats + (extra ? '<ul class="nav-sub-links nav-sub-links--na">' + extra + '</ul>' : '')
+				: '<ul class="nav-sub-links">' + link(overzicht) + extra + '</ul>')
+			+ werk(k, 'nav-sub', m.werk)
+			+ '</div></div>';
+		// Mobiel: alleen de pijlers (de webshop staat daar in de rij Portfolio · Webshop · Over). De pijler waar je bent
+		// staat al open.
+		if (!pijler) { uit['msub:' + k] = ''; return; }
+		const open = pijlerHier === k;
+		const mLinks = (m.links || []).map(function (l) {
+			return '<li><a href="' + href(l.path) + '"' + hier(l.path) + '>' + h.esc(l.label) + badge(l) + '</a></li>';
+		}).join('');
+		uit['msub:' + k] = '<button class="menu-uit" type="button" aria-expanded="' + open + '" aria-controls="menu-sub-' + k + '"><span class="sr-only">Meer onder ' + h.esc(naam) + '</span><span class="menu-uit-pijl" aria-hidden="true"></span></button>'
+			+ '<div class="menu-sub" id="menu-sub-' + k + '"' + (open ? '' : ' hidden') + '>'
+			+ (mLinks ? '<ul class="menu-sub-links">' + mLinks + '</ul>' : '')
+			+ werk(k, 'menu-sub', m.werk)
+			+ '</div>';
+	});
+	return uit;
+}
+
 // page: { path, root, name, section, pillar, title, description, ogImage, ogType, schemaType, jsonLd[], preload, main, noindex }
 function layout(page, ctx) {
 	const site = ctx.site;
@@ -54,6 +118,7 @@ function layout(page, ctx) {
 		: '<span class="' + hierKlasse + '"><span class="sr-only">Je bent hier: </span>' + hierNaam + '</span>';
 	headerValues.hierMenu = hier ? '<span class="' + hierKlasse + '" aria-hidden="true">' + hierNaam + '</span>' : '';
 	ctx.pillars.forEach(function (p) { headerValues['kort:' + p.id] = h.esc(p.omschrijving); });
+	Object.assign(headerValues, uitklapmenus(page, ctx, pillar));
 	let header = h.fill(ctx.partials.header, headerValues);
 	if (page.name === 'home') header = header.replace(/href="\.\/#/g, 'href="#');
 

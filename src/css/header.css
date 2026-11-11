@@ -4,7 +4,9 @@
    erboven (data-ancestor: Portfolio bij een case, Webshop bij een product) krijgt hetzelfde label als omlijning. Vol is
    hier, omlijnd is de sectie erboven, niets is elders. Onder 900px staat het label naast het logo, en opent de menuknop
    het menu als modale dialog over het hele scherm (src/js/ui.js), in de beeldtaal van het teken: de drie pijlers als
-   genummerde blokjes aan één lijn. Daar rekt het blokje van de huidige pijler uit tot het label onder zijn naam. */
+   genummerde blokjes aan één lijn. Daar rekt het blokje van de huidige pijler uit tot het label onder zijn naam.
+   Branding, Digitaal, Tastbaar en Webshop klappen uit: op de desktop tot een paneel onder de naam, in het mobiele menu
+   tot een lijst onder de pijler (zie "uitklapmenu's" hieronder). De gewone links in de bovenbalk heten .nav-top. */
 
 /* Skip-link voor toetsenbordgebruikers */
 .skip-link{position:absolute;left:1rem;top:-4rem;z-index:var(--z-skiplink);background:var(--brand);color:var(--dark);padding:0.6rem 1rem;border-radius:var(--radius);font-weight:700;text-decoration:none}
@@ -28,21 +30,21 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 
 /* Menu. Alle onderdelen zijn even hoog als de knop, zodat de blokjes op één lijn staan */
 .main-nav{display:flex;align-items:center;gap:clamp(1rem, 2.2vw, 2rem);margin-left:auto}
-.main-nav a{position:relative;display:inline-flex;align-items:center;min-height:2.5rem;color:var(--fg-muted);font-size:var(--text-sm);font-weight:500;letter-spacing:0.05em;text-decoration:none;white-space:nowrap;border-radius:4px}
-.main-nav a:hover,.main-nav a:is([aria-current="page"], [data-ancestor]){color:var(--fg)}
+.main-nav .nav-top{position:relative;display:inline-flex;align-items:center;min-height:2.5rem;color:var(--fg-muted);font-size:var(--text-sm);font-weight:500;letter-spacing:0.05em;text-decoration:none;white-space:nowrap;border-radius:4px}
+.main-nav .nav-top:hover,.main-nav .nav-top:is([aria-current="page"], [data-ancestor]){color:var(--fg)}
 /* Focus is een ring om de link, 4px erbuiten: zo blijft er donker tussen de ring en de punten van het label, ook op
    Digitaal waar beide aqua zijn */
-.main-nav a:focus-visible{outline-offset:4px}
+.main-nav .nav-top:focus-visible{outline-offset:4px}
 /* De pijlers hebben een klein blokje in hun eigen kleur voor de naam (kleur is nooit het enige kenmerk: het label staat
    ernaast). --voor is de ruimte die het inneemt. */
-.main-nav a[data-pillar]{--voor:calc(13px + 0.45rem)}
-.main-nav a[data-pillar]::before{content:'';flex:none;width:13px;height:8px;margin-right:0.45rem;background:var(--pillar);clip-path:var(--js-blok)}
+.main-nav .nav-top[data-pillar]{--voor:calc(13px + 0.45rem)}
+.main-nav .nav-top[data-pillar]::before{content:'';flex:none;width:13px;height:8px;margin-right:0.45rem;background:var(--pillar);clip-path:var(--js-blok)}
 
 /* Het label. --tag-h is de hoogte. De punten zijn de linker- en rechterhelft van het blokje (--js-blok) op die hoogte:
    0,808 en 0,818 keer de hoogte, links op 56,5% en rechts op 43,5%, dus met de lichte draai van het blokje in het logo.
    --tag-rand is dezelfde vorm als rand van --tag-s breed (evenodd: een binnenvorm die op elke zijde --tag-s naar binnen
    ligt). Deze variabelen staan op de elementen zelf en niet op :root, omdat --tag-h per element verschilt. */
-.main-nav a,.header-hier,.menu-naam,.menu-meer a{
+.main-nav .nav-top,.header-hier,.menu-naam,.menu-meer a{
 	--tag-s:2px;
 	--tl:calc(var(--tag-h, 28px) * 0.808);
 	--bl:calc(var(--tag-h, 28px) * 0.818);
@@ -60,24 +62,73 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 /* Op de desktop is het label even breed als de link plus --tag-x aan elke kant. Die ruimte komt uit een negatieve marge,
    zodat geen enkele link verschuift als je van pagina wisselt. Bij een pijler valt het vaste blokje weg en schuift het
    label in zijn ruimte. Vet met iets minder letterafstand is precies even breed als de gewone link. */
-.main-nav a{--tag-h:28px;--tag-x:14px}
-.main-nav a:is([aria-current="page"], [data-ancestor]):not(.nav-cta){isolation:isolate;padding-inline:var(--tag-x);margin-inline:calc(-1 * var(--tag-x))}
-.main-nav a[data-pillar]:is([aria-current="page"], [data-ancestor]){margin-inline:calc(var(--voor) / 2 - var(--tag-x))}
-.main-nav a[data-pillar]:is([aria-current="page"], [data-ancestor])::before{display:none}
-.main-nav a:is([aria-current="page"], [data-ancestor]):not(.nav-cta)::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:50%;height:var(--tag-h);
+.main-nav .nav-top{--tag-h:28px;--tag-x:14px}
+.main-nav .nav-top:is([aria-current="page"], [data-ancestor]):not(.nav-cta){isolation:isolate;padding-inline:var(--tag-x);margin-inline:calc(-1 * var(--tag-x))}
+.main-nav .nav-top[data-pillar]:is([aria-current="page"], [data-ancestor]){margin-inline:calc(var(--voor) / 2 - var(--tag-x))}
+.main-nav .nav-top[data-pillar]:is([aria-current="page"], [data-ancestor])::before{display:none}
+.main-nav .nav-top:is([aria-current="page"], [data-ancestor]):not(.nav-cta)::after{content:'';position:absolute;z-index:-1;left:0;right:0;top:50%;height:var(--tag-h);
 	transform:translateY(-50%);background:var(--pillar, var(--raspberry));clip-path:var(--tag-vorm)}
-.main-nav a[aria-current="page"]:not(.nav-cta){color:var(--dark);font-weight:700;letter-spacing:0.025em}
-.main-nav a[data-ancestor]{font-weight:600;letter-spacing:0.035em}
-.main-nav a[data-ancestor]:not(.nav-cta)::after{clip-path:var(--tag-rand)}
+.main-nav .nav-top[aria-current="page"]:not(.nav-cta){color:var(--dark);font-weight:700;letter-spacing:0.025em}
+.main-nav .nav-top[data-ancestor]{font-weight:600;letter-spacing:0.035em}
+.main-nav .nav-top[data-ancestor]:not(.nav-cta)::after{clip-path:var(--tag-rand)}
 /* In de omlijning ligt de rand 2px binnen de vorm: de tekst schuift 3px van de schuine linkerlijn af, de marge vangt het op */
-.main-nav a[data-ancestor]:not(.nav-cta){padding-left:calc(var(--tag-x) + 3px);margin-left:calc(-1 * var(--tag-x) - 3px)}
-.main-nav a[data-pillar][data-ancestor]{margin-left:calc(var(--voor) / 2 - var(--tag-x) - 3px)}
+.main-nav .nav-top[data-ancestor]:not(.nav-cta){padding-left:calc(var(--tag-x) + 3px);margin-left:calc(-1 * var(--tag-x) - 3px)}
+.main-nav .nav-top[data-pillar][data-ancestor]{margin-left:calc(var(--voor) / 2 - var(--tag-x) - 3px)}
 
 /* Contact: een extrude-knop zoals .btn.primary. Op de contactpagina zelf staat hij al een laag omhoog */
 .main-nav .nav-cta{margin-left:0.5rem;padding:0 1.2rem;border:2px solid var(--brand);border-radius:var(--radius-full);background:var(--brand);color:var(--dark);font-size:var(--text-base);font-weight:700;letter-spacing:0.02em;box-shadow:0 0 0 0 var(--extrude-color);transition:transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease)}
 .main-nav .nav-cta::after{content:none}
 .main-nav .nav-cta:hover,.main-nav .nav-cta[aria-current="page"]{color:var(--dark);transform:translate(-3px, -3px);box-shadow:4px 4px 0 0 var(--extrude-color)}
 .main-nav .nav-cta:active{transform:translate(-1px, -1px);box-shadow:2px 2px 0 0 var(--extrude-color)}
+
+/* ---------------------------------------------------------------- uitklapmenu's (desktop)
+   Branding, Digitaal, Tastbaar en Webshop hebben een paneel (layout.js > uitklapmenus): bovenaan het overzicht van dat
+   onderdeel, dan de extra links (zoals de websitecheck), bij de webshop de categorieën en bij een pijler een rij werk.
+   Het opent als je met de muis even op de naam blijft (src/js/ui.js), of met het pijltje achter de naam: daar ligt een
+   knop overheen, voor het toetsenbord en het touchscreen. Het paneel hangt 8px onder de header; de ruimte ertussen hoort
+   bij het menu-onderdeel, zodat het open blijft terwijl je de muis ernaartoe beweegt. Het pijltje telt mee in de breedte
+   van de link, dus het label van de huidige pagina loopt eromheen en er verschuift niets. Zonder JavaScript opent het
+   paneel bij aanwijzen en zodra de focus erin staat. */
+.nav-item{position:relative;display:flex;align-items:center}
+.nav-pijl{flex:none;width:7px;height:7px;margin:0 1px 0 0.45rem;border-right:1.75px solid currentColor;border-bottom:1.75px solid currentColor;
+	transform:translateY(-2px) rotate(45deg);opacity:0.75;transition:transform var(--duration-fast) var(--ease)}
+.nav-item.is-open .nav-pijl{transform:translateY(2px) rotate(225deg)}
+.nav-uit{position:absolute;top:50%;right:0;width:1.5rem;height:2.5rem;padding:0;border:0;border-radius:4px;background:transparent;color:inherit;transform:translateY(-50%);cursor:pointer}
+.nav-uit:focus-visible{outline-offset:2px}
+.nav-item.is-open > .nav-top{color:var(--fg)}
+.nav-sub{position:absolute;top:100%;left:-1rem;z-index:1;padding-top:calc((var(--nav-height) - 2.5rem) / 2 + 0.5rem);
+	visibility:hidden;opacity:0;transform:translateY(-0.375rem);
+	transition:opacity var(--duration-fast) var(--ease), transform var(--duration-fast) var(--ease), visibility 0s linear var(--duration-fast)}
+.nav-item--rechts .nav-sub{left:auto;right:-1rem}
+.nav-item.is-open > .nav-sub{visibility:visible;opacity:1;transform:none;transition-delay:0s}
+@media (scripting:none){
+	.nav-item:is(:hover, :focus-within) > .nav-sub{visibility:visible;opacity:1;transform:none;transition-delay:0s}
+}
+@media (prefers-reduced-motion:reduce){
+	.nav-sub{transform:none}
+}
+.nav-sub-kaart{width:21rem;padding:0.5rem;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--dark-card);box-shadow:var(--shadow-lg)}
+.nav-sub-links{display:grid;gap:0.125rem}
+.nav-sub-links--na{margin-top:0.375rem;padding-top:0.375rem;border-top:1px solid var(--border)}
+.nav-sub-link{display:grid;gap:0.2rem;padding:0.7rem 0.85rem;border-radius:var(--radius);color:var(--fg);text-decoration:none}
+.nav-sub-link:hover{background:var(--dark-secondary)}
+.nav-sub-naam{display:flex;flex-wrap:wrap;align-items:center;gap:0.35rem 0.5rem;font-family:var(--font-display);font-weight:600;font-size:var(--text-base);line-height:1.25;letter-spacing:0.01em}
+.nav-sub-link:hover .nav-sub-naam{color:var(--pillar-text, var(--brand))}
+.nav-sub-wat{color:var(--fg-muted);font-size:var(--text-sm);line-height:1.4}
+/* Waar je bent: het blokje uit het teken voor de naam */
+.nav-sub-link[aria-current="page"] .nav-sub-naam::before{content:'';flex:none;width:13px;height:8px;background:var(--pillar, var(--brand));clip-path:var(--js-blok)}
+/* "Gratis": een klein label in de kleur van het onderdeel */
+.nav-badge{display:inline-flex;align-items:center;padding:0.25rem 0.5rem;border-radius:var(--radius-full);background:var(--pillar, var(--brand));color:var(--dark);
+	font:700 0.6875rem/1 var(--font-mono);letter-spacing:0.08em;text-transform:uppercase}
+.nav-sub-werk,.nav-sub-cats{margin-top:0.375rem;padding:0.75rem 0.85rem 0.375rem;border-top:1px solid var(--border)}
+.nav-sub-kop{margin:0 0 0.35rem;color:var(--fg-muted);font:500 var(--text-xs)/1 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase}
+.nav-sub-werk ul{display:flex;flex-wrap:wrap;gap:0 1rem}
+.nav-sub-cats ul{display:grid;grid-template-columns:1fr 1fr;gap:0 1rem}
+.nav-sub-werk a,.nav-sub-cats a{display:inline-flex;align-items:center;min-height:2rem;color:var(--fg);font-size:var(--text-sm);text-decoration:none;border-radius:4px}
+.nav-sub-werk a:hover,.nav-sub-cats a:hover{color:var(--pillar-text, var(--brand));text-decoration:underline;text-underline-offset:0.25em}
+.nav-sub-werk a[aria-current="page"],.nav-sub-cats a[aria-current="page"]{font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:0.3em;text-decoration-color:var(--pillar, var(--brand))}
+.nav-sub-werk .nav-sub-alles{color:var(--fg-muted)}
+.nav-sub-alles::after{content:'→';margin-left:0.35rem}
 
 /* Op een smaller scherm passen zeven onderdelen alleen met minder ruimte ertussen. Tot 1100px staat er vast 1,5rem
    tussen de links (daarboven 2,2vw, dus dat sluit aan): genoeg voor de punten van het label, dat 14px buiten zijn link
@@ -89,8 +140,8 @@ body[data-pillar] .site-header .logo-deel{fill:var(--pillar)}
 	.main-nav .nav-cta{margin-left:0.25rem;padding:0 1rem}
 }
 @media (max-width:960px){
-	.main-nav a[data-pillar]{--voor:0px}
-	.main-nav a[data-pillar]::before{display:none}
+	.main-nav .nav-top[data-pillar]{--voor:0px}
+	.main-nav .nav-top[data-pillar]::before{display:none}
 }
 
 /* ---------------------------------------------------------------- menuknop en sluitknop
@@ -140,8 +191,8 @@ html:has(.menu[open]){overflow:hidden}
    hangen de lijnen. */
 .menu-nav{--blok-b:52px;--blok-midden:1.1rem;--tussen:var(--space-8);flex:none;max-width:28rem;padding:var(--space-10) var(--gutter) 0}
 .menu-pijlers{display:grid;gap:var(--tussen)}
-.menu-pijlers li{position:relative}
-.menu-pijlers a{position:relative;display:flex;align-items:flex-start;gap:var(--space-4);color:var(--fg);text-decoration:none;border-radius:var(--radius)}
+.menu-pijlers > li{position:relative}
+.menu-pijlers > li > a{position:relative;display:flex;align-items:flex-start;gap:var(--space-4);color:var(--fg);text-decoration:none;border-radius:var(--radius)}
 .menu-blok{flex:none;width:var(--blok-b);height:32px;margin-top:calc(var(--blok-midden) - 16px);display:grid;place-items:center;background:var(--pillar);clip-path:var(--js-blok);
 	color:var(--dark);font:700 0.75rem/1 var(--font-mono);letter-spacing:0.02em}
 .menu-pijler{display:block;min-width:0;padding-bottom:0.15rem}
@@ -150,17 +201,17 @@ html:has(.menu[open]){overflow:hidden}
 
 /* De lijn: van het midden van elk blokje naar het midden van het volgende, in het verloop van
    de ene pijlerkleur naar de andere. Bij Tastbaar houdt hij op: de rij eronder hoort niet bij een pijler */
-.menu-pijlers li:not(:last-child)::before{content:'';position:absolute;left:calc(var(--blok-b) / 2 - 0.5px);top:var(--blok-midden);bottom:calc(-1 * var(--tussen) - var(--blok-midden));width:1px;
+.menu-pijlers > li:not(:last-child)::before{content:'';position:absolute;left:calc(var(--blok-b) / 2 - 0.5px);top:var(--blok-midden);bottom:calc(-1 * var(--tussen) - var(--blok-midden));width:1px;
 	background:linear-gradient(var(--pillar), var(--volgende));opacity:0.75}
-.menu-pijlers li[data-pillar="branding"]{--volgende:var(--pillar-digitaal)}
-.menu-pijlers li[data-pillar="digitaal"]{--volgende:var(--pillar-tastbaar)}
+.menu-pijlers > li[data-pillar="branding"]{--volgende:var(--pillar-digitaal)}
+.menu-pijlers > li[data-pillar="digitaal"]{--volgende:var(--pillar-tastbaar)}
 
 /* Portfolio · Webshop · Over: kleiner, op één rij */
 .menu-meer{display:flex;flex-wrap:wrap;align-items:center;margin-top:var(--space-8)}
 .menu-meer li{display:flex;align-items:center}
 .menu-meer li + li::before{content:'';flex:none;width:4px;height:4px;margin:0 0.8rem;border-radius:50%;background:var(--fg-muted)}
 .menu-meer a{position:relative;display:inline-flex;align-items:center;min-height:44px;color:var(--fg);font-family:var(--font-display);font-weight:600;font-size:var(--text-md);letter-spacing:0.01em;text-decoration:none;border-radius:4px}
-.menu-pijlers a:hover .menu-naam{color:var(--pillar-text)}
+.menu-pijlers > li > a:hover .menu-naam{color:var(--pillar-text)}
 .menu-meer a:hover{color:var(--brand)}
 
 /* De pagina waar je bent. Bij een pijler rekt het genummerde blokje uit tot het label onder de naam: het label begint op
@@ -168,14 +219,14 @@ html:has(.menu[open]){overflow:hidden}
    vorm, "01 Branding". Het schuift 0,065 x (32px - --tag-h) omhoog, zodat zijn linkerpunt op die van het blokje valt. De
    omschrijving schuift iets omlaag, uit de punt van het label. De andere twee pijlers blijven zoals ze zijn. */
 .menu-naam{--tag-h:44px;--tag-x:30px}
-.menu-pijlers a:is([aria-current="page"], [data-ancestor]){isolation:isolate}
-.menu-pijlers a:is([aria-current="page"], [data-ancestor]) .menu-naam{position:relative;width:fit-content}
-.menu-pijlers a:is([aria-current="page"], [data-ancestor]) .menu-naam::before{content:'';position:absolute;z-index:-1;
+.menu-pijlers > li > a:is([aria-current="page"], [data-ancestor]){isolation:isolate}
+.menu-pijlers > li > a:is([aria-current="page"], [data-ancestor]) .menu-naam{position:relative;width:fit-content}
+.menu-pijlers > li > a:is([aria-current="page"], [data-ancestor]) .menu-naam::before{content:'';position:absolute;z-index:-1;
 	left:calc(-1 * (var(--blok-b) + var(--space-4)));right:calc(-1 * var(--tag-x));top:50%;height:var(--tag-h);
 	transform:translateY(calc(-50% + (32px - var(--tag-h)) * 0.065));background:var(--pillar);clip-path:var(--tag-vorm)}
-.menu-pijlers a:is([aria-current="page"], [data-ancestor]) .menu-wat{margin-top:0.5rem}
-.menu-pijlers a[aria-current="page"] .menu-naam,.menu-pijlers a[aria-current="page"]:hover .menu-naam{color:var(--dark)}
-.menu-pijlers a[data-ancestor] .menu-naam::before{clip-path:var(--tag-rand)}
+.menu-pijlers > li > a:is([aria-current="page"], [data-ancestor]) .menu-wat{margin-top:0.5rem}
+.menu-pijlers > li > a[aria-current="page"] .menu-naam,.menu-pijlers > li > a[aria-current="page"]:hover .menu-naam{color:var(--dark)}
+.menu-pijlers > li > a[data-ancestor] .menu-naam::before{clip-path:var(--tag-rand)}
 /* Portfolio · Webshop · Over krijgen hetzelfde label op hun eigen maat, de sectie erboven de omlijning */
 .menu-meer a{--tag-h:32px;--tag-x:15px}
 .menu-meer a:is([aria-current="page"], [data-ancestor]){isolation:isolate;padding-inline:var(--tag-x)}
@@ -184,6 +235,29 @@ html:has(.menu[open]){overflow:hidden}
 .menu-meer a[aria-current="page"],.menu-meer a[aria-current="page"]:hover{color:var(--dark);font-weight:700}
 .menu-meer a[data-ancestor]::before{clip-path:var(--tag-rand)}
 .menu-meer a[data-ancestor]{padding-left:calc(var(--tag-x) + 3px)}
+
+/* Uitklappen per pijler: een ronde knop rechts van de naam klapt de extra links en het werk eronder uit (src/js/ui.js);
+   de pijler waar je bent staat al open. De lijst begint onder de naam, niet onder het blokje. */
+.menu-pijlers > li > a{padding-right:3.25rem}
+.menu-uit{position:absolute;top:calc(var(--blok-midden) - 22px);right:0;display:grid;place-items:center;width:44px;height:44px;padding:0;
+	border:1px solid var(--border-strong);border-radius:50%;background:transparent;color:var(--fg);cursor:pointer;
+	transition:background-color var(--duration-fast) var(--ease), border-color var(--duration-fast) var(--ease)}
+.menu-uit[aria-expanded="true"]{border-color:var(--pillar);background:var(--dark-secondary)}
+.menu-uit-pijl{width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform var(--duration-fast) var(--ease)}
+.menu-uit[aria-expanded="true"] .menu-uit-pijl{transform:translateY(2px) rotate(225deg)}
+@media (hover:hover){
+	.menu-uit:hover{border-color:var(--pillar)}
+}
+.menu-sub{margin:0.5rem 0 0 calc(var(--blok-b) + var(--space-4))}
+.menu-sub[hidden]{display:none}
+.menu-sub-links a{display:flex;flex-wrap:wrap;align-items:center;gap:0.6rem;min-height:44px;color:var(--fg);font-family:var(--font-display);font-weight:600;font-size:var(--text-md);letter-spacing:0.01em;text-decoration:none;border-radius:4px}
+.menu-sub-links a:hover{color:var(--pillar-text)}
+.menu-sub-links a[aria-current="page"]::before{content:'';flex:none;width:13px;height:8px;background:var(--pillar);clip-path:var(--js-blok)}
+.menu-sub-kop{margin:0.5rem 0 0;color:var(--fg-muted);font:500 var(--text-xs)/1 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase}
+.menu-sub-werk ul{display:flex;flex-wrap:wrap;gap:0 1.1rem}
+.menu-sub-werk a{display:inline-flex;align-items:center;min-height:44px;color:var(--fg);font-size:var(--text-sm);text-decoration:underline;text-decoration-color:var(--border-strong);text-underline-offset:0.3em;border-radius:4px}
+.menu-sub-werk a:hover{color:var(--pillar-text);text-decoration-color:currentColor}
+.menu-sub-werk a[aria-current="page"]{font-weight:700;text-decoration-color:var(--pillar);text-decoration-thickness:2px}
 
 /* Contact: breed, als extrude-knop; op de contactpagina zelf staat hij al een laag omhoog */
 .menu-cta{display:flex;align-items:center;justify-content:center;min-height:3.25rem;margin-top:var(--space-10);padding:0 var(--space-6);border:2px solid var(--brand);border-radius:var(--radius-full);
@@ -208,12 +282,12 @@ html:has(.menu[open]){overflow:hidden}
 	.menu[open]{animation:menu-in 0.34s var(--ease)}
 	.menu[open] .menu-icoon--kruis span{animation:menu-kruis var(--duration) var(--ease) backwards}
 	.menu[open] .menu-blok{animation:menu-blok-in 0.14s var(--ease-out) backwards}
-	.menu[open] .menu-pijlers li::before{animation:menu-lijn-in 0.12s linear backwards}
-	.menu[open] .menu-pijlers li:nth-child(1) .menu-blok{animation-delay:0.06s}
-	.menu[open] .menu-pijlers li:nth-child(1)::before{animation-delay:0.12s}
-	.menu[open] .menu-pijlers li:nth-child(2) .menu-blok{animation-delay:0.16s}
-	.menu[open] .menu-pijlers li:nth-child(2)::before{animation-delay:0.22s}
-	.menu[open] .menu-pijlers li:nth-child(3) .menu-blok{animation-delay:0.26s}
+	.menu[open] .menu-pijlers > li::before{animation:menu-lijn-in 0.12s linear backwards}
+	.menu[open] .menu-pijlers > li:nth-child(1) .menu-blok{animation-delay:0.06s}
+	.menu[open] .menu-pijlers > li:nth-child(1)::before{animation-delay:0.12s}
+	.menu[open] .menu-pijlers > li:nth-child(2) .menu-blok{animation-delay:0.16s}
+	.menu[open] .menu-pijlers > li:nth-child(2)::before{animation-delay:0.22s}
+	.menu[open] .menu-pijlers > li:nth-child(3) .menu-blok{animation-delay:0.26s}
 	@supports (overlay:auto){
 		.menu{transition:clip-path 0.24s var(--ease-in-out), overlay 0.24s allow-discrete, display 0.24s allow-discrete}
 		.menu:not([open]){clip-path:polygon(0 100%, 100% calc(100% + 57.7vw), 100% calc(100% + 57.7vw), 0 100%)}
@@ -287,9 +361,10 @@ html:has(.menu[open]){overflow:hidden}
 	.header-inner{flex-wrap:wrap;padding-top:0.5rem;padding-bottom:0.75rem}
 	.nav-toggle{display:none}
 	.main-nav{display:flex;flex-wrap:wrap;order:1;width:100%;gap:0 1.25rem;margin:0}
-	.main-nav a{min-height:44px}
-	.main-nav a:is([aria-current="page"], [data-ancestor]):not(.nav-cta),.main-nav a[data-pillar]:is([aria-current="page"], [data-ancestor]){margin-inline:0}
+	.main-nav .nav-top{min-height:44px}
+	.main-nav .nav-top:is([aria-current="page"], [data-ancestor]):not(.nav-cta),.main-nav .nav-top[data-pillar]:is([aria-current="page"], [data-ancestor]){margin-inline:0}
 	.main-nav .nav-cta{margin-left:0}
+	.nav-pijl,.nav-uit,.nav-sub{display:none}
 	.header-hier{display:none}
 	.brand:has(+ .header-hier){margin-right:auto}
 }
@@ -302,18 +377,18 @@ html:has(.menu[open]){overflow:hidden}
    aqua laten). Zo ook het teken in het logo, de blokjes van de menuknop en de genummerde blokjes en lijnen in het menu;
    het blokje van de huidige pijler versmelt met zijn label. */
 @media (forced-colors:active){
-	.menu-icoon span,.menu-blok,.menu-pijlers li::before{forced-color-adjust:none;background:CanvasText}
-	.main-nav a:is([aria-current="page"], [data-ancestor]):not(.nav-cta)::after,.header-hier::before,
-	.menu-pijlers a:is([aria-current="page"], [data-ancestor]) .menu-naam::before,
+	.menu-icoon span,.menu-blok,.menu-pijlers > li::before{forced-color-adjust:none;background:CanvasText}
+	.main-nav .nav-top:is([aria-current="page"], [data-ancestor]):not(.nav-cta)::after,.header-hier::before,
+	.menu-pijlers > li > a:is([aria-current="page"], [data-ancestor]) .menu-naam::before,
 	.menu-meer a:is([aria-current="page"], [data-ancestor])::before{forced-color-adjust:none;background:Highlight}
-	.main-nav a[aria-current="page"]:not(.nav-cta),.header-hier:not(.is-sectie),
-	.menu-pijlers a[aria-current="page"] .menu-naam,.menu-meer a[aria-current="page"]{forced-color-adjust:none;color:HighlightText}
-	.main-nav a[data-ancestor]:not(.nav-cta)::after,.header-hier.is-sectie::before,
-	.menu-pijlers a[data-ancestor] .menu-naam::before,.menu-meer a[data-ancestor]::before{forced-color-adjust:none;background:CanvasText}
+	.main-nav .nav-top[aria-current="page"]:not(.nav-cta),.header-hier:not(.is-sectie),
+	.menu-pijlers > li > a[aria-current="page"] .menu-naam,.menu-meer a[aria-current="page"]{forced-color-adjust:none;color:HighlightText}
+	.main-nav .nav-top[data-ancestor]:not(.nav-cta)::after,.header-hier.is-sectie::before,
+	.menu-pijlers > li > a[data-ancestor] .menu-naam::before,.menu-meer a[data-ancestor]::before{forced-color-adjust:none;background:CanvasText}
 	/* Achter tekst tekent de browser een vlak in Canvas, dat de omlijning anders deels afdekt */
-	.main-nav a[data-ancestor]:not(.nav-cta),.header-hier.is-sectie,.menu-pijlers a[data-ancestor] .menu-naam,.menu-meer a[data-ancestor]{forced-color-adjust:none;color:LinkText}
-	.main-nav a:is([aria-current="page"], [data-ancestor]):focus-visible,.header-hier:focus-visible,.menu-meer a:is([aria-current="page"], [data-ancestor]):focus-visible{outline-color:CanvasText}
+	.main-nav .nav-top[data-ancestor]:not(.nav-cta),.header-hier.is-sectie,.menu-pijlers > li > a[data-ancestor] .menu-naam,.menu-meer a[data-ancestor]{forced-color-adjust:none;color:LinkText}
+	.main-nav .nav-top:is([aria-current="page"], [data-ancestor]):focus-visible,.header-hier:focus-visible,.menu-meer a:is([aria-current="page"], [data-ancestor]):focus-visible{outline-color:CanvasText}
 	.logo-deel,body[data-pillar] .site-header .logo-deel{forced-color-adjust:none;fill:CanvasText}
 	.menu-blok{color:Canvas}
-	.menu-pijlers a[aria-current="page"] .menu-blok{background:Highlight;color:HighlightText}
+	.menu-pijlers > li > a[aria-current="page"] .menu-blok{background:Highlight;color:HighlightText}
 }

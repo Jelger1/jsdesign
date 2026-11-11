@@ -4,14 +4,15 @@
 		<a class="brand" href="{{home}}" aria-label="JelgersDesign, naar de homepage">
 			{{logo}}
 		</a>{{hier}}
+		<!-- Branding, Digitaal, Tastbaar en Webshop hebben een uitklapmenu (layout.js > uitklapmenus, src/js/ui.js) -->
 		<nav class="main-nav" id="main-nav" aria-label="Hoofdmenu">
-			<a href="{{root}}design-branding.html" data-pillar="branding"{{nav:branding}}>Branding</a>
-			<a href="{{root}}websites-interactie.html" data-pillar="digitaal"{{nav:digitaal}}>Digitaal</a>
-			<a href="{{root}}3d-printen.html" data-pillar="tastbaar"{{nav:tastbaar}}>Tastbaar</a>
-			<a href="{{root}}portfolio/"{{nav:portfolio}}>Portfolio</a>
-			<a href="{{root}}webshop.html"{{nav:webshop}}>Webshop</a>
-			<a href="{{root}}over.html"{{nav:over}}>Over</a>
-			<a href="{{root}}contact.html" class="nav-cta"{{nav:contact}}>Contact</a>
+			<div class="nav-item" data-pillar="branding"><a class="nav-top" href="{{root}}design-branding.html" data-pillar="branding"{{nav:branding}}>Branding{{pijl:branding}}</a>{{sub:branding}}</div>
+			<div class="nav-item" data-pillar="digitaal"><a class="nav-top" href="{{root}}websites-interactie.html" data-pillar="digitaal"{{nav:digitaal}}>Digitaal{{pijl:digitaal}}</a>{{sub:digitaal}}</div>
+			<div class="nav-item" data-pillar="tastbaar"><a class="nav-top" href="{{root}}3d-printen.html" data-pillar="tastbaar"{{nav:tastbaar}}>Tastbaar{{pijl:tastbaar}}</a>{{sub:tastbaar}}</div>
+			<a class="nav-top" href="{{root}}portfolio/"{{nav:portfolio}}>Portfolio</a>
+			<div class="nav-item nav-item--rechts"><a class="nav-top" href="{{root}}webshop.html"{{nav:webshop}}>Webshop{{pijl:webshop}}</a>{{sub:webshop}}</div>
+			<a class="nav-top" href="{{root}}over.html"{{nav:over}}>Over</a>
+			<a class="nav-top nav-cta" href="{{root}}contact.html"{{nav:contact}}>Contact</a>
 		</nav>
 		<button id="cart-toggle" class="cart-toggle" type="button" aria-label="Winkelwagen openen" aria-controls="cart-sidebar" aria-expanded="false">
 			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -38,9 +39,9 @@
 		</div>
 		<nav class="menu-nav" aria-label="Hoofdmenu">
 			<ol class="menu-pijlers">
-				<li data-pillar="branding"><a href="{{root}}design-branding.html"{{nav:branding}}><span class="menu-blok" aria-hidden="true">01</span><span class="menu-pijler"><span class="menu-naam">Branding</span><span class="menu-wat">{{kort:branding}}</span></span></a></li>
-				<li data-pillar="digitaal"><a href="{{root}}websites-interactie.html"{{nav:digitaal}}><span class="menu-blok" aria-hidden="true">02</span><span class="menu-pijler"><span class="menu-naam">Digitaal</span><span class="menu-wat">{{kort:digitaal}}</span></span></a></li>
-				<li data-pillar="tastbaar"><a href="{{root}}3d-printen.html"{{nav:tastbaar}}><span class="menu-blok" aria-hidden="true">03</span><span class="menu-pijler"><span class="menu-naam">Tastbaar</span><span class="menu-wat">{{kort:tastbaar}}</span></span></a></li>
+				<li data-pillar="branding"><a href="{{root}}design-branding.html"{{nav:branding}}><span class="menu-blok" aria-hidden="true">01</span><span class="menu-pijler"><span class="menu-naam">Branding</span><span class="menu-wat">{{kort:branding}}</span></span></a>{{msub:branding}}</li>
+				<li data-pillar="digitaal"><a href="{{root}}websites-interactie.html"{{nav:digitaal}}><span class="menu-blok" aria-hidden="true">02</span><span class="menu-pijler"><span class="menu-naam">Digitaal</span><span class="menu-wat">{{kort:digitaal}}</span></span></a>{{msub:digitaal}}</li>
+				<li data-pillar="tastbaar"><a href="{{root}}3d-printen.html"{{nav:tastbaar}}><span class="menu-blok" aria-hidden="true">03</span><span class="menu-pijler"><span class="menu-naam">Tastbaar</span><span class="menu-wat">{{kort:tastbaar}}</span></span></a>{{msub:tastbaar}}</li>
 			</ol>
 			<ul class="menu-meer">
 				<li><a href="{{root}}portfolio/"{{nav:portfolio}}>Portfolio</a></li>
