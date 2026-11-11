@@ -416,7 +416,46 @@
 			"title": "D'r Joep – 3D-geprint mijnwerkersbeeld",
 			"description": "D'r Joep: het Limburgse mijnwerkersicoon in een strak, gefacetteerd ontwerp. 3D-geprint in Limburg, in 15 cm en 25 cm. Vanaf €12,95."
 		},
-		"related": ["mijnwerkerslamp", "mijnschacht-nulland", "schachtgebouw-oranje-nassau-1"]
+		"related": ["dr-joep-kirchroa", "mijnwerkerslamp", "mijnschacht-nulland"]
+	},
+	{
+		"id": "dr-joep-kirchroa",
+		"name": "D'r Joep Kirchroa-editie",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "Bioplastic op plantaardige basis",
+		"sale": "cart",
+		"featured": true,
+		"badge": "Gelimiteerd",
+		"tagline": "D'r Joep in het rood en wit van Kerkrade. Genummerd, in een beperkte oplage, en geen twee jasjes zijn hetzelfde.",
+		"description": [
+			"Dit is D'r Joep, de mijnwerker in strakke vlakken, nu met een jasje in het rood en wit van Kerkrade. Lijf en sokkel zijn zwart; het open jasje is opgebouwd uit rode en witte driehoekjes, in de kleuren van de Kerkraadse vlag.",
+			"Geen twee zijn hetzelfde. Bij elke Joep vallen het rood en het wit anders over het jasje, dus je hebt altijd een uniek exemplaar.",
+			"De oplage is beperkt en elke Joep krijgt zijn eigen nummer. Hij is 25 cm hoog, net zo groot als de grote zwarte D'r Joep."
+		],
+		"highlights": [
+			"Genummerd, in een beperkte oplage",
+			"Elk jasje een ander rood-wit patroon: altijd een uniek exemplaar",
+			"25 cm hoog, in de kleuren van Kerkrade"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "25 cm" },
+			{ "label": "Kleuren", "value": "Zwart, met een jasje in rood en wit" },
+			{ "label": "Oplage", "value": "Beperkt, elk exemplaar genummerd" },
+			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 34.95 }
+		],
+		"images": [
+			{ "file": "dr-joep-kirchroa-01.jpg", "subject": [18, 16, 59, 88], "alt": "D'r Joep Kirchroa-editie op een houten tafel: een zwart gefacetteerd beeld met een open jasje van rode en witte driehoekjes" },
+			{ "file": "dr-joep-kirchroa-02.jpg", "subject": [19, 17, 88, 81], "alt": "De rood-witte D'r Joep vooraan, met de gewone zwarte D'r Joep erachter" }
+		],
+		"seo": {
+			"title": "D'r Joep in rood-wit – genummerde editie",
+			"description": "D'r Joep in het rood en wit van Kerkrade: 25 cm hoog, genummerd en in een beperkte oplage. Elk jasje heeft een ander patroon. €34,95."
+		},
+		"related": ["dr-joep", "kirchroa-sleutelhanger", "mijnwerkerslamp"]
 	},
 	{
 		"id": "koempel-eend",
