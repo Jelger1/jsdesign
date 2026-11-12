@@ -37,6 +37,8 @@ const AFWIJKINGEN = {
 	'g:id mijnstreek-set*': 'nieuw product, november 2026 (een feed-item per variant)',
 	'product dr-joep-kirchroa': "nieuw product: D'r Joep Kirchroa-editie, 25 cm, genummerd, rood-wit jasje, €34,95 (eigenaar, 11 november 2026)",
 	'g:id dr-joep-kirchroa*': 'nieuw product, 11 november 2026 (een feed-item per variant)',
+	'product koempel-eend-kerst': 'nieuw product: Koempel-eend Kerst-editie met kerstmuts, gelimiteerd, alleen rond kerst, €7,95 (eigenaar, 12 november 2026)',
+	'g:id koempel-eend-kerst*': 'nieuw product, 12 november 2026 (een feed-item per variant)',
 	'winkel.korting': 'kortingscodes voor de nieuwsbrief: procent en geldigheid voor de functie (november 2026)',
 	'winkel.mailKoppen': 'koppen in de functiemails als plaatje in de letters van de site (november 2026)',
 	'mijnwerkerslamp.geenKorting': 'introductieprijs loopt tot 31-12-2026: geen kortingscode op de lamp; deze regel daarna weghalen'

@@ -490,7 +490,48 @@
 			"title": "Koempel-eend – Limburgse mijnwerkerseend",
 			"description": "De Koempel-eend: een badeend met mijnwerkershelm en lamp. Een Limburgs cadeau met een knipoog, 3D-geprint in Limburg. €6,95."
 		},
-		"related": ["mijnwerkerslamp", "dr-joep", "mijnschacht-nulland"]
+		"related": ["koempel-eend-kerst", "mijnwerkerslamp", "dr-joep"]
+	},
+	{
+		"id": "koempel-eend-kerst",
+		"name": "Koempel-eend Kerst-editie",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "Bioplastic op plantaardige basis",
+		"sale": "cart",
+		"featured": true,
+		"badge": "Gelimiteerd",
+		"tagline": "De Koempel-eend met een kerstmuts op en zijn lampje in de vleugel. Alleen rond kerst te koop.",
+		"description": [
+			"De Koempel-eend viert kerst. Zijn mijnwerkershelm ruilt hij in voor een rode kerstmuts met een pluizige witte rand, maar zijn lampje houdt hij gewoon bij zich.",
+			"Hij wordt laag voor laag geprint in vijf kleuren, in hetzelfde geel als de gewone Koempel-eend. Hij is ongeveer 6 cm hoog: klein genoeg voor een kerstpakket, een schoen of het bureau van een collega.",
+			"Dit is een gelimiteerde kersteditie: hij is alleen rond kerst te koop. De beelden zijn 3D-weergaven van het printbestand, in de kleuren van het filament."
+		],
+		"highlights": [
+			"Kerstmuts op, lampje in de vleugel",
+			"Alleen rond kerst te koop",
+			"Hetzelfde geel als de gewone Koempel-eend"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "Ongeveer 6 cm" },
+			{ "label": "Kleuren", "value": "Geel, rood, wit, oranje en zwart" },
+			{ "label": "Oplage", "value": "Gelimiteerd, alleen rond kerst te koop" },
+			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 7.95 }
+		],
+		"images": [
+			{ "file": "koempel-eend-kerst-01.jpg", "subject": [31, 32, 75, 80], "alt": "3D-weergave van de Koempel-eend Kerst-editie in de sneeuw: een gele badeend met een rode kerstmuts met witte rand en een zwart lampje in zijn vleugel, met warme lichtjes op de achtergrond" },
+			{ "file": "koempel-eend-kerst-02.jpg", "subject": [35, 32, 70, 72], "alt": "3D-weergave van de Koempel-eend Kerst-editie op lichte sneeuw, schuin van voren" },
+			{ "file": "koempel-eend-kerst-03.jpg", "subject": [23, 31, 86, 100], "alt": "Close-up van de kerstmuts met pluizige witte rand, de oranje snavel en het lampje van de Koempel-eend Kerst-editie (3D-weergave)" },
+			{ "file": "koempel-eend-kerst-04.jpg", "subject": [15, 35, 85, 67], "alt": "3D-weergave van de gewone Koempel-eend met mijnwerkershelm naast de Kerst-editie met kerstmuts, in hetzelfde geel" }
+		],
+		"seo": {
+			"title": "Koempel-eend Kerst-editie met kerstmuts",
+			"description": "De Koempel-eend met kerstmuts: een gele badeend met rode muts en zijn lampje, 3D-geprint in Limburg. Alleen rond kerst te koop. €7,95."
+		},
+		"related": ["koempel-eend", "mijnstreek-set", "dr-joep-kirchroa"]
 	},
 	{
 		"id": "mijnstreek-set",
