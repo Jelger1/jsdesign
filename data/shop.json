@@ -113,10 +113,6 @@
 		{ "naam": "Brouwerij Rolduc", "plaats": "Kerkrade", "producten": ["koempel-eend", "dr-joep", "mijnschacht-nulland", "blonde-non"] },
 		{ "naam": "Visit Zuid-Limburg", "plaats": "Valkenburg", "producten": ["koempel-eend", "dr-joep"] }
 	],
-	"nieuwsbriefKorting": {
-		"procent": 10,
-		"maanden": 3
-	},
 	"homeUsps": [
 		{
 			"title": "Eigen ontwerpen",
@@ -189,10 +185,6 @@
 		{
 			"q": "Kun je ook iets op maat maken?",
 			"a": "Zeker. Van een lightbox met jouw logo tot een sleutelhanger met je eigen plaatsnaam of een compleet nieuw ontwerp. Stuur een bericht met je idee, dan denk ik met je mee."
-		},
-		{
-			"q": "Krijg ik korting als ik me aanmeld voor de nieuwsbrief?",
-			"a": "Ja. Als je je aanmelding voor de nieuwsbrief bevestigt, krijg je per mail een persoonlijke code voor 10% korting op je volgende bestelling. Je vult hem in bij het afrekenen, met het e-mailadres waarmee je je aanmeldde. De code geldt 3 maanden en één keer, voor de producten (niet de verzendkosten) en niet voor producten die al voordeliger zijn, zoals een set of een introductieprijs. Per e-mailadres krijg je één code."
 		},
 		{
 			"q": "Verkoop je ook aan winkels en bedrijven?",
