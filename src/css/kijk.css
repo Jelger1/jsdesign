@@ -90,7 +90,7 @@
 }
 /* De galerij op de productpagina staat onder 900px niet meer sticky (product.css); het label moet er wel binnen blijven */
 @media (hover:hover) and (pointer:fine) and (max-width:900px){
-	.pdp-gallery.kijk-doel{position:relative}
+	.pdp-gallery.kijk-doel{position:relative;top:auto} /* zonder top:auto schoof de sticky-afstand (84 px) de galerij over de titel */
 }
 
 /* Hoog contrast: uit (de browser zou het label anders als los vlak tekenen) */

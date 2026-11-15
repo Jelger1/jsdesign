@@ -65,7 +65,7 @@
 
 /* Het teken komt bij het laden in elkaar, net als in de paginaovergang */
 @media (prefers-reduced-motion:no-preference){
-	.held-deel{animation:held-deel-in 1.1s var(--ease-out) backwards}
+	.held-deel{animation:held-deel-in 0.7s var(--ease-out) backwards}
 	.held-deel[data-pillar="tastbaar"]{animation-delay:0.08s}
 	.held-deel[data-pillar="branding"]{animation-delay:0.16s}
 	@keyframes held-deel-in{from{--held-uit:60px;opacity:0}}

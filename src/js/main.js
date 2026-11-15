@@ -15,6 +15,7 @@ import { initKeychain } from './keychain.js';
 import { initMail } from './mail.js';
 import { initBevestig } from './bevestig.js';
 import { initNieuwsbrief } from './nieuwsbrief.js';
+import { initMelding } from './melding.js';
 import { initTransition } from './transition.js';
 import { initHeld } from './held.js';
 import { initRand } from './rand.js';
@@ -38,7 +39,8 @@ initCartUi();
 initLightbox();
 initRand(); // de tekenrand op werktegels (home, pijlerpagina's, cases, portfolio); doet elders niets
 initTrap(); // de werkwijze die zich opbouwt (pijlerpagina's en Over); doet elders niets
-initNieuwsbrief(); // aanmelden onderaan elke pagina en op de bedanktpagina
+initNieuwsbrief(); // aanmelden onderaan elke pagina, op de bedanktpagina en in de melding
+initMelding(); // de nieuwsbriefmelding linksonder, na een tijdje rondkijken (site.json > nieuwsbriefMelding)
 
 initRails(); // productrails: op de home en de pijlerpagina Tastbaar; doet elders niets
 initForms(); // contactformulier: op de contactpagina; doet elders niets

@@ -113,6 +113,24 @@
 		{ "naam": "Brouwerij Rolduc", "plaats": "Kerkrade", "producten": ["koempel-eend", "dr-joep", "mijnschacht-nulland", "blonde-non"] },
 		{ "naam": "Visit Zuid-Limburg", "plaats": "Valkenburg", "producten": ["koempel-eend", "dr-joep"] }
 	],
+	"winkel": {
+		"_uitleg": "De webshop (src/templates/shop.js). etalage: de drie producten in de kaart bovenaan; de eerste is de grote. foto moet een foto van dat product zijn (dan groeit hij bij een klik door naar de productpagina); label is de reden waarom hij er staat (leeg: het badge van het product, of de introductieprijs). ingangen: snelle links onder de kop, elk een filter. uitgelicht: blokken tussen de producten, alleen zonder filters; na = na hoeveel producten.",
+		"etalage": [
+			{ "id": "helio-lamp", "foto": "Helio-Lamp-Knop.jpg", "label": "Eigen ontwerp" },
+			{ "id": "kami-vase", "foto": "Kami-Vase-3kleuren2.jpg", "label": "Kies je kleuren" },
+			{ "id": "koempel-eend-kerst", "foto": "koempel-eend-kerst-01.jpg", "label": "Alleen rond kerst" }
+		],
+		"ingangen": [
+			{ "label": "Cadeaus tot €10", "filter": { "prijs": "tot-10" } },
+			{ "label": "Voor je interieur", "filter": { "collectie": "design" } },
+			{ "label": "Limburgse trots", "filter": { "collectie": "limburg" } },
+			{ "label": "Op maat", "filter": { "collectie": "maatwerk" } }
+		],
+		"uitgelicht": [
+			{ "soort": "set", "id": "mijnstreek-set", "na": 4, "kop": "Drie Limburgse iconen in *één cadeau*" },
+			{ "soort": "ontwerp", "id": "straatnaam-sleutelhanger", "na": 12 }
+		]
+	},
 	"homeUsps": [
 		{
 			"title": "Eigen ontwerpen",

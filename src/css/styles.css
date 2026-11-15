@@ -123,7 +123,7 @@ em, i{font-style:italic}
 .success-icon{width:72px;height:45px;clip-path:var(--js-blok);background:var(--brand);color:var(--dark);font-size:1.5rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
 
 /* Buttons */
-.btn{display:inline-block;padding:0.75rem 1.5rem;border-radius:var(--radius-full);text-decoration:none;border:2px solid transparent;cursor:pointer;background:transparent; font-weight:600; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size:0.95rem;position:relative;overflow:hidden}
+.btn{display:inline-block;padding:0.75rem 1.5rem;border-radius:var(--radius-full);text-decoration:none;border:2px solid transparent;cursor:pointer;background:transparent; font-weight:600; transition:transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; font-size:0.95rem;position:relative;overflow:hidden}
 .btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.3)}
 .btn:active{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.2)}
 /* Aanwijzen "extrudeert" de knop zoals een 3D-print: hij komt een laag omhoog met raspberry eronder */

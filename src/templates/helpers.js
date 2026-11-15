@@ -163,9 +163,12 @@ function nieuwsbriefCheckbox(id, tekst) {
 }
 
 // Aanmelden voor de nieuwsbrief met alleen een e-mailadres (footer en bedanktpagina); src/js/nieuwsbrief.js verstuurt het
-function nieuwsbriefForm(bron, root) {
-	const id = 'nb-email-' + bron;
-	return '<form class="newsletter-form" data-nieuwsbrief="' + bron + '" novalidate>'
+// opts.id: een eigen id als er al een formulier met dezelfde bron op de pagina kan staan; opts.meting: hoe het in de
+// statistieken heet (de functie kent alleen vaste bronnen, zie BRONNEN in supabase/functions/formulier/logica.js)
+function nieuwsbriefForm(bron, root, opts) {
+	opts = opts || {};
+	const id = 'nb-email-' + (opts.id || bron);
+	return '<form class="newsletter-form" data-nieuwsbrief="' + bron + '"' + (opts.meting ? ' data-meting="' + esc(opts.meting) + '"' : '') + ' novalidate>'
 		+ '<div class="newsletter-row">'
 		+ '<label class="sr-only" for="' + id + '">E-mailadres</label>'
 		+ '<input type="email" id="' + id + '" name="email" required autocomplete="email" placeholder="je@email.nl">'

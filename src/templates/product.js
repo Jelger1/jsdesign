@@ -23,7 +23,8 @@ function gallery(product, ctx, root) {
 			}).join('\n') + '\n\t\t</ul>\n';
 	}
 
-	return '<div class="pdp-gallery" data-gallery>\n'
+	// id: de productpagina rendert pas als de galerij er is (layout.js, rel="expect"), voor de overgang vanaf de kaart
+	return '<div class="pdp-gallery" id="pdp-foto" data-gallery>\n'
 		+ '\t\t<ul class="pdp-slides" data-slides tabindex="0" aria-label="Productfoto\'s van ' + h.esc(product.name) + '">\n\t\t\t' + slides + '\n\t\t</ul>\n'
 		+ thumbs
 		+ '\t</div>';
@@ -31,7 +32,7 @@ function gallery(product, ctx, root) {
 
 // Ontwerptool (producten met "personalize"): het podium met de live preview...
 function keychainStage() {
-	return '<div class="pdp-gallery">\n'
+	return '<div class="pdp-gallery" id="pdp-foto">\n'
 		+ '\t\t<div class="keychain-stage">\n'
 		+ '\t\t\t<span class="keychain-stage-label">Live voorbeeld</span>\n'
 		+ '\t\t\t<canvas data-keychain-canvas role="img" aria-label="Voorbeeld van de sleutelhanger" width="1200" height="600"></canvas>\n'

@@ -102,7 +102,7 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
    opnieuw. */
 @media (prefers-reduced-motion:no-preference){
 	.pijler-tegel{--start:0.15s}
-	.pc-kwam .pijler-tegel{--start:0.95s}
+	.pc-kwam .pijler-tegel{--start:0.4s}
 	.pijler-tegel.speelt{--start:0s}
 }
 @media (prefers-reduced-motion:no-preference) and (min-width:900px){

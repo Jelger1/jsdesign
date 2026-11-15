@@ -17,6 +17,10 @@ const VANGNET_MS = 4000;
 export function initOnthul() {
 	laadVooruit();
 	if (prefersReducedMotion || !('IntersectionObserver' in window)) return;
+	// Terug (of vooruit) met de browser: de pagina staat er zoals je hem verliet, zonder opnieuw te onthullen. Zo kan de
+	// productfoto ook terugkrimpen naar een kaart die er al staat (transition.js, "terug gaat terug").
+	const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+	if (nav && nav.type === 'back_forward') return;
 	const vouw = window.innerHeight;
 	const wachtend = [];
 	document.querySelectorAll(KOPPEN).forEach(function (kop) {

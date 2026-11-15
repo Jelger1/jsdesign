@@ -26,7 +26,7 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .grid-products{grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:1.5rem}
 .product-card{--pillar:var(--pillar-tastbaar);background:var(--dark-card);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);position:relative}
 .product-thumb{display:block;position:relative;aspect-ratio:4 / 5;overflow:hidden;background:var(--dark-secondary)}
-.product-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 0.45s ease}
+.product-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 0.3s ease}
 .product-thumb-alt{opacity:0}
 @media (hover:hover){
 	.product-card:hover .product-thumb-alt{opacity:1}
@@ -59,6 +59,10 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .product-price-muted{color:var(--fg-muted);font-size:0.95rem}
 .price-from{display:block;font-family:var(--font-body);font-size:0.68rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--fg-muted);line-height:1.2}
 .badge{z-index:2}
+/* Het label op een productkaart in de vorm van het blokje, net als in de etalage en de header (shop.css > .etalage-label) */
+.product-card .badge-promo{--tag-h:24px;--tl:calc(var(--tag-h) * 0.808);--bl:calc(var(--tag-h) * 0.818);display:inline-flex;align-items:center;height:var(--tag-h);
+	padding:0 calc(var(--tag-h) * 0.95);border-radius:0;box-shadow:none;font:700 0.66rem/1 var(--font-mono);letter-spacing:0.08em;
+	clip-path:polygon(0 56.5%, var(--tl) 0, calc(100% - var(--bl)) 0, 100% 43.5%, calc(100% - var(--tl)) 100%, var(--bl) 100%)}
 
 /* Rails (horizontaal scrollen met scroll-snap) */
 .rail{position:relative}

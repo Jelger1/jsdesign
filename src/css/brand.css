@@ -63,6 +63,41 @@ h3,h4,h5,h6{font-stretch:112%}
 [data-surface] .btn-text:hover{color:var(--fg);text-decoration-thickness:2px}
 
 /* ---------------------------------------------------------------------------------------------- paginaovergang
+   Uit drie reels van theglidestudio (15 november 2026): "waar ging de pagina heen?", "niets verschijnt zomaar" en "een
+   reveal duurt korter dan een seconde". Daarom in browsers die het kunnen (Chrome, Edge, Safari 18.2+) een View
+   Transition in plaats van het doek:
+   - de header blijft staan, zodat je weet waar je bent;
+   - de nieuwe pagina schuift in 0,45 s over de oude, met een rand onder 30° (de lijn van het teken). Terug met de knop
+     van de browser gaat de andere kant op (type "terug", transition.js);
+   - de foto van een product groeit van de kaart naar de productpagina en terug ("productfoto", transition.js).
+   Bewust kort: de bezoeker wacht niet op de site. */
+@view-transition{navigation:auto}
+/* De namen (site-kop, productfoto) zet transition.js alleen tijdens de overgang: een view-transition-name maakt van de
+   header een "backdrop root", en dan vervagen de uitklapmenu's en het menu niet meer wat erachter ligt. */
+::view-transition-group(site-kop){animation-duration:0s}
+::view-transition-old(root){animation:none}
+::view-transition-new(root){animation:vt-veeg 0.45s cubic-bezier(0.22, 1, 0.36, 1) both}
+:active-view-transition-type(terug)::view-transition-new(root){animation-name:vt-veeg-terug}
+@keyframes vt-veeg{from{clip-path:polygon(0 calc(100% + 58vw), 100% 100%, 100% 100%, 0 100%)}to{clip-path:polygon(0 0, 100% -58vw, 100% 100%, 0 100%)}}
+@keyframes vt-veeg-terug{from{clip-path:polygon(0 0, 100% 0, 100% -58vw, 0 0)}to{clip-path:polygon(0 0, 100% 0, 100% 100%, 0 calc(100% + 58vw))}}
+/* Naar of van een product (type "product"): dan is de foto de beweging. De pagina zelf vervaagt rustig in plaats van te
+   vegen, en de foto groeit in 0,5 s met een zachte uitloop. De foto van de kaart blijft staan terwijl hij groeit; de grote
+   foto komt er pas in het laatste stuk overheen (als die nog laadt, zie je dus geen leeg vak). transition.js haalt die
+   grote foto al op zodra je een kaart aanwijst. */
+:active-view-transition-type(product)::view-transition-new(root){animation:vt-kom 0.32s ease-out both}
+@keyframes vt-kom{from{opacity:0}}
+::view-transition-group(productfoto){animation-duration:0.5s;animation-timing-function:cubic-bezier(0.32, 0.72, 0, 1);z-index:2}
+::view-transition-old(productfoto),::view-transition-new(productfoto){height:100%;object-fit:cover;overflow:clip}
+::view-transition-old(productfoto){animation:none}
+::view-transition-new(productfoto){animation:vt-foto 0.5s cubic-bezier(0.32, 0.72, 0, 1) both}
+@keyframes vt-foto{0%, 40%{opacity:0}to{opacity:1}}
+/* Heeft de andere pagina geen bijpassende foto (bv. de kaart staat niet meer in beeld), dan vervaagt hij gewoon */
+::view-transition-old(productfoto):only-child{animation:vt-weg 0.25s ease-out both}
+::view-transition-new(productfoto):only-child{animation:vt-kom 0.32s ease-out both}
+@keyframes vt-weg{to{opacity:0}}
+@media (prefers-reduced-motion: reduce){@view-transition{navigation:none}}
+
+/* Het doek: alleen nog waar View Transitions niet werken (bv. Firefox), en korter dan eerst (was ruim 2 s, nu 1 s).
    Drie banden schuiven schuin omhoog (bovenrand onder 30°, zoals de lijnen van het teken): raspberry, aqua en
    Midnight Slate. Op het slate-vlak valt het JS-teken in elkaar; op de nieuwe pagina schuiven ze verder weg.
    transition.js zet .pc-leaving op <html>, het scriptje in de <head> zet .pc-arriving. */
@@ -82,20 +117,20 @@ h3,h4,h5,h6{font-stretch:112%}
 @keyframes pc-piece-in{from{transform:translate(var(--dx), var(--dy));opacity:0}to{transform:none;opacity:1}}
 @keyframes pc-mark-out{to{transform:translate(-50%, -50%) scale(0.88);opacity:0}}
 
-.pc-leaving .pc-band{animation:pc-in 0.58s cubic-bezier(0.7, 0, 0.25, 1) both}
-.pc-leaving .pc-band-2{animation-delay:0.1s}
-.pc-leaving .pc-band-3{animation-delay:0.2s}
+.pc-leaving .pc-band{animation:pc-in 0.34s cubic-bezier(0.7, 0, 0.25, 1) both}
+.pc-leaving .pc-band-2{animation-delay:0.05s}
+.pc-leaving .pc-band-3{animation-delay:0.1s}
 .pc-leaving .pc-mark{opacity:1}
-.pc-leaving .pc-piece{animation:pc-piece-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both}
-.pc-leaving .pc-piece-dot{animation-delay:0.28s}
-.pc-leaving .pc-piece-top{animation-delay:0.34s}
-.pc-leaving .pc-piece-j{animation-delay:0.38s}
+.pc-leaving .pc-piece{animation:pc-piece-in 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both}
+.pc-leaving .pc-piece-dot{animation-delay:0.16s}
+.pc-leaving .pc-piece-top{animation-delay:0.19s}
+.pc-leaving .pc-piece-j{animation-delay:0.22s}
 
-.pc-arriving .pc-band{transform:translateY(0) skewY(-30deg);animation:pc-out 0.7s cubic-bezier(0.7, 0, 0.25, 1) both}
-.pc-arriving .pc-band-3{animation-delay:0.38s}
-.pc-arriving .pc-band-2{animation-delay:0.5s}
-.pc-arriving .pc-band-1{animation-delay:0.62s}
-.pc-arriving .pc-mark{opacity:1;animation:pc-mark-out 0.32s ease-in 0.24s both}
+.pc-arriving .pc-band{transform:translateY(0) skewY(-30deg);animation:pc-out 0.4s cubic-bezier(0.7, 0, 0.25, 1) both}
+.pc-arriving .pc-band-3{animation-delay:0.08s}
+.pc-arriving .pc-band-2{animation-delay:0.14s}
+.pc-arriving .pc-band-1{animation-delay:0.2s}
+.pc-arriving .pc-mark{opacity:1;animation:pc-mark-out 0.18s ease-in 0.04s both}
 
 @media (prefers-reduced-motion: reduce){.page-curtain{display:none}}
 @media print{.page-curtain{display:none}}
@@ -111,7 +146,7 @@ h3,h4,h5,h6{font-stretch:112%}
 @keyframes printkop-weg{to{opacity:0}}
 @media (prefers-reduced-motion:no-preference){
 	h1.kop-woorden .w{animation:woord-in 0.8s var(--ease-out) calc(var(--kop-start, 0.1s) + var(--i) * 0.1s) backwards}
-	.pc-kwam h1.kop-woorden{--kop-start:0.8s}
+	.pc-kwam h1.kop-woorden{--kop-start:0.35s}
 	h2.kop-wacht .w{opacity:0;filter:blur(6px)}
 	h2.kop-speelt .w{animation:woord-in 0.8s var(--ease-out) calc(var(--i) * 0.1s) backwards}
 

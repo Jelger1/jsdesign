@@ -77,6 +77,50 @@ function uitklapmenus(page, ctx, pijlerHier) {
 	return uit;
 }
 
+// De aankomst van een View Transition (zie src/js/transition.js en brand.css): de nieuwe pagina zet de namen in
+// "pagereveal", en dat gebeurt vóór het eerste beeld, dus voordat main.js draait. Daarom staat dit in de <head>.
+// - de header heet "site-kop" en blijft staan;
+// - terug met de knop van de browser krijgt het type "terug" (de pagina schuift dan de andere kant op);
+// - kom je van een productkaart, dan heet de eerste foto van de galerij "productfoto"; ga je terug, dan de foto op de
+//   kaart van dat product die in beeld is. Zo'n overgang krijgt het type "product" (de pagina vervaagt dan, de foto
+//   groeit). De namen gaan na de overgang weer weg.
+const OVERGANG_AANKOMST = "(function(){if(!('CSSViewTransitionRule' in window))return;"
+	+ "var P=/\\/producten\\/([^/.]+)(?:\\.html)?$/;"
+	+ "function id(u){var m=P.exec(new URL(u,location.href).pathname);return m?m[1]:''}"
+	+ "function foto(b){return b?b.querySelector('img:not(.product-thumb-alt)'):null}"
+	+ "function noem(e,n,vt){if(!e)return;e.style.viewTransitionName=n;vt.finished.finally(function(){e.style.viewTransitionName=''})}"
+	+ "addEventListener('pagereveal',function(ev){var vt=ev.viewTransition;if(!vt)return;"
+	+ "noem(document.querySelector('.site-header'),'site-kop',vt);"
+	+ "var a=window.navigation&&navigation.activation;if(!a||!a.from)return;"
+	+ "if(a.navigationType==='traverse'&&a.entry&&a.entry.index<a.from.index&&vt.types)vt.types.add('terug');"
+	+ "var van=id(a.from.url),hier=id(location.href),p=hier||van,f=null;if(!p||van===hier)return;if(vt.types)vt.types.add('product');"
+	+ "if(hier)f=foto(document.getElementById('pdp-foto'));"
+	+ "else{var k=document.querySelectorAll('.product-card[data-id=\"'+p+'\"],[data-productfoto=\"'+p+'\"]');"
+	+ "for(var i=0;i<k.length&&!f;i++){var g=foto(k[i]),r=g&&g.getBoundingClientRect();if(r&&r.width&&r.bottom>0&&r.top<innerHeight)f=g}}"
+	+ "noem(f,'productfoto',vt)})})();";
+
+// De nieuwsbriefmelding (site.json > nieuwsbriefMelding, gedrag in src/js/melding.js): een berichtje van Jelger dat
+// linksonder verschijnt als iemand een tijdje rondkijkt. Staat verborgen in de HTML, zodat het formulier gewoon werkt
+// (nieuwsbrief.js). Nooit bij afrekenen, bedankt, bevestigen of de nieuwsbriefpagina (die vragen het zelf al), en niet
+// op de pagina's in nietOp. Bewust geen modal: hij blokkeert niets, en "Nu niet" houdt hem een maand weg.
+const GEEN_MELDING = ['checkout', 'thanks', 'confirm'];
+function nieuwsbriefMelding(page, ctx, root) {
+	const cfg = ctx.site.nieuwsbriefMelding;
+	if (!cfg || GEEN_MELDING.indexOf(page.name) > -1 || (cfg.nietOp || []).indexOf(page.path) > -1) return '';
+	const foto = ctx.site.homeImages && ctx.site.homeImages.about;
+	return '<section class="nb-melding" id="nb-melding" role="dialog" aria-modal="false" aria-labelledby="nb-melding-kop" aria-describedby="nb-melding-tekst"'
+		+ ' data-na="' + Number(cfg.naSeconden || 45) + '" data-pauze="' + Number(cfg.pauzeDagen || 30) + '" hidden>\n'
+		+ '\t<button type="button" class="nb-melding-sluit" data-melding-weg aria-label="Melding sluiten"><span aria-hidden="true">✕</span></button>\n'
+		+ '\t<p class="nb-melding-van">'
+		+ (foto ? '<span class="nb-melding-foto">' + h.img(ctx.images, foto.file, { alt: '', sizes: '52px', root: root }) + '</span>' : '')
+		+ '<span>Psst, je kijkt al even rond.</span></p>\n'
+		+ '\t<h2 id="nb-melding-kop" class="nb-melding-kop">Benieuwd wat ik <span class="highlight">hierna</span> maak?</h2>\n'
+		+ '\t<p id="nb-melding-tekst" class="nb-melding-tekst">In mijn nieuwsbrief zie je het als eerste: nieuwe ontwerpen, projecten waar ik aan werk en af en toe een actie. Alleen als er echt iets te melden is.</p>\n'
+		+ '\t' + h.nieuwsbriefForm('pagina', root, { id: 'melding', meting: 'melding' }) + '\n'
+		+ '\t<p class="nb-melding-voet"><span class="nb-melding-naam">Jelger</span><button type="button" class="btn-text nb-melding-niet" data-melding-weg>Nu niet</button></p>\n'
+		+ '</section>\n';
+}
+
 // page: { path, root, name, section, pillar, title, description, ogImage, ogType, schemaType, jsonLd[], preload, main, noindex }
 function layout(page, ctx) {
 	const site = ctx.site;
@@ -152,6 +196,8 @@ function layout(page, ctx) {
 		}).join('\n\t\t\t\t\t')
 	});
 
+	const melding = nieuwsbriefMelding(page, ctx, root);
+
 	const cart = h.fill(ctx.partials.cart, {
 		root: root,
 		shippingNote: h.esc(site.shipping.note),
@@ -216,6 +262,9 @@ function layout(page, ctx) {
 		// Paginaovergang: kwam je hier via een link op de site (src/js/transition.js), dan begint de pagina achter het doek.
 		// pc-kwam blijft staan (pc-arriving niet): daarop wacht de aankomst van de tegel op de pijlerpagina's (pijler.css)
 		+ '\t<script>try{var pc=+sessionStorage.getItem(\'pc\');sessionStorage.removeItem(\'pc\');if(Date.now()-pc<5000&&!matchMedia(\'(prefers-reduced-motion: reduce)\').matches)document.documentElement.classList.add(\'pc-arriving\',\'pc-kwam\')}catch(e){}</script>\n'
+		+ '\t<script>' + OVERGANG_AANKOMST + '</script>\n'
+		// Op een productpagina wacht het eerste beeld op de galerij, zodat de foto van de kaart ernaartoe kan groeien
+		+ (page.name === 'product' ? '\t<link rel="expect" href="#pdp-foto" blocking="render">\n' : '')
 		// Pagina's alvast ophalen als iemand een link aanwijst, zodat doorklikken (en de overgang) snel is.
 		// Niet voor stappen met een eigen werking (afrekenen, bevestigen, gereageerd).
 		+ '\t<script type="speculationrules">{"prefetch":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"*afrekenen*"}},{"not":{"href_matches":"*bedankt*"}},{"not":{"href_matches":"*gereageerd*"}},{"not":{"href_matches":"*nieuwsbrief*"}}]},"eagerness":"moderate"}]}</script>\n'
@@ -228,6 +277,7 @@ function layout(page, ctx) {
 		+ header + '\n'
 		+ '<main id="main">\n' + page.main + '\n</main>\n'
 		+ footer + '\n'
+		+ melding
 		+ cart + '\n'
 		+ '</body>\n</html>\n';
 }

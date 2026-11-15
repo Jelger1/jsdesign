@@ -34,6 +34,12 @@
 	"chat": {
 		"url": "https://jellybot-backend.onrender.com"
 	},
+	"nieuwsbriefMelding": {
+		"_uitleg": "De melding linksonder die na een tijdje op de site uitnodigt voor de nieuwsbrief (src/js/melding.js). naSeconden: hoe lang iemand actief op de site is (opgeteld over pagina's, alleen met het tabblad in beeld). pauzeDagen: na 'Nu niet' zo lang niet meer. nietOp: pagina's waar hij nooit komt (afrekenen, bevestigen en de nieuwsbriefpagina staan er altijd buiten).",
+		"naSeconden": 45,
+		"pauzeDagen": 30,
+		"nietOp": ["winactie.html", "herroepen.html", "privacy.html", "voorwaarden.html", "review.html", "404.html"]
+	},
 	"analytics": {
 		"gtm": "GTM-MQLPSW9X",
 		"ga4": "G-0SLM0NK7CF",

@@ -1,4 +1,127 @@
-/* Webshop: filters, sorteren, actieve filters en de suggesties in de winkelwagen. */
+/* Webshop: de etalage bovenaan, filters, sorteren, actieve filters, de uitgelichte blokken tussen de producten en de
+   suggesties in de winkelwagen. */
+
+/* ------------------------------------------------------------------ de etalage (bovenaan webshop.html)
+   Het vlak van Tastbaar, net als de pijlerpagina: links in één regel wat je hier koopt, rechts een donkere tegel met
+   het isometrische raster en drie producten. Onderaan het vlak drie feiten en de trede met de raspberry streep. */
+.winkel-hero{padding-bottom:calc(var(--trede) + clamp(1.75rem, 4vw, 3rem))}
+.winkel-hero-in.container{padding-top:0;padding-bottom:0;display:grid;gap:var(--space-10);align-items:center}
+/* Eigen maat (pijler.css laadt later en geeft .pijler-titel de grote maat): "Limburgse cadeaus" past op één regel */
+.winkel-hero .winkel-titel{font-size:clamp(2.3rem, 1.1rem + 2.9vw, 3.6rem);line-height:1}
+.winkel-hero .pijler-lead{max-width:30rem}
+.winkel-hero .pijler-knoppen{margin-top:var(--space-6)}
+/* Seizoensmelding (ui.js): op het vlak een slate label met het raspberry blokje, in plaats van het gele kader */
+.winkel-hero .winkel-deadline{display:inline-flex;align-items:center;gap:0.6rem;margin:var(--space-6) 0 0;padding:0.55rem 1rem;border:0;border-radius:var(--radius-full);background:var(--dark);color:var(--sage);font-weight:600;font-size:var(--text-sm);line-height:1.3}
+.winkel-hero .winkel-deadline::before{content:'';flex:none;width:1.45em;height:0.9em;clip-path:var(--js-blok);background:var(--raspberry)}
+
+/* Snel naar: omlijnde labels die bij aanwijzen een laag omhoog komen, zoals de knoppen */
+.winkel-ingangen{display:flex;flex-wrap:wrap;gap:0.6rem;margin:var(--space-6) 0 0;padding:0;list-style:none}
+.winkel-ingangen .chip-link{gap:0.45rem;padding:0.5rem 0.95rem;border:2px solid var(--dark);background:transparent;color:var(--dark);font-weight:600;font-size:0.92rem;
+	transition:transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), background-color 0.2s ease}
+.winkel-ingangen .chip-link:hover{color:var(--dark);border-color:var(--dark);transform:translate(-3px, -3px);box-shadow:4px 4px 0 0 var(--raspberry)}
+.winkel-ingangen .chip-link:active{transform:translate(-1px, -1px);box-shadow:2px 2px 0 0 var(--raspberry)}
+.winkel-ingangen small{font:700 var(--text-xs)/1 var(--font-mono);opacity:0.65}
+
+/* De tegel met de drie producten. Groot links, twee rechts boven elkaar; alle drie staand 4:5 (de kolommen 2,07 : 1
+   houden de grote even hoog als de twee kleine plus de ruimte ertussen) */
+.winkel-etalage{--gat:clamp(0.6rem, 1.3vw, 0.9rem);--brand:var(--pillar-digitaal);--pillar:var(--pillar-digitaal);position:relative;padding:clamp(0.75rem, 1.6vw, 1.25rem);border-radius:28px;color:var(--sage);
+	background:repeating-linear-gradient(30deg, rgba(243,255,253,0.06) 0 1px, transparent 1px 32px),
+		repeating-linear-gradient(150deg, rgba(243,255,253,0.06) 0 1px, transparent 1px 32px),
+		var(--dark);
+	box-shadow:10px 10px 0 0 rgba(8,10,13,0.22)}
+.etalage-lijst{display:grid;grid-template-columns:minmax(0, 2.07fr) minmax(0, 1fr);gap:var(--gat);margin:0;padding:0;list-style:none}
+.etalage-stuk--groot{grid-row:span 2}
+.etalage-stuk{min-width:0}
+[data-surface] .winkel-etalage a:not(.btn):not(.chip-link){color:var(--sage);text-decoration:none}
+/* Aanwijzen: de tekenrand van de productkaarten (rand.js, data-rand), in aqua, en het naambalkje wordt aqua */
+.etalage-stuk a{position:relative;display:block;height:100%;border-radius:16px;overflow:hidden;background:var(--dark-secondary)}
+.etalage-stuk img{display:block;width:100%;height:100%;aspect-ratio:4 / 5;object-fit:cover}
+.etalage-stuk--groot img{position:absolute;inset:0;aspect-ratio:auto}
+.etalage-stuk--groot a{min-height:100%;aspect-ratio:4 / 5}
+[data-surface] .winkel-etalage .etalage-stuk a:not(.btn):not(.chip-link):hover{color:var(--sage)}
+.etalage-stuk .rand path{stroke-width:3}
+/* Waarom het er staat: het label in de vorm van het blokje (zoals "je bent hier" in de header) */
+.etalage-label{--tag-h:24px;--tl:calc(var(--tag-h) * 0.808);--bl:calc(var(--tag-h) * 0.818);
+	position:absolute;top:0.7rem;left:0.7rem;z-index:1;display:inline-flex;align-items:center;height:var(--tag-h);padding:0 calc(var(--tag-h) * 0.95);
+	background:var(--raspberry);color:var(--dark);font:700 0.66rem/1 var(--font-mono);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;
+	clip-path:polygon(0 56.5%, var(--tl) 0, calc(100% - var(--bl)) 0, 100% 43.5%, calc(100% - var(--tl)) 100%, var(--bl) 100%)}
+.etalage-naam{position:absolute;left:0.5rem;right:0.5rem;bottom:0.5rem;z-index:1;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:0.15rem 0.6rem;
+	padding:0.55rem 0.75rem;border-radius:10px;background:var(--sage);color:var(--dark);font-size:0.85rem;line-height:1.25;transition:background-color 0.15s var(--ease) calc(var(--aan, 0) * 0.16s)}
+.etalage-stuk [data-rand]:is(:hover, :focus-visible) .etalage-naam{background:var(--brand)}
+.etalage-naam strong{font-weight:700}
+.etalage-prijs{font:700 0.85rem/1.25 var(--font-mono);white-space:nowrap}
+/* Op de kleine tegels een smal balkje, zodat het product zichtbaar blijft */
+.etalage-stuk:not(.etalage-stuk--groot) .etalage-naam{left:0.4rem;right:0.4rem;bottom:0.4rem;padding:0.4rem 0.6rem;font-size:0.78rem;border-radius:8px}
+.etalage-stuk:not(.etalage-stuk--groot) .etalage-prijs{font-size:0.78rem}
+.etalage-stuk:not(.etalage-stuk--groot) .etalage-label{--tag-h:22px;top:0.5rem;left:0.5rem;font-size:0.6rem}
+.etalage-stuk--groot .etalage-naam{left:0.75rem;right:0.75rem;bottom:0.75rem;padding:0.75rem 1rem;font-size:1rem}
+.etalage-stuk--groot .etalage-prijs{font-size:1rem}
+/* Jouw idee: gestippeld is in de huisstijl "nog niet"; bij aanwijzen wordt de rand vol ("hier") */
+[data-surface] .winkel-etalage a.etalage-maatwerk{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.25rem 1rem;margin-top:var(--gat);padding:0.85rem 1.1rem;
+	border:1.5px dashed rgba(243,255,253,0.45);border-radius:16px;font-size:0.95rem;color:var(--sage);transition:border-color 0.15s ease}
+.etalage-maatwerk strong{color:var(--brand);font-weight:700}
+/* Eén klasse specifieker dan de linkregel van het vlak (brand.css), die de tekst anders donker maakt op deze donkere tegel */
+[data-surface] .winkel-etalage a.etalage-maatwerk:not(.btn):hover{color:var(--sage);text-decoration:none;border-style:solid;border-color:var(--brand)}
+
+/* Drie feiten onderaan het vlak */
+.winkel-feiten{display:flex;flex-wrap:wrap;gap:0.6rem 2rem;margin-top:clamp(2rem, 4vw, 3rem);margin-bottom:0;padding-top:0;padding-bottom:0;list-style:none;font-weight:600;font-size:var(--text-sm)}
+.winkel-feiten li{display:flex;align-items:center;gap:0.6rem}
+.winkel-feiten li::before{content:'';flex:none;width:1.45em;height:0.9em;clip-path:var(--js-blok);background:var(--dark)}
+
+@media (min-width:900px){
+	.winkel-hero-in.container{grid-template-columns:minmax(0, 5fr) minmax(0, 7fr);gap:var(--space-12)}
+}
+/* Telefoon: de drie producten in een rij om doorheen te vegen, de tweede piept erachter vandaan */
+@media (max-width:899px){
+	.winkel-etalage{border-radius:22px}
+	.etalage-lijst{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+	.etalage-lijst::-webkit-scrollbar{display:none}
+	.etalage-stuk{flex:0 0 72%;scroll-snap-align:start}
+	.etalage-stuk--groot a{aspect-ratio:4 / 5}
+	.etalage-stuk--groot .etalage-naam{left:0.5rem;right:0.5rem;bottom:0.5rem;padding:0.55rem 0.75rem;font-size:0.9rem}
+}
+
+/* "Alle ontwerpen": de producten met filters, onder het vlak */
+.winkel-alles{scroll-margin-top:72px;outline:none}
+.winkel-alles .section-head{margin-bottom:1.25rem}
+
+/* ------------------------------------------------------------------ uitgelicht, tussen de producten
+   Over de hele breedte van het raster; shop.js zet ze op hun plek en verbergt ze zodra je filtert of sorteert. */
+.winkel-spot{grid-column:1 / -1}
+.winkel-alles .grid-products{grid-auto-flow:row dense}
+.winkel-spot--set{display:grid;grid-template-columns:minmax(0, 4fr) minmax(0, 7fr);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--dark-card)}
+/* De foto volgt de hoogte van de tekst (absoluut), anders maakt een staande foto het blok heel hoog */
+.winkel-spot-beeld{position:relative;display:block;min-height:18rem;background:var(--dark-secondary)}
+.winkel-spot-beeld img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 62%}
+.winkel-spot-tekst{display:flex;flex-direction:column;justify-content:center;padding:clamp(1.5rem, 3.5vw, 3rem)}
+.winkel-spot-label{position:relative;height:24px;margin:0 0 1.1rem}
+.winkel-spot-label .etalage-label{top:0;left:0}
+.winkel-spot-kop{font-size:var(--kop-s);line-height:1.05;margin:0 0 0.75rem}
+.winkel-spot-kop a{color:var(--soft);text-decoration:none}
+.winkel-spot-kop .highlight{white-space:nowrap}
+.winkel-spot-kop a:hover{color:var(--soft);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+.winkel-spot-intro{max-width:44ch;margin:0 0 1.5rem;color:var(--fg-muted);font-size:1.05rem;line-height:1.6}
+/* De som: eend + Joep + vlaai */
+.winkel-som{display:flex;flex-wrap:wrap;align-items:flex-start;gap:0.5rem;margin:0 0 1.75rem;padding:0;list-style:none}
+.winkel-som li{display:flex;align-items:center;gap:0.5rem}
+.winkel-som li + li::before{content:'+';content:'+' / '';align-self:center;margin-bottom:1.6rem;font:800 1.5rem/1 var(--font-display);color:var(--brand)}
+.winkel-som a{display:flex;flex-direction:column;align-items:center;gap:0.45rem;width:92px;color:var(--soft);font-size:var(--text-xs);line-height:1.3;text-align:center;text-decoration:none}
+.winkel-som a:hover{color:var(--brand)}
+.winkel-som img{width:76px;height:95px;object-fit:cover;border-radius:10px;background:var(--dark-secondary);transition:transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out)}
+.winkel-som a:hover img{transform:translate(-3px, -3px);box-shadow:4px 4px 0 0 var(--brand)}
+.winkel-spot-voet{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.75rem}
+.winkel-spot-prijs{margin:0;font:700 1.85rem/1 var(--font-display);color:var(--soft)}
+.winkel-spot-prijs small{display:block;margin-top:0.35rem;font:500 var(--text-xs)/1.3 var(--font-body);color:var(--fg-muted)}
+.winkel-spot--ontwerp{margin:0}
+@media (max-width:899px){
+	.winkel-spot--set{grid-template-columns:minmax(0, 1fr)}
+	.winkel-spot-beeld{min-height:0;aspect-ratio:4 / 3}
+	/* De som op één regel: eend + Joep + vlaai */
+	.winkel-som{flex-wrap:nowrap;gap:0.3rem}
+	.winkel-som li{gap:0.3rem}
+	.winkel-som a{width:70px}
+	.winkel-som img{width:58px;height:72px}
+}
 
 /* Filterbalk (desktop): chips per groep. Het zijn echte checkboxes, dus toetsenbord en screenreader werken vanzelf. */
 .shop-filters{margin:0 0 1.25rem 0;padding:1.25rem 1.5rem;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg)}

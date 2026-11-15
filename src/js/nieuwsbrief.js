@@ -1,6 +1,8 @@
 // Aanmelden voor de nieuwsbrief met alleen een e-mailadres (onderaan elke pagina en op de bedanktpagina; zie
-// nieuwsbriefForm in src/templates/helpers.js). De functie stuurt eerst een mail met een bevestigingsknop.
+// nieuwsbriefForm in src/templates/helpers.js), en in de melding linksonder (melding.js). De functie stuurt eerst een
+// mail met een bevestigingsknop. Na een aanmelding onthoudt de browser dat, zodat de melding niet meer komt.
 import { verstuur, track } from './util.js';
+import { AANGEMELD } from './melding.js';
 
 export function initNieuwsbrief() {
 	document.querySelectorAll('form[data-nieuwsbrief]').forEach(function (form) {
@@ -29,9 +31,11 @@ export function initNieuwsbrief() {
 				bron: form.dataset.nieuwsbrief,
 				botcheck: form.elements.botcheck.checked
 			}).then(function () {
-				track('sign_up', { method: 'nieuwsbrief', bron: form.dataset.nieuwsbrief });
+				track('sign_up', { method: 'nieuwsbrief', bron: form.dataset.meting || form.dataset.nieuwsbrief });
 				say('Bijna klaar! Check je mail en klik op de bevestigingsknop.', true);
 				form.reset();
+				try { localStorage.setItem(AANGEMELD, String(Date.now())); } catch (e) { /* geblokkeerd: dan komt de melding misschien nog eens */ }
+				form.dispatchEvent(new CustomEvent('nieuwsbrief:aangemeld', { bubbles: true }));
 			}).catch(function (error) {
 				say(error.message, false);
 				button.disabled = false;

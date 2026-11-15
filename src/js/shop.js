@@ -7,7 +7,23 @@ const GROUPS = ['type', 'collectie', 'materiaal', 'prijs'];
 const SORT_PARAM = 'sorteer';
 const mobile = window.matchMedia('(max-width: 900px)');
 
-let form, grid, cards, sortSelect, heading, defaultHeading, defaultTitle;
+let form, grid, cards, spots, sortSelect, heading, defaultHeading, defaultTitle;
+
+// Geen filter gekozen en de standaardvolgorde: dan staan de uitgelichte blokken tussen de producten
+function standaard() {
+	return !sortSelect.value && GROUPS.every(function (group) { return !selected(group).length; });
+}
+
+// De uitgelichte blokken (shop.json > winkel > uitgelicht) na het opgegeven aantal producten
+function plaatsSpots(zichtbaar) {
+	const aan = standaard();
+	spots.slice().sort(function (a, b) { return Number(a.dataset.na) - Number(b.dataset.na); }).forEach(function (spot) {
+		spot.hidden = !aan;
+		const na = zichtbaar[Number(spot.dataset.na)];
+		if (!aan) { grid.appendChild(spot); return; }
+		if (spot.nextElementSibling !== na) grid.insertBefore(spot, na || null);
+	});
+}
 
 function inputsOf(group) {
 	return Array.from(form.querySelectorAll('input[name="' + group + '"]'));
@@ -63,7 +79,9 @@ function render(animate) {
 		card.hidden = !show;
 		if (show) visible++;
 	});
-	sortCards(cards.slice()).forEach(function (card) { grid.appendChild(card); });
+	const volgorde = sortCards(cards.slice());
+	volgorde.forEach(function (card) { grid.appendChild(card); });
+	plaatsSpots(volgorde.filter(function (card) { return !card.hidden; }));
 
 	// Aantallen per filteroptie: hoeveel producten blijven er over als je déze optie kiest?
 	GROUPS.forEach(function (group) {
@@ -173,11 +191,31 @@ function initSheet() {
 	sync();
 }
 
+// Een link met een filter op dezelfde pagina ("Cadeaus tot €10" in de etalage): filter zetten zonder te herladen, en
+// dan naar de producten. De link zelf (webshop.html?prijs=tot-10#producten) werkt ook zonder JavaScript.
+function volgFilterLink(link) {
+	const params = new URL(link.href, location.href).searchParams;
+	GROUPS.forEach(function (group) {
+		const values = (params.get(group) || '').split(',');
+		inputsOf(group).forEach(function (input) { input.checked = values.indexOf(input.value) !== -1; });
+	});
+	update();
+	naarProducten(true);
+}
+
+function naarProducten(focus, meteen) {
+	const doel = document.getElementById('producten');
+	if (!doel) return;
+	doel.scrollIntoView({ behavior: prefersReducedMotion || meteen ? 'auto' : 'smooth', block: 'start' });
+	if (focus) doel.focus({ preventScroll: true });
+}
+
 export function initShop() {
 	form = document.getElementById('shop-filters');
 	grid = document.getElementById('product-grid');
 	if (!form || !grid) return;
-	cards = Array.from(grid.children);
+	cards = Array.from(grid.querySelectorAll('.product-card'));
+	spots = Array.from(grid.querySelectorAll('[data-spot]'));
 	sortSelect = document.querySelector('[data-sort]');
 	heading = document.querySelector('[data-shop-heading]');
 	defaultHeading = heading.innerHTML;
@@ -185,6 +223,17 @@ export function initShop() {
 
 	readUrl();
 	render(false); // eerste weergave zonder animatie
+	// Kom je binnen met een filter in de link (een advertentie voor vazen), dan meteen naar de producten. Alleen bij
+	// een nieuw bezoek: bij herladen of terug zet de browser je zelf op de plek waar je was.
+	const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+	if (!standaard() && !location.hash && (!nav || nav.type === 'navigate')) naarProducten(false, true);
+
+	document.addEventListener('click', function (event) {
+		const link = event.target.closest('a[data-filter-link]');
+		if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+		event.preventDefault();
+		volgFilterLink(link);
+	});
 
 	form.addEventListener('change', update);
 	form.addEventListener('submit', function (event) { event.preventDefault(); });
