@@ -1,6 +1,7 @@
 // Losse pagina's: de privacyverklaring (tekst uit src/pages/privacy.html) en de 404-pagina.
 const h = require('./helpers');
 const c = require('./components');
+const seo = require('./seo');
 
 // datum: wanneer de tekst voor het laatst is bijgewerkt. De privacyverklaring en de voorwaarden hebben elk hun eigen datum
 // (site.json > legal.updated en legal.termsUpdated). root: de weg naar de hoofdmap, voor de link achter het e-mailadres
@@ -150,7 +151,8 @@ function printServicePage(ctx, template) {
 		path: '3d-printservice.html',
 		root: '',
 		name: 'text',
-		title: '3D-printservice vanaf ' + h.euro(ps.pricePerGram) + ' per gram | ' + site.name,
+		// Met de plaats in de titel: bij '3d printen kerkrade' noemde Google's AI anderen (search-check 15-11-2026)
+		title: '3D-printservice Kerkrade · ' + h.euro(ps.pricePerGram) + ' per gram | ' + site.name,
 		ogTitle: '3D-printservice in Limburg',
 		label: '3D-printservice', // in sitemap.html
 		description: 'Stuur je 3D-bestand (' + ps.formats.replace(' en ', ' of ') + ') en ik print het in ' + site.pickupLocation + '. Standaard PLA ' + h.euro(ps.pricePerGram) + ' per gram, minimaal ' + h.euro(ps.minimumOrder) + ' per opdracht.',
@@ -160,8 +162,8 @@ function printServicePage(ctx, template) {
 			'@type': 'Service',
 			name: '3D-printservice',
 			serviceType: '3D-printen',
-			provider: { '@type': 'Organization', name: site.name, url: site.url },
-			areaServed: { '@type': 'AdministrativeArea', name: 'Limburg' },
+			provider: { '@id': seo.ids(site).organization },
+			areaServed: seo.werkgebied(),
 			description: 'Je stuurt een 3D-bestand (' + ps.formats.replace(' en ', ' of ') + ') en het wordt geprint in ' + site.pickupLocation + '.',
 			offers: {
 				'@type': 'Offer',

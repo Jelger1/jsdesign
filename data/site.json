@@ -27,7 +27,7 @@
 		"city": "Kerkrade",
 		"country": "Nederland"
 	},
-	"defaultOgImage": "JS-Design-Deelbeeld.jpg",
+	"defaultOgImage": "JelgersDesign-Deelbeeld.jpg",
 	"backend": {
 		"url": "https://kgxhefdzufhmigbmchhk.supabase.co/functions/v1/formulier"
 	},
@@ -67,7 +67,7 @@
 		},
 		{
 			"q": "Waar zit je?",
-			"a": "In Kerkrade, in Zuid-Limburg. Ik werk voor klanten in heel Nederland. 3D-prints laat je verzenden of haal je op in Kerkrade."
+			"a": "In Kerkrade, in Zuid-Limburg. Ik werk voor ondernemers in Parkstad en de rest van Zuid-Limburg, en voor klanten in heel Nederland. 3D-prints laat je verzenden of haal je op in Kerkrade."
 		},
 		{
 			"q": "Gebruik je AI?",
@@ -104,7 +104,9 @@
 		},
 		"tastbaar": {
 			"links": [
-				{ "label": "3D-printservice", "path": "3d-printservice.html", "tekst": "Je eigen 3D-bestand laten printen" }
+				{ "label": "3D-printservice", "path": "3d-printservice.html", "tekst": "Je eigen 3D-bestand laten printen" },
+				{ "label": "Prototype of kleine serie", "path": "prototype-kleine-serie.html", "tekst": "Eerst een proefprint, dan de serie" },
+				{ "label": "Gebouw op schaal", "path": "gebouw-op-schaal.html", "tekst": "Een gebouw als 3D-geprint model" }
 			],
 			"werk": [
 				{ "id": "jelgers3d", "label": "JelgerS3D" }
@@ -112,7 +114,7 @@
 		},
 		"webshop": {
 			"links": [
-				{ "label": "Voor winkels en bedrijven", "path": "zakelijk.html", "tekst": "Zakelijke prijs vanaf 10 stuks" }
+				{ "label": "Relatiegeschenken en winkels", "path": "zakelijk.html", "tekst": "Met je logo, zakelijke prijs vanaf 10 stuks" }
 			]
 		}
 	}

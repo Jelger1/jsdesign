@@ -485,3 +485,11 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.trap-wacht li:not(.is-aan) .trap-nr{color:CanvasText}
 	.trap-nr::before,.trap li::before,.trap li::after{display:none !important}
 }
+
+/* De vanaf-prijs onder de intro (pillars.json > pagina > prijs): een donker label met het blokje in de pijlerkleur,
+   net als de seizoensmelding in de webshop. Zo staat het bedrag bovenaan, waar mensen (en Google's AI) het zoeken. */
+.pijler-prijs{display:inline-flex;align-items:center;gap:0.6rem;margin:var(--space-6) 0 0;padding:0.55rem 1rem;border-radius:var(--radius-full);background:var(--dark);color:var(--sage);font-weight:600;font-size:var(--text-sm);line-height:1.35}
+.pijler-prijs::before{content:'';flex:none;width:1.45em;height:0.9em;clip-path:var(--js-blok);background:var(--raspberry)}
+[data-pillar="digitaal"] .pijler-prijs::before{background:var(--pillar-digitaal)}
+[data-pillar="tastbaar"] .pijler-prijs::before{background:var(--sage)}
+.pijler-prijs + .pijler-knoppen{margin-top:var(--space-6)}

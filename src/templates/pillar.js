@@ -139,6 +139,9 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		+ '\t\t\t<p class="kicker pijler-kicker"><span class="pijler-nr" aria-hidden="true">' + nr + '</span>' + h.esc(pillar.label) + '</p>\n'
 		+ '\t\t\t<h1 id="pijler-titel" class="pijler-titel">' + titel(pillar.h1) + '</h1>\n'
 		+ '\t\t\t<p class="pijler-lead">' + h.esc(pagina.lead || pillar.summary) + '</p>\n'
+		// De vanaf-prijs bovenaan (pillars.json > pagina > prijs): Google's AI bouwde zijn antwoord op 'wat kost een
+		// huisstijl/website' uit de prijspagina's van anderen, omdat hier nergens een bedrag stond (search-check 15-11-2026)
+		+ (pagina.prijs ? '\t\t\t<p class="pijler-prijs">' + h.esc(pagina.prijs) + '</p>\n' : '')
 		+ '\t\t\t<p class="cta-row pijler-knoppen"><a class="btn primary" href="contact.html?onderwerp=' + pillar.id + '">Bespreek je project</a> <a class="btn outline" href="#werk">Bekijk het werk</a></p>\n'
 		+ '\t\t</div>\n'
 		+ '\t\t<figure class="pijler-hier pijler-hier--' + pillar.id + '" aria-hidden="true">\n'
@@ -264,7 +267,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		serviceType: (pillar.pagina && pillar.pagina.serviceType) || pillar.label,
 		description: pagina.kort,
 		provider: { '@id': seo.ids(site).organization },
-		areaServed: [{ '@type': 'AdministrativeArea', name: 'Limburg' }, { '@type': 'Country', name: 'Nederland' }],
+		areaServed: seo.werkgebied(),
 		hasOfferCatalog: {
 			'@type': 'OfferCatalog',
 			name: (pillar.pagina && pillar.pagina.serviceType) || pillar.label,

@@ -1,6 +1,6 @@
-# JS Design · jelgersdesign.nl
+# JelgersDesign · jelgersdesign.nl
 
-Site en webshop van JS Design (voorheen JelgerS3D), de ontwerpstudio van Jelger Sieler in Kerkrade: branding, websites & interactieve verhalen, en 3D-printen.
+Site en webshop van JelgersDesign (voorheen JelgerS3D en JS Design), de ontwerpstudio van Jelger Sieler in Kerkrade: branding, websites & interactieve verhalen, en 3D-printen. Live op https://jelgersdesign.nl.
 
 Statische site, gegenereerd door `build.js` uit `data/*.json` en `src/`: pure HTML, CSS en JavaScript-modules, met three.js lazy voor 3D. Formulieren, bestellingen en de nieuwsbrief lopen via de Supabase-functie `formulier` (`supabase/`).
 

@@ -35,7 +35,7 @@ function organization(site, ogImageUrl) {
 		image: ogImageUrl,
 		founder: { '@id': id.person },
 		address: postalAddress(site),
-		areaServed: [{ '@type': 'AdministrativeArea', name: 'Limburg' }, { '@type': 'Country', name: 'Nederland' }],
+		areaServed: werkgebied(),
 		knowsAbout: KNOWS_ABOUT,
 		vatID: site.btw,
 		identifier: { '@type': 'PropertyValue', propertyID: 'KvK', value: site.kvk },
@@ -103,4 +103,15 @@ function graph(page, site, urls) {
 	};
 }
 
-module.exports = { graph: graph, ids: ids };
+// Waar de studio werkt: vanuit Kerkrade voor Parkstad en de rest van Zuid-Limburg, en voor klanten in heel Nederland
+// (site.json > faq 'Waar zit je?'). Eerst stond hier alleen 'Limburg', en dat kan ook de Belgische provincie zijn.
+function werkgebied() {
+	return [
+		{ '@type': 'City', name: 'Kerkrade' },
+		{ '@type': 'Place', name: 'Parkstad Limburg' },
+		{ '@type': 'AdministrativeArea', name: 'Zuid-Limburg' },
+		{ '@type': 'Country', name: 'Nederland' }
+	];
+}
+
+module.exports = { graph: graph, ids: ids, werkgebied: werkgebied };

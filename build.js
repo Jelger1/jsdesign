@@ -14,6 +14,7 @@ const { categoryPage, productsFor } = require('./src/templates/category');
 const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, repliedPage, contactPage, archivePages, herroepPage, winactiePage, websitecheckPage } = require('./src/templates/pages');
 const { pillarPage } = require('./src/templates/pillar');
 const { reviewPage, zakelijkPage } = require('./src/templates/winkel-extra');
+const { prototypePage, gebouwPage } = require('./src/templates/maatwerk');
 const overPage = require('./src/templates/over');
 const portfolioPage = require('./src/templates/portfolio');
 const { casePage, caseImages, caseCover, caseTitel, hoofdstukAnker } = require('./src/templates/case');
@@ -717,7 +718,7 @@ async function build() {
 		.concat([contactPage(ctx, read('src/pages/contact.html'))])
 		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
-		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), herroepPage(ctx, read('src/pages/herroepen.html')), winactiePage(ctx, read('src/pages/winactie.html')), websitecheckPage(ctx, read('src/pages/websitecheck.html')), reviewPage(ctx), zakelijkPage(ctx), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
+		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), herroepPage(ctx, read('src/pages/herroepen.html')), winactiePage(ctx, read('src/pages/winactie.html')), websitecheckPage(ctx, read('src/pages/websitecheck.html')), reviewPage(ctx), zakelijkPage(ctx), prototypePage(ctx), gebouwPage(ctx), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
 		.concat(archivePages(ctx, read))
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	// De leesbare sitemap: alle pagina's die in Google horen

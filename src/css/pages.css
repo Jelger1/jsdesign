@@ -277,3 +277,12 @@ body{padding-bottom:var(--cookie-hoogte, 0px)}
 	.nb-melding-tekst{font-size:0.92rem}
 }
 @media print{.nb-melding{display:none !important}}
+
+/* Prototype of kleine serie, gebouw op schaal (src/templates/maatwerk.js) */
+.maatwerk-voorbeelden{margin:1rem 0 2rem}
+.maatwerk-page .maatwerk-voorbeelden{grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));gap:1rem}
+.text-page.maatwerk-page .product-card .product-title a:not(.btn):not(.chip-link){color:var(--soft);text-decoration:none}
+.maatwerk-page .faq{margin:1rem 0 2rem}
+/* Het kruimelpad is een <ol>; de tekstpagina's nummeren lijsten, hier niet */
+.text-page .breadcrumbs ol{list-style:none;padding-left:0}
+.text-page .breadcrumbs li{margin:0}

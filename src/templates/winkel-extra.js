@@ -8,8 +8,11 @@ const h = require('./helpers');
 function reviewPage(ctx) {
 	const site = ctx.site;
 	const producten = ctx.products.filter(function (p) { return p.sale === 'cart'; });
-	const opties = '<option value="">Kies een product</option>\n'
+	const opties = '<option value="">Kies een product of opdracht</option>\n'
 		+ producten.map(function (p) { return '\t\t\t\t<option value="' + h.esc(p.id) + '">' + h.esc(p.name) + '</option>'; }).join('\n') + '\n'
+		// Ook ontwerp- en websiteklanten kunnen een review geven (search-check 15-11-2026: alleen producten stonden erin)
+		+ '\t\t\t\t<option value="branding">Een logo of huisstijl</option>\n'
+		+ '\t\t\t\t<option value="website">Een website of webshop</option>\n'
 		+ '\t\t\t\t<option value="anders">Iets anders, bijvoorbeeld maatwerk</option>';
 	const sterren = [5, 4, 3, 2, 1].map(function (n) {
 		return '<label class="review-ster"><input type="radio" name="sterren" value="' + n + '"' + (n === 5 ? ' required' : '') + '><span>' + n + (n === 1 ? ' ster' : ' sterren') + '</span></label>';
@@ -17,7 +20,7 @@ function reviewPage(ctx) {
 
 	const main = '<div class="container text-page review-page">\n'
 		+ '\t<h1>Vertel hoe het <span class="highlight">bevalt</span></h1>\n'
-		+ '\t<p class="text-page-intro">Kocht je iets bij mij? Ik hoor graag wat je ervan vindt, ook als iets beter kan. Geef je toestemming, dan zet ik je review met je voornaam op de site.</p>\n'
+		+ '\t<p class="text-page-intro">Kocht je iets bij mij, of maakte ik een logo, huisstijl of website voor je? Ik hoor graag wat je ervan vindt, ook als iets beter kan. Geef je toestemming, dan zet ik je review met je voornaam op de site.</p>\n'
 		+ '\t<form class="request-form review-form" id="review-form" novalidate>\n'
 		+ '\t\t<div class="form-row">\n'
 		+ '\t\t\t<div class="form-group"><label for="rv-name">Naam <span aria-hidden="true">*</span></label><input type="text" id="rv-name" name="name" required autocomplete="name"></div>\n'
@@ -45,7 +48,7 @@ function reviewPage(ctx) {
 		name: 'text',
 		title: 'Schrijf een review | ' + site.name,
 		label: 'Review schrijven', // in sitemap.html
-		description: 'Kocht je iets bij ' + site.name + '? Vertel hoe het bevalt. Met jouw toestemming komt je review met je voornaam op de site.',
+		description: 'Kocht je iets bij ' + site.name + ', of maakte ik een logo, huisstijl of website voor je? Vertel hoe het bevalt. Met je toestemming komt je review op de site.',
 		ogImage: ctx.images[site.defaultOgImage].og,
 		main: main
 	};
@@ -84,8 +87,8 @@ function zakelijkPage(ctx) {
 		+ '<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik stuur je zo snel mogelijk een voorstel.</p></div>';
 
 	const main = '<div class="container text-page zakelijk-page">\n'
-		+ '\t<h1>Voor winkels en <span class="highlight">bedrijven</span></h1>\n'
-		+ '\t<p class="text-page-intro">' + h.esc(h.verkooppuntenZin(winkels).replace(/^het /, 'Het ')) + ' verkopen mijn Limburgse ontwerpen al. Wil je ze ook in je winkel, of zoek je een relatiegeschenk? Vanaf 10 stuks maak ik een zakelijke prijs.</p>\n'
+		+ '\t<h1>Relatiegeschenken en <span class="highlight">winkels</span></h1>\n'
+		+ '\t<p class="text-page-intro">Een relatiegeschenk met je logo of in je eigen kleuren, 3D-geprint in ' + h.esc(site.pickupLocation) + '. Of mijn Limburgse ontwerpen in je winkel: ' + h.esc(h.verkooppuntenZin(winkels)) + ' verkopen ze al. Vanaf 10 stuks maak ik een zakelijke prijs.</p>\n'
 		+ '\t<p class="cta-row"><a class="btn primary" href="#aanvragen">Vraag een voorstel aan</a></p>\n'
 		+ '\t<h2>Verkopen in je winkel</h2>\n'
 		+ '\t<p>Deze ontwerpen liggen al in museum- en cadeauwinkels in Zuid-Limburg.' + geleverd + '</p>\n'
@@ -119,10 +122,11 @@ function zakelijkPage(ctx) {
 		path: 'zakelijk.html',
 		root: '',
 		name: 'text',
-		title: 'Voor winkels en bedrijven | ' + site.name,
+		// 'Relatiegeschenk met logo' in de titel: bij die vraag noemde Google's AI alleen landelijke webshops (search-check 15-11-2026)
+		title: 'Relatiegeschenken met logo laten maken | ' + site.name,
 		ogTitle: 'Limburgse ontwerpen voor je winkel of als relatiegeschenk',
 		label: 'Voor winkels en bedrijven', // in sitemap.html
-		description: 'Limburgse ontwerpen voor je winkel of als relatiegeschenk, al te koop in musea en winkels in Zuid-Limburg. Zakelijke prijs vanaf 10 stuks.',
+		description: 'Relatiegeschenken met je logo of in je eigen kleuren, 3D-geprint in Kerkrade, en Limburgse ontwerpen voor je winkel. Zakelijke prijs vanaf 10 stuks.',
 		ogImage: ctx.images[site.defaultOgImage].og,
 		main: main
 	};
