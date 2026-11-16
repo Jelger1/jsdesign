@@ -96,7 +96,7 @@ function caseKaart(p, i, ctx) {
 			sizes: i === 0 ? '(max-width: 900px) 92vw, 760px' : '(max-width: 900px) 92vw, 600px'
 		}) + '</div>\n'
 		+ '\t\t\t<div class="pijler-case-tekst">\n'
-		+ '\t\t\t\t<p class="pijler-case-tags"><span class="pijler-case-nr" aria-hidden="true">0' + (i + 1) + '</span>' + h.esc(p.tags) + (p.klantopdracht ? ' · klantopdracht' : '') + (p.team ? ' · teamproject' : '') + '</p>\n'
+		+ '\t\t\t\t<p class="pijler-case-tags">' + h.esc(p.tags) + (p.klantopdracht ? ' · klantopdracht' : '') + (p.team ? ' · teamproject' : '') + '</p>\n'
 		+ '\t\t\t\t<h3 class="pijler-case-titel"><a href="' + naar.href + '">' + h.esc(p.title) + '</a></h3>\n'
 		+ '\t\t\t\t<p class="pijler-case-kort">' + h.esc(p.short) + '</p>\n'
 		+ '\t\t\t\t<span class="pijler-case-meer" aria-hidden="true">' + naar.label + '</span>\n'
@@ -126,7 +126,6 @@ function eersteZin(tekst) {
 function pillarPage(pillar, ctx, tastbaarTemplate) {
 	const site = ctx.site;
 	const pagina = pillar.pagina;
-	const nr = '0' + (ctx.pillars.indexOf(pillar) + 1);
 	const crumbs = [{ label: 'Home', url: './', path: '' }, { label: pillar.label, path: pillar.path }];
 	const shop = pillar.id === 'tastbaar' ? tastbaarSections(ctx, tastbaarTemplate, pagina.faq) : null;
 	const cases = (pagina.cases || []).map(function (id) { return ctx.projects.find(function (p) { return p.id === id; }); }).filter(Boolean);
@@ -136,7 +135,6 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		+ '\t<div class="container pijler-hero-in">\n'
 		+ '\t\t<div class="pijler-hero-tekst">\n'
 		+ '\t\t\t' + c.breadcrumbs(crumbs) + '\n'
-		+ '\t\t\t<p class="kicker pijler-kicker"><span class="pijler-nr" aria-hidden="true">' + nr + '</span>' + h.esc(pillar.label) + '</p>\n'
 		+ '\t\t\t<h1 id="pijler-titel" class="pijler-titel">' + titel(pillar.h1) + '</h1>\n'
 		+ '\t\t\t<p class="pijler-lead">' + h.esc(pagina.lead || pillar.summary) + '</p>\n'
 		// De vanaf-prijs bovenaan (pillars.json > pagina > prijs): Google's AI bouwde zijn antwoord op 'wat kost een
@@ -161,9 +159,8 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 	const diensten = '<section id="diensten" class="section container pijler-diensten" aria-labelledby="diensten-titel">\n'
 		+ sectieKop('Wat ik voor je <span class="highlight">' + h.esc(pagina.werkwoord) + '</span>', 'diensten-titel')
 		+ '\t<ol class="dienst-index">\n'
-		+ pagina.diensten.map(function (d, i) {
-			return '\t\t<li class="dienst"><span class="dienst-nr" aria-hidden="true">0' + (i + 1) + '</span>'
-				+ '<h3 class="dienst-naam">' + h.esc(d.naam) + '</h3><p class="dienst-tekst">' + h.esc(d.tekst) + '</p></li>';
+		+ pagina.diensten.map(function (d) {
+			return '\t\t<li class="dienst"><h3 class="dienst-naam">' + h.esc(d.naam) + '</h3><p class="dienst-tekst">' + h.esc(d.tekst) + '</p></li>';
 		}).join('\n') + '\n'
 		+ '\t</ol>\n'
 		+ '</section>\n';
@@ -228,36 +225,17 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		+ '\t</nav>\n'
 		+ '</section>';
 
-	// De sectiewijzer (wijzer.css, src/js/wijzer.js): de onderdelen van de pagina in een smalle balk onder de hero, die
-	// onder de header blijft staan tot na de vragen. In rust een inhoudsopgave; tijdens het lezen loopt het stuk lijn
-	// onder het onderdeel waar je bent vol. De aantallen laten zien hoeveel er in een onderdeel staat. Op Tastbaar staan
-	// alle webshopsecties onder één onderdeel. Op een telefoon is het één knop met het onderdeel waar je bent; de lijst
-	// opent dan als paneel (popover), net als "Inhoud" op de casepagina's.
-	const vragen = shop ? shop.jsonLd[0].mainEntity.length : pagina.faq.length;
+	// Waar je bent op de pagina: de voortgangslijn links (components.js > spoor, wijzer.css, src/js/wijzer.js), met een
+	// blokje per onderdeel. Hier is het ook de inhoudsopgave: met de muis of Tab spring je naar een onderdeel. Op
+	// Tastbaar staan alle webshopsecties onder één onderdeel.
 	const onderdelen = [
 		{ id: 'kort', naam: 'In het kort' },
-		{ id: 'diensten', naam: 'Diensten', tal: pagina.diensten.length },
-		{ id: 'aanpak', naam: 'Werkwijze', tal: pagina.aanpak.length },
-		{ id: 'werk', naam: 'Werk', tal: cases.length },
-		{ id: 'kunde', naam: 'Wat ik kan' }
-	].concat(shop ? [{ id: 'webshop', naam: 'Webshop' }] : []).concat([{ id: 'vragen', naam: 'Vragen', tal: vragen }]);
-	const wijzer = '<nav class="wijzer" aria-label="Op deze pagina">\n'
-		+ '\t<div class="wijzer-in">\n'
-		+ '\t\t<button class="wijzer-knop" type="button" popovertarget="onderdelen"><span class="wijzer-knop-naam">Op deze pagina</span>'
-		+ '<span class="wijzer-knop-tal"></span><span class="wijzer-knop-open">Inhoud</span></button>\n'
-		+ '\t\t<div class="wijzer-paneel" id="onderdelen" popover tabindex="-1">\n'
-		+ '\t\t\t<p class="wijzer-paneel-kop">Op deze pagina</p>\n'
-		+ '\t\t\t<ol class="wijzer-lijst">\n'
-		+ onderdelen.map(function (o) {
-			return '\t\t\t\t<li><a href="#' + o.id + '"><span class="wijzer-naam">' + o.naam + '</span>'
-				+ (o.tal ? ' <span class="wijzer-tal" aria-hidden="true">' + o.tal + '</span>' : '') + '</a>'
-				+ '<i class="wijzer-stuk" aria-hidden="true"><b></b></i></li>';
-		}).join('\n') + '\n'
-		+ '\t\t\t</ol>\n'
-		+ '\t\t</div>\n'
-		+ '\t\t<span class="wijzer-lijn" aria-hidden="true">' + onderdelen.map(function () { return '<i></i>'; }).join('') + '</span>\n'
-		+ '\t</div>\n'
-		+ '</nav>\n';
+		{ id: 'diensten', naam: 'Diensten' },
+		{ id: 'aanpak', naam: 'Werkwijze' },
+		{ id: 'werk', naam: 'Werk' },
+		{ id: 'kunde', naam: 'Uit de praktijk' }
+	].concat(shop ? [{ id: 'webshop', naam: 'Webshop' }] : []).concat([{ id: 'vragen', naam: 'Vragen' }]);
+	const wijzer = c.spoor(onderdelen.map(function (o) { return { href: '#' + o.id, naam: o.naam }; }), { nav: true }) + '\n';
 
 	// De diensten van de pijler als dienst van de studio, voor zoekmachines en AI-assistenten
 	const dienstLd = {
@@ -287,8 +265,7 @@ function pillarPage(pillar, ctx, tastbaarTemplate) {
 		description: pillar.seo.description,
 		ogImage: ((pillar.pagina && pillar.pagina.ogImage && ctx.images[pillar.pagina.ogImage]) || ctx.images[site.defaultOgImage]).og,
 		jsonLd: [c.breadcrumbsLd(crumbs, site), dienstLd].concat(shop ? shop.jsonLd : [faqLd(pagina.faq)]),
-		// De hero staat in zijn eigen .pijler; de rest (met de sectiewijzer en op Tastbaar de webshop) in .pijler-inhoud,
-		// waarbinnen de wijzer blijft staan. Op Tastbaar staan de webshopsecties ook in de .pijler (.pijler-winkel): de
+		// De hero staat in zijn eigen .pijler; de rest (met de voortgangslijn en op Tastbaar de webshop) in .pijler-inhoud. Op Tastbaar staan de webshopsecties ook in de .pijler (.pijler-winkel): de
 		// kickers krijgen zo de kleur van de pijler, zoals elders op de pagina.
 		main: '<div class="pijler" data-pillar="' + pillar.id + '">\n'
 			+ hero

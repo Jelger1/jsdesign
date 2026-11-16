@@ -57,7 +57,7 @@ function productCard(product, ctx, opts) {
 		+ (product.sale === 'soon' ? '<span class="badge badge-promo">Binnenkort</span>' : (product.badge ? '<span class="badge badge-promo">' + h.esc(product.badge) + '</span>' : ''))
 		+ '</a>\n'
 		+ '\t<div class="product-info">\n'
-		+ '\t\t<p class="product-kicker">' + kicker(product, ctx) + '</p>\n'
+		+ (opts.zonderKicker ? '' : '\t\t<p class="product-kicker">' + kicker(product, ctx) + '</p>\n')
 		+ '\t\t<' + heading + ' class="product-title"><a href="' + url + '">' + h.esc(product.name) + '</a></' + heading + '>\n'
 		+ '\t\t<p class="muted">' + h.esc(product.tagline) + '</p>\n'
 		+ '\t\t<div class="product-card-foot">\n'
@@ -176,8 +176,32 @@ function vraag(q, antwoord) {
 	return '<details class="faq-item uitklap"><summary>' + BLOK_KNOP + '<span>' + h.esc(q) + '</span></summary><p>' + antwoord + '</p></details>';
 }
 
+// De voortgangslijn (wijzer.css, src/js/wijzer.js): een korte verticale lijn links naast de inhoud, met voor elk
+// hoofdstuk of onderdeel een blokje uit het teken. Terwijl je leest loopt de lijn van boven naar beneden vol en zakt het
+// blokje "hier" mee; gelezen blokjes zijn massief, wat nog komt is een stippelcontour. Met de muis toont een blokje zijn
+// naam en spring je erheen. Eén aanwijzer voor waar je bent: geen nummers als "01 / 07", geen "Hierna" en geen balk.
+// delen: [{ href, naam }]. nav: true als dit de inhoudsopgave van de pagina is (pijlerpagina's); op een casepagina
+// staat "In dit verhaal" al bovenaan, dan is de lijn beeld met een snelkoppeling voor de muis.
+const SPOOR_VORM = 'points="26,6.96 13.08,16 0,9.04 12.92,0" vector-effect="non-scaling-stroke"';
+function spoor(delen, opts) {
+	const nav = !!(opts && opts.nav);
+	const punten = delen.map(function (d, i) {
+		return '<li style="--i:' + i + '"><a class="spoor-punt" href="' + d.href + '"' + (nav ? '' : ' tabindex="-1"') + '>'
+			+ '<svg viewBox="-3 -3 32 22" aria-hidden="true" focusable="false"><polygon ' + SPOOR_VORM + '/></svg>'
+			+ '<span class="spoor-naam">' + h.esc(d.naam) + '</span></a></li>';
+	}).join('');
+	return (nav ? '<nav class="spoor" aria-label="Op deze pagina">' : '<div class="spoor" aria-hidden="true">')
+		+ '<div class="spoor-baan" style="--n:' + delen.length + '">'
+		+ '<span class="spoor-lijn" aria-hidden="true"><i class="spoor-vul"></i></span>'
+		+ '<ol class="spoor-lijst">' + punten + '</ol>'
+		+ '<span class="spoor-hier" aria-hidden="true"><svg viewBox="-5 -5 36 26" focusable="false">'
+		+ '<polygon class="spoor-ring" ' + SPOOR_VORM + '/><polygon class="spoor-kern" ' + SPOOR_VORM + '/></svg></span>'
+		+ '</div>'
+		+ (nav ? '</nav>' : '</div>');
+}
+
 module.exports = {
 	productCard: productCard, productRail: productRail, reviewsSection: reviewsSection,
 	breadcrumbs: breadcrumbs, breadcrumbsLd: breadcrumbsLd, kicker: kicker, stars: stars, reviewCard: reviewCard,
-	browserBalk: BROWSERBALK, blokKnop: BLOK_KNOP, vraag: vraag, keychainTeaser: keychainTeaser
+	browserBalk: BROWSERBALK, blokKnop: BLOK_KNOP, vraag: vraag, keychainTeaser: keychainTeaser, spoor: spoor
 };

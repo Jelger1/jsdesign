@@ -89,6 +89,9 @@ function categoryPage(page, ctx) {
 		{ label: page.label, path: path }
 	];
 	const others = site.categoryPages.filter(function (other) { return other.slug !== page.slug; });
+	// Zegt elke kaart hetzelfde boven de naam ("Vaas · Design collectie" op Vazen), dan zegt de pagina dat al: weg ermee
+	const kickers = products.map(function (p) { return c.kicker(p, ctx); });
+	const zonderKicker = kickers.every(function (k) { return k === kickers[0]; });
 
 	const main = '<div class="container">\n'
 		+ '\t' + c.breadcrumbs(crumbs) + '\n'
@@ -98,7 +101,7 @@ function categoryPage(page, ctx) {
 		+ '\t</header>\n'
 		+ '\t<section aria-label="' + h.esc(page.label) + '">\n'
 		+ '\t\t<div class="grid grid-products products">\n'
-		+ products.map(function (p, i) { return c.productCard(p, ctx, { eager: i < 4, heading: 'h2' }); }).join('\n') + '\n'
+		+ products.map(function (p, i) { return c.productCard(p, ctx, { eager: i < 4, heading: 'h2', zonderKicker: zonderKicker }); }).join('\n') + '\n'
 		+ '\t\t</div>\n'
 		+ '\t</section>\n'
 		+ (page.compare ? compareTable(page, products) : '')

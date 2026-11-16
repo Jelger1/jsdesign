@@ -3,9 +3,10 @@
 // kort" (40-60 woorden: het antwoord eerst, ook voor AI-assistenten), de hoofdstukken van het proces, het resultaat met
 // de live link en een tekstlink naar contact, wat ik leerde, de verantwoording (credits, mockups, AI), twee verwante
 // cases en de contactband.
-// Scanbaar: per hoofdstuk een nummer, een korte kop en één of twee korte alinea's; de rest staat achter "Lees meer".
-// Elk beeld heeft een onderschrift, en een voor/na-paar ("paar": true, de eerste twee beelden van een hoofdstuk) staat
-// vanaf 600px naast elkaar. Stijlen: src/css/case.css. Bewust zonder in- of opschuivende animaties.
+// Scanbaar: per hoofdstuk een korte kop en één of twee korte alinea's; de rest staat achter "Lees meer". Waar je bent,
+// toont één verticale voortgangslijn links (components.js > spoor), zonder nummers. Elk beeld heeft een onderschrift,
+// en een voor/na-paar ("paar": true, de eerste twee beelden van een hoofdstuk) staat vanaf 600px naast elkaar.
+// Stijlen: src/css/case.css. Bewust zonder in- of opschuivende animaties.
 //
 // projects.json > case (build.js > validateCase controleert dit):
 //   gemaakt ("2026-04-11", dateCreated), jaar, context, rol, team (alleen rollen, geen namen), techniek [..],
@@ -58,12 +59,9 @@ function staand(ctx, file) {
 	return entry.height > entry.width;
 }
 
-function nummer(n) { return (n < 10 ? '0' : '') + n; }
-
-// Eén beeld met onderschrift. De figuurnummers lopen door over de hele pagina (teller). sizes is er alleen bij een paar;
-// anders volgt het uit het beeld zelf: breed, staand (niet groter dan nodig) of de tekstkolom.
-function figuur(ctx, b, teller, sizes) {
-	teller.n++;
+// Eén beeld met onderschrift (zonder "Fig. 3": nergens verwijst de tekst naar een nummer). sizes is er alleen bij een
+// paar; anders volgt het uit het beeld zelf: breed, staand (niet groter dan nodig) of de tekstkolom.
+function figuur(ctx, b, sizes) {
 	const rechtop = !sizes && !b.breed && staand(ctx, b.file);
 	const img = h.img(ctx.images, b.file, {
 		root: ROOT, alt: b.alt,
@@ -71,16 +69,16 @@ function figuur(ctx, b, teller, sizes) {
 	});
 	return '<figure class="case-fig' + (b.breed ? ' case-fig--breed' : '') + (rechtop ? ' case-fig--staand' : '') + '">'
 		+ '<div class="case-fig-beeld">' + img + '</div>'
-		+ (b.bijschrift ? '<figcaption><span class="case-fig-nr">Fig. ' + teller.n + '</span> ' + h.esc(b.bijschrift) + '</figcaption>' : '')
+		+ (b.bijschrift ? '<figcaption>' + h.esc(b.bijschrift) + '</figcaption>' : '')
 		+ '</figure>';
 }
 
 // Voor en na naast elkaar. Twee liggende beelden (schermen) krijgen de volle breedte, staande (telefoons, etiketten)
 // blijven in de tekstkolom.
-function paar(ctx, beelden, teller) {
+function paar(ctx, beelden) {
 	const liggend = beelden.every(function (b) { return !staand(ctx, b.file); });
 	return '<div class="case-paar' + (liggend ? ' case-paar--breed' : '') + '">'
-		+ beelden.map(function (b) { return figuur(ctx, b, teller, liggend ? SIZES.paar : SIZES.paarStaand); }).join('')
+		+ beelden.map(function (b) { return figuur(ctx, b, liggend ? SIZES.paar : SIZES.paarStaand); }).join('')
 		+ '</div>';
 }
 
@@ -88,55 +86,28 @@ function alineas(lijst) {
 	return (lijst || []).map(function (a) { return '<p>' + h.esc(a) + '</p>'; }).join('');
 }
 
-// ------------------------------------------------------------------ de hoofdstukwijzer (wijzer.css, src/js/wijzer.js)
-// Elk hoofdstuk krijgt een kaart van het hele verhaal: elk hoofdstuk een blokje uit het teken aan één lijn. Eerder =
-// massief, hier = massief met een ring, straks = stippelcontour. De standen staan vast in de HTML (de template weet welk
-// hoofdstuk het is); alleen het stuk lijn na "hier" loopt vol terwijl je leest. De blokjes zijn een snelkoppeling voor
-// de muis (de kaart is aria-hidden); "In dit verhaal", "Hierna" en de koppen zelf zijn de echte route.
+// Het blokje uit het teken, één keer in de pagina; de lijst "In dit verhaal" gebruikt het als opsommingsteken
 const BLOKDEF = '<svg class="wijzer-defs" width="0" height="0" aria-hidden="true" focusable="false"><defs>'
 	+ '<polygon id="blok" points="26,6.96 13.08,16 0,9.04 12.92,0" vector-effect="non-scaling-stroke"/></defs></svg>';
-const BLOK = '<svg viewBox="-3 -3 32 22" focusable="false"><use href="#blok"/></svg>';
-const BLOK_HIER = '<svg viewBox="-5 -5 36 26" focusable="false"><use class="hk-ring" href="#blok"/><use class="hk-kern" href="#blok"/></svg>';
 
-function kaart(titels, n) {
-	return '<div class="hk" aria-hidden="true"><ol class="hk-kaart">'
-		+ titels.map(function (t, i) {
-			const stand = i + 1 < n ? 'is-eerder' : (i + 1 === n ? 'is-hier' : 'is-straks');
-			return '<li class="hk-stap ' + stand + '"><a class="hk-blok" href="#hoofdstuk-' + (i + 1) + '" tabindex="-1" title="' + nummer(i + 1) + ' ' + h.esc(t) + '">'
-				+ (stand === 'is-hier' ? BLOK_HIER : BLOK) + '</a><span class="hk-seg"><i class="hk-vul"></i></span></li>';
-		}).join('')
-		+ '</ol></div>';
-}
-
-// Wat er na hoofdstuk n komt; na het laatste hoofdstuk wat er onder de hoofdstukken staat (slot: de verantwoording, of
-// zonder verantwoording het andere werk)
-function hierna(titels, n, slot) {
-	const doel = n < titels.length ? '#hoofdstuk-' + (n + 1) : slot.doel;
-	const naam = n < titels.length ? nummer(n + 1) + ' ' + h.esc(titels[n]) : slot.naam;
-	return '<a class="hk-hierna" href="' + doel + '"><span class="hk-hierna-label">Hierna</span> <span class="hk-hierna-titel">' + naam + '</span>'
-		+ '<span class="hk-hierna-pijl" aria-hidden="true">↓</span></a>';
-}
-
-// De hoofdstukken als lijst met links: "In dit verhaal" onder "In het kort", en hetzelfde in het paneel dat op een
-// telefoon opent vanuit de balk van een hoofdstuk. Het resultaat valt op: daar springen veel lezers meteen naartoe.
+// De hoofdstukken als lijst met links: "In dit verhaal" onder "In het kort". Het resultaat valt op: daar springen veel
+// lezers meteen naartoe.
 function inhoud(titels, klasse) {
 	return '<ol class="' + klasse + '">'
 		+ titels.map(function (t, i) {
 			return '<li' + (t === 'Resultaat' ? ' class="is-resultaat"' : '') + '><a href="#hoofdstuk-' + (i + 1) + '">'
 				+ '<svg class="toc-blok" viewBox="-2 -2 30 20" aria-hidden="true" focusable="false"><use href="#blok"/></svg>'
-				+ '<span class="toc-nr">' + nummer(i + 1) + '</span><span class="toc-titel">' + h.esc(t) + '</span></a></li>';
+				+ '<span class="toc-titel">' + h.esc(t) + '</span></a></li>';
 		}).join('')
 		+ '</ol>';
 }
 
-// Een hoofdstuk: de kop (nummer, kop, kaart en "Hierna"; vanaf 900px blijft hij links staan zolang je in het hoofdstuk
-// leest, op een telefoon is het een smalle balk onder de header), daarnaast korte alinea's of een lijst, details achter
-// "Lees meer" en de beelden in de tekstkolom. Brede beelden (en voor/na-paren van schermen) komen daarna over de volle
-// breedte: zo blijft de kop staan tot het einde van de tekstkolom.
+// Een hoofdstuk: de kop (vanaf 900px blijft hij links staan zolang je in het hoofdstuk leest), daarnaast korte alinea's
+// of een lijst, details achter "Lees meer" en de beelden in de tekstkolom. Brede beelden (en voor/na-paren van
+// schermen) komen daarna over de volle breedte: zo blijft de kop staan tot het einde van de tekstkolom.
 // extra: wat er nog onder de tekst hoort (de links bij het resultaat); na: wat de tekstkolom afsluit (de vraag naar
-// contact bij het resultaat). titels: alle hoofdstukken, voor de kaart; slot: waar "Hierna" na het laatste hoofdstuk
-// heen gaat.
-function stap(ctx, hs, i, teller, titels, slot, extra, na) {
+// contact bij het resultaat).
+function stap(ctx, hs, i, extra, na) {
 	const n = i + 1;
 	const id = 'stap-' + n;
 	const beelden = hs.beelden || [];
@@ -149,21 +120,18 @@ function stap(ctx, hs, i, teller, titels, slot, extra, na) {
 			? '<details class="case-meer uitklap"><summary>' + c.blokKnop + '<span>Lees meer<span class="sr-only"> over ' + h.esc(hs.titel.toLowerCase()) + '</span></span></summary>' + alineas(hs.meer) + '</details>'
 			: '')
 		+ (extra || '');
-	// Eerst alles in de tekstkolom (de figuurnummers lopen in leesvolgorde), dan de brede beelden
+	// Eerst alles in de tekstkolom, dan de brede beelden
 	let lijf = '\t\t\t\t<div class="case-stap-tekst">' + tekst + '</div>\n';
-	if (tweetal.length && !tweetalBreed) lijf += '\t\t\t\t' + paar(ctx, tweetal, teller) + '\n';
-	los.filter(function (b) { return !b.breed; }).forEach(function (b) { lijf += '\t\t\t\t' + figuur(ctx, b, teller) + '\n'; });
+	if (tweetal.length && !tweetalBreed) lijf += '\t\t\t\t' + paar(ctx, tweetal) + '\n';
+	los.filter(function (b) { return !b.breed; }).forEach(function (b) { lijf += '\t\t\t\t' + figuur(ctx, b) + '\n'; });
 	if (na) lijf += '\t\t\t\t' + na + '\n';
 	let breed = '';
-	if (tweetalBreed) breed += '\t\t' + paar(ctx, tweetal, teller) + '\n';
-	los.filter(function (b) { return b.breed; }).forEach(function (b) { breed += '\t\t' + figuur(ctx, b, teller) + '\n'; });
+	if (tweetalBreed) breed += '\t\t' + paar(ctx, tweetal) + '\n';
+	los.filter(function (b) { return b.breed; }).forEach(function (b) { breed += '\t\t' + figuur(ctx, b) + '\n'; });
 	return '\t<section class="case-stap" id="hoofdstuk-' + n + '" aria-labelledby="' + id + '">\n'
 		+ '\t\t<div class="case-stap-romp">\n'
 		+ '\t\t\t<div class="case-stap-kop">'
-		+ '<span class="case-stap-nr" aria-hidden="true">' + nummer(n) + '<span class="hk-van"> / ' + nummer(titels.length) + '</span></span>'
 		+ '<h2 id="' + id + '">' + h.esc(hs.titel) + '</h2>'
-		+ kaart(titels, n) + hierna(titels, n, slot)
-		+ '<button class="hk-inhoud" type="button" popovertarget="hoofdstukken" aria-label="Inhoud: alle hoofdstukken">Inhoud</button>'
 		+ '</div>\n'
 		+ '\t\t\t<div class="case-stap-lijf">\n' + lijf + '\t\t\t</div>\n'
 		+ '\t\t</div>\n'
@@ -289,17 +257,15 @@ function casePage(p, ctx) {
 	const entry = ctx.images[cover(p)];
 	const coverSizes = staand(ctx, cover(p)) ? SIZES.coverStaand : SIZES.cover;
 
-	// Het proces, daarna het resultaat (met de links en een tekstlink naar contact) en wat ik leerde, in dezelfde nummering.
+	// Het proces, daarna het resultaat (met de links en een tekstlink naar contact) en wat ik leerde, in dezelfde volgorde.
 	// De verantwoording telt niet mee: dat is geen hoofdstuk van het verhaal.
-	const teller = { n: 0 };
 	const lijst = k.hoofdstukken.concat([{ titel: 'Resultaat', alineas: k.resultaat.alineas, beelden: k.resultaat.beelden, paar: k.resultaat.paar }]);
 	if (k.geleerd && k.geleerd.length) lijst.push({ titel: 'Wat ik leerde', lijst: k.geleerd });
 	const titels = hoofdstukTitels(p);
 	const vraag = '<p class="case-vraag">Iets vergelijkbaars nodig? <a class="link-arrow" href="' + ROOT + 'contact.html">Vertel over je project</a></p>';
-	const slot = k.noot ? { doel: '#noot-titel', naam: 'Verantwoording' } : { doel: '#verwant-titel', naam: 'Meer werk' };
 	const stappen = lijst.map(function (hs, i) {
 		const resultaat = hs.titel === 'Resultaat';
-		return stap(ctx, hs, i, teller, titels, slot, resultaat ? citaat(k) + links(p) : '', resultaat ? vraag : '');
+		return stap(ctx, hs, i, resultaat ? citaat(k) + links(p) : '', resultaat ? vraag : '');
 	});
 
 	return {
@@ -326,11 +292,8 @@ function casePage(p, ctx) {
 			+ '\t<h2 id="toc-titel">In dit verhaal</h2>\n'
 			+ '\t' + inhoud(titels, 'toc-lijst') + '\n'
 			+ '</nav>\n'
-			// Het paneel achter "Inhoud" in de balk van een hoofdstuk (telefoon); zonder popover-ondersteuning verborgen
-			+ '<div class="wijzer-paneel hk-paneel" id="hoofdstukken" popover>\n'
-			+ '\t<p class="wijzer-paneel-kop">In dit verhaal</p>\n'
-			+ '\t' + inhoud(titels, 'wijzer-paneel-lijst') + '\n'
-			+ '</div>\n'
+			// Waar je bent in het verhaal: de voortgangslijn links (alleen beeld; "In dit verhaal" hierboven is de route)
+			+ c.spoor(titels.map(function (t, i) { return { href: '#hoofdstuk-' + (i + 1), naam: t }; })) + '\n'
 			+ '<div class="container case-stappen">\n' + stappen.join('\n') + '\n</div>\n'
 			+ (k.noot ? '<section class="container case-noot" aria-labelledby="noot-titel">\n\t<h2 id="noot-titel">Verantwoording</h2>\n\t<p>' + h.esc(k.noot) + '</p>\n</section>\n' : '')
 			+ verwant(p, ctx) + '\n'

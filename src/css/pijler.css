@@ -20,9 +20,6 @@ body[data-page="pillar"]{--section-space:var(--section-space-compact)}
 /* Op het vlak minstens 14 px en halfvet voor labels (tokens.css: op raspberry is alles volle slate) */
 .pijler-hero .breadcrumbs ol{margin:0 0 var(--space-8);padding:0;list-style:none;font-family:var(--font-mono);font-size:var(--text-sm);font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
 .pijler-hero .kicker{font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-5)}
-.pijler-hero .pijler-kicker{gap:0.75rem}
-.pijler-kicker::before{display:none}
-.pijler-nr{display:grid;place-items:center;width:46px;height:28px;clip-path:var(--js-blok);background:var(--dark);color:var(--sage);font:700 var(--text-xs)/1 var(--font-mono);letter-spacing:0.02em}
 .pijler-titel{font-size:var(--kop-xl);line-height:1;letter-spacing:-0.02em;margin:0 0 var(--space-6)}
 .pijler-titel .highlight{display:block}
 .pijler-lead{max-width:36rem;margin:0;font-size:clamp(1.125rem, 1rem + 0.45vw, 1.375rem);line-height:1.55;color:var(--fg)}
@@ -165,13 +162,11 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 
 /* ------------------------------------------------------------------ diensten: een index, geen kaarten */
 .dienst-index{list-style:none;margin:0;padding:0;border-top:1px solid var(--border)}
-.dienst{display:grid;grid-template-columns:2.5rem minmax(0, 1fr);gap:var(--space-2) var(--space-4);padding:var(--space-6) 0;border-bottom:1px solid var(--border)}
-.dienst-nr{grid-row:span 2;padding-top:0.55em;font:500 var(--text-sm)/1 var(--font-mono);color:var(--pillar-text)}
+.dienst{display:grid;grid-template-columns:minmax(0, 1fr);gap:var(--space-2) var(--space-4);padding:var(--space-6) 0;border-bottom:1px solid var(--border)}
 .dienst-naam{margin:0;font-size:clamp(1.375rem, 1.1rem + 1.1vw, 2rem);line-height:1.15}
 .dienst-tekst{margin:0;max-width:52ch;color:var(--fg-muted)}
 @media (min-width:900px){
-	.dienst{grid-template-columns:4rem minmax(0, 5fr) minmax(0, 6fr);gap:var(--space-8);align-items:baseline;padding:var(--space-8) 0}
-	.dienst-nr{grid-row:auto;padding-top:0}
+	.dienst{grid-template-columns:minmax(0, 5fr) minmax(0, 6fr);gap:var(--space-8);align-items:baseline;padding:var(--space-8) 0}
 	.dienst-tekst{font-size:var(--text-md)}
 }
 
@@ -285,7 +280,6 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 .verhaal-tekening{display:none}
 @media (min-width:1100px) and (min-height:540px) and (prefers-reduced-motion:no-preference){
 	.verhaal{--boven:calc(var(--nav-height) + 2rem);display:grid;grid-template-columns:minmax(0, 5fr) minmax(0, 6fr);column-gap:var(--space-12);align-items:start}
-	html:has(.wijzer) .verhaal{--boven:calc(var(--nav-height) + 48px + 2rem)}
 	.trap.trap--verhaal{display:block;--nr-b:64px;--nr-h:40px}
 	/* Elke stap begint 16vh onder zijn bovenrand; het printen wacht tot de tekening op haar plek staat (verhaal.js). De
 	   laatste stap is hoger, zodat de tekening blijft staan tot ook het laatste blok geprint is en je de hele trap even
@@ -338,7 +332,6 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 .pijler-case-tekst{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-5) var(--space-6) var(--space-6)}
 .pijler-case-tags{display:flex;align-items:center;flex-wrap:wrap;gap:0.3rem 0.6rem;margin:0;font:500 var(--text-xs)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--fg-muted)}
 .pijler-case-tags::before{content:'';flex:none;width:16px;height:10px;background:var(--pillar);clip-path:var(--js-blok)}
-.pijler-case-nr{color:var(--pillar-text)}
 .pijler-case-titel{margin:0;font-size:var(--text-xl);line-height:1.15}
 .pijler-case-titel a{color:var(--fg);text-decoration:none}
 .pijler-case-titel a::after{content:'';position:absolute;inset:0;z-index:1}
@@ -472,7 +465,7 @@ a.pijler-hier-label::after{content:' →';content:' →' / ''}
 	.tegel-deel.is-hier .tegel-vorm,.tegel-punt{fill:CanvasText}
 	.tegel-deel:not(.is-hier) .tegel-vorm{fill:CanvasText;stroke:CanvasText}
 	a.pijler-hier-label{border-color:CanvasText}
-	.pijler-nr,.pijler-label::before,.bewijs-label::before,.pijler-case-tags::before,.pijler-ook-naam::before{forced-color-adjust:none;background:CanvasText;color:Canvas}
+	.pijler-label::before,.bewijs-label::before,.pijler-case-tags::before,.pijler-ook-naam::before{forced-color-adjust:none;background:CanvasText;color:Canvas}
 	.bewijs::before{forced-color-adjust:none;background:CanvasText}
 	.bewijs-blok polygon{stroke:CanvasText}
 	.bewijs--open:hover .bewijs-blok polygon{fill:CanvasText}
