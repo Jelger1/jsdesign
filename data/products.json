@@ -110,6 +110,7 @@
 	},
 	{
 		"id": "helio-lamp",
+		"handleiding": "wifi-lamp",
 		"name": "Helio Lamp",
 		"type": "lamp",
 		"collection": "design",
