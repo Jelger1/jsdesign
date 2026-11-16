@@ -390,19 +390,66 @@
 		"sale": "cart",
 		"featured": true,
 		"geprint": 167,
-		"tagline": "Strak design met Limburgse roots, een moderne klassieker voor op je bureau of kast.",
+		"tagline": "De mijnwerker van de Markt in Kerkrade, opnieuw gevormd uit de hoekige vlakken van steenkool. Een eigen ontwerp voor op je bureau of kast.",
 		"description": [
-			"D'r Joep, de mijnwerker die symbool staat voor iedereen die in Limburg ondergronds werkte. Hier opnieuw vormgegeven in strakke vlakken, als een origami-figuur: jas open, lamp in de hand, blik vooruit. Herkenbaar van een afstand, verrassend modern van dichtbij.",
-			"Het is een beeld dat twee dingen tegelijk doet. Het eert een verleden en het staat gewoon goed op je kast. Verkrijgbaar in twee formaten, voor op het bureau of als blikvanger in de kamer."
+			"Steenkool breekt nooit rond. Het splijt in hoekige vlakken met scherpe randen, die het licht vangen als je het draait. Uit die vorm is deze D'r Joep opgebouwd: de mijnwerker als het ware gehouwen uit een brok kool, met de jas open, de lamp in de hand en de blik vooruit.",
+			"Het is geen kopie van het bronzen beeld op de Markt in Kerkrade, maar een eigen ontwerp: een moderne interpretatie die het materiaal waar de mijnwerkers voor afdaalden terug laat komen in het beeld zelf. Van een afstand herken je meteen Joep; van dichtbij is het een spel van vlakken, licht en schaduw.",
+			"Zo eert hij een verleden en staat hij gewoon goed op je kast. Hij is er in twee formaten: 15 cm voor op het bureau en 25 cm als blikvanger in de kamer."
 		],
 		"highlights": [
-			"Modern, gefacetteerd ontwerp",
-			"Verkrijgbaar in 15 cm en 25 cm",
-			"Een cadeau met Limburgse ziel"
+			"Eigen ontwerp, geen replica: een moderne interpretatie van het monument op de Markt",
+			"De hoekige vlakken van steenkool, vertaald naar een beeld",
+			"Verkrijgbaar in 15 cm en 25 cm"
 		],
 		"specs": [
 			{ "label": "Formaten", "value": "15 cm of 25 cm" },
-			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" }
+			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" },
+			{ "label": "Geïnspireerd op", "value": "D'r Joep van Wim van Hoorn, sinds 1957 op de Markt in Kerkrade" }
+		],
+		"achtergrond": {
+			"kop": "Het origineel op de Markt in Kerkrade",
+			"intro": "Sinds 16 juni 1957 staat D'r Joep op de Markt in Kerkrade: het nationale monument voor de mijnwerkers. Dit is het verhaal achter het beeld dat deze versie inspireerde.",
+			"blokken": [
+				{
+					"kop": "Een eerbetoon aan de mijnwerkers",
+					"tekst": [
+						"In 1939 vroeg de Kerkradenaar Jean Hermans, wiens vader als mijnwerker bij een ongeluk omkwam, om een monument voor de mijnwerkers van de Mijnstreek. Door geldgebrek en de oorlog kwam het er toen niet van.",
+						"In 1954 richtte Kerkrade het comité Monument voor de Mijnwerker op. Het beeld eert de mijnwerkers die bij hun werk omkwamen, en de monniken van Rolduc, die in de streek als eersten steenkool wonnen."
+					]
+				},
+				{
+					"kop": "Beeldhouwer Wim van Hoorn en de prijsvraag",
+					"tekst": [
+						"In 1955 werden kunstenaars uitgenodigd voor een prijsvraag, waarvoor ze een gipsen model maakten. Het ontwerp van beeldhouwer Wim van Hoorn (1908-1979) won: een mijnwerker op een sokkel die de adeldom van de arbeid laat zien, zijn kracht en zijn waardigheid als mens.",
+						"Op de voorkant van de sokkel staat de mijnwolf, het symbool voor het gevaar dat onder de grond altijd op de loer lag. Op de achterkant zie je een mijngang met een liggende mijnwerker."
+					]
+				},
+				{
+					"kop": "De onthulling in 1957",
+					"tekst": [
+						"Op zondag 16 juni 1957 werd het bronzen beeld op de Markt onthuld door de gouverneur van Limburg, Frans Houben. Het Polygoonjournaal filmde de onthulling. Sindsdien staat D'r Joep op de Markt."
+					]
+				},
+				{
+					"kop": "Doa sjteet d'r Joep, inne echte köaler",
+					"tekst": [
+						"Bij de onthulling zei gouverneur Houben: \"Doa sjteet d'r Joep, inne echte köaler!\" Vrij vertaald: daar staat onze Joep, een echte mijnwerker. De naam verwijst naar Sint-Jozef, de beschermheilige van de arbeid."
+					]
+				},
+				{
+					"kop": "Replica's en deze eigen versie",
+					"tekst": [
+						"Van het beeld op de Markt bestaan replica's, zoals het beeldje van 24 cm dat in 2002 verscheen. Deze D'r Joep is geen replica. Het is een eigen ontwerp dat het beeld vertaalt naar de hoekige vlakken van steenkool, ontworpen en geprint in Kerkrade."
+					]
+				}
+			]
+		},
+		"faq": [
+			{ "q": "Wie maakte het beeld van D'r Joep?", "a": "Het bronzen monument op de Markt in Kerkrade is van beeldhouwer Wim van Hoorn (1908-1979). Zijn ontwerp won in 1955 de prijsvraag voor het monument. Deze 3D-geprinte versie is een eigen ontwerp van JelgersDesign." },
+			{ "q": "Waar staat D'r Joep?", "a": "Op de Markt in Kerkrade, sinds de onthulling op 16 juni 1957. Het is het nationale monument voor de mijnwerkers." },
+			{ "q": "Waarom heet het beeld D'r Joep?", "a": "De naam verwijst naar Sint-Jozef, de beschermheilige van de arbeid. Bij de onthulling zei gouverneur Houben: \"Doa sjteet d'r Joep, inne echte köaler!\", daar staat onze Joep, een echte mijnwerker." },
+			{ "q": "Is dit een replica van het beeld op de Markt?", "a": "Nee. Dit is een eigen ontwerp, een moderne interpretatie van het monument. De mijnwerker is opgebouwd uit hoekige vlakken, zoals steenkool breekt, en wordt in Kerkrade geprint." },
+			{ "q": "Waar kan ik een D'r Joep-beeldje kopen?", "a": "Hier in de webshop, in 15 cm en 25 cm en als genummerde Kirchroa-editie in rood en wit. In Kerkrade ligt hij ook bij het Discovery Museum, Boekhandel Deurenberg en Brouwerij Rolduc, en in Valkenburg bij Visit Zuid-Limburg." }
 		],
 		"variants": [
 			{ "id": "15cm", "label": "15 cm", "price": 12.95 },
@@ -413,8 +460,8 @@
 			{ "file": "dr-joep-grey.jpg", "subject": [28, 22, 70, 91], "alt": "Grijs gefacetteerd beeld van D'r Joep op sokkel, met mijnlamp in de hand" }
 		],
 		"seo": {
-			"title": "D'r Joep – 3D-geprint mijnwerkersbeeld",
-			"description": "D'r Joep: het Limburgse mijnwerkersicoon in een strak, gefacetteerd ontwerp. 3D-geprint in Limburg, in 15 cm en 25 cm. Vanaf €12,95."
+			"title": "D'r Joep beeldje – mijnwerker uit Kerkrade",
+			"description": "D'r Joep, het mijnwerkersmonument van de Markt in Kerkrade, als eigen ontwerp in de hoekige vlakken van steenkool. 15 of 25 cm, vanaf €12,95."
 		},
 		"related": ["dr-joep-kirchroa", "mijnwerkerslamp", "mijnschacht-nulland"]
 	},
@@ -429,9 +476,10 @@
 		"badge": "Gelimiteerd",
 		"tagline": "D'r Joep in het rood en wit van Kerkrade. Genummerd, in een beperkte oplage, en geen twee jasjes zijn hetzelfde.",
 		"description": [
-			"Dit is D'r Joep, de mijnwerker in strakke vlakken, nu met een jasje in het rood en wit van Kerkrade. Lijf en sokkel zijn zwart; het open jasje is opgebouwd uit rode en witte driehoekjes, in de kleuren van de Kerkraadse vlag.",
+			"Dit is D'r Joep, de mijnwerker opgebouwd uit de hoekige vlakken van steenkool, nu met een jasje in het rood en wit van Kerkrade. Lijf en sokkel zijn zwart; het open jasje is opgebouwd uit rode en witte driehoekjes, in de kleuren van de Kerkraadse vlag.",
 			"Geen twee zijn hetzelfde. Bij elke Joep vallen het rood en het wit anders over het jasje, dus je hebt altijd een uniek exemplaar.",
-			"De oplage is beperkt en elke Joep krijgt zijn eigen nummer. Hij is 25 cm hoog, net zo groot als de grote zwarte D'r Joep."
+			"De oplage is beperkt en elke Joep krijgt zijn eigen nummer. Hij is 25 cm hoog, net zo groot als de grote zwarte D'r Joep.",
+			"Het origineel, het bronzen monument van beeldhouwer Wim van Hoorn, staat sinds 1957 op de Markt in Kerkrade. Deze Joep is daar een eigen, moderne interpretatie van."
 		],
 		"highlights": [
 			"Genummerd, in een beperkte oplage",

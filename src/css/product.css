@@ -124,3 +124,16 @@
 .review-vraag{margin-top:2.5rem;margin-bottom:0;text-align:center;font-size:0.95rem;color:var(--fg-muted)}
 .review-vraag a,.reviews-check a{color:var(--brand)}
 .reviews-check{margin:1rem 0 0 0;font-size:0.85rem;color:var(--fg-muted)}
+
+/* Achtergrond en vragen onder de productdetails (products.json > achtergrond, faq). Leesbare kolommen met het blokje
+   voor elke tussenkop, net als elders op de site; geen kaarten. */
+.pdp-achtergrond{padding-top:clamp(2.5rem, 5vw, 4rem)}
+.pdp-achtergrond > h2{margin:0 0 0.75rem}
+.pdp-achtergrond-intro{max-width:62ch;margin:0 0 2rem;font-size:1.1rem;line-height:1.7;color:var(--fg-muted)}
+.pdp-achtergrond-blokken{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 22rem), 1fr));gap:1.75rem 3rem}
+.pdp-achtergrond-blok h3{display:flex;align-items:center;gap:0.6rem;margin:0 0 0.5rem;font-size:1.15rem;line-height:1.3}
+.pdp-achtergrond-blok h3::before{content:'';flex:none;width:1.45em;height:0.9em;clip-path:var(--js-blok);background:var(--sage)}
+.pdp-achtergrond-blok p{margin:0 0 0.75rem;color:var(--fg-muted);line-height:1.7}
+.pdp-vragen{padding-top:clamp(2rem, 4vw, 3rem)}
+.pdp-vragen > h2{margin:0 0 1rem}
+.pdp-vragen .faq{max-width:780px;margin-left:0;margin-right:0}

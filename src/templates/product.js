@@ -171,6 +171,33 @@ function makerBlock(product, ctx, root) {
 		+ (winkels.length ? '\t\t<p class="pdp-verkooppunten"><strong>Ook te koop bij</strong> ' + h.esc(h.verkooppuntenZin(winkels)) + '.</p>\n' : '');
 }
 
+// Achtergrond (optioneel, "achtergrond" in products.json): het verhaal achter een ontwerp, met tussenkoppen. Voor
+// D'r Joep de geschiedenis van het monument op de Markt (content-gap-analyse 16-11-2026: de top 10 vertelt dat verhaal,
+// de productpagina niet). Alleen feiten uit de bronnen die daar staan.
+function achtergrondSection(product) {
+	const a = product.achtergrond;
+	if (!a || !a.blokken || !a.blokken.length) return '';
+	return '<section class="container pdp-achtergrond" aria-labelledby="achtergrond-heading">\n'
+		+ '\t<h2 id="achtergrond-heading">' + h.esc(a.kop) + '</h2>\n'
+		+ (a.intro ? '\t<p class="pdp-achtergrond-intro">' + h.esc(a.intro) + '</p>\n' : '')
+		+ '\t<div class="pdp-achtergrond-blokken">\n'
+		+ a.blokken.map(function (b) {
+			return '\t\t<div class="pdp-achtergrond-blok">\n\t\t\t<h3>' + h.esc(b.kop) + '</h3>\n'
+				+ b.tekst.map(function (t) { return '\t\t\t<p>' + h.esc(t) + '</p>'; }).join('\n') + '\n\t\t</div>';
+		}).join('\n') + '\n'
+		+ '\t</div>\n'
+		+ '</section>\n';
+}
+
+// Vragen over dit product (optioneel, "faq" in products.json), ook als FAQPage voor zoekmachines
+function vragenSection(product) {
+	if (!product.faq || !product.faq.length) return '';
+	return '<section class="container pdp-vragen" aria-labelledby="vragen-heading">\n'
+		+ '\t<h2 id="vragen-heading">Vragen over ' + h.esc(product.name) + '</h2>\n'
+		+ '\t<div class="faq">\n' + product.faq.map(function (v) { return '\t\t' + c.vraag(v.q, h.esc(v.a)); }).join('\n') + '\n\t</div>\n'
+		+ '</section>\n';
+}
+
 // Promovideo (optioneel, "video" in products.json). Laadt pas als de bezoeker op play drukt.
 function videoSection(product, ctx, root) {
 	if (!product.video) return '';
@@ -300,6 +327,8 @@ function productPage(product, ctx) {
 		+ '\t\t</section>\n'
 		+ '\t</div>\n'
 		+ '</div>\n\n'
+		+ achtergrondSection(product)
+		+ vragenSection(product)
 		+ videoSection(product, ctx, root)
 		+ c.reviewsSection(reviews, 'Wat klanten zeggen over de ' + product.name, { root: root, product: product })
 		+ (related.length
@@ -320,6 +349,13 @@ function productPage(product, ctx) {
 	const ld = [c.breadcrumbsLd(crumbs, site)];
 	const pLd = productLd(product, ctx);
 	if (pLd) ld.push(pLd);
+	if (product.faq && product.faq.length) {
+		ld.push({
+			'@context': 'https://schema.org',
+			'@type': 'FAQPage',
+			mainEntity: product.faq.map(function (v) { return { '@type': 'Question', name: v.q, acceptedAnswer: { '@type': 'Answer', text: v.a } }; })
+		});
+	}
 
 	return {
 		path: h.productUrl(product),
