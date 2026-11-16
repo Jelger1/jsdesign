@@ -125,7 +125,7 @@ function zakelijkPage(ctx) {
 		// 'Relatiegeschenk met logo' in de titel: bij die vraag noemde Google's AI alleen landelijke webshops (search-check 15-11-2026)
 		title: 'Relatiegeschenken met logo laten maken | ' + site.name,
 		ogTitle: 'Limburgse ontwerpen voor je winkel of als relatiegeschenk',
-		label: 'Voor winkels en bedrijven', // in sitemap.html
+		label: 'Relatiegeschenken en winkels', // in sitemap.html
 		description: 'Relatiegeschenken met je logo of in je eigen kleuren, 3D-geprint in Kerkrade, en Limburgse ontwerpen voor je winkel. Zakelijke prijs vanaf 10 stuks.',
 		ogImage: ctx.images[site.defaultOgImage].og,
 		main: main
