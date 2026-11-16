@@ -15,6 +15,7 @@ const { privacyPage, termsPage, notFoundPage, printServicePage, newsletterPage, 
 const { pillarPage } = require('./src/templates/pillar');
 const { reviewPage, zakelijkPage } = require('./src/templates/winkel-extra');
 const { prototypePage, gebouwPage } = require('./src/templates/maatwerk');
+const { handleidingPages } = require('./src/templates/handleiding');
 const overPage = require('./src/templates/over');
 const portfolioPage = require('./src/templates/portfolio');
 const { casePage, caseImages, caseCover, caseTitel, hoofdstukAnker } = require('./src/templates/case');
@@ -556,6 +557,12 @@ async function build() {
 	const products = readJson('data/products.json');
 	const reviews = readJson('data/reviews.json');
 	const skills = readJson('data/skills.json');
+	// Handleidingen bij producten (src/templates/handleiding.js, de pdf's via tools/handleiding-pdf.mjs)
+	const handleidingen = fs.existsSync(path.join(ROOT, 'data/handleidingen.json')) ? readJson('data/handleidingen.json') : {};
+	products.forEach(function (p) {
+		if (p.handleiding && !handleidingen[p.handleiding]) throw new Error('products.json > "' + p.id + '": handleiding "' + p.handleiding + '" staat niet in data/handleidingen.json');
+		if (p.handleiding && !fs.existsSync(path.join(ROOT, 'assets/handleidingen', handleidingen[p.handleiding].pdf))) throw new Error('Handleiding-pdf ontbreekt: assets/handleidingen/' + handleidingen[p.handleiding].pdf + ' (draai node tools/handleiding-pdf.mjs)');
+	});
 
 	const today = new Date().toISOString().slice(0, 10);
 	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
@@ -667,6 +674,10 @@ async function build() {
 		fs.cpSync(path.join(ROOT, 'assets/nieuwsbrief'), path.join(DIST, 'assets/nieuwsbrief'), { recursive: true });
 	}
 	// Koppen voor de mails van de functie (tools/mail-koppen-functie.mjs); verstuurde mails laden ze van de site
+	// Handleidingen als pdf (tools/handleiding-pdf.mjs), om te downloaden vanaf de pagina en de productpagina
+	if (fs.existsSync(path.join(ROOT, 'assets/handleidingen'))) {
+		fs.cpSync(path.join(ROOT, 'assets/handleidingen'), path.join(DIST, 'assets/handleidingen'), { recursive: true });
+	}
 	if (fs.existsSync(path.join(ROOT, 'assets/mailkoppen'))) {
 		fs.cpSync(path.join(ROOT, 'assets/mailkoppen'), path.join(DIST, 'assets/mailkoppen'), { recursive: true });
 	}
@@ -694,6 +705,7 @@ async function build() {
 	const ctx = {
 		site: site, brand: brand, shop: shop, pillars: pillars, projects: projects, products: products, reviews: reviews, images: images, byId: byId,
 		skills: skills,
+		handleidingen: handleidingen,
 		legacy: JSON.parse(read('data/legacy.json')),
 		version: version, year: new Date().getFullYear(), mode: MODE, base: BASE,
 		fonts: PRELOAD_FONTS,
@@ -718,7 +730,7 @@ async function build() {
 		.concat([contactPage(ctx, read('src/pages/contact.html'))])
 		.concat([shopPage(ctx)])
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
-		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), herroepPage(ctx, read('src/pages/herroepen.html')), winactiePage(ctx, read('src/pages/winactie.html')), websitecheckPage(ctx, read('src/pages/websitecheck.html')), reviewPage(ctx), zakelijkPage(ctx), prototypePage(ctx), gebouwPage(ctx), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
+		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), herroepPage(ctx, read('src/pages/herroepen.html')), winactiePage(ctx, read('src/pages/winactie.html')), websitecheckPage(ctx, read('src/pages/websitecheck.html')), reviewPage(ctx), zakelijkPage(ctx), prototypePage(ctx), gebouwPage(ctx), ...handleidingPages(ctx), notFoundPage(ctx), newsletterPage(ctx), repliedPage(ctx)])
 		.concat(archivePages(ctx, read))
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	// De leesbare sitemap: alle pagina's die in Google horen

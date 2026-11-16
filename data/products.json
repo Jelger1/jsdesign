@@ -186,6 +186,7 @@
 	},
 	{
 		"id": "mijnwerkerslamp",
+		"handleiding": "wifi-lamp",
 		"name": "Mijnwerkerslamp",
 		"type": "lamp",
 		"collection": "limburg",

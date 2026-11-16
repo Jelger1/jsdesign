@@ -1,0 +1,37 @@
+{
+	"_uitleg": "Handleidingen bij producten. Eén tekst voor twee dingen: de pagina op de site (src/templates/handleiding.js, adres = pagina) en de print-pdf in A5 voor in de doos (tools/handleiding-pdf.mjs, schrijft assets/handleidingen/<pdf>). Na een tekstwijziging: node tools/handleiding-pdf.mjs. Een product krijgt een link via \"handleiding\": \"<id>\" in products.json.",
+	"wifi-lamp": {
+		"pagina": "wifi-lamp.html",
+		"pdf": "handleiding-wifi-lamp-e14.pdf",
+		"label": "Handleiding wifi-lamp",
+		"titel": "Zo stel je je *wifi-lamp* in",
+		"titelKort": "Wifi-lamp instellen",
+		"seoTitel": "Handleiding wifi-lamp (E14) instellen",
+		"seoOmschrijving": "Zo koppel je de E14 wifi-lamp van je lamp van JelgersDesign aan de app Smart Life of Tuya Smart, in 4 stappen. Met hulp als het koppelen niet lukt.",
+		"intro": "Voor de E14 wifi-lamp bij je lamp van JelgersDesign. Hij werkt met de app Smart Life of Tuya Smart. Daarna kies je kleur, warm wit en helderheid gewoon op je telefoon.",
+		"nodig": "Je hebt alleen je lamp, je telefoon en het wachtwoord van je wifi nodig.",
+		"label24": "2,4 GHz-wifi nodig, geen 5 GHz",
+		"stappen": [
+			{ "kop": "Zet je telefoon klaar", "tekst": "Installeer de app Smart Life (of Tuya Smart). Verbind je telefoon met je 2,4 GHz-wifi en zet Bluetooth aan. Vraagt de app om toestemming, geef die dan." },
+			{ "kop": "Zet de lamp in koppelmodus", "tekst": "Draai de lamp in de fitting. Zet de lamp aan en uit volgens het schema hieronder, met steeds 2 à 3 seconden ertussen. Laat hem daarna aan staan: hij gaat knipperen.", "schema": true },
+			{ "kop": "Voeg de lamp toe in de app", "tekst": "Open Smart Life en tik op + en dan op Apparaat toevoegen. Kies de lamp die de app vindt, of ga naar Verlichting en dan Lichtbron (Wi-Fi). Een optie met BLE+Wi-Fi werkt ook vaak." },
+			{ "kop": "Verbinden, en klaar", "tekst": "Kies je 2,4 GHz-wifi, vul het wachtwoord in en volg de app. Dat kan tot 2 minuten duren. Geef de lamp daarna een naam, bijvoorbeeld Woonkamer." }
+		],
+		"belangrijk": "Zet de lamp niet achter een gewone wanddimmer. Dimmen doe je in de app.",
+		"schema": ["AAN", "UIT", "AAN", "UIT", "AAN"],
+		"hulpKop": "Lukt het *koppelen* niet?",
+		"hulpIntro": "Meestal is het zo opgelost.",
+		"reset": {
+			"kop": "Zo reset je de lamp",
+			"tekst": "Begin met de schakelaar op UIT. Schakel dan volgens het schema, met steeds 2 à 3 seconden ertussen. Laat de lamp daarna aan staan: hij hoort nu te knipperen."
+		},
+		"problemen": [
+			{ "kop": "De lamp knippert niet", "tekst": "Reset de lamp nog eens. Sommige lampen reageren pas na ongeveer 5 keer schakelen; de precieze manier kan per lamp verschillen." },
+			{ "kop": "De app vindt niets", "tekst": "Kijk of je telefoon op 2,4 GHz-wifi zit, zet Bluetooth aan, geef de app de rechten die hij vraagt en probeer het dicht bij je router." },
+			{ "kop": "De lamp knippert langzaam", "tekst": "Dan staat hij waarschijnlijk in AP-modus. Kies in de app de AP- of compatibiliteitsmodus als die er staat, en volg de stappen op het scherm." },
+			{ "kop": "Verbinden mislukt", "tekst": "Check je wifi-wachtwoord, reset de lamp en probeer het opnieuw. Geef de app tot 2 minuten." }
+		],
+		"letOp": "Bij Tuya-lampen kan de resetmethode per model iets verschillen. Twijfel je, kijk dan op de verpakking van de lamp.",
+		"hulp": "Kom je er niet uit? Stuur me een bericht via jelgersdesign.nl/contact, dan help ik je verder."
+	}
+}

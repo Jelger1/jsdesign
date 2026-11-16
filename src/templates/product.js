@@ -1,6 +1,7 @@
 // De productpagina (producten/<id>.html). Eén template voor alle producten.
 const h = require('./helpers');
 const c = require('./components');
+const { handleidingLink } = require('./handleiding');
 
 const GALLERY_SIZES = '(max-width: 900px) 100vw, 580px';
 
@@ -324,6 +325,7 @@ function productPage(product, ctx) {
 				return '\t\t\t\t<div><dt>' + h.esc(s.label) + '</dt><dd>' + h.esc(s.value) + '</dd></div>';
 			}).join('\n') + '\n\t\t\t</dl>\n'
 			: '')
+		+ handleidingLink(product, ctx, root)
 		+ '\t\t</section>\n'
 		+ '\t</div>\n'
 		+ '</div>\n\n'
