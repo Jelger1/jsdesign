@@ -98,10 +98,8 @@ function initKleuren() {
 	form.addEventListener('change', function (event) {
 		if (event.target.name !== 'kleur') return;
 		const eigen = event.target.value === 'eigen';
-		if (wens) {
-			wens.hidden = !eigen;
-			if (eigen) form.elements.wish.focus();
-		}
+		// Alleen tonen, niet de focus verplaatsen: wie met de pijltjes door de kleuren gaat, moet terug kunnen
+		if (wens) wens.hidden = !eigen;
 		toon();
 		naarEerste();
 	});
