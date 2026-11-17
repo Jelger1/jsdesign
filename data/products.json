@@ -114,39 +114,760 @@
 		"name": "Helio Lamp",
 		"type": "lamp",
 		"collection": "design",
-		"material": "Bioplastic op plantaardige basis",
+		"material": "PLA, bioplastic op plantaardige basis",
 		"sale": "cart",
 		"featured": true,
 		"tagline": "Een kleine zon voor op je kast. Volledig eigen ontwerp, in meerdere kleuren.",
 		"description": [
 			"De Helio is vernoemd naar de zon, en dat begrijp je zodra hij aangaat. De gedraaide ribbels van de kap breken het licht tot een gloed die de hele hoek van de kamer kleurt. Uit is hij een object. Aan is hij sfeer.",
-			"Het ontwerp is volledig van eigen hand en wordt speciaal voor jou geprint. Kies een van de kleuren of stuur bij je bestelling je eigen kleursuggestie mee. Je bestelt hem los, of compleet met passende LED-lamp (E14), zodat je hem direct kunt aansluiten."
+			"Het ontwerp is volledig van eigen hand en wordt speciaal voor jou geprint, in een van de vier kleurcombinaties of in je eigen kleuren."
 		],
 		"highlights": [
 			"Volledig eigen ontwerp",
-			"Meerdere kleuren, eigen kleursuggestie welkom",
-			"Naar keuze compleet met LED-lamp (E14)"
+			"Compleet met LED-lamp en snoer van 4 meter",
+			"Op aanvraag groter of kleiner"
 		],
 		"specs": [
 			{ "label": "Hoogte", "value": "22 cm" },
 			{ "label": "Breedte", "value": "19 cm" },
-			{ "label": "Fitting", "value": "E14" },
-			{ "label": "Kleur", "value": "Meerdere kleuren, of stuur je eigen suggestie mee" }
+			{ "label": "Fitting", "value": "E14, LED-lamp inbegrepen" },
+			{ "label": "Snoer", "value": "4 meter, wit, met schakelaar" },
+			{ "label": "Printtijd", "value": "Ruim 4,5 uur" },
+			{ "label": "Kleur", "value": "Vier combinaties, of je eigen kleuren" }
 		],
 		"variants": [
-			{ "id": "excl-led", "label": "Excl. LED-lamp", "price": 34.95 },
-			{ "id": "incl-led", "label": "Incl. LED-lamp (E14)", "price": 39.95 }
+			{ "id": "led", "label": "Met LED-lamp, warmwit", "price": 39.95 },
+			{ "id": "wifi", "label": "Met wifi-lamp, elke kleur via je telefoon", "price": 47.9 }
 		],
 		"images": [
 			{ "file": "Helio-Lamp-Knop.jpg", "subject": [35, 25, 82, 65], "alt": "Brandende gele Helio Lamp op een piano, een hand bedient de schakelaar" },
-			{ "file": "Helio-Lamp-Roze.jpg", "subject": [27, 28, 64, 59], "alt": "Roze Helio Lamp op een donker dressoir bij daglicht" },
+			{ "file": "helio-lamp-kleuren.jpg", "subject": [3, 23, 97, 77], "weergave": "3d", "alt": "3D-weergave van drie Helio Lampen naast elkaar, aan: zonnebloemgeel met oranje voet, matwit met kobaltblauwe voet en helemaal felroze" },
 			{ "file": "Helio-Lamp-Roze-2.jpg", "subject": [26, 28, 65, 62], "alt": "Brandende roze Helio Lamp die de muur warm rood kleurt" },
+			{ "file": "helio-lamp-sfeer-dag.jpg", "subject": [7, 23, 63, 77], "weergave": "3d", "alt": "3D-weergave van de Helio Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
 			{ "file": "Helio-Lamp-Oranje-2.jpg", "subject": [45, 23, 80, 52], "alt": "Brandende oranje Helio Lamp op een zwarte piano" },
+			{ "file": "helio-lamp-detail.jpg", "subject": [0, 0, 100, 97], "weergave": "3d", "alt": "Close-up van de gedraaide ribbels en de overgang van kap naar voet van de brandende Helio Lamp (3D-weergave)" },
+			{ "file": "Helio-Lamp-Roze.jpg", "subject": [27, 28, 64, 59], "alt": "Roze Helio Lamp op een donker dressoir bij daglicht" },
 			{ "file": "Helio-Lamp-Oranje.jpg", "subject": [45, 23, 80, 52], "alt": "Oranje Helio Lamp op een zwarte piano bij daglicht" }
 		],
 		"seo": {
 			"title": "Helio Lamp – 3D-geprinte designtafellamp",
-			"description": "De Helio Lamp: een sfeervolle 3D-geprinte tafellamp van eigen ontwerp. 22 cm hoog, in meerdere kleuren, met of zonder LED-lamp (E14). Vanaf €34,95."
+			"description": "De Helio Lamp: een 3D-geprinte tafellamp van eigen ontwerp, 22 cm hoog, compleet met LED-lamp (E14) en snoer. In vier kleuren. €39,95."
+		},
+		"related": ["mijnwerkerslamp", "orbits-lamp", "kami-vase"],
+		"kleuren": [
+			{
+				"id": "zonnebloemgeel-oranje",
+				"naam": "Zonnebloemgeel met oranje voet",
+				"tekst": "Kap zonnebloemgeel, voet oranje",
+				"kap": "#fec600",
+				"voet": "#ff6a13",
+				"aan": {
+					"file": "Helio-Lamp-Knop.jpg",
+					"subject": [35, 25, 82, 65],
+					"alt": "Brandende gele Helio Lamp op een piano, een hand bedient de schakelaar"
+				},
+				"uit": {
+					"file": "helio-lamp-uit-zonnebloemgeel-oranje.jpg",
+					"subject": [9, 11, 91, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Helio Lamp met zonnebloemgele kap en oranje voet, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "matwit-kobaltblauw",
+				"naam": "Matwit met kobaltblauwe voet",
+				"tekst": "Kap matwit, voet kobaltblauw",
+				"kap": "#eee8dc",
+				"voet": "#0056b8",
+				"aan": {
+					"file": "helio-lamp-aan-matwit-kobaltblauw.jpg",
+					"subject": [9, 11, 91, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Helio Lamp met matwitte kap en kobaltblauwe voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "helio-lamp-uit-matwit-kobaltblauw.jpg",
+					"subject": [9, 11, 91, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Helio Lamp met matwitte kap en kobaltblauwe voet, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "felroze",
+				"naam": "Helemaal felroze",
+				"tekst": "Helemaal felroze",
+				"kap": "#f5547c",
+				"voet": "#f5547c",
+				"aan": {
+					"file": "Helio-Lamp-Roze-2.jpg",
+					"subject": [26, 28, 65, 62],
+					"alt": "Brandende roze Helio Lamp die de muur warm rood kleurt"
+				},
+				"uit": {
+					"file": "Helio-Lamp-Roze.jpg",
+					"subject": [27, 28, 64, 59],
+					"alt": "Roze Helio Lamp op een donker dressoir bij daglicht"
+				}
+			},
+			{
+				"id": "oranje",
+				"naam": "Helemaal oranje",
+				"tekst": "Helemaal oranje",
+				"kap": "#ff6a13",
+				"voet": "#ff6a13",
+				"aan": {
+					"file": "Helio-Lamp-Oranje-2.jpg",
+					"subject": [45, 23, 80, 52],
+					"alt": "Brandende oranje Helio Lamp op een zwarte piano"
+				},
+				"uit": {
+					"file": "Helio-Lamp-Oranje.jpg",
+					"subject": [45, 23, 80, 52],
+					"alt": "Oranje Helio Lamp op een zwarte piano bij daglicht"
+				}
+			}
+		],
+		"opbouw": {
+			"kop": "Zo zit hij in elkaar",
+			"beeld": {
+				"file": "helio-lamp-opbouw.jpg",
+				"subject": [22, 5, 78, 95],
+				"weergave": "3d",
+				"alt": "3D-weergave van de losse onderdelen van de Helio Lamp boven elkaar: de kap, de fitting met LED-lamp, de bovenkant en de onderkant van de voet"
+			},
+			"stappen": [
+				{ "deel": "De kap", "tekst": "Eén dunne wand, geprint als één doorlopende spiraal van onder naar boven. Zo dun dat het licht erdoorheen schijnt." },
+				{ "deel": "De fitting", "tekst": "Klikt met twee nokjes vast in de voet. Er past een E14 LED-lamp in." },
+				{ "deel": "De bovenkant van de voet", "tekst": "De kap valt met 0,3 mm speling over een ring. Zo staat hij altijd recht en in het midden." },
+				{ "deel": "De onderkant van de voet", "tekst": "Klikt met paspinnen op de bovenkant. Het snoer loopt eronder door een goot naar buiten, zodat de lamp vlak staat." }
+			],
+			"noot": "Er zit geen schroef of lijm in. De vorm werk ik uit in 3D, in een ontwerpprogramma dat ik zelf bouwde, en de kleuren bekijk ik in Blender voordat ik print."
+		},
+		"faq": [
+			{ "q": "Wat zit er bij de Helio Lamp?", "a": "De lamp komt compleet: met een LED-lamp in warmwit licht (E14) en een wit snoer van 4 meter met een schakelaar erin. Kies je de wifi-lamp (€7,95 extra), dan zet je hem met je telefoon op elke kleur en sterkte." },
+			{ "q": "Waar is de Helio Lamp van gemaakt?", "a": "Van PLA, een bioplastic dat gemaakt wordt van plantaardige grondstoffen zoals maïs of suikerriet, in plaats van aardolie. Ik print hem laag voor laag, en kap en voet samen kosten ruim 4,5 uur. Ik begin pas na je bestelling, in jouw kleuren." },
+			{ "q": "Wordt de kap van de Helio Lamp warm?", "a": "Nauwelijks, want er zit een LED-lamp in. Draai er later ook alleen een LED-lamp in: een gloeilamp of halogeenlamp wordt te warm voor de geprinte kap." },
+			{ "q": "Kan ik de Helio Lamp in andere kleuren krijgen?", "a": "Ja. Kies bij het bestellen \"Eigen kleuren\" en typ wat je wilt, bijvoorbeeld een matwitte kap op een felroze voet. Ik print hem pas na je bestelling en stem de kleuren eerst met je af." }
+		]
+	},
+	{
+		"id": "swirl-lamp",
+		"handleiding": "wifi-lamp",
+		"name": "Swirl Lamp",
+		"type": "lamp",
+		"collection": "design",
+		"material": "PLA, bioplastic op plantaardige basis",
+		"sale": "cart",
+		"tagline": "Vijf gedraaide bladen met fijne ribbels. Brandt hij, dan wordt elke ribbel een dun lijntje licht.",
+		"description": [
+			"De Swirl begon als schets van een rozenknop die net opengaat: blaadjes die om elkaar heen draaien en bovenin weer naar elkaar toe buigen. In de lamp zijn dat vijf bladen die een halve draai maken van de voet naar de bovenrand.",
+			"Het licht schijnt door één dunne wand. De fijne ribbels op de bladen worden lijntjes licht, en in de vouwen tussen de bladen blijft het donkerder."
+		],
+		"highlights": [
+			"De hoogste van de familie",
+			"Compleet met LED-lamp en snoer van 4 meter",
+			"Op aanvraag groter of kleiner"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "25 cm" },
+			{ "label": "Breedte", "value": "18 cm" },
+			{ "label": "Fitting", "value": "E14, LED-lamp inbegrepen" },
+			{ "label": "Snoer", "value": "4 meter, wit, met schakelaar" },
+			{ "label": "Printtijd", "value": "Bijna 5 uur" },
+			{ "label": "Kleur", "value": "Drie combinaties, of je eigen kleuren" }
+		],
+		"variants": [
+			{ "id": "led", "label": "Met LED-lamp, warmwit", "price": 39.95 },
+			{ "id": "wifi", "label": "Met wifi-lamp, elke kleur via je telefoon", "price": 47.9 }
+		],
+		"kleuren": [
+			{
+				"id": "felroze",
+				"naam": "Helemaal felroze",
+				"tekst": "Helemaal felroze",
+				"kap": "#f5547c",
+				"voet": "#f5547c",
+				"aan": {
+					"file": "swirl-lamp-aan-felroze.jpg",
+					"subject": [16, 11, 84, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Swirl Lamp helemaal in felroze, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "swirl-lamp-uit-felroze.jpg",
+					"subject": [16, 11, 84, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Swirl Lamp helemaal in felroze, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "matwit-kobaltblauw",
+				"naam": "Matwit met kobaltblauwe voet",
+				"tekst": "Kap matwit, voet kobaltblauw",
+				"kap": "#eee8dc",
+				"voet": "#0056b8",
+				"aan": {
+					"file": "swirl-lamp-aan-matwit-kobaltblauw.jpg",
+					"subject": [16, 11, 84, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Swirl Lamp met matwitte kap en kobaltblauwe voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "swirl-lamp-uit-matwit-kobaltblauw.jpg",
+					"subject": [16, 11, 84, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Swirl Lamp met matwitte kap en kobaltblauwe voet, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "matwit-felroze",
+				"naam": "Matwit met felroze voet",
+				"tekst": "Kap matwit, voet felroze",
+				"kap": "#eee8dc",
+				"voet": "#f5547c",
+				"aan": {
+					"file": "swirl-lamp-aan-matwit-felroze.jpg",
+					"subject": [16, 11, 84, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Swirl Lamp met matwitte kap en felroze voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "swirl-lamp-uit-matwit-felroze.jpg",
+					"subject": [16, 11, 84, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Swirl Lamp met matwitte kap en felroze voet, uit, bij daglicht"
+				}
+			}
+		],
+		"images": [
+			{ "file": "swirl-lamp-aan-felroze.jpg", "subject": [16, 11, 84, 89], "weergave": "3d", "alt": "3D-weergave van de Swirl Lamp helemaal in felroze, aan, in een donkere studio" },
+			{ "file": "swirl-lamp-sfeer.jpg", "subject": [12, 23, 58, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Swirl Lamp helemaal in felroze op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "swirl-lamp-kleuren.jpg", "subject": [3, 21, 97, 79], "weergave": "3d", "alt": "3D-weergave van drie Swirl Lampen naast elkaar, aan, in drie kleurcombinaties: helemaal felroze; matwit met kobaltblauwe voet; matwit met felroze voet" },
+			{ "file": "swirl-lamp-sfeer-dag.jpg", "subject": [12, 23, 58, 77], "weergave": "3d", "alt": "3D-weergave van de Swirl Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
+			{ "file": "swirl-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de fijne ribbels en de overgang van kap naar voet van de brandende Swirl Lamp (3D-weergave)" }
+		],
+		"opbouw": {
+			"kop": "Zo zit hij in elkaar",
+			"beeld": {
+				"file": "swirl-lamp-opbouw.jpg",
+				"subject": [26, 5, 74, 95],
+				"weergave": "3d",
+				"alt": "3D-weergave van de losse onderdelen van de Swirl Lamp boven elkaar: de kap, de fitting met LED-lamp, de bovenkant en de onderkant van de voet"
+			},
+			"stappen": [
+				{ "deel": "De kap", "tekst": "Eén dunne wand, geprint als één doorlopende spiraal van onder naar boven. Zo dun dat het licht erdoorheen schijnt." },
+				{ "deel": "De fitting", "tekst": "Klikt met twee nokjes vast in de voet. Er past een E14 LED-lamp in." },
+				{ "deel": "De bovenkant van de voet", "tekst": "De kap valt met 0,3 mm speling over een ring. Zo staat hij altijd recht en in het midden." },
+				{ "deel": "De onderkant van de voet", "tekst": "Klikt met paspinnen op de bovenkant. Het snoer loopt eronder door een goot naar buiten, zodat de lamp vlak staat." }
+			],
+			"noot": "Er zit geen schroef of lijm in. De vorm werk ik uit in 3D, in een ontwerpprogramma dat ik zelf bouwde, en de kleuren bekijk ik in Blender voordat ik print."
+		},
+		"faq": [
+			{ "q": "Wat zit er bij de Swirl Lamp?", "a": "De lamp komt compleet: met een LED-lamp in warmwit licht (E14) en een wit snoer van 4 meter met een schakelaar erin. Kies je de wifi-lamp (€7,95 extra), dan zet je hem met je telefoon op elke kleur en sterkte." },
+			{ "q": "Waar is de Swirl Lamp van gemaakt?", "a": "Van PLA, een bioplastic dat gemaakt wordt van plantaardige grondstoffen zoals maïs of suikerriet, in plaats van aardolie. Ik print hem laag voor laag, en kap en voet samen kosten bijna 5 uur. Ik begin pas na je bestelling, in jouw kleuren." },
+			{ "q": "Wordt de kap van de Swirl Lamp warm?", "a": "Nauwelijks, want er zit een LED-lamp in. Draai er later ook alleen een LED-lamp in: een gloeilamp of halogeenlamp wordt te warm voor de geprinte kap." },
+			{ "q": "Kan ik de Swirl Lamp in andere kleuren krijgen?", "a": "Ja. Kies bij het bestellen \"Eigen kleuren\" en typ wat je wilt, bijvoorbeeld helemaal oranje. Ik print hem pas na je bestelling en stem de kleuren eerst met je af." }
+		],
+		"seo": {
+			"title": "Swirl Lamp – gedraaide 3D-geprinte tafellamp",
+			"description": "De Swirl Lamp: vijf gedraaide bladen met fijne ribbels, 25 cm hoog. Eigen ontwerp, geprint in Kerkrade, met LED-lamp en snoer. €39,95."
+		},
+		"related": ["mijnwerkerslamp", "orbits-lamp", "kami-vase"]
+	},
+	{
+		"id": "kolk-lamp",
+		"handleiding": "wifi-lamp",
+		"name": "Kolk Lamp",
+		"type": "lamp",
+		"collection": "design",
+		"material": "PLA, bioplastic op plantaardige basis",
+		"sale": "cart",
+		"tagline": "Een grote bol met zes gedraaide bladen. De draaiing begint al in de sokkel.",
+		"description": [
+			"Het begon met schetsen van water dat in een kolk ronddraait. In de lamp werden dat zes brede bladen die vanaf de tafel schuin om de bol heen lopen.",
+			"Aan gloeit de bol zacht op en lopen de bladen als lichte en donkere banen om hem heen."
+		],
+		"highlights": [
+			"De breedste van de familie",
+			"Compleet met LED-lamp en snoer van 4 meter",
+			"Op aanvraag groter of kleiner"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "23 cm" },
+			{ "label": "Breedte", "value": "22,5 cm" },
+			{ "label": "Fitting", "value": "E14, LED-lamp inbegrepen" },
+			{ "label": "Snoer", "value": "4 meter, wit, met schakelaar" },
+			{ "label": "Printtijd", "value": "Bijna 8 uur" },
+			{ "label": "Kleur", "value": "Drie combinaties, of je eigen kleuren" }
+		],
+		"variants": [
+			{ "id": "led", "label": "Met LED-lamp, warmwit", "price": 49.95 },
+			{ "id": "wifi", "label": "Met wifi-lamp, elke kleur via je telefoon", "price": 57.9 }
+		],
+		"kleuren": [
+			{
+				"id": "turquoise-grijs",
+				"naam": "Turquoise met grijze voet",
+				"tekst": "Kap turquoise, voet grijs",
+				"kap": "#00b1b7",
+				"voet": "#8e9089",
+				"aan": {
+					"file": "kolk-lamp-aan-turquoise-grijs.jpg",
+					"subject": [7, 11, 93, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Kolk Lamp met turquoise kap en grijze voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "kolk-lamp-uit-turquoise-grijs.jpg",
+					"subject": [7, 11, 93, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Kolk Lamp met turquoise kap en grijze voet, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "matwit-kobaltblauw",
+				"naam": "Matwit met kobaltblauwe voet",
+				"tekst": "Kap matwit, voet kobaltblauw",
+				"kap": "#eee8dc",
+				"voet": "#0056b8",
+				"aan": {
+					"file": "kolk-lamp-aan-matwit-kobaltblauw.jpg",
+					"subject": [7, 11, 93, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Kolk Lamp met matwitte kap en kobaltblauwe voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "kolk-lamp-uit-matwit-kobaltblauw.jpg",
+					"subject": [7, 11, 93, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Kolk Lamp met matwitte kap en kobaltblauwe voet, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "oranje-steenkoolzwart",
+				"naam": "Oranje met steenkoolzwarte voet",
+				"tekst": "Kap oranje, voet steenkoolzwart",
+				"kap": "#ff6a13",
+				"voet": "#2c2c2f",
+				"aan": {
+					"file": "kolk-lamp-aan-oranje-steenkoolzwart.jpg",
+					"subject": [7, 11, 93, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Kolk Lamp met oranje kap en steenkoolzwarte voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "kolk-lamp-uit-oranje-steenkoolzwart.jpg",
+					"subject": [7, 11, 93, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Kolk Lamp met oranje kap en steenkoolzwarte voet, uit, bij daglicht"
+				}
+			}
+		],
+		"images": [
+			{ "file": "kolk-lamp-aan-turquoise-grijs.jpg", "subject": [7, 11, 93, 89], "weergave": "3d", "alt": "3D-weergave van de Kolk Lamp met turquoise kap en grijze voet, aan, in een donkere studio" },
+			{ "file": "kolk-lamp-sfeer.jpg", "subject": [6, 23, 64, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Kolk Lamp met turquoise kap en grijze voet op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "kolk-lamp-kleuren.jpg", "subject": [3, 23, 97, 77], "weergave": "3d", "alt": "3D-weergave van drie Kolk Lampen naast elkaar, aan, in drie kleurcombinaties: turquoise met grijze voet; matwit met kobaltblauwe voet; oranje met steenkoolzwarte voet" },
+			{ "file": "kolk-lamp-sfeer-dag.jpg", "subject": [6, 23, 64, 77], "weergave": "3d", "alt": "3D-weergave van de Kolk Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
+			{ "file": "kolk-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de gedraaide bladen en de overgang van kap naar voet van de brandende Kolk Lamp (3D-weergave)" }
+		],
+		"opbouw": {
+			"kop": "Zo zit hij in elkaar",
+			"beeld": {
+				"file": "kolk-lamp-opbouw.jpg",
+				"subject": [20, 5, 80, 95],
+				"weergave": "3d",
+				"alt": "3D-weergave van de losse onderdelen van de Kolk Lamp boven elkaar: de kap, de fitting met LED-lamp, de bovenkant en de onderkant van de voet"
+			},
+			"stappen": [
+				{ "deel": "De kap", "tekst": "Eén dunne wand, geprint als één doorlopende spiraal van onder naar boven. Zo dun dat het licht erdoorheen schijnt." },
+				{ "deel": "De fitting", "tekst": "Klikt met twee nokjes vast in de voet. Er past een E14 LED-lamp in." },
+				{ "deel": "De sokkel", "tekst": "Heeft dezelfde vorm als de kap, dus de draaiing loopt door tot op tafel. Een rand van 6 mm valt in de kap." },
+				{ "deel": "De onderkant van de sokkel", "tekst": "Klikt met paspinnen op de bovenkant. Het snoer loopt eronder door een goot naar buiten, zodat de lamp vlak staat." }
+			],
+			"noot": "Er zit geen schroef of lijm in. De vorm werk ik uit in 3D, in een ontwerpprogramma dat ik zelf bouwde, en de kleuren bekijk ik in Blender voordat ik print."
+		},
+		"faq": [
+			{ "q": "Wat zit er bij de Kolk Lamp?", "a": "De lamp komt compleet: met een LED-lamp in warmwit licht (E14) en een wit snoer van 4 meter met een schakelaar erin. Kies je de wifi-lamp (€7,95 extra), dan zet je hem met je telefoon op elke kleur en sterkte." },
+			{ "q": "Waar is de Kolk Lamp van gemaakt?", "a": "Van PLA, een bioplastic dat gemaakt wordt van plantaardige grondstoffen zoals maïs of suikerriet, in plaats van aardolie. Ik print hem laag voor laag, en kap en voet samen kosten bijna 8 uur. Ik begin pas na je bestelling, in jouw kleuren." },
+			{ "q": "Wordt de kap van de Kolk Lamp warm?", "a": "Nauwelijks, want er zit een LED-lamp in. Draai er later ook alleen een LED-lamp in: een gloeilamp of halogeenlamp wordt te warm voor de geprinte kap." },
+			{ "q": "Kan ik de Kolk Lamp in andere kleuren krijgen?", "a": "Ja. Kies bij het bestellen \"Eigen kleuren\" en typ wat je wilt, bijvoorbeeld helemaal turquoise. Ik print hem pas na je bestelling en stem de kleuren eerst met je af." }
+		],
+		"seo": {
+			"title": "Kolk Lamp – grote 3D-geprinte bollamp",
+			"description": "De Kolk Lamp: een grote bol met zes gedraaide bladen op een meedraaiende sokkel, 23 cm hoog. Eigen ontwerp, met LED-lamp en snoer. €49,95."
+		},
+		"related": ["mijnwerkerslamp", "orbits-lamp", "kami-vase"]
+	},
+	{
+		"id": "meander-lamp",
+		"handleiding": "wifi-lamp",
+		"name": "Meander Lamp",
+		"type": "lamp",
+		"collection": "design",
+		"material": "PLA, bioplastic op plantaardige basis",
+		"sale": "cart",
+		"tagline": "34 groeven die heen en weer slingeren, van de sokkel tot de bovenrand.",
+		"description": [
+			"Meander betekent kronkeling. Die beweging zat in mijn schetsen voor deze lamp, net als de golvende ribbels die de zee bij eb in het zand achterlaat. Het werden 34 diepe groeven rondom de bol.",
+			"Als hij brandt, blijven de groeven donker en gloeien de ruggen ertussen op, zodat elke golf scherp afgetekend staat. Uit vangt het reliëf het daglicht van opzij en zie je de groeven als schaduwlijnen."
+		],
+		"highlights": [
+			"Ook uit een reliëf met schaduwlijnen",
+			"Compleet met LED-lamp en snoer van 4 meter",
+			"Op aanvraag groter of kleiner"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "21,5 cm" },
+			{ "label": "Breedte", "value": "21,5 cm" },
+			{ "label": "Fitting", "value": "E14, LED-lamp inbegrepen" },
+			{ "label": "Snoer", "value": "4 meter, wit, met schakelaar" },
+			{ "label": "Printtijd", "value": "Ruim 6 uur" },
+			{ "label": "Kleur", "value": "Drie combinaties, of je eigen kleuren" }
+		],
+		"variants": [
+			{ "id": "led", "label": "Met LED-lamp, warmwit", "price": 44.95 },
+			{ "id": "wifi", "label": "Met wifi-lamp, elke kleur via je telefoon", "price": 52.9 }
+		],
+		"kleuren": [
+			{
+				"id": "zonnebloemgeel",
+				"naam": "Helemaal zonnebloemgeel",
+				"tekst": "Helemaal zonnebloemgeel",
+				"kap": "#fec600",
+				"voet": "#fec600",
+				"aan": {
+					"file": "meander-lamp-aan-zonnebloemgeel.jpg",
+					"subject": [6, 11, 94, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Meander Lamp helemaal in zonnebloemgeel, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "meander-lamp-uit-zonnebloemgeel.jpg",
+					"subject": [6, 11, 94, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Meander Lamp helemaal in zonnebloemgeel, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "oranje",
+				"naam": "Helemaal oranje",
+				"tekst": "Helemaal oranje",
+				"kap": "#ff6a13",
+				"voet": "#ff6a13",
+				"aan": {
+					"file": "meander-lamp-aan-oranje.jpg",
+					"subject": [6, 11, 94, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Meander Lamp helemaal in oranje, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "meander-lamp-uit-oranje.jpg",
+					"subject": [6, 11, 94, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Meander Lamp helemaal in oranje, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "matwit-felroze",
+				"naam": "Matwit met felroze voet",
+				"tekst": "Kap matwit, voet felroze",
+				"kap": "#eee8dc",
+				"voet": "#f5547c",
+				"aan": {
+					"file": "meander-lamp-aan-matwit-felroze.jpg",
+					"subject": [6, 11, 94, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Meander Lamp met matwitte kap en felroze voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "meander-lamp-uit-matwit-felroze.jpg",
+					"subject": [6, 11, 94, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Meander Lamp met matwitte kap en felroze voet, uit, bij daglicht"
+				}
+			}
+		],
+		"images": [
+			{ "file": "meander-lamp-aan-zonnebloemgeel.jpg", "subject": [6, 11, 94, 89], "weergave": "3d", "alt": "3D-weergave van de Meander Lamp helemaal in zonnebloemgeel, aan, in een donkere studio" },
+			{ "file": "meander-lamp-sfeer.jpg", "subject": [5, 23, 65, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Meander Lamp helemaal in zonnebloemgeel op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "meander-lamp-kleuren.jpg", "subject": [3, 24, 97, 76], "weergave": "3d", "alt": "3D-weergave van drie Meander Lampen naast elkaar, aan, in drie kleurcombinaties: helemaal zonnebloemgeel; helemaal oranje; matwit met felroze voet" },
+			{ "file": "meander-lamp-sfeer-dag.jpg", "subject": [5, 23, 65, 77], "weergave": "3d", "alt": "3D-weergave van de Meander Lamp helemaal in oranje op een dressoir bij daglicht, uit" },
+			{ "file": "meander-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de golvende groeven en de overgang van kap naar voet van de brandende Meander Lamp (3D-weergave)" }
+		],
+		"opbouw": {
+			"kop": "Zo zit hij in elkaar",
+			"beeld": {
+				"file": "meander-lamp-opbouw.jpg",
+				"subject": [20, 5, 80, 95],
+				"weergave": "3d",
+				"alt": "3D-weergave van de losse onderdelen van de Meander Lamp boven elkaar: de kap, de fitting met LED-lamp, de bovenkant en de onderkant van de voet"
+			},
+			"stappen": [
+				{ "deel": "De kap", "tekst": "Eén dunne wand, geprint als één doorlopende spiraal van onder naar boven. Zo dun dat het licht erdoorheen schijnt." },
+				{ "deel": "De fitting", "tekst": "Klikt met twee nokjes vast in de voet. Er past een E14 LED-lamp in." },
+				{ "deel": "De sokkel", "tekst": "Heeft dezelfde vorm als de kap, dus de groeven lopen door tot op tafel. Een rand van 6 mm valt in de kap." },
+				{ "deel": "De onderkant van de sokkel", "tekst": "Klikt met paspinnen op de bovenkant. Het snoer loopt eronder door een goot naar buiten, zodat de lamp vlak staat." }
+			],
+			"noot": "Er zit geen schroef of lijm in. De vorm werk ik uit in 3D, in een ontwerpprogramma dat ik zelf bouwde, en de kleuren bekijk ik in Blender voordat ik print."
+		},
+		"faq": [
+			{ "q": "Wat zit er bij de Meander Lamp?", "a": "De lamp komt compleet: met een LED-lamp in warmwit licht (E14) en een wit snoer van 4 meter met een schakelaar erin. Kies je de wifi-lamp (€7,95 extra), dan zet je hem met je telefoon op elke kleur en sterkte." },
+			{ "q": "Waar is de Meander Lamp van gemaakt?", "a": "Van PLA, een bioplastic dat gemaakt wordt van plantaardige grondstoffen zoals maïs of suikerriet, in plaats van aardolie. Ik print hem laag voor laag, en kap en voet samen kosten ruim 6 uur. Ik begin pas na je bestelling, in jouw kleuren." },
+			{ "q": "Wordt de kap van de Meander Lamp warm?", "a": "Nauwelijks, want er zit een LED-lamp in. Draai er later ook alleen een LED-lamp in: een gloeilamp of halogeenlamp wordt te warm voor de geprinte kap." },
+			{ "q": "Kan ik de Meander Lamp in andere kleuren krijgen?", "a": "Ja. Kies bij het bestellen \"Eigen kleuren\" en typ wat je wilt, bijvoorbeeld een matwitte kap op een kobaltblauwe voet. Ik print hem pas na je bestelling en stem de kleuren eerst met je af." }
+		],
+		"seo": {
+			"title": "Meander Lamp – golvende 3D-geprinte lamp",
+			"description": "De Meander Lamp: 34 groeven die heen en weer slingeren, 21,5 cm hoog. Eigen ontwerp uit Kerkrade, met LED-lamp en snoer. €44,95."
+		},
+		"related": ["mijnwerkerslamp", "orbits-lamp", "kami-vase"]
+	},
+	{
+		"id": "trekzak-lamp",
+		"handleiding": "wifi-lamp",
+		"name": "Trekzak Lamp",
+		"type": "lamp",
+		"collection": "design",
+		"material": "PLA, bioplastic op plantaardige basis",
+		"sale": "cart",
+		"tagline": "Een geplooide kap die onderaan uitwaaiert, als de balg van een trekzak.",
+		"description": [
+			"Een trekzak, of accordeon, heeft een balg met plooien die uitwaaiert als je speelt. Die plooien stonden in mijn eerste schetsen, en in deze lamp zijn ze de kap: één dunne wand die laag voor laag omhoog draait en onderaan wijder wordt.",
+			"De voet is rechthoekig en maar 12 centimeter diep. Elke plooi licht op als een smalle baan."
+		],
+		"highlights": [
+			"Smal genoeg voor een vensterbank of plank",
+			"Compleet met LED-lamp en snoer van 4 meter",
+			"Op aanvraag groter of kleiner"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "23,5 cm" },
+			{ "label": "Breedte", "value": "16,5 cm" },
+			{ "label": "Diepte", "value": "12 cm" },
+			{ "label": "Fitting", "value": "E14, LED-lamp inbegrepen" },
+			{ "label": "Snoer", "value": "4 meter, wit, met schakelaar" },
+			{ "label": "Printtijd", "value": "Bijna 8 uur" },
+			{ "label": "Kleur", "value": "Drie combinaties, of je eigen kleuren" }
+		],
+		"variants": [
+			{ "id": "led", "label": "Met LED-lamp, warmwit", "price": 44.95 },
+			{ "id": "wifi", "label": "Met wifi-lamp, elke kleur via je telefoon", "price": 52.9 }
+		],
+		"kleuren": [
+			{
+				"id": "groen",
+				"naam": "Helemaal groen",
+				"tekst": "Helemaal groen",
+				"kap": "#00ae42",
+				"voet": "#00ae42",
+				"aan": {
+					"file": "trekzak-lamp-aan-groen.jpg",
+					"subject": [14, 11, 86, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Trekzak Lamp helemaal in groen, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "trekzak-lamp-uit-groen.jpg",
+					"subject": [14, 11, 86, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Trekzak Lamp helemaal in groen, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "zonnebloemgeel-oranje",
+				"naam": "Zonnebloemgeel met oranje voet",
+				"tekst": "Kap zonnebloemgeel, voet oranje",
+				"kap": "#fec600",
+				"voet": "#ff6a13",
+				"aan": {
+					"file": "trekzak-lamp-aan-zonnebloemgeel-oranje.jpg",
+					"subject": [14, 11, 86, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Trekzak Lamp met zonnebloemgele kap en oranje voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "trekzak-lamp-uit-zonnebloemgeel-oranje.jpg",
+					"subject": [14, 11, 86, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Trekzak Lamp met zonnebloemgele kap en oranje voet, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "zonnebloemgeel-felroze",
+				"naam": "Zonnebloemgeel met felroze voet",
+				"tekst": "Kap zonnebloemgeel, voet felroze",
+				"kap": "#fec600",
+				"voet": "#f5547c",
+				"aan": {
+					"file": "trekzak-lamp-aan-zonnebloemgeel-felroze.jpg",
+					"subject": [14, 11, 86, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Trekzak Lamp met zonnebloemgele kap en felroze voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "trekzak-lamp-uit-zonnebloemgeel-felroze.jpg",
+					"subject": [14, 11, 86, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Trekzak Lamp met zonnebloemgele kap en felroze voet, uit, bij daglicht"
+				}
+			}
+		],
+		"images": [
+			{ "file": "trekzak-lamp-aan-groen.jpg", "subject": [14, 11, 86, 89], "weergave": "3d", "alt": "3D-weergave van de Trekzak Lamp helemaal in groen, aan, in een donkere studio" },
+			{ "file": "trekzak-lamp-sfeer.jpg", "subject": [10, 23, 60, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Trekzak Lamp helemaal in groen op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "trekzak-lamp-kleuren.jpg", "subject": [3, 21, 97, 79], "weergave": "3d", "alt": "3D-weergave van drie Trekzak Lampen naast elkaar, aan, in drie kleurcombinaties: helemaal groen; zonnebloemgeel met oranje voet; zonnebloemgeel met felroze voet" },
+			{ "file": "trekzak-lamp-sfeer-dag.jpg", "subject": [10, 23, 60, 77], "weergave": "3d", "alt": "3D-weergave van de Trekzak Lamp met zonnebloemgele kap en oranje voet op een dressoir bij daglicht, uit" },
+			{ "file": "trekzak-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de plooien en de overgang van kap naar voet van de brandende Trekzak Lamp (3D-weergave)" }
+		],
+		"opbouw": {
+			"kop": "Zo zit hij in elkaar",
+			"beeld": {
+				"file": "trekzak-lamp-opbouw.jpg",
+				"subject": [24, 5, 76, 95],
+				"weergave": "3d",
+				"alt": "3D-weergave van de losse onderdelen van de Trekzak Lamp boven elkaar: de kap, de fitting met LED-lamp, de bovenkant en de onderkant van de voet"
+			},
+			"stappen": [
+				{ "deel": "De kap", "tekst": "Eén dunne wand, geprint als één doorlopende spiraal van onder naar boven. Zo dun dat het licht erdoorheen schijnt." },
+				{ "deel": "De fitting", "tekst": "Klikt met twee nokjes vast in de voet. Er past een E14 LED-lamp in." },
+				{ "deel": "De bovenkant van de voet", "tekst": "De kap valt met 0,3 mm speling over een ring. Zo staat hij altijd recht en in het midden." },
+				{ "deel": "De onderkant van de voet", "tekst": "Klikt met paspinnen op de bovenkant. Het snoer loopt eronder door een goot naar buiten, zodat de lamp vlak staat." }
+			],
+			"noot": "Er zit geen schroef of lijm in. De vorm werk ik uit in 3D, in een ontwerpprogramma dat ik zelf bouwde, en de kleuren bekijk ik in Blender voordat ik print."
+		},
+		"faq": [
+			{ "q": "Wat zit er bij de Trekzak Lamp?", "a": "De lamp komt compleet: met een LED-lamp in warmwit licht (E14) en een wit snoer van 4 meter met een schakelaar erin. Kies je de wifi-lamp (€7,95 extra), dan zet je hem met je telefoon op elke kleur en sterkte." },
+			{ "q": "Waar is de Trekzak Lamp van gemaakt?", "a": "Van PLA, een bioplastic dat gemaakt wordt van plantaardige grondstoffen zoals maïs of suikerriet, in plaats van aardolie. Ik print hem laag voor laag, en kap en voet samen kosten bijna 8 uur. Ik begin pas na je bestelling, in jouw kleuren." },
+			{ "q": "Wordt de kap van de Trekzak Lamp warm?", "a": "Nauwelijks, want er zit een LED-lamp in. Draai er later ook alleen een LED-lamp in: een gloeilamp of halogeenlamp wordt te warm voor de geprinte kap." },
+			{ "q": "Kan ik de Trekzak Lamp in andere kleuren krijgen?", "a": "Ja. Kies bij het bestellen \"Eigen kleuren\" en typ wat je wilt, bijvoorbeeld helemaal oranje. Ik print hem pas na je bestelling en stem de kleuren eerst met je af." }
+		],
+		"seo": {
+			"title": "Trekzak Lamp – 3D-geprinte lamp met plooikap",
+			"description": "De Trekzak Lamp: een geplooide kap op een smalle rechthoekige voet, 23,5 cm hoog en 12 cm diep. Eigen ontwerp, met LED-lamp en snoer. €44,95."
+		},
+		"related": ["mijnwerkerslamp", "orbits-lamp", "kami-vase"]
+	},
+	{
+		"id": "paddenstoel-lamp",
+		"handleiding": "wifi-lamp",
+		"name": "Paddenstoel Lamp",
+		"type": "lamp",
+		"collection": "design",
+		"material": "PLA, bioplastic op plantaardige basis",
+		"sale": "cart",
+		"tagline": "Een brede hoed met een golvende wand, op een lage geschulpte voet.",
+		"description": [
+			"In de herfst staan ze ineens overal in het bos: paddenstoelen met een brede hoed en fijne plooien eronder. Daar begon ik mee te schetsen. De kap is de hoed, met een golvende wand, en de lage, geschulpte voet doet denken aan de plooien onder de hoed.",
+			"Matwit met een steenkoolzwarte voet is de rustigste combinatie; helemaal in het geel is hij een stuk vrolijker."
+		],
+		"highlights": [
+			"Gelijkmatig licht, zonder fel punt",
+			"Compleet met LED-lamp en snoer van 4 meter",
+			"Op aanvraag groter of kleiner"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "22 cm" },
+			{ "label": "Breedte", "value": "18,5 cm" },
+			{ "label": "Fitting", "value": "E14, LED-lamp inbegrepen" },
+			{ "label": "Snoer", "value": "4 meter, wit, met schakelaar" },
+			{ "label": "Printtijd", "value": "Bijna 8 uur" },
+			{ "label": "Kleur", "value": "Drie combinaties, of je eigen kleuren" }
+		],
+		"variants": [
+			{ "id": "led", "label": "Met LED-lamp, warmwit", "price": 49.95 },
+			{ "id": "wifi", "label": "Met wifi-lamp, elke kleur via je telefoon", "price": 57.9 }
+		],
+		"kleuren": [
+			{
+				"id": "matwit-steenkoolzwart",
+				"naam": "Matwit met steenkoolzwarte voet",
+				"tekst": "Kap matwit, voet steenkoolzwart",
+				"kap": "#eee8dc",
+				"voet": "#2c2c2f",
+				"aan": {
+					"file": "paddenstoel-lamp-aan-matwit-steenkoolzwart.jpg",
+					"subject": [11, 11, 89, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Paddenstoel Lamp met matwitte kap en steenkoolzwarte voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "paddenstoel-lamp-uit-matwit-steenkoolzwart.jpg",
+					"subject": [11, 11, 89, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Paddenstoel Lamp met matwitte kap en steenkoolzwarte voet, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "zonnebloemgeel",
+				"naam": "Helemaal zonnebloemgeel",
+				"tekst": "Helemaal zonnebloemgeel",
+				"kap": "#fec600",
+				"voet": "#fec600",
+				"aan": {
+					"file": "paddenstoel-lamp-aan-zonnebloemgeel.jpg",
+					"subject": [11, 11, 89, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Paddenstoel Lamp helemaal in zonnebloemgeel, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "paddenstoel-lamp-uit-zonnebloemgeel.jpg",
+					"subject": [11, 11, 89, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Paddenstoel Lamp helemaal in zonnebloemgeel, uit, bij daglicht"
+				}
+			},
+			{
+				"id": "matwit-felroze",
+				"naam": "Matwit met felroze voet",
+				"tekst": "Kap matwit, voet felroze",
+				"kap": "#eee8dc",
+				"voet": "#f5547c",
+				"aan": {
+					"file": "paddenstoel-lamp-aan-matwit-felroze.jpg",
+					"subject": [11, 11, 89, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Paddenstoel Lamp met matwitte kap en felroze voet, aan, in een donkere studio"
+				},
+				"uit": {
+					"file": "paddenstoel-lamp-uit-matwit-felroze.jpg",
+					"subject": [11, 11, 89, 89],
+					"weergave": "3d",
+					"alt": "3D-weergave van de Paddenstoel Lamp met matwitte kap en felroze voet, uit, bij daglicht"
+				}
+			}
+		],
+		"images": [
+			{ "file": "paddenstoel-lamp-aan-matwit-steenkoolzwart.jpg", "subject": [11, 11, 89, 89], "weergave": "3d", "alt": "3D-weergave van de Paddenstoel Lamp met matwitte kap en steenkoolzwarte voet, aan, in een donkere studio" },
+			{ "file": "paddenstoel-lamp-sfeer.jpg", "subject": [9, 23, 61, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Paddenstoel Lamp met matwitte kap en steenkoolzwarte voet op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "paddenstoel-lamp-kleuren.jpg", "subject": [3, 22, 97, 78], "weergave": "3d", "alt": "3D-weergave van drie Paddenstoel Lampen naast elkaar, aan, in drie kleurcombinaties: matwit met steenkoolzwarte voet; helemaal zonnebloemgeel; matwit met felroze voet" },
+			{ "file": "paddenstoel-lamp-sfeer-dag.jpg", "subject": [9, 23, 61, 77], "weergave": "3d", "alt": "3D-weergave van de Paddenstoel Lamp helemaal in zonnebloemgeel op een dressoir bij daglicht, uit" },
+			{ "file": "paddenstoel-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de golvende wand en de overgang van kap naar voet van de brandende Paddenstoel Lamp (3D-weergave)" }
+		],
+		"opbouw": {
+			"kop": "Zo zit hij in elkaar",
+			"beeld": {
+				"file": "paddenstoel-lamp-opbouw.jpg",
+				"subject": [23, 5, 77, 95],
+				"weergave": "3d",
+				"alt": "3D-weergave van de losse onderdelen van de Paddenstoel Lamp boven elkaar: de kap, de fitting met LED-lamp, de bovenkant en de onderkant van de voet"
+			},
+			"stappen": [
+				{ "deel": "De kap", "tekst": "Eén dunne wand, geprint als één doorlopende spiraal van onder naar boven. Zo dun dat het licht erdoorheen schijnt." },
+				{ "deel": "De fitting", "tekst": "Klikt met twee nokjes vast in de voet. Er past een E14 LED-lamp in." },
+				{ "deel": "De bovenkant van de voet", "tekst": "De kap valt met 0,3 mm speling over een ring. Zo staat hij altijd recht en in het midden." },
+				{ "deel": "De onderkant van de voet", "tekst": "Klikt met paspinnen op de bovenkant. Het snoer loopt eronder door een goot naar buiten, zodat de lamp vlak staat." }
+			],
+			"noot": "Er zit geen schroef of lijm in. De vorm werk ik uit in 3D, in een ontwerpprogramma dat ik zelf bouwde, en de kleuren bekijk ik in Blender voordat ik print."
+		},
+		"faq": [
+			{ "q": "Wat zit er bij de Paddenstoel Lamp?", "a": "De lamp komt compleet: met een LED-lamp in warmwit licht (E14) en een wit snoer van 4 meter met een schakelaar erin. Kies je de wifi-lamp (€7,95 extra), dan zet je hem met je telefoon op elke kleur en sterkte." },
+			{ "q": "Waar is de Paddenstoel Lamp van gemaakt?", "a": "Van PLA, een bioplastic dat gemaakt wordt van plantaardige grondstoffen zoals maïs of suikerriet, in plaats van aardolie. Ik print hem laag voor laag, en kap en voet samen kosten bijna 8 uur. Ik begin pas na je bestelling, in jouw kleuren." },
+			{ "q": "Wordt de kap van de Paddenstoel Lamp warm?", "a": "Nauwelijks, want er zit een LED-lamp in. Draai er later ook alleen een LED-lamp in: een gloeilamp of halogeenlamp wordt te warm voor de geprinte kap." },
+			{ "q": "Kan ik de Paddenstoel Lamp in andere kleuren krijgen?", "a": "Ja. Kies bij het bestellen \"Eigen kleuren\" en typ wat je wilt, bijvoorbeeld een oranje kap op een steenkoolzwarte voet. Ik print hem pas na je bestelling en stem de kleuren eerst met je af." }
+		],
+		"seo": {
+			"title": "Paddenstoel Lamp – 3D-geprinte tafellamp",
+			"description": "De Paddenstoel Lamp: een brede hoed met golvende wand op een geschulpte voet, 22 cm hoog. Eigen ontwerp uit Kerkrade, met LED-lamp en snoer. €49,95."
 		},
 		"related": ["mijnwerkerslamp", "orbits-lamp", "kami-vase"]
 	},
@@ -282,12 +1003,12 @@
 			{ "id": "25cm", "label": "25 cm hoog", "price": 34.95 }
 		],
 		"images": [
-			{ "file": "oranje-nassau-1-3d-01-voorkant.jpg", "subject": [6, 12, 90, 91], "alt": "3D-weergave van het model van het schachtgebouw Oranje-Nassau I in mat zwart op een wit blad, met de schachtbok, de letters ON en de schuine schoor" },
-			{ "file": "oranje-nassau-1-3d-02-letters-on.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "Close-up van de letters ON bovenop de kop van de schachtbok, met het vakwerk eronder" },
-			{ "file": "oranje-nassau-1-3d-03-poort.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De hoofdgevel met de rondboogpoort, de vensters in de verdiepte velden en de hoektorentjes met kantelen" },
-			{ "file": "oranje-nassau-1-3d-04-schoor.jpg", "subject": [12, 12, 93, 94], "alt": "De oostkant van het model met de schuine schoor die vanaf de bok naar de sokkel loopt" },
-			{ "file": "oranje-nassau-1-3d-05-westkant.jpg", "subject": [7, 12, 90, 88], "alt": "De westkant van het model met de galerij aan de kop van de bok en de schoor van opzij" },
-			{ "file": "oranje-nassau-1-3d-06-donker.jpg", "subject": [13, 10, 81, 94], "alt": "Het model van Oranje-Nassau I in mat zwart in een donkere studio" }
+			{ "weergave": "3d", "file": "oranje-nassau-1-3d-01-voorkant.jpg", "subject": [6, 12, 90, 91], "alt": "3D-weergave van het model van het schachtgebouw Oranje-Nassau I in mat zwart op een wit blad, met de schachtbok, de letters ON en de schuine schoor" },
+			{ "weergave": "3d", "file": "oranje-nassau-1-3d-02-letters-on.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "Close-up van de letters ON bovenop de kop van de schachtbok, met het vakwerk eronder" },
+			{ "weergave": "3d", "file": "oranje-nassau-1-3d-03-poort.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De hoofdgevel met de rondboogpoort, de vensters in de verdiepte velden en de hoektorentjes met kantelen" },
+			{ "weergave": "3d", "file": "oranje-nassau-1-3d-04-schoor.jpg", "subject": [12, 12, 93, 94], "alt": "De oostkant van het model met de schuine schoor die vanaf de bok naar de sokkel loopt" },
+			{ "weergave": "3d", "file": "oranje-nassau-1-3d-05-westkant.jpg", "subject": [7, 12, 90, 88], "alt": "De westkant van het model met de galerij aan de kop van de bok en de schoor van opzij" },
+			{ "weergave": "3d", "file": "oranje-nassau-1-3d-06-donker.jpg", "subject": [13, 10, 81, 94], "alt": "Het model van Oranje-Nassau I in mat zwart in een donkere studio" }
 		],
 		"seo": {
 			"title": "Schachtgebouw Oranje-Nassau I – 3D-model",
@@ -322,11 +1043,11 @@
 			{ "id": "25cm", "label": "25 cm breed", "price": 34.95 }
 		],
 		"images": [
-			{ "file": "Schacht-Nulland1.jpg", "subject": [4, 28, 94, 77], "alt": "3D-geprint model van Mijnschacht Nulland schuin van voren tegen een donkere achtergrond, met de hoge schoorsteen, de ronde uitbouw en de lage machinehal" },
-			{ "file": "schacht-nulland-3d-04-ventilator.jpg", "subject": [8, 22, 98, 76], "alt": "Het model van de andere kant, met het ventilatorwiel en de ronde schoorsteen naast de lage hal" },
-			{ "file": "schacht-nulland-3d-02-uitbouw.jpg", "subject": [0, 10, 100, 90], "alt": "Close-up van de ronde uitbouw met balkon en de schoorsteen, met \"Schacht Nulland\" in de sokkel gegraveerd" },
-			{ "file": "schacht-nulland-3d-03-steunberen-schachtwielen.jpg", "subject": [0, 29, 94, 94], "alt": "Zijaanzicht met de steunberen en de schachtwielen in de schuine gevel, met de gegraveerde sokkel op de voorgrond" },
-			{ "file": "schacht-nulland-3d-01-voorkant.jpg", "subject": [5, 28, 94, 74], "alt": "Het complete model van voren: de machinehal met ronde uitbouw en schoorsteen, en links de lage hal met koepel" }
+			{ "weergave": "3d", "file": "Schacht-Nulland1.jpg", "subject": [4, 28, 94, 77], "alt": "3D-geprint model van Mijnschacht Nulland schuin van voren tegen een donkere achtergrond, met de hoge schoorsteen, de ronde uitbouw en de lage machinehal" },
+			{ "weergave": "3d", "file": "schacht-nulland-3d-04-ventilator.jpg", "subject": [8, 22, 98, 76], "alt": "Het model van de andere kant, met het ventilatorwiel en de ronde schoorsteen naast de lage hal" },
+			{ "weergave": "3d", "file": "schacht-nulland-3d-02-uitbouw.jpg", "subject": [0, 10, 100, 90], "alt": "Close-up van de ronde uitbouw met balkon en de schoorsteen, met \"Schacht Nulland\" in de sokkel gegraveerd" },
+			{ "weergave": "3d", "file": "schacht-nulland-3d-03-steunberen-schachtwielen.jpg", "subject": [0, 29, 94, 94], "alt": "Zijaanzicht met de steunberen en de schachtwielen in de schuine gevel, met de gegraveerde sokkel op de voorgrond" },
+			{ "weergave": "3d", "file": "schacht-nulland-3d-01-voorkant.jpg", "subject": [5, 28, 94, 74], "alt": "Het complete model van voren: de machinehal met ronde uitbouw en schoorsteen, en links de lage hal met koepel" }
 		],
 		"seo": {
 			"title": "Mijnschacht Nulland – 3D-geprint model",
@@ -370,12 +1091,12 @@
 			{ "id": "15cm", "label": "15 cm hoog", "price": 34.95 }
 		],
 		"images": [
-			{ "file": "raadhuis-kerkrade-3d-01-voorgevel.jpg", "subject": [5, 22, 92, 85], "alt": "3D-weergave van het model van het Raadhuis Kerkrade in mat zwart, schuin van voren: de gevel met banden en blokken in reliëf, de trapgevel, het klokkentorentje en de bordestrap" },
-			{ "file": "raadhuis-kerkrade-3d-02-trapgevel-torentje.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "Close-up van de trapgevel en het achtkantige klokkentorentje met de drie uivormige bekroningen en de spits" },
-			{ "file": "raadhuis-kerkrade-3d-03-bordestrap-gevel.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De voorgevel van dichtbij: de tweezijdige bordestrap met balustrades, de portiek met fronton, de banden en blokken in reliëf en de naam RAADHUIS KERKRADE op de sokkel" },
-			{ "file": "raadhuis-kerkrade-3d-04-achterkant-aanbouw.jpg", "subject": [11, 23, 97, 77], "alt": "De achterkant van het model met de aanbouw uit 1934 en daarachter het torentje en de trapgevel" },
-			{ "file": "raadhuis-kerkrade-3d-05-vogelvlucht.jpg", "subject": [5, 25, 94, 90], "alt": "Het model van boven gezien, met het schilddak, de dakkapellen met spitse kapjes en de gegraveerde naam op de achthoekige sokkel" },
-			{ "file": "raadhuis-kerkrade-3d-06-donker.jpg", "subject": [4, 22, 92, 86], "alt": "Het model van het Raadhuis Kerkrade in mat zwart in een donkere studio" }
+			{ "weergave": "3d", "file": "raadhuis-kerkrade-3d-01-voorgevel.jpg", "subject": [5, 22, 92, 85], "alt": "3D-weergave van het model van het Raadhuis Kerkrade in mat zwart, schuin van voren: de gevel met banden en blokken in reliëf, de trapgevel, het klokkentorentje en de bordestrap" },
+			{ "weergave": "3d", "file": "raadhuis-kerkrade-3d-02-trapgevel-torentje.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "Close-up van de trapgevel en het achtkantige klokkentorentje met de drie uivormige bekroningen en de spits" },
+			{ "weergave": "3d", "file": "raadhuis-kerkrade-3d-03-bordestrap-gevel.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De voorgevel van dichtbij: de tweezijdige bordestrap met balustrades, de portiek met fronton, de banden en blokken in reliëf en de naam RAADHUIS KERKRADE op de sokkel" },
+			{ "weergave": "3d", "file": "raadhuis-kerkrade-3d-04-achterkant-aanbouw.jpg", "subject": [11, 23, 97, 77], "alt": "De achterkant van het model met de aanbouw uit 1934 en daarachter het torentje en de trapgevel" },
+			{ "weergave": "3d", "file": "raadhuis-kerkrade-3d-05-vogelvlucht.jpg", "subject": [5, 25, 94, 90], "alt": "Het model van boven gezien, met het schilddak, de dakkapellen met spitse kapjes en de gegraveerde naam op de achthoekige sokkel" },
+			{ "weergave": "3d", "file": "raadhuis-kerkrade-3d-06-donker.jpg", "subject": [4, 22, 92, 86], "alt": "Het model van het Raadhuis Kerkrade in mat zwart in een donkere studio" }
 		],
 		"seo": {
 			"title": "Raadhuis Kerkrade – 3D-geprint model",
@@ -572,10 +1293,10 @@
 			{ "id": "standaard", "label": "", "price": 7.95 }
 		],
 		"images": [
-			{ "file": "koempel-eend-kerst-01.jpg", "subject": [31, 32, 75, 80], "alt": "3D-weergave van de Koempel-eend Kerst-editie in de sneeuw: een gele badeend met een rode kerstmuts met witte rand en een zwart lampje in zijn vleugel, met warme lichtjes op de achtergrond" },
-			{ "file": "koempel-eend-kerst-02.jpg", "subject": [35, 32, 70, 72], "alt": "3D-weergave van de Koempel-eend Kerst-editie op lichte sneeuw, schuin van voren" },
-			{ "file": "koempel-eend-kerst-03.jpg", "subject": [23, 31, 86, 100], "alt": "Close-up van de kerstmuts met pluizige witte rand, de oranje snavel en het lampje van de Koempel-eend Kerst-editie (3D-weergave)" },
-			{ "file": "koempel-eend-kerst-04.jpg", "subject": [15, 35, 85, 67], "alt": "3D-weergave van de gewone Koempel-eend met mijnwerkershelm naast de Kerst-editie met kerstmuts, in hetzelfde geel" }
+			{ "weergave": "3d", "file": "koempel-eend-kerst-01.jpg", "subject": [31, 32, 75, 80], "alt": "3D-weergave van de Koempel-eend Kerst-editie in de sneeuw: een gele badeend met een rode kerstmuts met witte rand en een zwart lampje in zijn vleugel, met warme lichtjes op de achtergrond" },
+			{ "weergave": "3d", "file": "koempel-eend-kerst-02.jpg", "subject": [35, 32, 70, 72], "alt": "3D-weergave van de Koempel-eend Kerst-editie op lichte sneeuw, schuin van voren" },
+			{ "weergave": "3d", "file": "koempel-eend-kerst-03.jpg", "subject": [23, 31, 86, 100], "alt": "Close-up van de kerstmuts met pluizige witte rand, de oranje snavel en het lampje van de Koempel-eend Kerst-editie (3D-weergave)" },
+			{ "weergave": "3d", "file": "koempel-eend-kerst-04.jpg", "subject": [15, 35, 85, 67], "alt": "3D-weergave van de gewone Koempel-eend met mijnwerkershelm naast de Kerst-editie met kerstmuts, in hetzelfde geel" }
 		],
 		"seo": {
 			"title": "Koempel-eend Kerst-editie met kerstmuts",

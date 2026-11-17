@@ -40,7 +40,19 @@ const AFWIJKINGEN = {
 	'product koempel-eend-kerst': 'nieuw product: Koempel-eend Kerst-editie met kerstmuts, gelimiteerd, alleen rond kerst, €7,95 (eigenaar, 12 november 2026)',
 	'g:id koempel-eend-kerst*': 'nieuw product, 12 november 2026 (een feed-item per variant)',
 	'winkel.mailKoppen': 'koppen in de functiemails als plaatje in de letters van de site (november 2026)',
-	'mijnwerkerslamp.geenKorting': 'introductieprijs loopt tot 31-12-2026: geen kortingscode op de lamp; deze regel daarna weghalen'
+	'mijnwerkerslamp.geenKorting': 'introductieprijs loopt tot 31-12-2026: geen kortingscode op de lamp; deze regel daarna weghalen',
+	'product swirl-lamp': 'nieuw product uit de lampenfamilie, €39,95 met LED-lamp (keuzepagina lampencollectie, 17 november 2026)',
+	'product kolk-lamp': 'nieuw product uit de lampenfamilie, €49,95 met LED-lamp (keuzepagina lampencollectie, 17 november 2026)',
+	'product meander-lamp': 'nieuw product uit de lampenfamilie, €44,95 met LED-lamp (keuzepagina lampencollectie, 17 november 2026)',
+	'product trekzak-lamp': 'nieuw product uit de lampenfamilie, €44,95 met LED-lamp (keuzepagina lampencollectie, 17 november 2026)',
+	'product paddenstoel-lamp': 'nieuw product uit de lampenfamilie, €49,95 met LED-lamp (keuzepagina lampencollectie, 17 november 2026)',
+	'g:id swirl-lamp*': 'nieuw product, 17 november 2026 (een feed-item per variant)',
+	'g:id kolk-lamp*': 'nieuw product, 17 november 2026 (een feed-item per variant)',
+	'g:id meander-lamp*': 'nieuw product, 17 november 2026 (een feed-item per variant)',
+	'g:id trekzak-lamp*': 'nieuw product, 17 november 2026 (een feed-item per variant)',
+	'g:id paddenstoel-lamp*': 'nieuw product, 17 november 2026 (een feed-item per variant)',
+	'helio-lamp': 'altijd met snoer en LED-lamp (€39,95) of wifi-lamp (€47,90), geen versie zonder lamp meer; kleurkeuze gaat als wens mee (eigenaar, 17 november 2026)',
+	'g:id helio-lamp*': 'varianten heten nu led en wifi (17 november 2026; een feed-item per variant)'
 };
 const gebruikt = new Set();
 

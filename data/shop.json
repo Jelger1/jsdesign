@@ -286,29 +286,34 @@
 				"type": "lamp"
 			},
 			"heading": "3D-geprinte *designlampen*",
-			"intro": "Een 3D-geprinte lamp van JelgersDesign is een tafellamp van eigen ontwerp die na je bestelling wordt geprint, in de kleur die jij kiest. Je kiest uit drie modellen vanaf €24,95: de dimbare Orbits Lamp, de Helio Lamp en de Mijnwerkerslamp met wifi-lamp.",
+			"intro": "Een 3D-geprinte lamp van JelgersDesign is een tafellamp van eigen ontwerp die na je bestelling wordt geprint, in de kleuren die jij kiest. Je kiest uit acht modellen vanaf €24,95. Zes daarvan horen bij één familie, met dezelfde fitting en hetzelfde snoer.",
 			"seoTitle": "3D-geprinte lamp kopen uit Limburg",
-			"seoDescription": "Een 3D-geprinte lamp van eigen ontwerp: de Mijnwerkerslamp met wifi-lamp, de Helio Lamp en de dimbare Orbits Lamp. Vanaf €24,95.",
+			"seoDescription": "3D-geprinte lampen van eigen ontwerp uit Kerkrade: Helio, Swirl, Kolk, Meander, Trekzak, Paddenstoel, Mijnwerkerslamp en Orbits. Vanaf €24,95.",
 			"compare": true,
 			"sections": [
 				{
 					"heading": "Welke lamp past bij jou?",
 					"list": [
-						"**Orbits Lamp** – 22 cm hoog, gestapelde schijven. Dimbaar en schakelbaar tussen warm en wit licht.",
-						"**Helio Lamp** – 22 cm hoog en 19 cm breed, met gedraaide ribbels die het licht breken. Fitting E14; je bestelt hem met of zonder LED-lamp.",
-						"**Mijnwerkerslamp** – 30 cm hoog, in de vorm van een mijnlamp. Met wifi-lamp (E14) die je met je telefoon in elke kleur zet, en een snoer van 4 meter."
+						"**Helio Lamp** – 22 cm hoog, een bol met gedraaide ribbels op een gedraaid voetje.",
+						"**Swirl Lamp** – 25 cm hoog, vijf gedraaide bladen met fijne ribbels. De hoogste van de familie.",
+						"**Kolk Lamp** – 23 cm hoog en 22,5 cm breed, een grote bol op een sokkel die meedraait.",
+						"**Meander Lamp** – 21,5 cm hoog, met 34 groeven die heen en weer slingeren.",
+						"**Trekzak Lamp** – 23,5 cm hoog en maar 12 cm diep, met een geplooide kap. Past op een smalle vensterbank.",
+						"**Paddenstoel Lamp** – 22 cm hoog, een brede hoed op een geschulpte voet.",
+						"**Mijnwerkerslamp** – 30 cm hoog, in de vorm van een mijnlamp. Met wifi-lamp (E14) die je met je telefoon in elke kleur zet, en een snoer van 4 meter.",
+						"**Orbits Lamp** – 22 cm hoog, gestapelde schijven. Dimbaar en schakelbaar tussen warm en wit licht."
 					]
 				},
 				{
-					"heading": "Welke lamp zit erbij?",
+					"heading": "Wat zit erbij?",
 					"text": [
-						"Bij de Mijnwerkerslamp is de wifi-lamp inbegrepen. Bij de Helio Lamp kies je zelf of je er een LED-lamp (E14) bij bestelt. De Orbits Lamp is dimbaar en wisselt tussen warm en wit licht."
+						"Bij de zes lampen van de familie zit een LED-lamp in warmwit licht (E14) en een wit snoer van 4 meter met schakelaar. Voor €7,95 extra wordt dat een wifi-lamp, die je met je telefoon op elke kleur en sterkte zet. Bij de Mijnwerkerslamp zit de wifi-lamp er altijd bij. De Orbits Lamp is dimbaar en wisselt tussen warm en wit licht."
 					]
 				},
 				{
 					"heading": "Zelf je kleur kiezen",
 					"text": [
-						"Alle drie de lampen worden pas na je bestelling geprint, dus je kunt je eigen kleur doorgeven. Zet je wens bij je bestelling, dan stem ik het met je af voordat ik begin."
+						"Elke lamp wordt pas na je bestelling geprint. Bij de familie kies je uit een paar combinaties van kap en voet, of je geeft je eigen kleuren door. Ik stem het met je af voordat ik begin."
 					]
 				},
 				{
@@ -327,16 +332,16 @@
 			],
 			"faq": [
 				{
-					"q": "Zit er een lamp bij?",
-					"a": "Bij de Mijnwerkerslamp zit een wifi-lamp inbegrepen. Bij de Helio Lamp kies je bij het bestellen of je er een LED-lamp (E14) bij wilt."
+					"q": "Zit er een LED-lamp bij?",
+					"a": "Bij de Helio, Swirl, Kolk, Meander, Trekzak en Paddenstoel Lamp zit een LED-lamp (E14) in warmwit licht; voor €7,95 extra kies je een wifi-lamp. Bij de Mijnwerkerslamp zit de wifi-lamp er altijd bij."
 				},
 				{
 					"q": "Welke fitting hebben de lampen?",
-					"a": "De Helio Lamp en de Mijnwerkerslamp werken met een E14-fitting."
+					"a": "De zes lampen van de familie en de Mijnwerkerslamp werken met een E14-fitting. Gebruik er alleen LED-lampen in."
 				},
 				{
 					"q": "Zijn de lampen dimbaar?",
-					"a": "De Orbits Lamp is dimbaar en schakelt tussen warm en wit licht. De wifi-lamp van de Mijnwerkerslamp stel je met je telefoon in."
+					"a": "De Orbits Lamp is dimbaar en schakelt tussen warm en wit licht. Met een wifi-lamp stel je de sterkte en de kleur in met je telefoon: bij de Mijnwerkerslamp zit hij erbij, bij de andere lampen kost hij €7,95 extra."
 				},
 				{
 					"q": "Kan ik zelf de kleur kiezen?",
@@ -596,5 +601,21 @@
 			],
 			"max": 3
 		}
+	},
+	"lampfamilie": {
+		"kop": "Naast elkaar, op ware grootte",
+		"beeld": {
+			"file": "lampen-familie.jpg",
+			"weergave": "3d",
+			"alt": "3D-weergave van de zes lampen naast elkaar, aan, op ware grootte: Helio, Swirl, Kolk, Meander, Trekzak en Paddenstoel"
+		},
+		"leden": [
+			"helio-lamp",
+			"swirl-lamp",
+			"kolk-lamp",
+			"meander-lamp",
+			"trekzak-lamp",
+			"paddenstoel-lamp"
+		]
 	}
 }
