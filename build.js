@@ -106,6 +106,14 @@ function validate(products, reviews, site) {
 		});
 		if (p.kleuren && p.kleuren.length && p.images[0].file !== p.kleuren[0].aan.file) errors.push(where + ': de eerste foto moet de foto "aan" van de eerste kleur zijn (daar wisselt de kleurkeuze)');
 		if (p.opbouw && !(p.opbouw.beeld && fs.existsSync(path.join(ROOT, 'assets', p.opbouw.beeld.file)))) errors.push(where + ': opbouw.beeld ontbreekt in assets/');
+		// Eigen kaartbeeld (winkelkaarten): de eerste foto, en de tweede die bij hover invloeit
+		if (p.kaart) {
+			if (!Array.isArray(p.kaart) || !p.kaart.length || p.kaart.length > 2) errors.push(where + ': "kaart" moet een lijst van één of twee foto\'s zijn');
+			else p.kaart.forEach(function (b) {
+				if (!b || !b.file || !fs.existsSync(path.join(ROOT, 'assets', b.file))) errors.push(where + ': kaartfoto "' + ((b && b.file) || '') + '" staat niet in assets/');
+				else if (!b.alt) warnings.push(where + ': alt-tekst ontbreekt bij kaartfoto ' + b.file);
+			});
+		}
 		(p.images || []).forEach(function (image) {
 			if (!fs.existsSync(path.join(ROOT, 'assets', image.file))) errors.push(where + ': afbeelding assets/' + image.file + ' bestaat niet');
 			if (!image.alt) warnings.push(where + ': alt-tekst ontbreekt bij ' + image.file);
@@ -612,6 +620,7 @@ async function build() {
 	// Alleen foto's die de site echt toont worden verwerkt en meegestuurd
 	const used = products.flatMap(function (p) { return p.images.concat(kleurBeelden(p)).map(function (image) { return image.file; }); })
 		.concat(products.filter(function (p) { return p.opbouw; }).map(function (p) { return p.opbouw.beeld.file; }))
+		.concat(products.flatMap(function (p) { return (p.kaart || []).map(function (b) { return b.file; }); }))
 		.concat(shop.lampfamilie ? [shop.lampfamilie.beeld.file] : [])
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)

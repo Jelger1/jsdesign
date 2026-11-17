@@ -33,17 +33,22 @@ function productCard(product, ctx, opts) {
 	opts = opts || {};
 	const root = opts.root || '';
 	const url = h.productUrl(product, root);
-	const first = product.images[0];
-	const second = product.images[1];
+	// Een eigen kaartpaar (products.json > kaart, bij de lampen: de lamp uit op het dressoir, bij hover dezelfde scène
+	// met de lamp aan) gaat voor de eerste twee foto's van de galerij
+	const beelden = product.kaart || product.images;
+	const first = beelden[0];
+	const second = beelden[1];
+	// Een kaartbeeld is al als 4:5-scène gemaakt: heel tonen, niet inzoomen op het product
+	const crop = !product.kaart;
 	const price = h.priceHtml(product);
 	// Koppen moeten netjes aflopen: direct onder de h1 van een pagina is een kaart een h2, binnen een sectie een h3
 	const heading = opts.heading || 'h3';
 
 	// Kaarten tonen de productuitsnede: vast 4:5-kader met het product in het midden
-	let media = h.img(ctx.images, first.file, { alt: first.alt, sizes: opts.sizes || CARD_SIZES, root: root, eager: opts.eager, crop: true });
+	let media = h.img(ctx.images, first.file, { alt: first.alt, sizes: opts.sizes || CARD_SIZES, root: root, eager: opts.eager, crop: crop });
 	// Tweede foto vloeit in bij hover (alleen op apparaten met een muis)
 	if (second) {
-		media += h.img(ctx.images, second.file, { alt: '', sizes: opts.sizes || CARD_SIZES, root: root, className: 'product-thumb-alt', crop: true });
+		media += h.img(ctx.images, second.file, { alt: '', sizes: opts.sizes || CARD_SIZES, root: root, className: 'product-thumb-alt', crop: crop });
 	}
 
 	return '<article class="product-card' + (opts.className ? ' ' + opts.className : '') + '"'

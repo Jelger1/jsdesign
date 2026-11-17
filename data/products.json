@@ -143,11 +143,15 @@
 			{ "file": "Helio-Lamp-Knop.jpg", "subject": [35, 25, 82, 65], "alt": "Brandende gele Helio Lamp op een piano, een hand bedient de schakelaar" },
 			{ "file": "helio-lamp-kleuren.jpg", "subject": [3, 23, 97, 77], "weergave": "3d", "alt": "3D-weergave van drie Helio Lampen naast elkaar, aan: zonnebloemgeel met oranje voet, matwit met kobaltblauwe voet en helemaal felroze" },
 			{ "file": "Helio-Lamp-Roze-2.jpg", "subject": [26, 28, 65, 62], "alt": "Brandende roze Helio Lamp die de muur warm rood kleurt" },
-			{ "file": "helio-lamp-sfeer-dag.jpg", "subject": [7, 23, 63, 77], "weergave": "3d", "alt": "3D-weergave van de Helio Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
+			{ "file": "helio-lamp-sfeer-dag.jpg", "subject": [7, 23, 63, 77], "alt": "3D-weergave van de Helio Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
 			{ "file": "Helio-Lamp-Oranje-2.jpg", "subject": [45, 23, 80, 52], "alt": "Brandende oranje Helio Lamp op een zwarte piano" },
 			{ "file": "helio-lamp-detail.jpg", "subject": [0, 0, 100, 97], "weergave": "3d", "alt": "Close-up van de gedraaide ribbels en de overgang van kap naar voet van de brandende Helio Lamp (3D-weergave)" },
 			{ "file": "Helio-Lamp-Roze.jpg", "subject": [27, 28, 64, 59], "alt": "Roze Helio Lamp op een donker dressoir bij daglicht" },
 			{ "file": "Helio-Lamp-Oranje.jpg", "subject": [45, 23, 80, 52], "alt": "Oranje Helio Lamp op een zwarte piano bij daglicht" }
+		],
+		"kaart": [
+			{ "file": "helio-lamp-sfeer-dag.jpg", "alt": "3D-weergave van de Helio Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
+			{ "file": "helio-lamp-sfeer-avond.jpg", "alt": "3D-weergave van de brandende Helio Lamp met matwitte kap en kobaltblauwe voet op hetzelfde dressoir, 's avonds" }
 		],
 		"seo": {
 			"title": "Helio Lamp – 3D-geprinte designtafellamp",
@@ -341,10 +345,14 @@
 		],
 		"images": [
 			{ "file": "swirl-lamp-aan-felroze.jpg", "subject": [16, 11, 84, 89], "weergave": "3d", "alt": "3D-weergave van de Swirl Lamp helemaal in felroze, aan, in een donkere studio" },
-			{ "file": "swirl-lamp-sfeer.jpg", "subject": [12, 23, 58, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Swirl Lamp helemaal in felroze op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "swirl-lamp-sfeer.jpg", "subject": [12, 23, 58, 77], "alt": "3D-weergave van de brandende Swirl Lamp helemaal in felroze op een donker houten dressoir; het licht kleurt de muur erachter" },
 			{ "file": "swirl-lamp-kleuren.jpg", "subject": [3, 21, 97, 79], "weergave": "3d", "alt": "3D-weergave van drie Swirl Lampen naast elkaar, aan, in drie kleurcombinaties: helemaal felroze; matwit met kobaltblauwe voet; matwit met felroze voet" },
-			{ "file": "swirl-lamp-sfeer-dag.jpg", "subject": [12, 23, 58, 77], "weergave": "3d", "alt": "3D-weergave van de Swirl Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
+			{ "file": "swirl-lamp-sfeer-dag.jpg", "subject": [12, 23, 58, 77], "alt": "3D-weergave van de Swirl Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
 			{ "file": "swirl-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de fijne ribbels en de overgang van kap naar voet van de brandende Swirl Lamp (3D-weergave)" }
+		],
+		"kaart": [
+			{ "file": "swirl-lamp-sfeer-dag.jpg", "alt": "3D-weergave van de Swirl Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
+			{ "file": "swirl-lamp-sfeer-avond.jpg", "alt": "3D-weergave van de brandende Swirl Lamp met matwitte kap en kobaltblauwe voet op hetzelfde dressoir, 's avonds" }
 		],
 		"opbouw": {
 			"kop": "Zo zit hij in elkaar",
@@ -465,10 +473,14 @@
 		],
 		"images": [
 			{ "file": "kolk-lamp-aan-turquoise-grijs.jpg", "subject": [7, 11, 93, 89], "weergave": "3d", "alt": "3D-weergave van de Kolk Lamp met turquoise kap en grijze voet, aan, in een donkere studio" },
-			{ "file": "kolk-lamp-sfeer.jpg", "subject": [6, 23, 64, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Kolk Lamp met turquoise kap en grijze voet op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "kolk-lamp-sfeer.jpg", "subject": [6, 23, 64, 77], "alt": "3D-weergave van de brandende Kolk Lamp met turquoise kap en grijze voet op een donker houten dressoir; het licht kleurt de muur erachter" },
 			{ "file": "kolk-lamp-kleuren.jpg", "subject": [3, 23, 97, 77], "weergave": "3d", "alt": "3D-weergave van drie Kolk Lampen naast elkaar, aan, in drie kleurcombinaties: turquoise met grijze voet; matwit met kobaltblauwe voet; oranje met steenkoolzwarte voet" },
-			{ "file": "kolk-lamp-sfeer-dag.jpg", "subject": [6, 23, 64, 77], "weergave": "3d", "alt": "3D-weergave van de Kolk Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
+			{ "file": "kolk-lamp-sfeer-dag.jpg", "subject": [6, 23, 64, 77], "alt": "3D-weergave van de Kolk Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
 			{ "file": "kolk-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de gedraaide bladen en de overgang van kap naar voet van de brandende Kolk Lamp (3D-weergave)" }
+		],
+		"kaart": [
+			{ "file": "kolk-lamp-sfeer-dag.jpg", "alt": "3D-weergave van de Kolk Lamp met matwitte kap en kobaltblauwe voet op een dressoir bij daglicht, uit" },
+			{ "file": "kolk-lamp-sfeer-avond.jpg", "alt": "3D-weergave van de brandende Kolk Lamp met matwitte kap en kobaltblauwe voet op hetzelfde dressoir, 's avonds" }
 		],
 		"opbouw": {
 			"kop": "Zo zit hij in elkaar",
@@ -589,10 +601,14 @@
 		],
 		"images": [
 			{ "file": "meander-lamp-aan-zonnebloemgeel.jpg", "subject": [6, 11, 94, 89], "weergave": "3d", "alt": "3D-weergave van de Meander Lamp helemaal in zonnebloemgeel, aan, in een donkere studio" },
-			{ "file": "meander-lamp-sfeer.jpg", "subject": [5, 23, 65, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Meander Lamp helemaal in zonnebloemgeel op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "meander-lamp-sfeer.jpg", "subject": [5, 23, 65, 77], "alt": "3D-weergave van de brandende Meander Lamp helemaal in zonnebloemgeel op een donker houten dressoir; het licht kleurt de muur erachter" },
 			{ "file": "meander-lamp-kleuren.jpg", "subject": [3, 24, 97, 76], "weergave": "3d", "alt": "3D-weergave van drie Meander Lampen naast elkaar, aan, in drie kleurcombinaties: helemaal zonnebloemgeel; helemaal oranje; matwit met felroze voet" },
-			{ "file": "meander-lamp-sfeer-dag.jpg", "subject": [5, 23, 65, 77], "weergave": "3d", "alt": "3D-weergave van de Meander Lamp helemaal in oranje op een dressoir bij daglicht, uit" },
+			{ "file": "meander-lamp-sfeer-dag.jpg", "subject": [5, 23, 65, 77], "alt": "3D-weergave van de Meander Lamp helemaal in oranje op een dressoir bij daglicht, uit" },
 			{ "file": "meander-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de golvende groeven en de overgang van kap naar voet van de brandende Meander Lamp (3D-weergave)" }
+		],
+		"kaart": [
+			{ "file": "meander-lamp-sfeer-dag.jpg", "alt": "3D-weergave van de Meander Lamp helemaal in oranje op een dressoir bij daglicht, uit" },
+			{ "file": "meander-lamp-sfeer-avond.jpg", "alt": "3D-weergave van de brandende Meander Lamp helemaal in oranje op hetzelfde dressoir, 's avonds" }
 		],
 		"opbouw": {
 			"kop": "Zo zit hij in elkaar",
@@ -714,10 +730,14 @@
 		],
 		"images": [
 			{ "file": "trekzak-lamp-aan-groen.jpg", "subject": [14, 11, 86, 89], "weergave": "3d", "alt": "3D-weergave van de Trekzak Lamp helemaal in groen, aan, in een donkere studio" },
-			{ "file": "trekzak-lamp-sfeer.jpg", "subject": [10, 23, 60, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Trekzak Lamp helemaal in groen op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "trekzak-lamp-sfeer.jpg", "subject": [10, 23, 60, 77], "alt": "3D-weergave van de brandende Trekzak Lamp helemaal in groen op een donker houten dressoir; het licht kleurt de muur erachter" },
 			{ "file": "trekzak-lamp-kleuren.jpg", "subject": [3, 21, 97, 79], "weergave": "3d", "alt": "3D-weergave van drie Trekzak Lampen naast elkaar, aan, in drie kleurcombinaties: helemaal groen; zonnebloemgeel met oranje voet; zonnebloemgeel met felroze voet" },
-			{ "file": "trekzak-lamp-sfeer-dag.jpg", "subject": [10, 23, 60, 77], "weergave": "3d", "alt": "3D-weergave van de Trekzak Lamp met zonnebloemgele kap en oranje voet op een dressoir bij daglicht, uit" },
+			{ "file": "trekzak-lamp-sfeer-dag.jpg", "subject": [10, 23, 60, 77], "alt": "3D-weergave van de Trekzak Lamp met zonnebloemgele kap en oranje voet op een dressoir bij daglicht, uit" },
 			{ "file": "trekzak-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de plooien en de overgang van kap naar voet van de brandende Trekzak Lamp (3D-weergave)" }
+		],
+		"kaart": [
+			{ "file": "trekzak-lamp-sfeer-dag.jpg", "alt": "3D-weergave van de Trekzak Lamp met zonnebloemgele kap en oranje voet op een dressoir bij daglicht, uit" },
+			{ "file": "trekzak-lamp-sfeer-avond.jpg", "alt": "3D-weergave van de brandende Trekzak Lamp met zonnebloemgele kap en oranje voet op hetzelfde dressoir, 's avonds" }
 		],
 		"opbouw": {
 			"kop": "Zo zit hij in elkaar",
@@ -838,10 +858,14 @@
 		],
 		"images": [
 			{ "file": "paddenstoel-lamp-aan-matwit-steenkoolzwart.jpg", "subject": [11, 11, 89, 89], "weergave": "3d", "alt": "3D-weergave van de Paddenstoel Lamp met matwitte kap en steenkoolzwarte voet, aan, in een donkere studio" },
-			{ "file": "paddenstoel-lamp-sfeer.jpg", "subject": [9, 23, 61, 77], "weergave": "3d", "alt": "3D-weergave van de brandende Paddenstoel Lamp met matwitte kap en steenkoolzwarte voet op een donker houten dressoir; het licht kleurt de muur erachter" },
+			{ "file": "paddenstoel-lamp-sfeer.jpg", "subject": [9, 23, 61, 77], "alt": "3D-weergave van de brandende Paddenstoel Lamp met matwitte kap en steenkoolzwarte voet op een donker houten dressoir; het licht kleurt de muur erachter" },
 			{ "file": "paddenstoel-lamp-kleuren.jpg", "subject": [3, 22, 97, 78], "weergave": "3d", "alt": "3D-weergave van drie Paddenstoel Lampen naast elkaar, aan, in drie kleurcombinaties: matwit met steenkoolzwarte voet; helemaal zonnebloemgeel; matwit met felroze voet" },
-			{ "file": "paddenstoel-lamp-sfeer-dag.jpg", "subject": [9, 23, 61, 77], "weergave": "3d", "alt": "3D-weergave van de Paddenstoel Lamp helemaal in zonnebloemgeel op een dressoir bij daglicht, uit" },
+			{ "file": "paddenstoel-lamp-sfeer-dag.jpg", "subject": [9, 23, 61, 77], "alt": "3D-weergave van de Paddenstoel Lamp helemaal in zonnebloemgeel op een dressoir bij daglicht, uit" },
 			{ "file": "paddenstoel-lamp-detail.jpg", "subject": [0, 0, 100, 100], "weergave": "3d", "alt": "Detail van de golvende wand en de overgang van kap naar voet van de brandende Paddenstoel Lamp (3D-weergave)" }
+		],
+		"kaart": [
+			{ "file": "paddenstoel-lamp-sfeer-dag.jpg", "alt": "3D-weergave van de Paddenstoel Lamp helemaal in zonnebloemgeel op een dressoir bij daglicht, uit" },
+			{ "file": "paddenstoel-lamp-sfeer-avond.jpg", "alt": "3D-weergave van de brandende Paddenstoel Lamp helemaal in zonnebloemgeel op hetzelfde dressoir, 's avonds" }
 		],
 		"opbouw": {
 			"kop": "Zo zit hij in elkaar",
