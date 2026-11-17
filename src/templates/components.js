@@ -55,6 +55,8 @@ function productCard(product, ctx, opts) {
 		+ (opts.index != null ? ' data-index="' + opts.index + '"' : '') + ' data-rand>\n'
 		+ '\t<a class="product-thumb" href="' + url + '" tabindex="-1" aria-hidden="true">' + media
 		+ (product.sale === 'soon' ? '<span class="badge badge-promo">Binnenkort</span>' : (product.badge ? '<span class="badge badge-promo">' + h.esc(product.badge) + '</span>' : ''))
+		// Een render zegt dat zelf, ook op de kaart
+		+ (first.weergave === '3d' ? '<span class="product-weergave">3D-weergave</span>' : '')
 		+ '</a>\n'
 		+ '\t<div class="product-info">\n'
 		+ (opts.zonderKicker ? '' : '\t\t<p class="product-kicker">' + kicker(product, ctx) + '</p>\n')

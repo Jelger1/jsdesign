@@ -5,14 +5,34 @@ const { handleidingLink } = require('./handleiding');
 
 const GALLERY_SIZES = '(max-width: 900px) 100vw, 580px';
 
+// Een render (3D-weergave) zegt dat altijd zelf, op het beeld: "weergave": "3d" in products.json
+function is3d(image) {
+	return Boolean(image) && image.weergave === '3d';
+}
+
+// Op de eerste foto van een lamp met kleurkeuze staat het label altijd in de HTML; product.js toont of verbergt het
+function weergaveLabel(image, kleurDia) {
+	if (!kleurDia && !is3d(image)) return '';
+	return '<span class="pdp-weergave"' + (kleurDia ? ' data-weergave' : '') + (is3d(image) ? '' : ' hidden') + '>3D-weergave</span>';
+}
+
+// Aan/uit-knop op de eerste foto van een lamp met kleurkeuze: wisselt tussen de foto met de lamp aan en uit
+function lichtKnop() {
+	return '<div class="pdp-licht" role="group" aria-label="Lamp op de foto">'
+		+ '<button type="button" data-licht="aan" aria-pressed="true">Aan</button>'
+		+ '<button type="button" data-licht="uit" aria-pressed="false">Uit</button></div>';
+}
+
 function gallery(product, ctx, root) {
+	const kleuren = Boolean(product.kleuren && product.kleuren.length);
 	const slides = product.images.map(function (image, i) {
 		// In het kader staat de uitsnede met het product in het midden; vergroten toont de volledige foto
 		const full = h.imgPath(ctx.images, image.file, 1600, root);
-		return '<li class="pdp-slide" id="foto-' + (i + 1) + '">'
+		const kleurDia = kleuren && i === 0;
+		return '<li class="pdp-slide" id="foto-' + (i + 1) + '"' + (kleurDia ? ' data-kleur-dia' : '') + '>'
 			+ '<button type="button" class="pdp-zoom" data-zoom="' + i + '" data-full="' + full + '" data-alt="' + h.esc(image.alt) + '" aria-label="Foto ' + (i + 1) + ' vergroten">'
 			+ h.img(ctx.images, image.file, { alt: image.alt, sizes: GALLERY_SIZES, root: root, eager: i === 0, crop: true })
-			+ '</button></li>';
+			+ '</button>' + weergaveLabel(image, kleurDia) + (kleurDia ? lichtKnop() : '') + '</li>';
 	}).join('\n\t\t\t');
 
 	let thumbs = '';
@@ -74,16 +94,21 @@ function buyBox(product, ctx, root) {
 				}).join('\n') + '\n\t\t\t</fieldset>'
 			: '<input type="hidden" name="variant" value="' + h.esc(product.variants[0].id) + '">';
 
-		// Wensveld (bv. een kleurwens): gaat mee als tekst bij de winkelwagenregel en staat zo ook in de bestelmail
-		const wish = product.wish
-			? '\t\t\t<div class="pdp-wish">\n'
-				+ '\t\t\t\t<label for="pdp-wish">' + h.esc(product.wish.label) + '</label>\n'
-				+ '\t\t\t\t<input type="text" id="pdp-wish" name="wish" maxlength="40" autocomplete="off" placeholder="' + h.esc(product.wish.placeholder) + '" aria-describedby="pdp-wish-hint">\n'
-				+ '\t\t\t\t<p class="pdp-wish-hint" id="pdp-wish-hint">' + h.esc(product.wish.hint) + '</p>\n'
+		// Wensveld (bv. een kleurwens): gaat mee als tekst bij de winkelwagenregel en staat zo ook in de bestelmail.
+		// Met een kleurkeuze verschijnt het pas bij "Eigen kleuren"; anders gaat de tekst van de gekozen kleur mee.
+		// Dan max. 32 tekens: product.js zet er "Eigen: " voor en de regel mag 40 tekens zijn.
+		const kleuren = Boolean(product.kleuren && product.kleuren.length);
+		const wens = product.wish || (kleuren ? { label: 'Welke kleuren wil je?', placeholder: 'Bijv. kap crème, voet groen', hint: 'Ik stem je kleuren met je af voordat ik ga printen.' } : null);
+		const wish = wens
+			? '\t\t\t<div class="pdp-wish"' + (kleuren ? ' data-kleur-wens hidden' : '') + '>\n'
+				+ '\t\t\t\t<label for="pdp-wish">' + h.esc(wens.label) + '</label>\n'
+				+ '\t\t\t\t<input type="text" id="pdp-wish" name="wish" maxlength="' + (kleuren ? 32 : 40) + '" autocomplete="off" placeholder="' + h.esc(wens.placeholder) + '" aria-describedby="pdp-wish-hint">\n'
+				+ '\t\t\t\t<p class="pdp-wish-hint" id="pdp-wish-hint">' + h.esc(wens.hint) + '</p>\n'
 				+ '\t\t\t</div>\n'
 			: '';
 
 		return '<form class="pdp-form" data-product="' + h.esc(product.id) + '">\n'
+			+ (kleuren ? kleurKeuze(product, ctx, root) : '')
 			+ '\t\t\t' + options + '\n'
 			+ wish
 			+ '\t\t\t<button type="submit" class="btn btn-primary btn-block pdp-add">In winkelwagen</button>\n'
@@ -130,6 +155,67 @@ function buyBox(product, ctx, root) {
 		+ '\t\t\t<p class="pdp-note">Dit product is op dit moment niet te bestellen. Je krijgt één bericht zodra hij er weer is, verder niets.</p>\n'
 		+ '\t\t</form>\n'
 		+ '\t\t<div class="request-success" data-request-success hidden tabindex="-1"><strong>Genoteerd!</strong><p>Je hoort van mij zodra de ' + name + ' weer beschikbaar is.</p></div>';
+}
+
+// Kleurkeuze: per combinatie een staal (kap boven, voet onder) en de foto's aan en uit. De gekozen tekst
+// ("Kap crème, voet terracotta") gaat als wens mee met de winkelwagenregel; de bestelfunctie kent dat veld al.
+function kleurKeuze(product, ctx, root) {
+	function beeld(b) {
+		return h.esc(JSON.stringify({
+			src: h.imgPath(ctx.images, b.file, 800, root, true),
+			srcset: h.cropSrcset(ctx.images, b.file, root),
+			full: h.imgPath(ctx.images, b.file, 1600, root),
+			alt: b.alt,
+			d3: is3d(b)
+		}));
+	}
+	return '\t\t\t<fieldset class="product-options kleur-keuze">\n\t\t\t\t<legend>Kies je kleuren</legend>\n'
+		+ '\t\t\t\t<div class="kleur-opties">\n'
+		+ product.kleuren.map(function (k, i) {
+			return '\t\t\t\t\t<label class="kleur-optie"><input type="radio" name="kleur" value="' + h.esc(k.id) + '" data-tekst="' + h.esc(k.tekst) + '"'
+				+ ' data-aan="' + beeld(k.aan) + '" data-uit="' + beeld(k.uit) + '"' + (i === 0 ? ' checked' : '') + '>'
+				+ '<span class="kleur-staal" style="--kap:' + k.kap + ';--voet:' + k.voet + '" aria-hidden="true"></span>'
+				+ '<span class="kleur-naam">' + h.esc(k.naam) + '</span></label>';
+		}).join('\n') + '\n'
+		+ '\t\t\t\t\t<label class="kleur-optie"><input type="radio" name="kleur" value="eigen"><span class="kleur-staal kleur-staal-eigen" aria-hidden="true"></span><span class="kleur-naam">Eigen kleuren</span></label>\n'
+		+ '\t\t\t\t</div>\n\t\t\t</fieldset>\n';
+}
+
+// Zo zit hij in elkaar (optioneel, "opbouw" in products.json): explosietekening met de onderdelen op volgorde
+function opbouwSection(product, ctx, root) {
+	const o = product.opbouw;
+	if (!o) return '';
+	return '<section class="container pdp-opbouw" aria-labelledby="opbouw-heading">\n'
+		+ '\t<figure class="pdp-opbouw-beeld">' + h.img(ctx.images, o.beeld.file, { alt: o.beeld.alt, sizes: '(max-width: 900px) 100vw, 460px', root: root })
+		+ (is3d(o.beeld) ? '<span class="pdp-weergave">3D-weergave</span>' : '') + '</figure>\n'
+		+ '\t<div class="pdp-opbouw-tekst">\n'
+		+ '\t\t<h2 id="opbouw-heading">' + h.esc(o.kop) + '</h2>\n'
+		+ '\t\t<ol class="pdp-opbouw-lijst">\n'
+		+ o.stappen.map(function (st) { return '\t\t\t<li><strong>' + h.esc(st.deel) + '</strong> ' + h.esc(st.tekst) + '</li>'; }).join('\n') + '\n'
+		+ '\t\t</ol>\n'
+		+ (o.noot ? '\t\t<p class="pdp-opbouw-noot">' + h.esc(o.noot) + '</p>\n' : '')
+		+ '\t</div>\n'
+		+ '</section>\n';
+}
+
+// De lampen naast elkaar, op ware grootte (shop.json > lampfamilie). Vervangt "Past erbij" op de lamppagina's,
+// zodat er niet twee rijen met dezelfde lampen staan.
+function familieSection(product, ctx, root) {
+	const f = ctx.shop && ctx.shop.lampfamilie;
+	if (!f || f.leden.indexOf(product.id) === -1) return '';
+	return '<section class="container pdp-familie" aria-labelledby="familie-heading">\n'
+		+ '\t<h2 id="familie-heading">' + h.esc(f.kop) + '</h2>\n'
+		+ '\t<figure class="pdp-familie-beeld">' + h.img(ctx.images, f.beeld.file, { alt: f.beeld.alt, sizes: '(max-width: 1280px) 100vw, 1200px', root: root })
+		+ (is3d(f.beeld) ? '<span class="pdp-weergave">3D-weergave</span>' : '') + '</figure>\n'
+		+ '\t<ul class="pdp-familie-namen">\n'
+		+ f.leden.map(function (id) {
+			const p = ctx.byId[id];
+			const hoogte = (p.specs.find(function (s) { return s.label === 'Hoogte'; }) || {}).value || '';
+			const naam = '<span class="pdp-familie-naam">' + h.esc(p.name) + '</span><span class="pdp-familie-maat">' + h.esc(hoogte) + ' · ' + h.euro(p.variants[0].price) + '</span>';
+			return '\t\t<li>' + (id === product.id ? '<span aria-current="page">' + naam + '</span>' : '<a href="' + h.productUrl(p, root) + '">' + naam + '</a>') + '</li>';
+		}).join('\n') + '\n'
+		+ '\t</ul>\n'
+		+ '</section>\n';
 }
 
 // Introductieprijs: geen doorgestreepte "van"-prijs (die mag alleen als je hem echt hebt gevraagd), maar
@@ -282,7 +368,9 @@ function productPage(product, ctx) {
 	const specs = product.specs.slice();
 	if (product.material) specs.unshift({ label: 'Materiaal', value: product.material });
 
-	const related = (product.related || []).map(function (id) { return ctx.byId[id]; });
+	// Staat de lampfamilie op de pagina, dan geen lampen uit die familie nog eens onder "Past erbij"
+	const familie = ctx.shop && ctx.shop.lampfamilie && ctx.shop.lampfamilie.leden.indexOf(product.id) !== -1 ? ctx.shop.lampfamilie.leden : [];
+	const related = (product.related || []).filter(function (id) { return familie.indexOf(id) === -1; }).map(function (id) { return ctx.byId[id]; });
 	const reviews = ctx.reviews.filter(function (r) { return r.products.indexOf(product.id) !== -1; });
 
 	const main = '<div class="container pdp-container">\n'
@@ -329,6 +417,8 @@ function productPage(product, ctx) {
 		+ '\t\t</section>\n'
 		+ '\t</div>\n'
 		+ '</div>\n\n'
+		+ opbouwSection(product, ctx, root)
+		+ familieSection(product, ctx, root)
 		+ achtergrondSection(product)
 		+ vragenSection(product)
 		+ videoSection(product, ctx, root)

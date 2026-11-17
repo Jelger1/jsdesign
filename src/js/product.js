@@ -37,13 +37,75 @@ function initGallery() {
 	}
 
 	const zoomButtons = Array.from(gallery.querySelectorAll('[data-zoom]'));
-	const photos = zoomButtons.map(function (button) { return { src: button.dataset.full, alt: button.dataset.alt }; });
 	const heading = document.querySelector('.pdp-title');
 	zoomButtons.forEach(function (button) {
 		button.addEventListener('click', function () {
+			// Pas bij het klikken uitlezen: de kleurkeuze kan de eerste foto intussen hebben gewisseld
+			const photos = zoomButtons.map(function (b) { return { src: b.dataset.full, alt: b.dataset.alt }; });
 			openLightbox(photos, Number(button.dataset.zoom), heading ? heading.textContent : '');
 		});
 	});
+}
+
+// Lamp met kleurkeuze: de gekozen kleur en de stand (aan/uit) bepalen de eerste foto. Alleen die foto wisselt;
+// de rest van de galerij (sfeer, detail, opbouw) blijft staan.
+function initKleuren() {
+	const form = document.querySelector('.pdp-form');
+	const dia = document.querySelector('[data-kleur-dia]');
+	if (!form || !dia || !form.elements.kleur) return;
+	const img = dia.querySelector('img');
+	const zoom = dia.querySelector('[data-zoom]');
+	const label = dia.querySelector('[data-weergave]');
+	const knoppen = Array.from(dia.querySelectorAll('[data-licht]'));
+	const thumb = document.querySelector('.pdp-thumb[data-slide="0"] img');
+	const wens = form.querySelector('[data-kleur-wens]');
+	let stand = 'aan';
+
+	function gekozen() {
+		return form.querySelector('input[name="kleur"]:checked');
+	}
+
+	function toon() {
+		const keuze = gekozen();
+		// "Eigen kleuren" heeft geen foto: dan blijft de laatst gekozen kleur staan
+		const bron = keuze && keuze.dataset[stand] ? keuze : toon.vorige;
+		if (!bron) return;
+		toon.vorige = bron;
+		const b = JSON.parse(bron.dataset[stand]);
+		img.srcset = b.srcset;
+		img.src = b.src;
+		img.alt = b.alt;
+		zoom.dataset.full = b.full;
+		zoom.dataset.alt = b.alt;
+		if (label) label.hidden = !b.d3;
+		if (thumb) { thumb.srcset = b.srcset; thumb.src = b.src; }
+		knoppen.forEach(function (k) { k.setAttribute('aria-pressed', String(k.dataset.licht === stand)); });
+	}
+
+	// Naar de eerste foto, zodat je de wissel ook ziet als je verder in de galerij stond
+	function naarEerste() {
+		const track = dia.parentElement;
+		if (track.scrollLeft > 4) track.scrollTo({ left: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+	}
+
+	knoppen.forEach(function (k) {
+		k.addEventListener('click', function () {
+			stand = k.dataset.licht;
+			toon();
+		});
+	});
+
+	form.addEventListener('change', function (event) {
+		if (event.target.name !== 'kleur') return;
+		const eigen = event.target.value === 'eigen';
+		if (wens) {
+			wens.hidden = !eigen;
+			if (eigen) form.elements.wish.focus();
+		}
+		toon();
+		naarEerste();
+	});
+	toon();
 }
 
 function initBuyForm() {
@@ -58,9 +120,14 @@ function initBuyForm() {
 		return field.value;
 	}
 
-	// Wens van de klant (bv. een kleurwens); gaat als tekst mee met de winkelwagenregel
+	// Wens van de klant (bv. een kleurwens); gaat als tekst mee met de winkelwagenregel.
+	// Met een kleurkeuze: de tekst van de gekozen combinatie, of "Eigen: ..." met wat de klant zelf typte.
 	function wish() {
-		return form.elements.wish ? form.elements.wish.value : '';
+		const kleur = form.querySelector('input[name="kleur"]:checked');
+		if (kleur && kleur.value !== 'eigen') return kleur.dataset.tekst;
+		const eigen = form.elements.wish ? form.elements.wish.value.trim() : '';
+		if (kleur) return 'Eigen: ' + (eigen || 'kleur nog afstemmen');
+		return eigen;
 	}
 
 	form.addEventListener('change', function (event) {
@@ -107,6 +174,7 @@ function trackView() {
 
 export function initProduct() {
 	initGallery();
+	initKleuren();
 	initBuyForm();
 	trackView();
 }

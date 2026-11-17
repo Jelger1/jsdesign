@@ -17,7 +17,8 @@ function rich(text) {
 // zodat hij vanzelf klopt als er een product of prijs verandert.
 function compareTable(page, products) {
 	const rows = products.map(function (p) {
-		const labels = (p.variants || []).map(function (v) { return v.label; }).filter(Boolean);
+		// Alleen varianten die een maat zijn ("15 cm"); bij de lampen zijn het uitvoeringen (LED of wifi), dan de hoogte
+		const labels = (p.variants || []).map(function (v) { return v.label; }).filter(function (l) { return /\d\s*(cm|mm)\b/i.test(l || ''); });
 		const size = (p.specs || []).find(function (s) { return /^(hoogte|formaat|formaten)$/i.test(s.label); });
 		const maat = labels.length > 1 ? labels.join(' of ') : (size ? size.value : 'Eén uitvoering');
 		return '\t\t\t\t<tr><th scope="row"><a href="' + h.productUrl(p) + '">' + h.esc(p.name) + '</a></th>'

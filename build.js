@@ -93,6 +93,19 @@ function validate(products, reviews, site) {
 			if (!p.video.alt) warnings.push(where + ': video zonder "alt", beschrijf kort wat er te zien is');
 		}
 		if (!(p.images && p.images.length)) errors.push(where + ': minstens één afbeelding nodig');
+		// Kleurkeuze (lampen): per combinatie een foto aan en uit, en een korte tekst die mee gaat in de bestelling
+		(p.kleuren || []).forEach(function (k) {
+			if (!k.id || !k.naam || !k.tekst) errors.push(where + ': elke kleur heeft id, naam en tekst nodig');
+			if ((k.tekst || '').length > 40) errors.push(where + ': kleur "' + k.id + '": tekst is langer dan 40 tekens (past niet in de winkelwagenregel)');
+			if (!/^#[0-9a-f]{6}$/i.test(k.kap || '') || !/^#[0-9a-f]{6}$/i.test(k.voet || '')) errors.push(where + ': kleur "' + k.id + '": kap en voet moeten een hexkleur zijn');
+			['aan', 'uit'].forEach(function (stand) {
+				const b = k[stand];
+				if (!b || !b.file || !fs.existsSync(path.join(ROOT, 'assets', b.file))) errors.push(where + ': kleur "' + k.id + '": foto "' + stand + '" ontbreekt in assets/');
+				else if (!b.alt) warnings.push(where + ': kleur "' + k.id + '": alt-tekst ontbreekt bij ' + b.file);
+			});
+		});
+		if (p.kleuren && p.kleuren.length && p.images[0].file !== p.kleuren[0].aan.file) errors.push(where + ': de eerste foto moet de foto "aan" van de eerste kleur zijn (daar wisselt de kleurkeuze)');
+		if (p.opbouw && !(p.opbouw.beeld && fs.existsSync(path.join(ROOT, 'assets', p.opbouw.beeld.file)))) errors.push(where + ': opbouw.beeld ontbreekt in assets/');
 		(p.images || []).forEach(function (image) {
 			if (!fs.existsSync(path.join(ROOT, 'assets', image.file))) errors.push(where + ': afbeelding assets/' + image.file + ' bestaat niet');
 			if (!image.alt) warnings.push(where + ': alt-tekst ontbreekt bij ' + image.file);
@@ -372,6 +385,11 @@ function versionImports(source, version) {
 	});
 }
 
+// Foto's van de kleurkeuze (aan en uit per kleurcombinatie), voor verwerking en uitsnede
+function kleurBeelden(p) {
+	return (p.kleuren || []).flatMap(function (k) { return [k.aan, k.uit]; }).filter(Boolean);
+}
+
 function catalogData(products, images) {
 	const catalog = {};
 	products.forEach(function (p) {
@@ -383,7 +401,7 @@ function catalogData(products, images) {
 			variants: p.variants || [],
 			related: p.related || [],
 			personalize: Boolean(p.personalize),
-			wish: Boolean(p.wish)
+			wish: Boolean(p.wish || p.kleuren)
 		};
 		// Een set: welke producten erin zitten, zodat de winkelwagen hem niet voorstelt naast wat er al in ligt
 		if (p.set) catalog[p.id].set = p.set.map(function (deel) { return deel.id; });
@@ -587,12 +605,14 @@ async function build() {
 	// Elke productfoto krijgt een uitsnede met het product in het midden (zie "subject" in products.json)
 	const crops = {};
 	products.forEach(function (p) {
-		p.images.forEach(function (image) {
+		p.images.concat(kleurBeelden(p)).forEach(function (image) {
 			crops[image.file] = { subject: image.subject || null, background: image.background || null, fill: image.fill || null };
 		});
 	});
 	// Alleen foto's die de site echt toont worden verwerkt en meegestuurd
-	const used = products.flatMap(function (p) { return p.images.map(function (image) { return image.file; }); })
+	const used = products.flatMap(function (p) { return p.images.concat(kleurBeelden(p)).map(function (image) { return image.file; }); })
+		.concat(products.filter(function (p) { return p.opbouw; }).map(function (p) { return p.opbouw.beeld.file; }))
+		.concat(shop.lampfamilie ? [shop.lampfamilie.beeld.file] : [])
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
 		.concat(projects.filter(function (p) { return p.image; }).map(function (p) { return p.image; }))
